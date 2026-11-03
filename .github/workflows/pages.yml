@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia
-# Publishes dist/ to GitHub Pages on every push to main (Settings → Pages → Source: GitHub Actions).
+# Publishes dist/ to GitHub Pages on every push to main. One-time setup by the repository owner:
+# Settings → Pages → Build and deployment → Source: GitHub Actions (the workflow token cannot create the site itself).
 name: pages
 on:
   push:
@@ -19,8 +20,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
