@@ -124,3 +124,6 @@ dialog.askbox { width: min(420px, calc(100vw - 24px)); }
 dialog.askbox .sgbody { padding: 16px 16px 10px; }
 
 .g .hero h1 .tm { font-size: 0.3em; vertical-align: super; font-weight: 400; color: var(--muted); margin-right: 0.2em; }
+
+/* the shell accent button inside game regions (game.css sets .g .btn later in the cascade) */
+.g .btn.accent { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
