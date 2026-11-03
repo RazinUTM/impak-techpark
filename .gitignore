@@ -1,0 +1,17 @@
+# transcribed originals used while porting (owner's own earlier builds); not part of the release
+ref/
+
+# build and scratch
+*.log
+.DS_Store
+__pycache__/
+*.pyc
+node_modules/
+/tmp/
+/scan.json
+/screenshots/
+
+# secrets and local deployments — never commit
+apps-script/.clasp.json
+apps-script/deploy-url.txt
+*.local.*

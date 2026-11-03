@@ -1,0 +1,21 @@
+Game content — /content/*
+
+Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia
+
+The files in this directory (rule book, level definitions as text, deal and
+event cards, guide and tutor texts, map artwork and labels) are licensed
+under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0
+International licence (CC BY-NC-ND 4.0).
+
+Full licence text: https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
+Human-readable summary: https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+In short: you may copy and redistribute this content for non-commercial
+purposes, with attribution, but you may not remix, transform or build upon
+it, and you may not use it commercially. Running the game for free training
+is a permitted use. For a licence to adapt the content or to use it in a
+paid programme, contact the authors (see README).
+
+The software that renders and simulates this content is separately licensed
+under MIT (see /LICENSE). Numerical parameters that the engine reads are
+part of the software, not of this content.

@@ -1,0 +1,120 @@
+/* SPDX-License-Identifier: MIT
+   Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia */
+/* IMPAK v0.6: shell adjustments on top of shell.css (Cable Lab) and game.css (v0.5 game styles, scoped under .g). */
+.brand h1 small { font-weight: 400; color: var(--muted); font-size: 0.8em; }
+.modechip { display: inline-block; padding: 0 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 700; font-size: 0.82em; }
+.modechip:empty { display: none; }
+.katex-display, .katex, .pi .katex { all: unset; }
+
+/* ---------- controls: game regions inside folding groups */
+.group.g-zone { --acc: var(--acc-input); }
+.group.g-apps { --acc: var(--acc-output); }
+.group.g-money { --acc: var(--acc-data); }
+.group.g-fac { --acc: var(--acc-theory); }
+.group > .body.g { padding: 6px 9px 10px; }
+.ctrlnote { margin: 0 0 8px; }
+.ctrlnote:empty { display: none; }
+.g .zp { border: 0; box-shadow: none; padding: 0; margin: 0; background: transparent; }
+.g .zp-head { margin-top: 0; }
+.g .zp-head h2 { font-size: 0.98em; }
+.g .acts { gap: 5px; }
+.g .act { font-size: 0.86em; }
+.controls .g .label { margin-top: 6px; }
+.controls .g .panel { border: 0; box-shadow: none; padding: 0; background: transparent; }
+.controls .g .tbl { font-size: 0.82em; }
+.controls .g .applist { gap: 5px; }
+.controls .g .btn { font-size: 0.84em; }
+
+/* ---------- viewport: the site plan (SVG) with zoom and pan */
+.viewport-wrap { background: var(--view); }
+.vpscroll { position: absolute; inset: 0; overflow: auto; cursor: grab; }
+.vpscroll.dragging { cursor: grabbing; }
+.vpzoom { transform-origin: 0 0; width: 100%; min-height: 100%; display: flex; align-items: center; justify-content: center; padding: 10px 12px 40px; }
+#r-map { width: 100%; max-width: 1100px; }
+#r-map svg.plan { width: 100%; height: auto; display: block; }
+#r-map .planbox, .g .planbox { padding: 0; background: transparent; border: 0; box-shadow: none; }
+.vpzoom { flex-direction: column; }
+.maplegwrap { width: 100%; max-width: 1100px; font-size: 0.82em; color: var(--ink2); }
+.maplegwrap:empty { display: none; }
+.g .maplegend { margin: 4px 0 0; }
+#r-land.landing { position: absolute; inset: 0; z-index: 3; overflow: auto; background: var(--view); padding: 14px 18px 30px; }
+#r-land .hero { margin-top: 4px; }
+.join { display: grid; gap: 10px; max-width: 560px; }
+.join .f { display: grid; gap: 3px; }
+.join label { font-size: 0.86em; color: var(--ink2); }
+.join input, .join select { width: 100%; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px; background: var(--card); font: inherit; color: var(--ink); }
+.join .two { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.join .pdpa { font-size: 0.8em; color: var(--muted); line-height: 1.45; padding: 8px 10px; border-radius: 8px; background: var(--card-head); border: 1px solid var(--line-soft); }
+.join .err { color: var(--c-crit); font-size: 0.86em; }
+.join .err:empty { display: none; }
+.rolecards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; margin-top: 12px; }
+.rolecard { border: 1px solid var(--line); border-left: 4px solid var(--acc, var(--acc-input)); border-radius: var(--radius-blk); background: var(--card); box-shadow: var(--shadow); padding: 12px 14px; display: grid; gap: 8px; align-content: start; }
+.rolecard h3 { margin: 0; color: var(--ink); font-size: 1em; }
+.rolecard p { margin: 0; font-size: 0.86em; color: var(--ink2); line-height: 1.45; }
+.rolecard.solo { --acc: var(--acc-guide); }
+.rolecard.live { --acc: var(--acc-input); }
+.rolecard.gm { --acc: var(--acc-data); }
+.rcbtns { display: flex; flex-wrap: wrap; gap: 6px; }
+.g .hero h1 { font-size: clamp(2em, 4vw, 3em); }
+.g .hero h1 small { margin-left: 0.3em; }
+#checklist:empty { display: none; }
+.g.kpis .kpi .v { white-space: normal; }
+
+/* ---------- results: tiles and tabs */
+.g.kpis { display: flex; flex-wrap: wrap; gap: 5px; padding: 6px 8px; background: var(--bg); }
+.g.kpis .kpi { flex: 1 1 116px; padding: 5px 9px 4px; display: flex; flex-direction: column; min-width: 0; background: var(--card); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); color: var(--ink); }
+.g.kpis .kpi .label { font-size: 0.76em; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0; letter-spacing: 0; text-transform: none; }
+.g.kpis .kpi .v { font-size: 1.02em; font-weight: 700; white-space: nowrap; color: var(--ink); }
+.g.kpis .kpi .v small { font-size: 0.74em; font-weight: 400; color: var(--ink2); }
+.g.kpis .kpi .v small.neg { color: var(--c-crit); }
+.g.kpis .kpi .v small.pos { color: var(--c-good); }
+.g.kpis .kpi.warn { border-color: color-mix(in srgb, var(--c-warn) 55%, var(--line)); background: color-mix(in srgb, var(--c-warn) 7%, var(--card)); }
+.g.kpis .kpi.warn .v { color: var(--c-warn); }
+.g.kpis .kpi.bad { border-color: color-mix(in srgb, var(--c-crit) 55%, var(--line)); background: color-mix(in srgb, var(--c-crit) 7%, var(--card)); }
+.g.kpis .kpi.bad .v { color: var(--c-crit); }
+.g.kpis .kpi.dim .v { color: var(--muted); }
+.g.kpis .kpi .ap { margin-right: 6px; }
+.plotarea.g { overflow: auto; padding: 8px 12px 12px; font-size: 0.92em; }
+.plotarea.g .tiles { margin-bottom: 8px; }
+.plotarea.g .panel { border: 0; box-shadow: none; padding: 0; background: transparent; }
+.pinsgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pinsgrid figure { margin: 0; }
+.pinsgrid figcaption { font-size: 0.82em; color: var(--ink2); margin-bottom: 4px; }
+.pinsgrid svg { width: 100%; height: auto; }
+
+/* ---------- guide */
+#avatar { width: 92px; }
+.banners .banner { margin: 0 0 8px; font-size: 0.9em; }
+.banners:empty { display: none; }
+.g .banner.coach .tip { font-size: 0.92em; }
+#ledger li b { color: var(--ink); }
+#why p { margin: 0 0 8px; }
+#why h4 { margin: 10px 0 4px; font-size: 0.92em; color: var(--ink); }
+
+/* ---------- transport readouts */
+.readouts .ro b { white-space: nowrap; }
+.readouts .chip { display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--bar-line); background: var(--bar-btn); color: var(--bar-ink); font-size: 0.86em; font-weight: 700; }
+.readouts .chip.amb { border-color: var(--bar-accent); color: var(--bar-accent); }
+.readouts .chip.bad { border-color: #e66767; color: #ffb4b4; }
+.readouts .chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--bar-accent); display: inline-block; }
+.readouts .sync { display: inline-flex; align-items: center; gap: 5px; color: var(--bar-ink2); font-size: 0.86em; }
+.readouts .sync i { width: 8px; height: 8px; border-radius: 50%; background: #38c972; display: inline-block; }
+.readouts .sync.off i { background: #e66767; }
+.readouts .sync.wait i { background: #f0b429; }
+.transport.locked .tgroup.main .tbtn:not(#btn-cont), .transport.locked .speed { display: none; }
+
+/* ---------- deal room overlay and full-page views (front screen, Game Master) */
+#r-over { position: relative; z-index: 70; }
+#app.fullpage { position: fixed; inset: 0; z-index: 50; overflow: auto; background: var(--bg); color: var(--ink); }
+#app.fullpage .foot { padding: 12px 16px; font-size: 0.8em; color: var(--muted); }
+body.fullpage > main, body.fullpage > footer { visibility: hidden; }
+
+/* ---------- narrow screens */
+@media (max-width: 1100px) {
+  .center { grid-template-rows: 52vh auto; }
+  #r-map { max-width: none; }
+}
+@media (max-width: 640px) {
+  .join .two { grid-template-columns: 1fr; }
+  .pinsgrid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "IMPAK to the TechPark: a science and technology park management simulation game"
+authors:
+  - family-names: "Zainal Abidin"
+    given-names: "Ahmad Razin"
+    affiliation: "Universiti Teknologi Malaysia"
+version: 0.6.0-dev
+date-released: 2026-11-03
+license: MIT
+repository-code: "https://github.com/<owner>/<repo>"
+keywords:
+  - science and technology park
+  - serious game
+  - training of trainers
+  - simulation

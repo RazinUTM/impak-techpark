@@ -1,0 +1,93 @@
+<!-- SPDX-License-Identifier: MIT · Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia -->
+<header class="topbar">
+  <div class="brand"><h1><span data-i18n="app.title">IMPAK</span> <small data-i18n="app.sub">to the TechPark</small></h1><div class="sub"><span id="mode-chip" class="modechip"></span></div></div>
+  <nav class="stages" id="stages" role="tablist" aria-label="Level"></nav>
+  <div class="prefs">
+    <button type="button" id="btn-lang" data-i18n-title="pref.lang" title="Language">EN</button>
+    <button type="button" id="btn-theme" class="iconbtn" title="Theme"></button>
+    <span class="fontbtns" data-i18n-title="pref.font" title="Text size"><button type="button" id="btn-font-down" aria-label="Smaller text">A−</button><button type="button" id="btn-font-up" aria-label="Larger text">A+</button></span>
+    <button type="button" id="btn-info" class="iconbtn" aria-label="About this screen"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><path d="M12 7.6h.01"/></svg></button>
+  </div>
+</header>
+
+<main class="layout" id="shell">
+  <aside class="controls" id="controls" aria-label="Controls">
+    <div class="panelhead"><span class="pdot"></span><span data-i18n="panel.controls">Controls</span></div>
+    <div class="ctrlnote g" id="ctrl-note"></div>
+    <details class="group g-zone" id="grp-zone" open><summary><h2 data-i18n="grp.zone">Selected zone</h2><span class="status" id="zone-status"></span></summary><div class="body g" id="r-zone"></div></details>
+    <details class="group g-apps" id="grp-apps" open><summary><h2 data-i18n="grp.apps">Applicants</h2><span class="status" id="apps-status"></span></summary><div class="body g" id="r-apps"></div></details>
+    <details class="group g-money" id="grp-money"><summary><h2 data-i18n="grp.money">Money</h2><span class="status" id="money-status"></span></summary><div class="body g" id="r-money"></div></details>
+    <details class="group g-fac" id="grp-fac"><summary><h2 data-i18n="grp.fac">Facilities and programmes</h2><span class="status" id="fac-status"></span></summary><div class="body g" id="r-fac"></div></details>
+  </aside>
+
+  <section class="center">
+    <div class="viewport-wrap" id="vpwrap">
+      <div class="vpscroll" id="vpscroll"><div class="vpzoom" id="vpzoom"><div id="r-map" class="g planbox"></div><div class="g maplegwrap" id="r-leg"></div></div></div>
+      <div class="vptools" data-i18n-title="vp.zoom.tip" title="">
+        <button type="button" id="vp-pinA" class="vbtn" data-i18n="vp.pinA" data-i18n-title="vp.pin.tip">Pin A</button>
+        <button type="button" id="vp-pinB" class="vbtn" data-i18n="vp.pinB" data-i18n-title="vp.pin.tip">Pin B</button>
+        <button type="button" id="vp-clear" class="vbtn" data-i18n="vp.clearPins" hidden>Clear pins</button>
+        <button type="button" id="vp-fit" class="vbtn" data-i18n="vp.fit">Fit</button>
+      </div>
+      <div id="r-land" class="g landing" hidden></div>
+    </div>
+    <div class="results" id="results">
+      <div class="reshead" id="reshead"></div>
+      <div class="kpis g" id="r-tiles"></div>
+      <div class="plots" id="plots">
+        <div class="tabs" id="plot-tabs" role="tablist">
+          <button type="button" class="active" data-plot="park" data-i18n="tab.park">Park</button>
+          <button type="button" data-plot="impact" data-i18n="tab.impact">Impact</button>
+          <button type="button" data-plot="stand" data-i18n="tab.stand">Standings</button>
+          <button type="button" data-plot="news" data-i18n="tab.news">News</button>
+          <button type="button" data-plot="pins" data-i18n="tab.pins" id="tab-pins" hidden>Pins</button>
+          <button type="button" data-plot="rules" data-i18n="tab.rules">Rules</button>
+        </div>
+        <div class="plotarea g" id="r-tab"></div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="explain" aria-label="Guide">
+    <div class="panelhead guide"><span class="pdot"></span><span data-i18n="panel.guide">Guide</span></div>
+    <section class="blk guide">
+      <div class="avatar-row">
+        <img id="avatar" alt="Tutor" width="92" height="178">
+        <div class="bubble" id="bubble">
+          <div class="task" id="task" aria-live="polite" hidden></div>
+          <div class="say" id="say" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+    <div id="r-banner" class="g banners"></div>
+    <section class="blk predict" id="predict" hidden></section>
+    <details class="blk checklist" id="checklist" open></details>
+    <details class="blk why"><summary data-i18n="ex.why">Why?</summary><div id="why"></div></details>
+    <details class="blk ledgerbox"><summary data-i18n="ex.ledger">Assumption ledger</summary><ul id="ledger"></ul></details>
+    <div id="log"></div>
+  </aside>
+</main>
+
+<footer class="transport">
+  <div class="tgroup main">
+    <button type="button" id="btn-play" class="tbtn primary" data-i18n-title="tr.play.tip">
+      <svg class="ic ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg>
+      <svg class="ic ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5h4.2v15H6zM13.8 4.5H18v15h-4.2z"/></svg>
+      <span class="lbl" id="lbl-play">Play</span></button>
+    <button type="button" id="btn-step" class="tbtn" data-i18n-title="tr.step.tip">
+      <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5v15l9-7.5z"/><path d="M16 4.5h3v15h-3z"/></svg>
+      <span class="lbl" data-i18n="tr.step">Next event</span></button>
+    <button type="button" id="btn-reset" class="tbtn" data-i18n-title="tr.reset.tip">
+      <svg class="ic stroke" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3"/><path d="M19.8 3.8v4.6h-4.6"/></svg>
+      <span class="lbl" data-i18n="tr.reset">New game</span></button>
+  </div>
+  <label class="tgroup speed"><span class="ro" data-i18n="tr.speed">Pace</span>
+    <select id="sel-speed"><option value="5000">5 s</option><option value="10000" selected>10 s</option><option value="20000">20 s</option><option value="60000">60 s</option></select>
+    <span class="ro" data-i18n="tr.perMonth">per month</span>
+  </label>
+  <span class="spacer"></span>
+  <div class="readouts" id="readouts"></div>
+</footer>
+<div id="r-over" class="g"></div>
+<div id="app" class="g fullpage" hidden></div>
+<div class="toast" id="toast" role="status"></div>
