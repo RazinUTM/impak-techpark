@@ -96,13 +96,30 @@ function app() { return G.APP; }
 function res() { return G.currentRes(); }
 function teamNow(r) { return r ? G.teamOf(r, app().teamId) : null; }
 
+/* ---------------------------------------------------------------- in-page dialogs (window.confirm/prompt are refused in some embeddings) */
+function ask(msg, withInput) {
+  return new Promise((resolve) => {
+    const d = doc.createElement('dialog'); d.className = 'sguide askbox';
+    d.innerHTML = '<div class="sgbody"><p class="lead">' + escapeHtml(msg) + '</p>' + (withInput ? '<input type="text" id="ask-in" autocomplete="off" style="width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink);font:inherit;text-transform:uppercase">' : '') + '</div>' +
+      '<div class="sgfoot"><button type="button" class="tb primary" data-a="ok">OK</button><button type="button" class="tb" data-a="no">' + escapeHtml(t('ui.info.close')) + '</button></div>';
+    doc.body.appendChild(d);
+    const done = (v) => { try { d.close(); } catch (e) { /* ignore */ } d.remove(); resolve(v); };
+    d.querySelector('[data-a="ok"]').addEventListener('click', () => done(withInput ? (d.querySelector('#ask-in').value || '').trim() : true));
+    d.querySelector('[data-a="no"]').addEventListener('click', () => done(withInput ? '' : false));
+    d.addEventListener('cancel', (e) => { e.preventDefault(); done(withInput ? '' : false); });
+    if (withInput) d.querySelector('#ask-in').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); done((d.querySelector('#ask-in').value || '').trim()); } });
+    if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', '');
+    const f = d.querySelector('input, .tb.primary'); if (f) f.focus();
+  });
+}
+
 /* ---------------------------------------------------------------- level switching (solo) and the stage menu */
-function switchLevel(n, force) {
+async function switchLevel(n, force) {
   const key = LEVELS[n]; if (!key) return;
   const a = app();
   if (a.role === 'team') { K.toast(t('ui.stage.live')); return; }
   const g = G.game();
-  if (a.role === 'solo' && g && g.status !== 'setup' && g.status !== 'ended' && !force) { if (!root.confirm(t('ui.stage.confirm'))) return; }
+  if (a.role === 'solo' && g && g.status !== 'setup' && g.status !== 'ended' && !force) { if (!(await ask(t('ui.stage.confirm')))) return; }
   S.level = n; uiStore.level = n; uiStore.save();
   ACT['role-solo']({ level: key });
   a.ui.seenEnd = false; a.ui.seenReveal = null; a.ui.zone = 'C';
@@ -192,7 +209,7 @@ function updateTransport(r) {
 }
 function soloPlay() { const r = res(); if (!r) return; const g = r.g; if (g.status === 'setup') G.dispatch('solo-start'); else if (g.status === 'running' && !r.ck.hold) G.dispatch('solo-pause'); else if (g.status === 'paused') G.dispatch('solo-resume'); render(true); }
 function soloStep() { const r = res(); if (!r || r.ck.hold || r.g.status === 'ended' || r.g.status === 'setup') return; const nx = r.ck.next; if (!nx) return; G.store().gmUpdate({ accMs: nx.t * r.g.msPerMonth, startedAt: HOST.now(), status: 'running', lastReveal: null }); render(true); }
-function soloNew() { const r = res(); if (r && r.g.status !== 'setup' && r.g.status !== 'ended' && !root.confirm(t('tr.confirmNew'))) return; switchLevel(S.level, true); }
+async function soloNew() { const r = res(); if (r && r.g.status !== 'setup' && r.g.status !== 'ended' && !(await ask(t('tr.confirmNew')))) return; switchLevel(S.level, true); }
 
 /* ---------------------------------------------------------------- landing (no role yet) */
 function landingHTML() {
@@ -230,7 +247,7 @@ function joinFormHTML(kind) {
 function wireLanding(el) {
   el.querySelectorAll('[data-a="solo"]').forEach((b) => b.addEventListener('click', () => switchLevel(parseInt(b.dataset.level, 10), true)));
   el.querySelectorAll('[data-a="open"]').forEach((b) => b.addEventListener('click', () => { LAND.view = b.dataset.v; LAND.err = ''; LAND.codeSent = false; render(true); }));
-  el.querySelectorAll('[data-a="screen"]').forEach((b) => b.addEventListener('click', () => { const L = root.IMPAKLive; const code = root.prompt(t('join.room')); if (code) L.openScreen(code.trim().toUpperCase()).then(() => render(true), (e) => { K.toast(t(e.key || 'join.err.net')); }); }));
+  el.querySelectorAll('[data-a="screen"]').forEach((b) => b.addEventListener('click', async () => { const L = root.IMPAKLive; const code = await ask(t('join.room'), true); if (code) L.openScreen(code.toUpperCase()).then(() => render(true), (e) => { K.toast(t(e.key || 'join.err.net')); }); }));
   el.querySelectorAll('[data-a="sendcode"]').forEach((b) => b.addEventListener('click', () => { const L = root.IMPAKLive; readForm(el); LAND.busy = true; render(true); L.sendCode().then(() => { LAND.codeSent = true; LAND.err = ''; }, (e) => { LAND.err = t(e.key || 'join.err.net'); }).finally(() => { LAND.busy = false; render(true); }); }));
   const form = el.querySelector('form.join');
   if (form) form.addEventListener('submit', (e) => {

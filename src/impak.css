@@ -118,3 +118,7 @@ body.fullpage > main, body.fullpage > footer { visibility: hidden; }
   .join .two { grid-template-columns: 1fr; }
   .pinsgrid { grid-template-columns: 1fr; }
 }
+
+/* ---------- in-page confirm / prompt */
+dialog.askbox { width: min(420px, calc(100vw - 24px)); }
+dialog.askbox .sgbody { padding: 16px 16px 10px; }
