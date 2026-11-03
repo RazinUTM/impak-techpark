@@ -1,0 +1,2557 @@
+[
+ {
+  "word": "acara",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "agensi",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "akaun",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "akhir",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "aktiviti",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "alam",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "amaran",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "arahan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "arahannya",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "arahkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "aras",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bahagian",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "baharu",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bahaya",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bandingkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bangunan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bayaran",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "belanjakan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "belas",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "berbanding",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "berbulan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "berdiri",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "berfungsi",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bergerak",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "berhenti",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "berita",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "berjalan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "berjalur",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "berjeda",
+  "status": "root-ok",
+  "root": "jeda",
+  "note": "verb form of jeda (known by caller) - not fetched",
+  "suggestion": ""
+ },
+ {
+  "word": "berkembang",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "berkuat",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "berlaku",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "berlatih",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bermula",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "beroperasi",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bersama",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bersama-sama",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bersambung",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bersebelahan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bersuara",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bertahan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bertambah",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bertukar",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "berwarna",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "biasanya",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bilik",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "blok",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "buang",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bulan-bulan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "bulanan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "butang",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "butiran",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "campuran",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "chip",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dadu",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "diambil",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "diarahkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dibahagi",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dibandingkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dibawa",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dibayar",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dibelanjakan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dibina",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dicatat",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "diganjari",
+  "status": "root-ok",
+  "root": "ganjar",
+  "note": "passive of mengganjari, under ganjar (known by caller) - not fetched",
+  "suggestion": ""
+ },
+ {
+  "word": "digunakan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dihantar",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dijumpai",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dikekalkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dikenakan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dikira",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dilepaskan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dilipat",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dipadam",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dipaparkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dipenuhi",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "dipilih",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "diramal",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "disambungkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "disewa",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "disimpan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "ditampung",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "ditandatangani",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "diterima",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "ditetapkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "ditutup",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "diukur",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "e-mel",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "ekonomi",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "faedah",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "faham",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "fasa",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "fasilitator",
+  "status": "ok",
+  "root": "",
+  "note": " - not fetched",
+  "suggestion": ""
+ },
+ {
+  "word": "fibre",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "firma",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "gambar",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "graduasi",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "gunakan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "had",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "hadapan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "hantar",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "hasil",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "hasilnya",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "hentian",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "hujung",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "hutan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "hutang",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "jaga",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "jalankan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "jam",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "jeda",
+  "status": "ok",
+  "root": "",
+  "note": "kata nama (known by caller) - not fetched",
+  "suggestion": ""
+ },
+ {
+  "word": "jenis",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kad",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kadar",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kampus",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kawalan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kawasan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kebangsaan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kecemasan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kedua-dua",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kedudukan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kedudukannya",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kekalkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kekunci",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kelajuan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "keluar",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kemajuan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kemas",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kembali",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kembangkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kemudahan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kemudian",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kenapa",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "keputusan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kerja",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kerugian",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "keseimbangan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kewajaran",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kewangan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kimia",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "klik",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kod",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kohort",
+  "status": "istilah",
+  "root": "",
+  "note": "Istilah (known by caller) - not fetched",
+  "suggestion": ""
+ },
+ {
+  "word": "komitmen",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "konsol",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kos",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kotak",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kritikal",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kuasa",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kumpulan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "kunci",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "langkah",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "langkau",
+  "status": "ok",
+  "root": "",
+  "note": " - not fetched",
+  "suggestion": ""
+ },
+ {
+  "word": "langsung",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "laporan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "latihan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "lawatan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "lembap",
+  "status": "ok",
+  "root": "",
+  "note": " - not fetched",
+  "suggestion": ""
+ },
+ {
+  "word": "lencana",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "lindungi",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "lipat",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "loceng",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "lompat",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "luput",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "mainkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "makmal",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "mana-mana",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "mandat",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "markah",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "masanya",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "masing-masing",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "mata",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "medan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "mekanik",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "melaporkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "melebihi",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "membandingkannya",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "membawa",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "membayar",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "membeli",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "memberi",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "membersihkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "membina",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "membuat",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "membuka",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "memilih",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "memilihnya",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "meminjamkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "memohon",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menamatkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menambah",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menandakan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menarik",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menentang",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menentukan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menerangkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "mengambil",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "mengawal",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "mengembalikan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "mengenal",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "mengetatkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "mengganjari",
+  "status": "root-ok",
+  "root": "ganjar",
+  "note": "listed under ganjar (known by caller) - not fetched",
+  "suggestion": ""
+ },
+ {
+  "word": "menggerakkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menggunakan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menghilangkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menghubungi",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "mengira",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "mengubahnya",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "mengurangkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "meningkatkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menjadi",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menjadikan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menjelang",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menolak",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menunggu",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menunjukkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menutup",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menyenaraikan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "menyimpan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "mesti",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "minta",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "modal",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "muat",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "mulakan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "muncul",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "nasib",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "nilai",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "noktah",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "nota",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "notis",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "organisasi",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "padat",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "pajakan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "pakar",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "panah",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "panduan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "papan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "paparan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "parameter",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "pasti",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "pastikan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "pecahan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "pejabat",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "pelayan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "pembinaan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "pemohon",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "penalti",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "penanda",
+  "status": "istilah",
+  "root": "",
+  "note": "penanda aras: Istilah (known by caller) - not fetched",
+  "suggestion": ""
+ },
+ {
+  "word": "pendapatan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "penerimaan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "penggunaan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "penyewa",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "penyewanya",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "peraturan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "perbandingan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "pergi",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "perhatian",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "perhatikan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "peribadi",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "perkhidmatan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "perlahankan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "perlukan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "permainan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "pertanyaan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "perubahan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "peta",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "peti",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "petunjuk",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "pilih",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "pilihan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "pingat",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "pinjaman",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "pintu",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "placeholder",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "plotnya",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "positif",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "profil",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "program",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "projektor",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "putus-putus",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "putuskan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "ramal",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "ramalan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "rancang",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "rekod",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "ringkas",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "rizab",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "ruang",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "saiz",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "salinan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "sambung",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "sampai",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "sebahagian",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "sebanyak",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "sebelumnya",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "sebenar",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "sebulan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "sediakan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "segerak",
+  "status": "ok",
+  "root": "",
+  "note": " - not fetched",
+  "suggestion": ""
+ },
+ {
+  "word": "sekitar",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "sekurang-kurangnya",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "selamat",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "selesai",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "semak",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "semakin",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "semasa",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "sembunyikan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "semuanya",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "semula",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "senarai",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "sepanjang",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "separuh",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "seret",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "serlahkannya",
+  "status": "root-ok",
+  "root": "serlah",
+  "note": "clitic form; base serlah known ok by caller - not fetched",
+  "suggestion": ""
+ },
+ {
+  "word": "serta-merta",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "sertai",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "sesi",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "sesuai",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "sesuatu",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "setahun",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "seterusnya",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "seunit",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "sewa",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "sifar",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "simbol",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "simpan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "skor",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "skrin",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "skrol",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "suku",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "susunan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "syabas",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "taip",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "talian",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "tanah",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "tandatangani",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "tarikh",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "tawaran",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "tekan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "teknologi",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "teks",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "tema",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "tentang",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "teori",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "tepat",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "terakhir",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "terbuka",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "terdahulu",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "terima",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "terlepas",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "teruk",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "teruskan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "tetapan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "tinggalkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "tinjau",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "tip",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "tukar",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "tunai",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "tunjuk",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "tunjukkan",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "tutup",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "universiti",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "wajar",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "warna",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ },
+ {
+  "word": "zon",
+  "status": "not-checked",
+  "root": "",
+  "note": "WebFetch permission request unanswered; PRPM not reached",
+  "suggestion": ""
+ }
+]

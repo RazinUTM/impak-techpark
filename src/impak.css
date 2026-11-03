@@ -53,7 +53,7 @@
 .rolecard p { margin: 0; font-size: 0.86em; color: var(--ink2); line-height: 1.45; }
 .rolecard.solo { --acc: var(--acc-guide); }
 .rolecard.live { --acc: var(--acc-input); }
-.rolecard.gm { --acc: var(--acc-data); }
+.rolecard.rc-gm { --acc: var(--acc-data); }
 .rcbtns { display: flex; flex-wrap: wrap; gap: 6px; }
 .g .hero h1 { font-size: clamp(2em, 4vw, 3em); }
 .g .hero h1 small { margin-left: 0.3em; }
@@ -127,3 +127,10 @@ dialog.askbox .sgbody { padding: 16px 16px 10px; }
 
 /* the shell accent button inside game regions (game.css sets .g .btn later in the cascade) */
 .g .btn.accent { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+
+/* landing: results folded so the opening choices fit without scrolling */
+body.on-landing .center { --plots-h: 0px; grid-template-rows: minmax(0, 1fr) auto; }
+body.on-landing #r-tiles, body.on-landing .plots { display: none; }
+body.on-landing .reshead .rtools { visibility: hidden; }
+/* the Values toggle folds the IMPAK tiles (#r-tiles; Cable Lab called them #kpis) */
+body.res-nokpis #r-tiles { display: none; }

@@ -24,6 +24,7 @@ const levelIndex = (key) => Math.max(0, LEVELS.indexOf(key || 'rintis'));
 const HOST = G.HOST;
 let OFFSET = 0;                                             // clock offset against the server (live mode)
 HOST.kind = 'browser'; HOST.shell = true; HOST.offline = false;
+HOST.lang = prefs.lang;
 HOST.now = () => Date.now() + (G.APP.store && G.APP.store.mode === 'live' ? OFFSET : 0);
 HOST.toast = (msg, kind) => K.toast(msg);
 HOST.save = (name, data) => { const a = doc.createElement('a'); a.href = URL.createObjectURL(new Blob([data])); a.download = name; doc.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); };
@@ -37,7 +38,20 @@ HOST.act = {
   'pin'(d) { pinNow(d.pin); },
   'leave'() { if (root.IMPAKLive) root.IMPAKLive.leave(); ACT.home(); },
   'open-join'(d) { LAND.view = d.v || 'live'; },
+  'tab'(d) { openPart(d.k); },
 };
+const GROUP_OF = { apps: 'apps', money: 'money', fac: 'fac', zone: 'zone' };
+function openPart(k) {
+  if (GROUP_OF[k]) {
+    const det = $('#grp-' + GROUP_OF[k]); if (!det) return;
+    det.open = true; openState[GROUP_OF[k]] = true; openState.save();
+    try { det.scrollIntoView({ block: 'start', behavior: 'smooth' }); } catch (e) { /* ignore */ }
+    K.spotlight(det, { label: det.querySelector('summary h2').textContent, ms: 2200 });
+    return;
+  }
+  if (resultsBar && !resultsBar.isOpen('plots')) resultsBar.set('plots', true);
+  setTab(k);
+}
 
 /* ---------------------------------------------------------------- narrator (tutor) */
 const AV = root.__AVATARS || {}; AV.neutral = AV.neutral || AV.idle;
@@ -160,14 +174,14 @@ function tilesHTML(r, tm) {
   const left = T.fundEnd - r.mCur + 1, fundCls = r.mCur <= T.fundEnd && T.fund > 3 && left <= 6 ? 'warn' : '';
   const debt = T.debt + T.emerg, loanCls = T.emerg > 0 || (cap > 0 && debt / cap >= 0.8) ? 'warn' : '';
   const behind = r.ck.T > 12 && tm.ps.score < lv.score.parkTarget * (r.ck.T - 6) / r.months;
-  return '<div class="kpi ' + cashCls + '" title="' + escapeHtml(cashTip) + '"><span class="label">Cash, Cr</span><span class="v">' + n1(T.cash) + ' <small class="' + (net < 0 ? 'neg' : (net > 0 ? 'pos' : '')) + '">' + (net < 0 ? '▼' : (net > 0 ? '▲' : '')) + ' ' + sg1(net) + '/mo</small></span></div>' +
-    '<div class="kpi ' + fundCls + '"><span class="label">Development Fund</span><span class="v">' + fund + (fundCls ? '<small> ' + left + ' mo</small>' : '') + '</span></div>' +
-    (lv.key === 'rintis' ? '' : '<div class="kpi ' + loanCls + '"><span class="label">Loans</span><span class="v">' + n1(debt) + '<small> / ' + cap + '</small></span></div>') +
-    '<div class="kpi ' + (behind ? 'warn' : '') + '"><span class="label">Park score</span><span class="v">' + n0(tm.ps.score) + '<small> / ' + lv.score.parkTarget + '</small></span></div>' +
+  return '<div class="kpi ' + cashCls + '" title="' + escapeHtml(cashTip) + '"><span class="label">' + t('kpi.cash') + '</span><span class="v">' + n1(T.cash) + ' <small class="' + (net < 0 ? 'neg' : (net > 0 ? 'pos' : '')) + '">' + (net < 0 ? '▼' : (net > 0 ? '▲' : '')) + ' ' + sg1(net) + '/' + t('kpi.mo') + '</small></span></div>' +
+    '<div class="kpi ' + fundCls + '"><span class="label">Development Fund</span><span class="v">' + fund + (fundCls ? '<small> ' + left + ' ' + t('kpi.mo') + '</small>' : '') + '</span></div>' +
+    (lv.key === 'rintis' ? '' : '<div class="kpi ' + loanCls + '"><span class="label">' + t('kpi.loans') + '</span><span class="v">' + n1(debt) + '<small> / ' + cap + '</small></span></div>') +
+    '<div class="kpi ' + (behind ? 'warn' : '') + '"><span class="label">' + t('kpi.score') + '</span><span class="v">' + n0(tm.ps.score) + '<small> / ' + lv.score.parkTarget + '</small></span></div>' +
     '<div class="kpi"><span class="label">FCR12</span><span class="v">' + (isFinite(tm.ps.fcr) ? tm.ps.fcr.toFixed(2) : '–') + '<small> drift ' + pc(tm.ps.drift) + '</small></span></div>' +
-    '<div class="kpi"><span class="label">Occupancy</span><span class="v">' + pc(tm.occ) + '</span></div>' +
+    '<div class="kpi"><span class="label">' + t('kpi.occ') + '</span><span class="v">' + pc(tm.occ) + '</span></div>' +
     (lv.score.E > 0 ? '<div class="kpi"><span class="label">ESG</span><span class="v" style="color:' + (T.esg < 0 ? 'var(--c-crit)' : 'inherit') + '">' + (T.esg >= 0 ? '+' : '') + n1(T.esg) + '</span></div>' : '') +
-    '<div class="kpi ' + (T.ap === 0 ? 'dim' : '') + '"><span class="label">Action points</span><span class="v"><span class="ap">' + G.apDots(T.ap) + '</span>' + T.ap + '<small> +' + T.apQ + '/qtr</small></span></div>';
+    '<div class="kpi ' + (T.ap === 0 ? 'dim' : '') + '"><span class="label">Action points</span><span class="v"><span class="ap">' + G.apDots(T.ap) + '</span>' + T.ap + '<small> +' + T.apQ + '/' + t('kpi.qtr') + '</small></span></div>';
 }
 function tabHTML(r, tm) {
   switch (uiStore.tab) {
@@ -226,7 +240,7 @@ function landingHTML() {
     '<div class="rolecards">' +
     '<div class="rolecard solo"><h3>' + escapeHtml(t('land.solo')) + '</h3><p>' + escapeHtml(t('land.solo.d')) + '</p><div class="rcbtns">' + levelBtns + '</div></div>' +
     '<div class="rolecard live"><h3>' + escapeHtml(t('land.live')) + '</h3><p>' + escapeHtml(t('land.live.d')) + '</p>' + live + '</div>' +
-    (online ? '<div class="rolecard gm"><h3>' + escapeHtml(t('land.gm')) + '</h3><p>' + escapeHtml(t('land.gm.d')) + '</p><div class="rcbtns"><button type="button" class="btn" data-a="open" data-v="gm">' + escapeHtml(t('join.gm')) + '</button><button type="button" class="btn" data-a="screen">' + escapeHtml(t('join.screen')) + '</button></div></div>' : '') +
+    (online ? '<div class="rolecard rc-gm"><h3>' + escapeHtml(t('land.gm')) + '</h3><p>' + escapeHtml(t('land.gm.d')) + '</p><div class="rcbtns"><button type="button" class="btn" data-a="open" data-v="gm">' + escapeHtml(t('join.gm')) + '</button><button type="button" class="btn" data-a="screen">' + escapeHtml(t('join.screen')) + '</button></div></div>' : '') +
     '</div><div class="foot">' + escapeHtml(G.BRAND.mark) + ' · ' + escapeHtml(G.BRAND.copyright) + ' · v' + escapeHtml(G.BRAND.version) + '</div>';
 }
 function joinFormHTML(kind) {
@@ -274,12 +288,12 @@ function apply(regions) {
 function clearRegions(ids) { for (const id of ids) { const el = doc.getElementById(id); if (el && el._k !== '') { el.innerHTML = ''; el._k = ''; } } }
 const TEAM_REGIONS = ['r-tiles', 'r-banner', 'r-map', 'r-leg', 'r-zone', 'r-apps', 'r-money', 'r-fac', 'r-tab', 'r-over'];
 function teamRegions(r, tm) {
-  const a = app(), ca = JSON.stringify(G.canAct(r));
+  const a = app(), ca = prefs.lang + JSON.stringify(G.canAct(r));
   const MS = 20, mapT = tm.t.buildings.some((b) => b.status === 'building') ? Math.floor(r.T * MS) / MS : '';
   const hold = r.ck.hold;
-  const overKey = [r.key, hold && hold.id, r.g.status, r.g.lastReveal, r.g.reveal, a.ui.seenReveal, a.ui.seenEnd, hold && hold.kind === 'event' ? JSON.stringify(G.store().decisionOf(hold.id, tm.id)) : '', Math.floor(HOST.now() / 1000)].join('|');
+  const overKey = [prefs.lang, r.key, hold && hold.id, r.g.status, r.g.lastReveal, r.g.reveal, a.ui.seenReveal, a.ui.seenEnd, hold && hold.kind === 'event' ? JSON.stringify(G.store().decisionOf(hold.id, tm.id)) : '', Math.floor(HOST.now() / 1000)].join('|');
   return [
-    { id: 'r-tiles', key: r.key + '|' + Math.floor(r.T * 4), fn: () => tilesHTML(r, tm) },
+    { id: 'r-tiles', key: r.key + '|' + Math.floor(r.T * 4) + '|' + prefs.lang, fn: () => tilesHTML(r, tm) },
     { id: 'r-banner', html: G.bannerTeam(r, tm) },
     { id: 'r-map', key: r.key + '|' + a.ui.zone + '|' + mapT, fn: () => G.planSVG(tm.t, r.mCur, mapT === '' ? r.T : mapT, a.ui.zone, 'm') },
     { id: 'r-leg', key: 'leg', fn: G.planLegend },
@@ -358,6 +372,7 @@ let lastKind = '';
 function render(force) {
   const a = app();
   setMode();
+  doc.body.classList.toggle('on-landing', !a.role);
   if (!a.role) {
     const land = $('#r-land'), key = 'land|' + prefs.lang + '|' + LAND.view + '|' + LAND.err + '|' + LAND.busy + '|' + LAND.codeSent + '|' + (root.IMPAKLive && root.IMPAKLive.configured);
     if (land._k !== key) { land.innerHTML = landingHTML(); land._k = key; wireLanding(land); }
@@ -394,6 +409,7 @@ function loop() {
 
 /* ---------------------------------------------------------------- language, theme, static text */
 function applyLang() {
+  HOST.lang = prefs.lang;
   K.applyStaticText(t); K.applyPrefsUI(prefs, t);
   renderWhy(); renderLedger();
   if (stageNav) stageNav.render();
@@ -454,6 +470,7 @@ function boot() {
   activity = K.createActivity({ storeKey: 'impak.activity', steps: (n) => STEPS[n], taskEl: '#task', bubbleEl: '#bubble', listEl: '#checklist', stageCount: 3, base: 1, gotoStage: (n) => switchLevel(n), stageName: (n) => t('stage.' + n), onChange: () => stageNav.render() });
   predict = K.createPredict({ el: '#predict', narrator });
   resultsBar = K.createResultsBar({ el: '#reshead', storeKey: 'impak.results', onChange: () => {} });
+  resultsBar.render();
   screenGuide = K.createScreenGuide({ button: '#btn-info', regions: [
     { id: 'stages', sel: '#stages', name: () => t('ui.reg.stages'), desc: () => t('ui.reg.stages.d'), acc: '--acc-data' },
     { id: 'prefs', sel: '.prefs', name: () => t('ui.reg.prefs'), desc: () => t('ui.reg.prefs.d'), acc: '--acc-data' },

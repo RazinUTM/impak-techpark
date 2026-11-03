@@ -226,25 +226,26 @@ function siteNote(card, t, z, m) {
   return (ok ? "serviced" : "no full services yet: nobody moves in until road, water and power are done") + (sv.fibre >= 1 ? " · fibre" : " · no fibre") + (z === "C" ? " · +1 impact per linked tenant" : "") + (z === "D" ? " · back-office rent ×1.3" : "") + ((z === "E" || z === "G") && !t.zones[z].protected ? " · flood risk" : "");
 }
 function phaseName(m, sc) {
-  if (sc && sc.level === "rintis") return m <= 24 ? "Phase 1 · Build" : "Phase 2 · Operate";
-  return m <= 24 ? "Phase 1 · Build" : (m <= 36 ? "Phase 2 · Expand" : "Phase 3 · Survive");
+  if (sc && sc.level === "rintis") return m <= 24 ? L("Phase 1 · Build", "Phase 1 · Bina") : L("Phase 2 · Operate", "Phase 2 · Operasi");
+  return m <= 24 ? L("Phase 1 · Build", "Phase 1 · Bina") : (m <= 36 ? L("Phase 2 · Expand", "Phase 2 · Kembang") : L("Phase 3 · Survive", "Phase 3 · Bertahan"));
 }
 function phaseChip(res) {
   const m = res.mCur, dn = PB.inDownturn(res.sc, m);
-  return `<span class="chip ${dn ? "bad" : "acc"}">${dn ? "Phase 3 · " + C.SEV[res.sc.downturn.sev].label + " downturn" : phaseName(m, res.sc)}</span>`;
+  return `<span class="chip ${dn ? "bad" : "acc"}">${dn ? "Phase 3 · " + L(C.SEV[res.sc.downturn.sev].label + " downturn", "downturn " + sevL(res.sc.downturn.sev)) : phaseName(m, res.sc)}</span>`;
 }
 function levelChip(res) { return `<span class="chip lvl">${esc(lvLabel(res.sc.level))}</span>`; }
 function statusChip(g, ck) {
-  if (g.status === "setup") return `<span class="chip">Waiting to start</span>`;
-  if (g.status === "ended") return `<span class="chip">Game over</span>`;
+  if (g.status === "setup") return `<span class="chip">${L("Waiting to start", "Menunggu mula")}</span>`;
+  if (g.status === "ended") return `<span class="chip">${L("Game over", "Tamat")}</span>`;
   if (ck.hold) {
     const k = ck.hold.kind;
     if (k === "event") return `<span class="chip amb"><span class="dot"></span>Deal Room</span>`;
-    if (k === "end") return `<span class="chip amb">Final bell</span>`;
-    return `<span class="chip amb">${k === "downturn" ? "Downturn" : (k === "forecast" ? "Forecast" : "Checkpoint")}</span>`;
+    if (k === "end") return `<span class="chip amb">${L("Final bell", "Loceng akhir")}</span>`;
+    return `<span class="chip amb">${k === "downturn" ? "Downturn" : (k === "forecast" ? L("Forecast", "Ramalan") : "Checkpoint")}</span>`;
   }
-  if (g.lastReveal && g.status === "paused") return `<span class="chip amb">Deal closed</span>`;
-  return g.status === "running" ? `<span class="chip good"><span class="dot"></span>Running</span>` : `<span class="chip warn">Paused</span>`;
+  if (g.lastReveal && g.status === "paused") return `<span class="chip amb">${L("Deal closed", "Deal ditutup")}</span>`;
+  if (g.status === "paused") return `<span class="chip">${L("Paused", "Berjeda")}</span>`;
+  return `<span class="chip good"><span class="dot"></span>${L("Running", "Berjalan")}</span>`;
 }
 function dateParts(T, months) { return PB.dateLabel(Math.min(T, (months || 60) - 1e-6), months || 60); }
 function orderText(o) {
@@ -263,16 +264,69 @@ function orderText(o) {
 }
 function canAct(res) {
   const g = res.g, ck = res.ck, tm = teamOf(res, APP.teamId);
-  if (!tm) return { ok: false, why: "Pick a team first." };
-  if (g.status === "setup") return { ok: false, why: "The clock has not started yet." };
-  if (res.final) return { ok: false, why: "The game is over." };
-  if (ck.hold && ck.hold.kind === "event") return { ok: false, why: "The Deal Room is open: decide on the deal first." };
-  if (ck.hold && ck.hold.kind === "end") return { ok: false, why: "The game is over." };
-  if (tm.t.receiver) return { ok: false, why: "Your park is in receivership." };
+  const no = w => ({ ok: false, why: whyL(w) });
+  if (!tm) return no("Pick a team first.");
+  if (g.status === "setup") return no("The clock has not started yet.");
+  if (res.final) return no("The game is over.");
+  if (ck.hold && ck.hold.kind === "event") return no("The Deal Room is open: decide on the deal first.");
+  if (ck.hold && ck.hold.kind === "end") return no("The game is over.");
+  if (tm.t.receiver) return no("Your park is in receivership.");
   return { ok: true };
 }
 function partLabel(k, lv) { return (lv.labels && lv.labels[k]) || ({ A: "Park score", B1: "Phase 1", B2: "Zone H", B3: "Survival", C: "Decisions", D: "Defence", E: "ESG" }[k]); }
 function parts(lv) { return ["A", "B1", "B2", "B3", "C", "D", "E"].filter(k => lv.score[k] > 0); }
+
+/* =============================================================== language of the guide-side views (v0.6)
+   HOST.lang is set by the shell ('ms' | 'en'). Technical terms stay in English in both languages. */
+const L = (en, ms) => (HOST.lang === "ms" ? ms : en);
+const MON_MS = ["Jan", "Feb", "Mac", "Apr", "Mei", "Jun", "Jul", "Ogo", "Sep", "Okt", "Nov", "Dis"];
+function mnameL(m) { if (HOST.lang !== "ms") return mname(m); if (m < 1) m = 1; return MON_MS[(m - 1) % 12] + " T" + Math.ceil(m / 12); }
+const SEV_MS = { mild: "ringan", severe: "teruk", crisis: "krisis" };
+function sevL(key) { const S = C.SEV[key]; return HOST.lang === "ms" ? SEV_MS[key] || S.label : S.label; }
+/* engine reasons (engine.js stays verbatim) mapped to BM */
+const WHY_MS = {
+  "This zone is not part of this level.": "Zon ini bukan sebahagian daripada level ini.",
+  "Unknown order.": "Arahan tidak dikenali.",
+  "This zone needs a road (and clearance or retention works) before building.": "Zon ini perlukan road (dan clearance atau retention works) sebelum boleh dibina.",
+  "The park is in receivership.": "Park dalam receivership.",
+  "That work is not available in this zone now.": "Kerja itu tidak tersedia di zon ini sekarang.",
+  "That is already your policy.": "Itu memang polisi anda sekarang.",
+  "That applicant has gone.": "Pemohon itu sudah pergi.",
+  "Only during the downturn.": "Hanya semasa downturn.",
+  "Only an empty, ready building can be mothballed.": "Hanya bangunan kosong yang siap boleh di-mothball.",
+  "Only a finished New Build or Modular block can be sold and leased back.": "Hanya New Build atau Modular block yang siap boleh dijual dan disewa semula (sale and leaseback).",
+  "Not running.": "Tidak berjalan.",
+  "Not mothballed.": "Tidak di-mothball.",
+  "No unsigned Zone H plot.": "Tiada plot Zon H yang belum ditandatangani.",
+  "No free plot in this zone.": "Tiada plot kosong di zon ini.",
+  "No back-office tenants.": "Tiada penyewa back-office.",
+  "No action points left this quarter.": "Action point suku ini sudah habis.",
+  "Needs a free unit in a ready building with fibre.": "Perlukan unit kosong dalam bangunan siap yang ada fibre.",
+  "Choose a shed to retrofit.": "Pilih shed untuk di-retrofit.",
+  "Cannot repay that amount.": "Tidak boleh bayar balik jumlah itu.",
+  "Already running.": "Sudah berjalan.",
+  "An anchor needs a Lab or Lab Access.": "Anchor perlukan Lab atau Lab Access.",
+  "Finish the retention works first; then the wetland can become a park.": "Siapkan retention works dahulu; kemudian tanah lembap boleh dijadikan park.",
+  "No free incubator place.": "Tiada tempat kosong dalam incubator.",
+  "No free unit with road, water and power.": "Tiada unit kosong yang ada road, water dan power.",
+  "No free unit with road, water, power and fibre.": "Tiada unit kosong yang ada road, water, power dan fibre.",
+  "Only the untouched forest can be declared a green buffer.": "Hanya hutan yang belum diteroka boleh diisytiharkan green buffer.",
+  "Your admission policy does not allow this applicant.": "Polisi kemasukan anda tidak membenarkan pemohon ini.",
+  "Pick a team first.": "Pilih team dahulu.",
+  "The clock has not started yet.": "Jam belum bermula.",
+  "The game is over.": "Permainan sudah tamat.",
+  "The Deal Room is open: decide on the deal first.": "Deal Room sedang dibuka: putuskan deal itu dahulu.",
+  "Your park is in receivership.": "Park anda dalam receivership.",
+};
+function whyL(w) {
+  if (!w || HOST.lang !== "ms") return w;
+  if (WHY_MS[w]) return WHY_MS[w];
+  let m;
+  if ((m = /^Not enough cash \(([\d.]+) Cr needed\)\. Borrow first\.$/.exec(w))) return "Tunai tidak cukup (" + m[1] + " Cr diperlukan). Pinjam dahulu.";
+  if ((m = /^Loan limit is ([\d.]+) Cr in total( during the downturn)?\.$/.exec(w))) return "Had pinjaman ialah " + m[1] + " Cr kesemuanya" + (m[2] ? " semasa downturn" : "") + ".";
+  if ((m = /^Choose a new level from 0 to (\d+)\.?$/.exec(w))) return "Pilih tahap baharu dari 0 hingga " + m[1] + ".";
+  return w;
+}
 
 /* =============================================================== site plan */
 function svcState(t, z, k) {
@@ -485,17 +539,18 @@ function coachTips(res, tm) {
   const t = tm.t, m = res.mCur, sc = res.sc, tips = [];
   if (!canAct(res).ok) return tips;
   const adm = t.applicants.filter(a => PB.validate(t, sc, { type: "admit", aid: a.id }, m).ok);
-  if (adm.length) tips.push({ text: `${adm.length} applicant${adm.length > 1 ? "s" : ""} can move in now. Admitting is free and uses no action points.`, act: "tab", k: "apps", go: "Open applicants" });
+  if (adm.length) tips.push({ text: L(`${adm.length} applicant${adm.length > 1 ? "s" : ""} can move in now. Admitting is free and uses no action points.`, `${adm.length} pemohon boleh masuk sekarang. Penerimaan percuma dan tidak menggunakan action point.`), act: "tab", k: "apps", go: L("Open applicants", "Buka pemohon") });
   else if (t.applicants.length) {
-    const why = PB.validate(t, sc, { type: "admit", aid: t.applicants[0].id }, m).why || "";
-    tips.push({ text: `Applicants are waiting but cannot move in: ${why.replace(/\.$/, "")}. Retrofit a shed in Zone B or build in Zone C, and bring fibre where tech tenants need it.`, act: "zone", z: t.zones.B.svc.fibre < 1 ? "B" : "C", go: "Show me" });
+    const why = whyL(PB.validate(t, sc, { type: "admit", aid: t.applicants[0].id }, m).why || "");
+    tips.push({ text: L(`Applicants are waiting but cannot move in: ${why.replace(/\.$/, "")}. Retrofit a shed in Zone B or build in Zone C, and bring fibre where tech tenants need it.`,
+      `Ada pemohon menunggu tetapi belum boleh masuk: ${why.replace(/\.$/, "")}. Retrofit shed di Zon B atau bina di Zon C, dan sediakan fibre di tempat penyewa teknologi memerlukannya.`), act: "zone", z: t.zones.B.svc.fibre < 1 ? "B" : "C", go: L("Show me", "Tunjukkan") });
   }
-  if (!t.fac.kpi && m >= 2) tips.push({ text: "Launch KPI & Impact Reporting: until you do, your impact counts only half.", act: "tab", k: "fac", go: "Facilities" });
-  if (t.zones.C.svc.road < 1 && !t.zones.C.works.length && m <= 18) tips.push({ text: "Zone C's road is half built. Completing it (0.8 Cr, 2 months) opens four plots beside the campus.", act: "zone", z: "C", go: "Zone C" });
-  if (m <= t.fundEnd && t.fund > 3 && m >= t.fundEnd - 8) tips.push({ text: `${n1(t.fund)} Cr of the fund lapses on 31 Dec Year 2. Spend it on works, buildings or facilities while it pays ${pc(t.fundShare)}.`, act: "zone", z: "B", go: "Spend it" });
-  if (tm.ps.fcr < 1 && tm.ps.fcr < 8) tips.push({ text: `Income covers only ${pc(tm.ps.fcr)} of upkeep and interest. Fill empty units before you build more.`, act: "tab", k: "park", go: "Park" });
-  if (tm.P.net < 0 && t.cash > 0 && t.cash / -tm.P.net < 8) tips.push({ text: `At this rate your cash runs out in about ${Math.max(1, Math.floor(t.cash / -tm.P.net))} months.`, act: "tab", k: "money", go: "Money" });
-  if (t.ap > 0 && m % 3 === 0) tips.push({ text: `You still have ${t.ap} action point${t.ap > 1 ? "s" : ""}. They are lost at the end of ${mname(m).replace(/ Y\d/, "")}.`, act: "tab", k: "fac", go: "Use them" });
+  if (!t.fac.kpi && m >= 2) tips.push({ text: L("Launch KPI & Impact Reporting: until you do, your impact counts only half.", "Lancarkan KPI & Impact Reporting: selagi belum, impak anda hanya dikira separuh."), act: "tab", k: "fac", go: L("Facilities", "Kemudahan") });
+  if (t.zones.C.svc.road < 1 && !t.zones.C.works.length && m <= 18) tips.push({ text: L("Zone C's road is half built. Completing it (0.8 Cr, 2 months) opens four plots beside the campus.", "Road Zon C baru separuh siap. Menyiapkannya (0.8 Cr, 2 bulan) membuka empat plot di sebelah kampus."), act: "zone", z: "C", go: L("Zone C", "Zon C") });
+  if (m <= t.fundEnd && t.fund > 3 && m >= t.fundEnd - 8) tips.push({ text: L(`${n1(t.fund)} Cr of the fund lapses on 31 Dec Year 2. Spend it on works, buildings or facilities while it pays ${pc(t.fundShare)}.`, `${n1(t.fund)} Cr daripada fund akan luput pada 31 Dis Tahun 2. Belanjakan untuk kerja, bangunan atau kemudahan selagi ia membayar ${pc(t.fundShare)}.`), act: "zone", z: "B", go: L("Spend it", "Belanjakan") });
+  if (tm.ps.fcr < 1 && tm.ps.fcr < 8) tips.push({ text: L(`Income covers only ${pc(tm.ps.fcr)} of upkeep and interest. Fill empty units before you build more.`, `Pendapatan hanya menampung ${pc(tm.ps.fcr)} daripada upkeep dan faedah. Penuhkan unit kosong sebelum membina lagi.`), act: "tab", k: "park", go: "Park" });
+  if (tm.P.net < 0 && t.cash > 0 && t.cash / -tm.P.net < 8) { const n = Math.max(1, Math.floor(t.cash / -tm.P.net)); tips.push({ text: L(`At this rate your cash runs out in about ${n} months.`, `Pada kadar ini, tunai anda habis dalam kira-kira ${n} bulan.`), act: "tab", k: "money", go: L("Money", "Kewangan") }); }
+  if (t.ap > 0 && m % 3 === 0) { const mm = mnameL(m).replace(/ [YT]\d/, ""); tips.push({ text: L(`You still have ${t.ap} action point${t.ap > 1 ? "s" : ""}. They are lost at the end of ${mm}.`, `Anda masih ada ${t.ap} action point. Ia akan hilang pada hujung ${mm}.`), act: "tab", k: "fac", go: L("Use them", "Gunakan") }); }
   return tips.slice(0, 3);
 }
 function coachHTML(res, tm) {
@@ -507,22 +562,22 @@ function bannerTeam(res, tm) {
   const g = res.g, ck = res.ck, t = tm.t, m = res.mCur, lv = res.lv, out = [];
   out.push(soloControls(res));
   if (g.notice && g.notice.text) out.push(`<div class="banner notice"><span class="label">Game Master</span><b>${esc(g.notice.text)}</b></div>`);
-  if (g.status === "setup" && store().mode === "live") out.push(`<div class="banner info"><b>Waiting for the Game Master.</b><span class="muted">Explore your site, the applicants and the rules. Orders open when the clock starts.</span></div>`);
-  if (t.receiver) out.push(`<div class="banner down"><b>Receivership.</b><span>Your park went bankrupt twice. You can no longer act, and only half of your impact counts.</span></div>`);
+  if (g.status === "setup" && store().mode === "live") out.push(`<div class="banner info"><b>${L("Waiting for the Game Master.", "Menunggu Game Master.")}</b><span class="muted">${L("Explore your site, the applicants and the rules. Orders open when the clock starts.", "Tinjau tapak, pemohon dan peraturan. Arahan dibuka bila jam bermula.")}</span></div>`);
+  if (t.receiver) out.push(`<div class="banner down"><b>Receivership.</b><span>${L("Your park went bankrupt twice. You can no longer act, and only half of your impact counts.", "Park anda muflis dua kali. Anda tidak boleh bertindak lagi, dan hanya separuh impak dikira.")}</span></div>`);
   if (ck.hold && ck.hold.kind === "checkpoint") {
     const r = tm.now;
-    if (ck.hold.phase === 1) out.push(`<div class="banner phase"><b>Checkpoint · end of Phase 1.</b><span>The Development Fund has closed. You used ${n1(t.snap.fundUsed || 0)} of ${t.fund0} Cr; committed income grew by ${sg1((t.snap.ci24 || 0) - t.snap.ci0)} Cr a year. <b>B1 = ${n1(r.B1)} / ${lv.score.B1}.</b> ${lv.key === "rintis" ? "Year 3: run the park. Fill your units and keep income above costs." : "Zone H opens now."}</span></div>`);
-    else out.push(`<div class="banner phase"><b>Checkpoint · end of Phase 2.</b><span>Zone H plots signed: ${(t.snap.hplots || t.hplots).filter(p => p && p !== "reclaimed").length} of 4. <b>B2 = ${n1(r.B2)} / ${lv.score.B2}.</b> ${lv.downturn && lv.downturn.forecast ? "Watch for the economists' forecast." : "Phase 3 begins: a downturn will start in an unannounced month between January and June of Year 4."}</span></div>`);
+    if (ck.hold.phase === 1) out.push(`<div class="banner phase"><b>${L("Checkpoint · end of Phase 1.", "Checkpoint · tamat Phase 1.")}</b><span>${L(`The Development Fund has closed. You used ${n1(t.snap.fundUsed || 0)} of ${t.fund0} Cr; committed income grew by ${sg1((t.snap.ci24 || 0) - t.snap.ci0)} Cr a year.`, `Development Fund sudah ditutup. Anda menggunakan ${n1(t.snap.fundUsed || 0)} daripada ${t.fund0} Cr; committed income bertambah ${sg1((t.snap.ci24 || 0) - t.snap.ci0)} Cr setahun.`)} <b>B1 = ${n1(r.B1)} / ${lv.score.B1}.</b> ${lv.key === "rintis" ? L("Year 3: run the park. Fill your units and keep income above costs.", "Tahun 3: operasikan park. Penuhkan unit dan kekalkan pendapatan melebihi kos.") : L("Zone H opens now.", "Zon H dibuka sekarang.")}</span></div>`);
+    else out.push(`<div class="banner phase"><b>${L("Checkpoint · end of Phase 2.", "Checkpoint · tamat Phase 2.")}</b><span>${L("Zone H plots signed", "Plot Zon H ditandatangani")}: ${(t.snap.hplots || t.hplots).filter(p => p && p !== "reclaimed").length} ${L("of", "daripada")} 4. <b>B2 = ${n1(r.B2)} / ${lv.score.B2}.</b> ${lv.downturn && lv.downturn.forecast ? L("Watch for the economists' forecast.", "Perhatikan ramalan pakar ekonomi.") : L("Phase 3 begins: a downturn will start in an unannounced month between January and June of Year 4.", "Phase 3 bermula: downturn akan bermula pada bulan yang tidak diumumkan antara Januari dan Jun Tahun 4.")}</span></div>`);
   }
-  if (ck.hold && ck.hold.kind === "forecast") { const S = C.SEV[res.sc.downturn.sev]; out.push(`<div class="banner down"><b>Forecast: a ${S.label.toLowerCase()} downturn from ${mname(res.sc.downturn.start)}.</b><span>You have six months to prepare: rates rise to ${pc(S.rate)}, the loan limit falls to ${S.cap} Cr and unlinked rents fall ${pc(S.cut)}.</span></div>`); }
-  if (ck.hold && ck.hold.kind === "downturn") { const S = C.SEV[res.sc.downturn.sev]; out.push(`<div class="banner down"><b>Downturn: ${S.label}.</b><span>Loan rate ${pc(S.rate)}, loan limit ${S.cap} Cr, unlinked rents −${pc(S.cut)} (linked −${pc(S.cut / 2)}), fewer applicants. Tenants close now and again in 12 months.</span></div>`); }
-  if (g.status === "paused" && !ck.hold && !g.lastReveal && store().mode === "live") out.push(`<div class="banner info"><b>Clock paused</b><span class="muted">by the Game Master. You can still place orders.</span></div>`);
+  if (ck.hold && ck.hold.kind === "forecast") { const k = res.sc.downturn.sev, S = C.SEV[k]; out.push(`<div class="banner down"><b>${L(`Forecast: a ${S.label.toLowerCase()} downturn from ${mname(res.sc.downturn.start)}.`, `Ramalan: downturn ${sevL(k)} bermula ${mnameL(res.sc.downturn.start)}.`)}</b><span>${L(`You have six months to prepare: rates rise to ${pc(S.rate)}, the loan limit falls to ${S.cap} Cr and unlinked rents fall ${pc(S.cut)}.`, `Anda ada enam bulan untuk bersedia: kadar faedah naik ke ${pc(S.rate)}, had pinjaman turun ke ${S.cap} Cr dan sewa penyewa unlinked jatuh ${pc(S.cut)}.`)}</span></div>`); }
+  if (ck.hold && ck.hold.kind === "downturn") { const k = res.sc.downturn.sev, S = C.SEV[k]; out.push(`<div class="banner down"><b>${L(`Downturn: ${S.label}.`, `Downturn: ${sevL(k)}.`)}</b><span>${L(`Loan rate ${pc(S.rate)}, loan limit ${S.cap} Cr, unlinked rents −${pc(S.cut)} (linked −${pc(S.cut / 2)}), fewer applicants. Tenants close now and again in 12 months.`, `Kadar pinjaman ${pc(S.rate)}, had pinjaman ${S.cap} Cr, sewa unlinked −${pc(S.cut)} (linked −${pc(S.cut / 2)}), pemohon berkurang. Penyewa tutup sekarang dan sekali lagi dalam 12 bulan.`)}</span></div>`); }
+  if (g.status === "paused" && !ck.hold && !g.lastReveal && store().mode === "live") out.push(`<div class="banner info"><b>${L("Clock paused", "Jam berjeda")}</b><span class="muted">${L("by the Game Master. You can still place orders.", "oleh Game Master. Anda masih boleh membuat arahan.")}</span></div>`);
   if (!ck.hold && g.status !== "setup" && g.status !== "ended") {
-    if (m <= t.fundEnd && t.fund > 0 && m >= 13 && !lv.coach) out.push(`<div class="banner info"><span class="chip warn">Fund</span><span>${n1(t.fund)} Cr of the Development Fund left. It lapses on 31 Dec Year 2 (${t.fundEnd - m + 1} months).</span></div>`);
-    if (!t.zones.H.locked && m >= 25 && m <= 36 && t.hplots.includes(null)) out.push(`<div class="banner info"><span class="chip warn">Zone H</span><span>${t.hplots.filter(q => q === null).length} plot(s) unsigned. Sign a use by 31 Dec Year 3 (${36 - m + 1} months) or they are reclaimed.</span></div>`);
+    if (m <= t.fundEnd && t.fund > 0 && m >= 13 && !lv.coach) out.push(`<div class="banner info"><span class="chip warn">Fund</span><span>${L(`${n1(t.fund)} Cr of the Development Fund left. It lapses on 31 Dec Year 2 (${t.fundEnd - m + 1} months).`, `Baki Development Fund ${n1(t.fund)} Cr. Ia luput pada 31 Dis Tahun 2 (${t.fundEnd - m + 1} bulan lagi).`)}</span></div>`);
+    if (!t.zones.H.locked && m >= 25 && m <= 36 && t.hplots.includes(null)) { const n = t.hplots.filter(q => q === null).length; out.push(`<div class="banner info"><span class="chip warn">${L("Zone H", "Zon H")}</span><span>${L(`${n} plot(s) unsigned. Sign a use by 31 Dec Year 3 (${36 - m + 1} months) or they are reclaimed.`, `${n} plot belum ditandatangani. Tandatangani penggunaannya sebelum 31 Dis Tahun 3 (${36 - m + 1} bulan lagi) atau ia diambil semula.`)}</span></div>`); }
   }
   out.push(coachHTML(res, tm));
-  if (res.final && !g.reveal) out.push(`<div class="banner phase"><b>Final bell.</b><span>${lv.score.D > 0 ? "Your results appear here after the defence round." : "Your results appear here when the Game Master reveals the medals."}</span></div>`);
+  if (res.final && !g.reveal) out.push(`<div class="banner phase"><b>${L("Final bell.", "Loceng akhir.")}</b><span>${lv.score.D > 0 ? L("Your results appear here after the defence round.", "Keputusan anda dipaparkan di sini selepas pusingan pembentangan (defence).") : L("Your results appear here when the Game Master reveals the medals.", "Keputusan anda dipaparkan di sini bila Game Master mendedahkan pingat.")}</span></div>`);
   return out.join("");
 }
 function zonePanel(res, tm) {
@@ -530,7 +585,7 @@ function zonePanel(res, tm) {
   if (S.locked) { const L = lvl(LOCKED_IN[z]); return `<div class="zp-head"><h2>${z} · ${esc(Z.name)}</h2><span class="chip">${Z.acres} acres</span></div><p class="muted" style="margin:0">${esc(ztext(z))}</p><div class="note">This zone is not part of ${esc(lvLabel(sc.level))}. It opens in Level ${L.n} · ${esc(L.name)}.</div>`; }
   const act = canAct(res);
   const btn = (o, title, lines, extraWarn) => {
-    const v = PB.validate(t, sc, o, m); const why = !act.ok ? act.why : (!v.ok ? v.why : "");
+    const v = PB.validate(t, sc, o, m); const why = !act.ok ? act.why : (!v.ok ? whyL(v.why) : "");
     return `<button class="act${extraWarn ? " warnact" : ""}" data-act="order" data-o="${esc(JSON.stringify(o))}"${why ? " disabled" : ""}><b>${esc(title)}</b>${lines.map(l => `<span class="c">${esc(l)}</span>`).join("")}${why ? `<span class="why">${esc(why)}</span>` : (extraWarn ? `<span class="why">${esc(extraWarn)}</span>` : "")}</button>`;
   };
   const split = cost => { const s = PB.capitalSplit(t, cost, m, true); return s.fund > 0 ? (s.cash > 0.001 ? `Fund pays ${n1(s.fund)} · cash ${n1(s.cash)}` : `The fund pays it all`) : `All from cash`; };
@@ -604,7 +659,7 @@ function tabApps(res, tm) {
     h += `<div class="applist">`;
     for (const a of t.applicants) {
       const T = a.type === "startup" ? null : C.TEN[a.type];
-      const v = PB.validate(t, sc, { type: "admit", aid: a.id }, m); const why = !act.ok ? act.why : (!v.ok ? v.why : "");
+      const v = PB.validate(t, sc, { type: "admit", aid: a.id }, m); const why = !act.ok ? act.why : (!v.ok ? whyL(v.why) : "");
       const meta = a.type === "startup" ? [`incubator place`, `pays 0.1 Cr/yr`, `+1 impact/yr`, `may graduate into a Tech SME (+3 impact)`]
         : [`${T.units} unit${T.units > 1 ? "s" : ""}`, `rent ${n1(T.rent)} Cr/yr${a.type === "backoffice" ? " (1.3 in Zone D)" : ""}`, `+${n1(T.ip)} impact/yr`, T.linked ? "linked" : "unlinked", T.tech ? "needs fibre" : "no fibre needed", a.type === "anchor" ? "needs Lab or Lab Access" : ""].filter(Boolean);
       h += `<div class="appl"><div><b>${esc(a.name)}</b> <span class="chip ${a.type === "backoffice" ? "warn" : "acc"}">${esc(TYPE_LABEL(a.type))}</span><div class="meta">${meta.map(x => `<span>${esc(x)}</span>`).join("")}<span>waits until end of ${mname(a.expire)}</span></div></div>
@@ -717,7 +772,7 @@ function tabMoney(res, tm) {
   const cap = PB.loanCap(t, sc, m), head = PB.headroom(t, sc, m);
   APP.ui.loan = clamp(APP.ui.loan, 1, Math.max(1, Math.floor(head)));
   APP.ui.repay = clamp(APP.ui.repay, 1, Math.max(1, Math.ceil(t.debt + t.emerg)));
-  const ob = (o, label, cls) => { const v = PB.validate(t, sc, o, m); const why = !act.ok ? act.why : (!v.ok ? v.why : ""); return `<button class="btn ${cls || ""}" data-act="order" data-o="${esc(JSON.stringify(o))}"${why ? ` disabled title="${esc(why)}"` : ""}>${label}</button>`; };
+  const ob = (o, label, cls) => { const v = PB.validate(t, sc, o, m); const why = !act.ok ? act.why : (!v.ok ? whyL(v.why) : ""); return `<button class="btn ${cls || ""}" data-act="order" data-o="${esc(JSON.stringify(o))}"${why ? ` disabled title="${esc(why)}"` : ""}>${label}</button>`; };
   let h = `<div class="label">This month, at annual rates (Cr)</div><table class="tbl pl"><tbody>
 <tr><td>Rent</td><td>${n1(P.rent + P.telco)}</td></tr>${P.telco ? `<tr><td>Telco share (5%)</td><td>${sg1(-P.telco)}</td></tr>` : ""}
 <tr><td>Ground leases</td><td>${n1(P.lease)}</td></tr><tr><td>Facility and startup income</td><td>${n1(P.facInc)}</td></tr>
@@ -744,7 +799,7 @@ function tabFac(res, tm) {
   for (const k of ["kpi", "incubator", "labaccess", "lab", "liaison", "covenant", "services", "mgmt"]) {
     const F = C.FAC[k], on = !!t.fac[k];
     const o = on ? { type: "cancel", kind: k } : { type: "facility", kind: k };
-    const v = PB.validate(t, sc, o, m); const why = !act.ok ? act.why : (!v.ok ? v.why : "");
+    const v = PB.validate(t, sc, o, m); const why = !act.ok ? act.why : (!v.ok ? whyL(v.why) : "");
     const s = PB.capitalSplit(t, F.cost, m, true);
     h += `<div class="fac${on ? " on" : ""}"><div class="top"><b>${esc(F.label)}</b>${on ? `<span class="chip acc">running since ${mname(t.fac[k].since)}</span>` : ""}</div>
 <div class="mono" style="font-size:12px;color:var(--ink-2)">${F.cost ? n1(F.cost) + " Cr" + (s.fund > 0 ? ` (fund ${n1(s.fund)} · cash ${n1(s.cash)})` : "") : "No set-up cost"} · upkeep ${n1(F.upkeep)}/yr${F.units ? ` · uses ${F.units} unit with fibre` : ""}</div>
@@ -881,16 +936,15 @@ function soloHoldOverlay(res, tm) {
   const h = ck.hold, lv = res.lv;
   if (h.kind === "checkpoint" || h.kind === "downturn" || h.kind === "forecast") {
     let body = "";
-    const S = C.SEV[res.sc.downturn.sev];
-    if (h.kind === "downturn") body = `<h2>Downturn: ${S.label}</h2><p class="txt">Loan rate ${pc(S.rate)} and loan limit ${S.cap} Cr until the end. Unlinked rents fall ${pc(S.cut)}, linked ${pc(S.cut / 2)}. ${pc(S.bo)} of back-office tenants close now and again in 12 months; fewer applicants arrive.</p>`;
-    else if (h.kind === "forecast") body = `<h2>Forecast: ${S.label.toLowerCase()} downturn ahead</h2><p class="txt">Economists expect a ${S.label.toLowerCase()} downturn from ${mname(res.sc.downturn.start)}. Six months to prepare: rates will rise to ${pc(S.rate)} and the bank will cut the loan limit to ${S.cap} Cr.</p>`;
-    else if (h.phase === 1) body = `<h2>End of Phase 1</h2><p class="txt">The Development Fund has closed. B1 = ${n1(tm.now.B1)} / ${lv.score.B1}. ${lv.key === "rintis" ? "Year 3: run the park. Fill your units and keep income above costs." : "Zone H is released: sign a use for each plot by 31 December Year 3."}</p>`;
-    else body = `<h2>End of Phase 2</h2><p class="txt">B2 = ${n1(tm.now.B2)} / ${lv.score.B2}. The survival phase begins${lv.downturn && lv.downturn.forecast ? "; watch for the forecast." : ": a downturn will start between January and June of Year 4."}</p>`;
-    return `<div class="overlay"><div class="deal"><div class="deal-body">${body}<div class="row"><button class="btn primary" data-act="solo-cont">Continue</button></div></div></div></div>`;
+    const k = res.sc.downturn.sev, S = C.SEV[k];
+    if (h.kind === "downturn") body = `<h2>Downturn: ${L(S.label, sevL(k))}</h2><p class="txt">${L(`Loan rate ${pc(S.rate)} and loan limit ${S.cap} Cr until the end. Unlinked rents fall ${pc(S.cut)}, linked ${pc(S.cut / 2)}. ${pc(S.bo)} of back-office tenants close now and again in 12 months; fewer applicants arrive.`, `Kadar pinjaman ${pc(S.rate)} dan had pinjaman ${S.cap} Cr sehingga tamat. Sewa unlinked jatuh ${pc(S.cut)}, linked ${pc(S.cut / 2)}. ${pc(S.bo)} penyewa back-office tutup sekarang dan sekali lagi dalam 12 bulan; pemohon berkurang.`)}</p>`;
+    else if (h.kind === "forecast") body = `<h2>${L(`Forecast: ${S.label.toLowerCase()} downturn ahead`, `Ramalan: downturn ${sevL(k)} akan datang`)}</h2><p class="txt">${L(`Economists expect a ${S.label.toLowerCase()} downturn from ${mname(res.sc.downturn.start)}. Six months to prepare: rates will rise to ${pc(S.rate)} and the bank will cut the loan limit to ${S.cap} Cr.`, `Pakar ekonomi menjangka downturn ${sevL(k)} bermula ${mnameL(res.sc.downturn.start)}. Enam bulan untuk bersedia: kadar faedah akan naik ke ${pc(S.rate)} dan bank akan memotong had pinjaman ke ${S.cap} Cr.`)}</p>`;
+    else if (h.phase === 1) body = `<h2>${L("End of Phase 1", "Tamat Phase 1")}</h2><p class="txt">${L("The Development Fund has closed.", "Development Fund sudah ditutup.")} B1 = ${n1(tm.now.B1)} / ${lv.score.B1}. ${lv.key === "rintis" ? L("Year 3: run the park. Fill your units and keep income above costs.", "Tahun 3: operasikan park. Penuhkan unit dan kekalkan pendapatan melebihi kos.") : L("Zone H is released: sign a use for each plot by 31 December Year 3.", "Zon H dilepaskan: tandatangani penggunaan setiap plot sebelum 31 Disember Tahun 3.")}</p>`;
+    else body = `<h2>${L("End of Phase 2", "Tamat Phase 2")}</h2><p class="txt">B2 = ${n1(tm.now.B2)} / ${lv.score.B2}. ${lv.downturn && lv.downturn.forecast ? L("The survival phase begins; watch for the forecast.", "Fasa survival bermula; perhatikan ramalan.") : L("The survival phase begins: a downturn will start between January and June of Year 4.", "Fasa survival bermula: downturn akan bermula antara Januari dan Jun Tahun 4.")}</p>`;
+    return `<div class="overlay"><div class="deal"><div class="deal-body">${body}<div class="row"><button class="btn primary" data-act="solo-cont">${L("Continue", "Teruskan")}</button></div></div></div></div>`;
   }
   return "";
 }
-/* result charts: horizontal bars of each score part against its maximum, and a radar profile against a comparison park */
 function partBars(r, lv) {
   const ks = parts(lv), W = 300, rowH = 22, H = ks.length * rowH + 4;
   let s = `<svg class="pbars" viewBox="0 0 ${W} ${H}" role="img" aria-label="Score by part">`;
@@ -1220,7 +1274,7 @@ const ACT = {
   order(d) {
     const res = currentRes(); if (!res) return; const o = JSON.parse(d.o); const tm = teamOf(res, APP.teamId);
     const a = canAct(res); if (!a.ok) return toast(a.why, "bad");
-    const v = PB.validate(tm.t, res.sc, o, res.mCur); if (!v.ok) return toast(v.why, "bad");
+    const v = PB.validate(tm.t, res.sc, o, res.mCur); if (!v.ok) return toast(whyL(v.why), "bad");
     Promise.resolve(store().placeOrder(APP.teamId, o, res.ck.T)).catch(e => toast("The order was not saved: " + (e && e.message || e) + ". Try again.", "bad"));
     toast(orderText(o));
   },
@@ -1298,7 +1352,7 @@ function resultsCSV(res) {
 }
 
 const CORE = { BRAND, HOST, PB, AI, C, CARDS, esc, n1, n0, sg1, pc, clamp, mname, planSVG, planLegend, SITES, brandHTML, lvl, lvLabel, LEVEL_KEYS, LEVEL_TEXT, levelAcres, yearsWord,
-  /* v0.6 shell pieces */ barTeam, bannerTeam, coachTips, coachHTML, zonePanel, tabsTeam, tabBody, tabApps, tabPark, tabImpact, tabMoney, tabFac, tabNews, tabStand, RULES_HTML, dealTeam, soloHoldOverlay, finalOverlay,
+  /* v0.6 shell pieces */ L, whyL, mnameL, barTeam, bannerTeam, coachTips, coachHTML, zonePanel, tabsTeam, tabBody, tabApps, tabPark, tabImpact, tabMoney, tabFac, tabNews, tabStand, RULES_HTML, dealTeam, soloHoldOverlay, finalOverlay,
   apDots, nextAPMonth, levelChip, phaseChip, statusChip, phaseName, partLabel, parts, partBars, radarSVG, resultCharts, breakdown, compareTo, leaderboard, ceremony, viewScreen, viewGM, gmSetupHTML, closeHold, newSolo, currentRes, store, game, now, toast, ZSHORT, ztext, orderText, dateParts, MOUNT,
   MemStore, newCtx, withCtx, compute, buildFrame, resultsCSV, teamOf, canAct, sortedTeams, liveData, liveText, autoTick, dispatch, onInput, ACT, scen, clockOf, pausePoints, newSeed, rid, deepMerge, dateParts, fmtTimer,
   get APP() { return APP; }, set APP(v) { APP = v; } };
