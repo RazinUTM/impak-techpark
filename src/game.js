@@ -1,7 +1,7 @@
 
 /* SPDX-License-Identifier: MIT
    Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia */
-/* IMPAK to the TechPark — game core (carried over from v0.5; the browser host now lives in app.js and live.js).
+/* IMPAK – Technovation Park — game core (carried over from v0.5; the browser host now lives in app.js and live.js).
  * The same file runs in the browser and in Node (tools/calib.js). Views are pure string builders that read the current context APP. */
 (function (root) {
 "use strict";
@@ -11,7 +11,7 @@ if (IS_NODE && !root.PB) root.PB = PB;
 const AI = root.PBAI || (IS_NODE ? require("./strategies.js") : null);
 const C = PB.CFG, CARDS = PB.CARDS;
 const BRAND = {
-  name: "IMPAK", tag: "to the TechPark",
+  name: "IMPAK", tag: "Technovation Park", mark: "IMPAK™ – Technovation Park",
   copyright: "© 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia · code MIT · game content CC BY-NC-ND 4.0",
   version: "0.6.0-dev",
 };

@@ -1,4 +1,4 @@
-# DESIGN — IMPAK to the TechPark v0.6
+# DESIGN — IMPAK – Technovation Park v0.6
 
 Drafted by AI from the author's description and decisions of 3 Nov 2026 — reviewed and amended by: ___ on ___.
 

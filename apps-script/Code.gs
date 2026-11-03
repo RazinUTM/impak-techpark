@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: MIT
    Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia */
-/* IMPAK to the TechPark — live-session backend (Google Apps Script, V8), bound to a private Google Sheet.
+/* IMPAK – Technovation Park — live-session backend (Google Apps Script, V8), bound to a private Google Sheet.
  *
  * Deploy as a web app: Execute as "Me", access "Anyone" (participants are outsiders; identity is name + e-mail,
  * verified by an e-mailed code when the room's tier is "code"). The game engine (engine.gs, a verbatim copy of
@@ -146,7 +146,7 @@ function sendCode(p) {
   if (recent.length >= CODE_MAX_PER_HOUR) return { error: 'code', message: 'too many codes; try later' };
   var code = newPin(6);
   append('codes', { email: email, code: code, expires: new Date(Date.now() + CODE_TTL_MS), used: false, sentAt: new Date() });
-  MailApp.sendEmail({ to: email, subject: 'IMPAK to the TechPark — your code', body: 'Your sign-in code is ' + code + '. It is valid for 10 minutes.\n\nIf you did not ask for it, ignore this e-mail.' });
+  MailApp.sendEmail({ to: email, subject: 'IMPAK – Technovation Park — your code', body: 'Your sign-in code is ' + code + '. It is valid for 10 minutes.\n\nIf you did not ask for it, ignore this e-mail.' });
   return { ok: true };
 }
 function checkCode(email, code) {

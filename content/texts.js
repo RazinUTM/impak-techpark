@@ -1,4 +1,4 @@
-/* IMPAK to the TechPark — guide and tutor texts (game content).
+/* IMPAK – Technovation Park — guide and tutor texts (game content).
    Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia.
    Licensed under CC BY-NC-ND 4.0 — see content/LICENSE. Not covered by the MIT licence of the code. */
 const CONTENT = {
@@ -105,7 +105,7 @@ const CONTENT = {
     'say.hold.downturn': 'Downturn bermula. Sewa jatuh, bank mengetatkan, sebahagian penyewa keluar. Lindungi tunai dahulu.',
     'say.hold.end': 'Loceng akhir. Tekan Tunjuk keputusan untuk lihat markah anda.',
     'say.dealClosed': 'Deal dah ditutup. Hasilnya ada dalam tab Berita; jam bersambung bila anda teruskan.',
-    'say.paused': 'Dijeda. Ambil masa — arahan masih berfungsi semasa jeda.',
+    'say.paused': 'Berjeda. Ambil masa — arahan masih berfungsi semasa jeda.',
     'say.final.gold': 'Gold! Impak, keputusan yang wajar, ESG dan survival semuanya ada. Bandingkan profil anda dengan penanda aras dalam tab Park.',
     'say.final.silver': 'Silver. Park yang sebenar dengan keputusan yang wajar. Semak gate Gold mana yang terlepas dalam keputusan.',
     'say.final.bronze': 'Bronze. Park berdiri, tapi skor menunjukkan apa yang kurang: biasanya impak atau cover kewangan.',
@@ -115,7 +115,7 @@ const CONTENT = {
     'say.fund.lapse': 'Development Fund akan luput tidak lama lagi. Belanjakan untuk kerja dan bangunan, atau hilang begitu sahaja.',
     'say.ap.none': 'Tiada action point lagi suku ini. Gunakan masa untuk terima pemohon dan rancang arahan seterusnya.',
     'say.live.wait': 'Menunggu Game Master mulakan jam. Tinjau site plan, pemohon dan peraturan.',
-    'say.pinned': 'Dipin. Pin sekali lagi kemudian dan bandingkan kedua-dua gambar dalam tab Pin.',
+    'say.pinned': 'Pin disimpan. Pin sekali lagi kemudian dan bandingkan kedua-dua gambar dalam tab Pin.',
     'say.zone': 'Zon {z} dipilih. Arahannya ada dalam kumpulan Zon dipilih di sebelah kiri.',
     'act.0.pickC': 'Klik Zon C (Campus Edge) pada site plan.',
     'act.0.pickC.h': 'Zon ialah kawasan berwarna pada plan. Zon C bersebelahan kampus dan memberi bonus kepada penyewa linked.',

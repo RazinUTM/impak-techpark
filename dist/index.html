@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <!-- SPDX-License-Identifier: MIT
      Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia
-     IMPAK to the TechPark — code MIT; game content (texts, cards, map) CC BY-NC-ND 4.0; tutor avatar all rights reserved.
+     IMPAK – Technovation Park — code MIT; game content (texts, cards, map) CC BY-NC-ND 4.0; tutor avatar all rights reserved.
      Built by tools/build.py from src/, content/ and assets/. -->
 <html lang="ms" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>IMPAK to the TechPark</title>
+<title>IMPAK – Technovation Park</title>
 <meta name="description" content="A science and technology park management game for training of trainers. Bahasa Melayu and English.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1028,12 +1028,14 @@ body.fullpage > main, body.fullpage > footer { visibility: hidden; }
 dialog.askbox { width: min(420px, calc(100vw - 24px)); }
 dialog.askbox .sgbody { padding: 16px 16px 10px; }
 
+.g .hero h1 .tm { font-size: 0.3em; vertical-align: super; font-weight: 400; color: var(--muted); margin-right: 0.2em; }
+
 </style>
 </head>
 <body>
 <!-- SPDX-License-Identifier: MIT · Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia -->
 <header class="topbar">
-  <div class="brand"><h1><span data-i18n="app.title">IMPAK</span> <small data-i18n="app.sub">to the TechPark</small></h1><div class="sub"><span id="mode-chip" class="modechip"></span></div></div>
+  <div class="brand"><h1><span data-i18n="app.title">IMPAK</span> <small data-i18n="app.sub">Technovation Park</small></h1><div class="sub"><span id="mode-chip" class="modechip"></span></div></div>
   <nav class="stages" id="stages" role="tablist" aria-label="Level"></nav>
   <div class="prefs">
     <button type="button" id="btn-lang" data-i18n-title="pref.lang" title="Language">EN</button>
@@ -2285,7 +2287,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = API; else 
 
 /* SPDX-License-Identifier: MIT
    Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia */
-/* IMPAK to the TechPark — game core (carried over from v0.5; the browser host now lives in app.js and live.js).
+/* IMPAK – Technovation Park — game core (carried over from v0.5; the browser host now lives in app.js and live.js).
  * The same file runs in the browser and in Node (tools/calib.js). Views are pure string builders that read the current context APP. */
 (function (root) {
 "use strict";
@@ -2295,7 +2297,7 @@ if (IS_NODE && !root.PB) root.PB = PB;
 const AI = root.PBAI || (IS_NODE ? require("./strategies.js") : null);
 const C = PB.CFG, CARDS = PB.CARDS;
 const BRAND = {
-  name: "IMPAK", tag: "to the TechPark",
+  name: "IMPAK", tag: "Technovation Park", mark: "IMPAK™ – Technovation Park",
   copyright: "© 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia · code MIT · game content CC BY-NC-ND 4.0",
   version: "0.6.0-dev",
 };
@@ -4710,12 +4712,12 @@ root.UIKit = { $, $$, DEG, configure, createStore, createPrefs, applyPrefsUI, se
 const I18N = {
   en: {
     'app.title': 'IMPAK',
-    'app.sub': 'to the TechPark',
+    'app.sub': 'Technovation Park',
     'stage.label': 'Level',
     'stage.0': 'Rintis · Open the gates',
     'stage.1': 'Bina · Grow the park',
     'stage.2': 'Lestari · Survive and sustain',
-    'course.impak.title': 'IMPAK to the TechPark',
+    'course.impak.title': 'IMPAK – Technovation Park',
     'mode.solo': 'Practice',
     'mode.live': 'Live session',
     'mode.offline': 'Offline practice copy',
@@ -4898,12 +4900,12 @@ const I18N = {
   },
   ms: {
     'app.title': 'IMPAK',
-    'app.sub': 'to the TechPark',
+    'app.sub': 'Technovation Park',
     'stage.label': 'Level',
     'stage.0': 'Rintis · Buka pintu',
     'stage.1': 'Bina · Kembangkan park',
     'stage.2': 'Lestari · Bertahan dan lestari',
-    'course.impak.title': 'IMPAK to the TechPark',
+    'course.impak.title': 'IMPAK – Technovation Park',
     'mode.solo': 'Latihan',
     'mode.live': 'Sesi langsung',
     'mode.offline': 'Salinan latihan luar talian',
@@ -4940,7 +4942,7 @@ const I18N = {
     'tr.play': 'Mulakan jam',
     'tr.pause': 'Jeda',
     'tr.resume': 'Sambung',
-    'tr.play.tip': 'Jalankan atau jedakan jam bulanan (bar ruang)',
+    'tr.play.tip': 'Jalankan atau jeda jam bulanan (bar ruang)',
     'tr.step': 'Acara seterusnya',
     'tr.step.tip': 'Lompat ke Deal Room, checkpoint atau loceng akhir yang seterusnya',
     'tr.reset': 'Permainan baharu',
@@ -4954,8 +4956,8 @@ const I18N = {
     'tr.locked': 'Game Master yang mengawal jam',
     'ro.year': 'Tahun {y}',
     'ro.room': 'Bilik {code}',
-    'ro.sync.ok': 'disegerak',
-    'ro.sync.wait': 'menyegerak…',
+    'ro.sync.ok': 'segerak',
+    'ro.sync.wait': 'menunggu pelayan…',
     'ro.sync.off': 'luar talian',
     'ro.ap': 'AP',
     'ui.results': 'Keputusan',
@@ -5083,7 +5085,7 @@ if (typeof window !== 'undefined') window.I18N = I18N;
 
 </script>
 <script>
-/* IMPAK to the TechPark — guide and tutor texts (game content).
+/* IMPAK – Technovation Park — guide and tutor texts (game content).
    Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia.
    Licensed under CC BY-NC-ND 4.0 — see content/LICENSE. Not covered by the MIT licence of the code. */
 const CONTENT = {
@@ -5190,7 +5192,7 @@ const CONTENT = {
     'say.hold.downturn': 'Downturn bermula. Sewa jatuh, bank mengetatkan, sebahagian penyewa keluar. Lindungi tunai dahulu.',
     'say.hold.end': 'Loceng akhir. Tekan Tunjuk keputusan untuk lihat markah anda.',
     'say.dealClosed': 'Deal dah ditutup. Hasilnya ada dalam tab Berita; jam bersambung bila anda teruskan.',
-    'say.paused': 'Dijeda. Ambil masa — arahan masih berfungsi semasa jeda.',
+    'say.paused': 'Berjeda. Ambil masa — arahan masih berfungsi semasa jeda.',
     'say.final.gold': 'Gold! Impak, keputusan yang wajar, ESG dan survival semuanya ada. Bandingkan profil anda dengan penanda aras dalam tab Park.',
     'say.final.silver': 'Silver. Park yang sebenar dengan keputusan yang wajar. Semak gate Gold mana yang terlepas dalam keputusan.',
     'say.final.bronze': 'Bronze. Park berdiri, tapi skor menunjukkan apa yang kurang: biasanya impak atau cover kewangan.',
@@ -5200,7 +5202,7 @@ const CONTENT = {
     'say.fund.lapse': 'Development Fund akan luput tidak lama lagi. Belanjakan untuk kerja dan bangunan, atau hilang begitu sahaja.',
     'say.ap.none': 'Tiada action point lagi suku ini. Gunakan masa untuk terima pemohon dan rancang arahan seterusnya.',
     'say.live.wait': 'Menunggu Game Master mulakan jam. Tinjau site plan, pemohon dan peraturan.',
-    'say.pinned': 'Dipin. Pin sekali lagi kemudian dan bandingkan kedua-dua gambar dalam tab Pin.',
+    'say.pinned': 'Pin disimpan. Pin sekali lagi kemudian dan bandingkan kedua-dua gambar dalam tab Pin.',
     'say.zone': 'Zon {z} dipilih. Arahannya ada dalam kumpulan Zon dipilih di sebelah kiri.',
     'act.0.pickC': 'Klik Zon C (Campus Edge) pada site plan.',
     'act.0.pickC.h': 'Zon ialah kawasan berwarna pada plan. Zon C bersebelahan kampus dan memberi bonus kepada penyewa linked.',
@@ -5653,13 +5655,13 @@ function landingHTML() {
   else if (LAND.view === 'gm') live = joinFormHTML('gm');
   else live = '<div class="rcbtns"><button type="button" class="btn accent" data-a="open" data-v="live">' + escapeHtml(t('land.live')) + '</button></div>';
   const t0 = PB.newTeam('preview', 'priority', 'lestari');
-  return '<div class="hero"><div><h1>' + escapeHtml(G.BRAND.name) + '<small>' + escapeHtml(G.BRAND.tag) + '</small></h1>' +
+  return '<div class="hero"><div><h1>' + escapeHtml(G.BRAND.name) + '<sup class="tm">™</sup><small>' + escapeHtml(G.BRAND.tag) + '</small></h1>' +
     '<p>' + escapeHtml(t('say.landing')) + '</p></div><div class="panel" style="padding:8px">' + G.planSVG(t0, 1, 0, null, 'L') + '</div></div>' +
     '<div class="rolecards">' +
     '<div class="rolecard solo"><h3>' + escapeHtml(t('land.solo')) + '</h3><p>' + escapeHtml(t('land.solo.d')) + '</p><div class="rcbtns">' + levelBtns + '</div></div>' +
     '<div class="rolecard live"><h3>' + escapeHtml(t('land.live')) + '</h3><p>' + escapeHtml(t('land.live.d')) + '</p>' + live + '</div>' +
     (online ? '<div class="rolecard gm"><h3>' + escapeHtml(t('land.gm')) + '</h3><p>' + escapeHtml(t('land.gm.d')) + '</p><div class="rcbtns"><button type="button" class="btn" data-a="open" data-v="gm">' + escapeHtml(t('join.gm')) + '</button><button type="button" class="btn" data-a="screen">' + escapeHtml(t('join.screen')) + '</button></div></div>' : '') +
-    '</div><div class="foot">' + escapeHtml(G.BRAND.copyright) + ' · v' + escapeHtml(G.BRAND.version) + '</div>';
+    '</div><div class="foot">' + escapeHtml(G.BRAND.mark) + ' · ' + escapeHtml(G.BRAND.copyright) + ' · v' + escapeHtml(G.BRAND.version) + '</div>';
 }
 function joinFormHTML(kind) {
   const L = root.IMPAKLive, f = L.form;

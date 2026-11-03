@@ -1,4 +1,4 @@
-# IMPAK to the TechPark
+# IMPAK™ – Technovation Park
 
 A browser game for training-of-trainers on science and technology park (STP) management. Teams develop the same 100-acre park month by month across three levels — Rintis (open the gates), Bina (grow the park), Lestari (survive and sustain) — take or decline Deal Room offers, survive a downturn and are scored against the level's mandate. Bahasa Melayu and English.
 
@@ -34,7 +34,7 @@ Hosting: publish `dist/index.html` with GitHub Pages (the repository must be pub
 - Software: MIT — Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia. See `LICENSE`.
 - Game content in `content/`: CC BY-NC-ND 4.0. See `content/LICENSE`.
 - Tutor avatar in `assets/tutor/`: all rights reserved, licensed to this game only. See `assets/tutor/LICENSE`.
-- "IMPAK" and "IMPAK to the TechPark" are the names of the game; no trademark rights are granted.
+- "IMPAK" and "IMPAK – Technovation Park" are the names of the game, used as an unregistered mark (™, no MyIPO filing yet); no trademark rights are granted. "Technovation Park" is the name of UTM's park; the game's map and conditions remain a fiction (see the caption on the site plan).
 
 ## Code authorship / Contributors
 

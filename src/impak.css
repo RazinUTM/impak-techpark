@@ -122,3 +122,5 @@ body.fullpage > main, body.fullpage > footer { visibility: hidden; }
 /* ---------- in-page confirm / prompt */
 dialog.askbox { width: min(420px, calc(100vw - 24px)); }
 dialog.askbox .sgbody { padding: 16px 16px 10px; }
+
+.g .hero h1 .tm { font-size: 0.3em; vertical-align: super; font-weight: 400; color: var(--muted); margin-right: 0.2em; }
