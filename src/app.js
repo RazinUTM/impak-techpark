@@ -40,6 +40,7 @@ HOST.act = {
   'leave'() { if (root.IMPAKLive) root.IMPAKLive.leave(); ACT.home(); },
   'open-join'(d) { LAND.view = d.v || 'live'; },
   'tab'(d) { openPart(d.k); },
+  'home'() { goHome(); },
 };
 const GROUP_OF = { apps: 'apps', money: 'money', fac: 'fac', zone: 'zone' };
 function openPart(k) {
@@ -140,6 +141,7 @@ async function switchLevel(n, force) {
   a.ui.seenEnd = false; a.ui.seenReveal = null; a.ui.zone = 'C';
   predict.hide();
   activity.start(n);
+  activity.restart();
   narrator.say('say.welcome.' + n, {}, true);
   if (PREDICT[n]) predict.show({ predict: PREDICT[n] });
   S.lastSaid = 'welcome';
@@ -247,12 +249,49 @@ function landingHTML() {
   else live = '<div class="rcbtns"><button type="button" class="btn accent" data-a="open" data-v="live">' + escapeHtml(t('land.live')) + '</button></div>';
   const t0 = PB.newTeam('preview', 'priority', 'lestari');
   return '<div class="hero"><div><h1>' + escapeHtml(G.BRAND.name) + '<sup class="tm">™</sup><small>' + escapeHtml(G.BRAND.tag) + '</small></h1>' +
-    '<p>' + escapeHtml(t('say.landing')) + '</p></div><div class="panel" style="padding:8px">' + G.planSVG(t0, 1, 0, null, 'L') + '</div></div>' +
+    '<p>' + escapeHtml(t('say.landing')) + '</p>' + resumeHTML() + '</div><div class="panel" style="padding:8px">' + G.planSVG(t0, 1, 0, null, 'L') + '</div></div>' +
     '<div class="rolecards">' +
     '<div class="rolecard solo"><h3>' + escapeHtml(t('land.solo')) + '</h3><p>' + escapeHtml(t('land.solo.d')) + '</p><div class="rcbtns">' + levelBtns + '</div></div>' +
     '<div class="rolecard live"><h3>' + escapeHtml(t('land.live')) + '</h3><p>' + escapeHtml(t('land.live.d')) + '</p>' + live + '</div>' +
     (online ? '<div class="rolecard rc-gm"><h3>' + escapeHtml(t('land.gm')) + '</h3><p>' + escapeHtml(t('land.gm.d')) + '</p><div class="rcbtns"><button type="button" class="btn" data-a="open" data-v="gm">' + escapeHtml(t('join.gm')) + '</button><button type="button" class="btn" data-a="screen">' + escapeHtml(t('join.screen')) + '</button></div></div>' : '') +
     '</div><div class="foot">' + escapeHtml(G.BRAND.mark) + ' · ' + escapeHtml(G.BRAND.copyright) + ' · v' + escapeHtml(G.BRAND.version) + '</div>';
+}
+function resumeHTML() {
+  const A = app(), btns = [];
+  const sg = A.solo && A.solo.game;
+  if (sg && sg.status !== 'ended') {
+    let date = ''; try { const sc = G.scen(sg.seed, sg.level); const ck = G.clockOf(sg, sc, HOST.now()); const d = G.dateParts(ck.T, sc.months); date = d.day + ' ' + MON[prefs.lang === 'ms' ? 'ms' : 'en'][MON.en.indexOf(d.month)] + ', ' + t('ro.year', { y: d.year }); } catch (e) { /* ignore */ }
+    btns.push('<button type="button" class="btn accent" data-a="resume-solo">' + escapeHtml(t('land.resume.solo', { level: t('stage.' + levelIndex(sg.level)), date })) + '</button>');
+  }
+  const L = root.IMPAKLive, ses = L && L.store && L.store.session;
+  if (ses && ses.room) {
+    const g = L.store.game, tm = g && ses.team ? g.teams.find((x) => x.id === ses.team) : null;
+    const k = ses.role === 'gm' ? 'land.resume.gm' : (ses.role === 'screen' ? 'land.resume.screen' : 'land.resume.team');
+    btns.push('<button type="button" class="btn accent" data-a="resume-live">' + escapeHtml(t(k, { room: ses.room, team: tm ? tm.name : '' })) + '</button><button type="button" class="btn" data-a="leave-live">' + escapeHtml(t('land.leave')) + '</button>');
+  }
+  if (!btns.length) return '';
+  return '<div class="resume"><div class="adv-sub">' + escapeHtml(t('land.resume')) + '</div><div class="rcbtns">' + btns.join('') + '</div></div>';
+}
+function resumeSolo() {
+  const A = app(); if (!A.solo || !A.solo.game) return;
+  A.store = A.solo; A.role = 'solo'; A.teamId = 'you'; HOST.hash('solo');
+  S.level = levelIndex(A.solo.game.level); uiStore.level = S.level; uiStore.save();
+  activity.start(S.level); S.lastSaid = ''; stageNav.render(); render(true);
+}
+function resumeLive() {
+  const A = app(), L = root.IMPAKLive, ses = L && L.store && L.store.session; if (!ses) return;
+  A.store = L.store; A.live = L.store;
+  if (ses.role === 'gm') { A.canEdit = true; A.role = 'gm'; }
+  else if (ses.role === 'screen') A.role = 'screen';
+  else { A.role = 'team'; A.teamId = ses.team; }
+  afterJoin(); S.lastSaid = ''; render(true);
+}
+function goHome() {
+  const A = app(), r = res();
+  if (A.role === 'solo' && r && r.g.status === 'running' && !r.ck.hold) G.dispatch('solo-pause');
+  ACT.home();
+  lastKind = ''; S.lastSaid = ''; LAND.view = 'home';
+  stageNav.render(); render(true);
 }
 function joinFormHTML(kind) {
   const L = root.IMPAKLive, f = L.form;
@@ -271,6 +310,9 @@ function joinFormHTML(kind) {
 }
 function wireLanding(el) {
   el.querySelectorAll('[data-a="solo"]').forEach((b) => b.addEventListener('click', () => switchLevel(parseInt(b.dataset.level, 10), true)));
+  el.querySelectorAll('[data-a="resume-solo"]').forEach((b) => b.addEventListener('click', resumeSolo));
+  el.querySelectorAll('[data-a="resume-live"]').forEach((b) => b.addEventListener('click', resumeLive));
+  el.querySelectorAll('[data-a="leave-live"]').forEach((b) => b.addEventListener('click', () => { root.IMPAKLive.leave(); render(true); }));
   el.querySelectorAll('[data-a="open"]').forEach((b) => b.addEventListener('click', () => { LAND.view = b.dataset.v; LAND.err = ''; LAND.codeSent = false; render(true); }));
   el.querySelectorAll('[data-a="screen"]').forEach((b) => b.addEventListener('click', async () => { const L = root.IMPAKLive; const code = await ask(t('join.room'), true); if (code) L.openScreen(code.toUpperCase()).then(() => render(true), (e) => { K.toast(t(e.key || 'join.err.net')); }); }));
   el.querySelectorAll('[data-a="sendcode"]').forEach((b) => b.addEventListener('click', () => { const L = root.IMPAKLive; readForm(el); LAND.busy = true; render(true); L.sendCode().then(() => { LAND.codeSent = true; LAND.err = ''; }, (e) => { LAND.err = t(e.key || 'join.err.net'); }).finally(() => { LAND.busy = false; render(true); }); }));
@@ -411,8 +453,9 @@ function render(force) {
   const a = app();
   setMode();
   doc.body.classList.toggle('on-landing', !a.role);
+  $('#btn-home').hidden = !a.role;
   if (!a.role) {
-    const land = $('#r-land'), key = 'land|' + prefs.lang + '|' + LAND.view + '|' + LAND.err + '|' + LAND.busy + '|' + LAND.codeSent + '|' + (root.IMPAKLive && root.IMPAKLive.configured);
+    const land = $('#r-land'), key = 'land|' + prefs.lang + '|' + (app().solo && app().solo.game ? app().solo.game.gid + app().solo.game.status : '') + '|' + (root.IMPAKLive && root.IMPAKLive.room) + '|' + LAND.view + '|' + LAND.err + '|' + LAND.busy + '|' + LAND.codeSent + '|' + (root.IMPAKLive && root.IMPAKLive.configured);
     if (land._k !== key) { land.innerHTML = landingHTML(); land._k = key; wireLanding(land); }
     clearRegions(TEAM_REGIONS); updateTransport(null);
     if (S.lastSaid !== 'landing') { S.lastSaid = 'landing'; narrator.say('say.landing', {}, true); }
@@ -452,6 +495,7 @@ function applyLang() {
   K.applyStaticText(t); K.applyPrefsUI(prefs, t);
   renderWhy(); renderLedger(); renderGloss();
   $$('[data-i18n-ph]').forEach((el) => { el.placeholder = t(el.dataset.i18nPh); });
+  $('#btn-home').title = t('nav.home.tip');
   const jb = $('#journal'); if (jb) jb._k = '';
   if (stageNav) stageNav.render();
   if (activity) activity.render();
@@ -526,6 +570,11 @@ function boot() {
   } });
   $$('#plot-tabs button').forEach((b) => b.addEventListener('click', () => setTab(b.dataset.plot)));
   setTab(uiStore.tab || 'park');
+  $('#btn-home').addEventListener('click', goHome);
+  $('#btn-home').title = t('nav.home.tip');
+  const setAll = (open) => { for (const k of ['zone', 'apps', 'money', 'fac']) { const d = $('#grp-' + k); d.open = open; openState[k] = open; } openState.save(); };
+  $('#grp-open-all').addEventListener('click', () => setAll(true));
+  $('#grp-fold-all').addEventListener('click', () => setAll(false));
   $('#btn-play').addEventListener('click', soloPlay);
   $('#btn-step').addEventListener('click', soloStep);
   $('#btn-reset').addEventListener('click', soloNew);

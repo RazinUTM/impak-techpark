@@ -2,6 +2,7 @@
 <header class="topbar">
   <div class="brand"><h1><span data-i18n="app.title">IMPAK</span><sup class="tmk">™</sup> <small data-i18n="app.sub">Technovation Park</small></h1><span id="mode-chip" class="modechip"></span></div>
   <nav class="stages" id="stages" role="tablist" aria-label="Level"></nav>
+  <button type="button" id="btn-home" class="homebtn" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5"/><path d="M6.5 10v9h11v-9"/><path d="M10 19v-5h4v5"/></svg><span data-i18n="nav.home">Home</span></button>
   <div class="prefs">
     <button type="button" id="btn-lang" data-i18n-title="pref.lang" title="Language">EN</button>
     <button type="button" id="btn-theme" class="iconbtn" title="Theme"></button>
@@ -12,7 +13,7 @@
 
 <main class="layout" id="shell">
   <aside class="controls" id="controls" aria-label="Controls">
-    <div class="panelhead"><span class="pdot"></span><span data-i18n="panel.controls">Controls</span></div>
+    <div class="panelhead"><span class="pdot"></span><span data-i18n="panel.controls">Controls</span><span class="phbtns"><button type="button" id="grp-open-all" class="phbtn" data-i18n-title="ctl.openAll.tip" title=""><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9l5 5 5-5"/><path d="M4 4h16M4 20h16"/></svg><span data-i18n="ctl.openAll">Open all</span></button><button type="button" id="grp-fold-all" class="phbtn" data-i18n-title="ctl.foldAll.tip" title=""><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 14l5-5 5 5"/><path d="M4 4h16M4 20h16"/></svg><span data-i18n="ctl.foldAll">Fold all</span></button></span></div>
     <div class="ctrlnote g" id="ctrl-note"></div>
     <details class="group g-zone" id="grp-zone" open><summary><h2 data-i18n="grp.zone">Selected zone</h2><span class="status" id="zone-status"></span></summary><div class="body g" id="r-zone"></div></details>
     <details class="group g-apps" id="grp-apps" open><summary><h2 data-i18n="grp.apps">Applicants</h2><span class="status" id="apps-status"></span></summary><div class="body g" id="r-apps"></div></details>

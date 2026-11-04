@@ -198,3 +198,22 @@ ol.journal .jw { font-size: 0.95em; }
 #gloss dt { margin-top: 6px; font-weight: 700; color: var(--ink); }
 #gloss dt small { font-weight: 400; color: var(--muted); }
 #gloss dd { margin: 1px 0 0; color: var(--ink2); line-height: 1.45; }
+
+/* ---------- home button, fold/unfold all, resume on the landing page */
+.homebtn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px 5px 9px; border: 1px solid var(--line); border-radius: 999px; background: var(--card-head); color: var(--ink); font-weight: 700; font-size: 0.9em; }
+.homebtn:hover { border-color: var(--accent); color: var(--accent); }
+.homebtn svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.prefs { margin-left: 0; }
+.homebtn { margin-left: auto; }
+.homebtn[hidden] + .prefs { margin-left: auto; }
+.panelhead .phbtns { margin-left: auto; display: inline-flex; gap: 4px; }
+.phbtn { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border: 1px solid var(--line); border-radius: 6px; background: var(--card); color: var(--ink2); font-size: 1em; font-weight: 700; letter-spacing: 0.02em; text-transform: none; }
+.phbtn:hover { border-color: var(--acc-input); color: var(--ink); }
+.phbtn svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.g .resume { margin: 12px 0 4px; padding: 10px 12px; border: 1px solid color-mix(in srgb, var(--acc-guide) 55%, var(--line)); border-left: 4px solid var(--acc-guide); border-radius: 10px; background: color-mix(in srgb, var(--acc-guide) 8%, var(--card)); }
+.g .resume .adv-sub { margin: 0 0 6px; }
+.phbtn { white-space: nowrap; font-size: 0.92em; padding: 2px 6px; }
+.panelhead { flex-wrap: nowrap; }
+/* landing: the paused game's steps, prediction and empty order groups stay out of sight */
+body.on-landing #task, body.on-landing #predict, body.on-landing #checklist, body.on-landing #journalbox,
+body.on-landing #r-banner, body.on-landing #controls details.group, body.on-landing #controls .phbtns { display: none !important; }
