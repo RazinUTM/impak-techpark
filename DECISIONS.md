@@ -62,3 +62,8 @@ Decided by: Ahmad Razin
 ## 2026-11-04 Language of the guide-side views; results on the landing page
 Decision: coach tips, banners, status/phase chips, hold cards, tiles and the engine's refusal reasons are bilingual (BM/EN, technical terms such as Deal Room, Development Fund, FCR12, drift, upkeep, fibre, shed and action points kept in English). engine.js stays verbatim; its reasons are mapped in game.js (`whyL`). Deal cards, zone panel texts and the info tabs are still English. The Results panel is folded on the landing page so the opening choices fit without scrolling. PRPM checks are optional, only where a word reads awkwardly.
 Decided by: Ahmad Razin
+
+## 2026-11-04 Decision advice, glossary, header and clock
+Decision: three layers of advice around every Deal Room card, without touching the engine or the score: (1) before the decision, "Think it through" lists the figures the decision depends on and the risk of each option; Rintis and Bina show the current figures with ✓/! against the rule of thumb, Lestari shows the questions only; (2) after the deal closes, sound or not, the principle (the engine's `sound()` rule in words) and what to watch next; (3) a Decision journal in the Guide panel for the debrief. A searchable Glossary (BM/EN, ~50 terms) sits in the Guide panel and is linked from the ⓘ dialog. Title enlarged with the mode chip beside it; a large running clock (date, year, month n of N, progress) in the middle of the clock bar.
+Open: "Cr" is defined in the glossary as the game's unit of money (credit), pending the author's confirmation.
+Decided by: Ahmad Razin

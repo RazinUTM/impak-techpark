@@ -902,7 +902,7 @@ function dealTeam(res, tm) {
     return `<div class="overlay"><div class="deal"><div class="deal-top"><span class="chip ${Cd.tone === "threat" ? "tone-thr" : "tone-opp"}">${Cd.tone === "threat" ? "Threat" : "Opportunity"}</span><span class="label">Deal closed</span></div>
 <div class="deal-body"><div style="display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center">${dieHTML(ev, res.sc)}<h2>${esc(Cd.title)}</h2></div>
 <p class="txt">${dl && dl.eligible ? `You chose <b>${optName[dl.opt]}${dl.site ? " on Zone " + dl.site : ""}</b>.` : "This deal did not apply to your park."} ${outcome ? esc(outcome.text.slice(Cd.title.length + 2)) : ""}</p>
-<div class="row">${solo ? `<button class="btn primary" data-act="solo-resume">Continue</button>` : `<button class="btn" data-act="seen-reveal">Close</button><span class="muted">The clock restarts when the Game Master resumes.</span>`}</div></div></div></div>`;
+${HOST.dealAdvice ? HOST.dealAdvice(res, tm, ev, "after") : ""}<div class="row">${solo ? `<button class="btn primary" data-act="solo-resume">Continue</button>` : `<button class="btn" data-act="seen-reveal">Close</button><span class="muted">The clock restarts when the Game Master resumes.</span>`}</div></div></div></div>`;
   }
   if (!ck.hold || ck.hold.kind !== "event") return "";
   const ev = ck.hold.ev, Cd = CARDS[ev.card], t = tm.t, m = res.mCur;
@@ -927,7 +927,7 @@ function dealTeam(res, tm) {
   const foot = (my ? "Your choice is recorded. You can change it until the deal closes." : "No decision counts as Leave.") + " " + (res.lv.dice ? "Previews show the immediate effect; the die for Conditions is rolled when the deal closes." : "In this level every counterparty accepts your conditions.");
   return `<div class="overlay" role="dialog" aria-label="Deal Room"><div class="deal"><div class="deal-top"><span class="chip ${Cd.tone === "threat" ? "tone-thr" : "tone-opp"}">${Cd.tone === "threat" ? "Threat" : "Opportunity"}</span><span class="label">Deal Room · ${d.day} ${d.month}, Year ${d.year}</span><span class="timer${left < 20000 ? " low" : ""}" data-live="dealtimer">${fmtTimer(left)}</span><button class="btn sm" data-act="home" title="Leave this dashboard">Start page</button></div>
 <div class="deal-body"><h2>${esc(Cd.title)}</h2>${Cd.sdg ? `<div class="row">${sdgChips(Cd)}</div>` : ""}<p class="txt">${esc(Cd.text)}</p>
-${elig ? `<div class="opts">${opts}</div>${picker}<p class="faint" style="margin:0;font-size:12.5px">${esc(foot)}</p>` : `<div class="note">${esc(t.receiver ? "Your park is in receivership." : (NOT_ELIG[ev.card] || "This deal does not apply to your park."))}</div>`}
+${elig ? `<div class="opts">${opts}</div>${picker}${HOST.dealAdvice ? HOST.dealAdvice(res, tm, ev, "before") : ""}<p class="faint" style="margin:0;font-size:12.5px">${esc(foot)}</p>` : `<div class="note">${esc(t.receiver ? "Your park is in receivership." : (NOT_ELIG[ev.card] || "This deal does not apply to your park."))}</div>`}
 ${st.mode === "solo" ? `<div class="row"><button class="btn primary" data-act="solo-close"${!my && elig ? " disabled" : ""}>${res.lv.dice ? "Close the deal and roll" : "Close the deal"}</button><span class="muted">${elig && !my ? "Choose an option first." : ""}</span></div>` : ""}
 </div></div></div>`;
 }

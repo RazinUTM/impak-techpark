@@ -33,6 +33,7 @@ HOST.remember = (k, v) => { if (k === 'tab' && ['park', 'impact', 'stand', 'news
 HOST.landing = () => '';
 HOST.footer = () => '';
 HOST.setOffset = (ms) => { OFFSET = ms; };
+HOST.dealAdvice = (res, tm, ev, phase) => { const A = root.IMPAKAdvice; if (!A) return ''; return phase === 'after' ? A.after(res, tm, ev) : A.before(res, tm, ev); };
 const ACT = G.ACT;
 HOST.act = {
   'pin'(d) { pinNow(d.pin); },
@@ -199,16 +200,25 @@ function setTab(k) { uiStore.tab = k; uiStore.save(); $$('#plot-tabs button').fo
 function readoutsHTML(r, tm) {
   if (!r) return '';
   const d = G.dateParts(r.ck.T, r.months), g = r.g;
-  let h = '<span class="ro"><b>' + d.day + ' ' + d.month + '</b> · ' + escapeHtml(t('ro.year', { y: d.year })) + '</span>' + G.levelChip(r).replace('class="chip lvl"', 'class="chip"') + G.phaseChip(r) + G.statusChip(g, r.ck);
+  let h = G.levelChip(r).replace('class="chip lvl"', 'class="chip"') + G.phaseChip(r) + G.statusChip(g, r.ck);
   if (tm) h += '<span class="ro">' + escapeHtml(t('ro.ap')) + ' <b>' + tm.t.ap + '</b></span>';
   if (G.store() && G.store().mode === 'live') { const L = root.IMPAKLive; h += '<span class="chip">' + escapeHtml(t('ro.room', { code: (L && L.room) || '' })) + '</span><span class="sync ' + (L ? L.syncClass() : 'off') + '"><i></i>' + escapeHtml(t(L ? L.syncKey() : 'ro.sync.off')) + '</span>'; }
   return h;
+}
+const MON = { en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], ms: ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogo', 'Sep', 'Okt', 'Nov', 'Dis'] };
+function bigClockHTML(r) {
+  if (!r) return '';
+  const d = G.dateParts(r.ck.T, r.months), mi = Math.min(r.months - 1, Math.floor(r.ck.T + 1e-9)), mo = mi % 12;
+  const frac = Math.max(0, Math.min(1, r.ck.T / r.months));
+  return '<div class="bc-date"><b>' + d.day + '</b> ' + escapeHtml(MON[prefs.lang === 'ms' ? 'ms' : 'en'][mo]) + '</div>' +
+    '<div class="bc-meta"><span class="bc-year">' + escapeHtml(t('ro.year', { y: d.year })) + '</span><span class="bc-month">' + escapeHtml(t('ro.month', { m: mi + 1, n: r.months })) + '</span>' +
+    '<span class="bc-bar" aria-hidden="true"><i style="width:' + (frac * 100).toFixed(1) + '%"></i></span></div>';
 }
 function updateTransport(r) {
   const bar = $('.transport'), a = app(), live = G.store() && G.store().mode === 'live';
   bar.classList.toggle('locked', !!live && a.role !== 'gm');
   const play = $('#btn-play'), step = $('#btn-step'), reset = $('#btn-reset'), speed = $('#sel-speed');
-  if (!r || a.role !== 'solo') { play.disabled = !r && a.role !== 'solo'; play.classList.remove('running'); $('#lbl-play').textContent = t('tr.play'); step.disabled = true; reset.disabled = a.role !== 'solo'; if (!r) { $('#readouts').innerHTML = ''; return; } }
+  if (!r || a.role !== 'solo') { play.disabled = !r && a.role !== 'solo'; play.classList.remove('running'); $('#lbl-play').textContent = t('tr.play'); step.disabled = true; reset.disabled = a.role !== 'solo'; if (!r) { $('#readouts').innerHTML = ''; const bc = $('#bigclock'); bc.innerHTML = ''; bc._k = ''; return; } }
   const g = r.g, ck = r.ck;
   if (a.role === 'solo') {
     const running = g.status === 'running' && !ck.hold;
@@ -220,6 +230,7 @@ function updateTransport(r) {
     if (String(g.msPerMonth) !== speed.value) speed.value = String(g.msPerMonth);
   }
   $('#readouts').innerHTML = readoutsHTML(r, teamNow(r));
+  const bc = $('#bigclock'), bh = bigClockHTML(r); if (bc._k !== bh) { bc.innerHTML = bh; bc._k = bh; }
 }
 function soloPlay() { const r = res(); if (!r) return; const g = r.g; if (g.status === 'setup') G.dispatch('solo-start'); else if (g.status === 'running' && !r.ck.hold) G.dispatch('solo-pause'); else if (g.status === 'paused') G.dispatch('solo-resume'); render(true); }
 function soloStep() { const r = res(); if (!r || r.ck.hold || r.g.status === 'ended' || r.g.status === 'setup') return; const nx = r.ck.next; if (!nx) return; G.store().gmUpdate({ accMs: nx.t * r.g.msPerMonth, startedAt: HOST.now(), status: 'running', lastReveal: null }); render(true); }
@@ -333,6 +344,33 @@ function watch(r, tm) {
   if (predict && predict.state && !predict.state.revealed && predict.state.chosen >= 0 && r.T >= 6) predict.reveal();
 }
 
+/* ---------------------------------------------------------------- decision journal and glossary */
+function renderJournal(r, tm) {
+  const A = root.IMPAKAdvice, box = $('#journal'); if (!A || !box) return;
+  const key = prefs.lang + '|' + JSON.stringify(tm.t.dlog.map((d) => [d.eid, d.opt, d.sound]));
+  if (box._k === key) return; box._k = key;
+  box.innerHTML = A.journal(r, tm);
+  const el = tm.t.dlog.filter((d) => d.eligible);
+  $('#journal-count').textContent = el.length ? el.filter((d) => d.sound).length + '/' + el.length : '';
+}
+function renderGloss() {
+  const box = $('#gloss'), q = ($('#gloss-q').value || '').trim().toLowerCase(), L = prefs.lang === 'ms' ? 'ms' : 'en';
+  const cats = (root.GLOSS_CATS || {})[L] || {};
+  const items = (root.GLOSSARY || []).filter((g) => !q || (g.term + ' ' + (g.aka || '') + ' ' + g[L]).toLowerCase().indexOf(q) >= 0);
+  if (!items.length) { box.innerHTML = '<p class="faint">' + escapeHtml(t('gloss.none')) + '</p>'; return; }
+  let h = '', cat = '';
+  for (const g of items) {
+    if (g.cat !== cat) { cat = g.cat; h += '<div class="gcat">' + escapeHtml(cats[cat] || cat) + '</div>'; }
+    h += '<dt>' + escapeHtml(g.term) + (g.aka ? ' <small>(' + escapeHtml(g.aka) + ')</small>' : '') + '</dt><dd>' + escapeHtml(g[L]) + '</dd>';
+  }
+  box.innerHTML = h;
+}
+function openGloss() {
+  const d = $('#glossbox'); if (!d) return; d.open = true;
+  try { d.scrollIntoView({ block: 'start', behavior: 'smooth' }); } catch (e) { /* ignore */ }
+  setTimeout(() => { const i = $('#gloss-q'); if (i) i.focus({ preventScroll: true }); }, 350);
+}
+
 /* ---------------------------------------------------------------- why? and the assumption ledger */
 function renderWhy() { const el = $('#why'); if (el) el.innerHTML = t('why.' + S.level); }
 function renderLedger() {
@@ -393,6 +431,7 @@ function render(force) {
   lastKind = '';
   apply(teamRegions(r, tm));
   groupStatus(r, tm);
+  renderJournal(r, tm);
   updateTransport(r);
   applyLive(G.liveData(r));
   watch(r, tm);
@@ -411,7 +450,9 @@ function loop() {
 function applyLang() {
   HOST.lang = prefs.lang;
   K.applyStaticText(t); K.applyPrefsUI(prefs, t);
-  renderWhy(); renderLedger();
+  renderWhy(); renderLedger(); renderGloss();
+  $$('[data-i18n-ph]').forEach((el) => { el.placeholder = t(el.dataset.i18nPh); });
+  const jb = $('#journal'); if (jb) jb._k = '';
   if (stageNav) stageNav.render();
   if (activity) activity.render();
   if (screenGuide) screenGuide.render();
@@ -479,7 +520,10 @@ function boot() {
     { id: 'results', sel: '#results', name: () => t('ui.reg.results'), desc: () => t('ui.reg.results.d'), acc: '--acc-output' },
     { id: 'guide', sel: '.explain', name: () => t('ui.reg.guide'), desc: () => t('ui.reg.guide.d'), acc: '--acc-guide' },
     { id: 'sim', sel: '.transport', name: () => t('ui.reg.sim'), desc: () => t('ui.reg.sim.d'), acc: '--acc-data' },
-  ] });
+  ], extra: {
+    html: () => '<h3>' + escapeHtml(t('ui.info.gloss')) + '</h3><p class="lead">' + escapeHtml(t('ui.info.gloss.d')) + ' <button type="button" class="tb" data-a="gloss">' + escapeHtml(t('gloss.open')) + '</button></p>',
+    wire: (dlg, close) => { const b = dlg.querySelector('[data-a="gloss"]'); if (b) b.addEventListener('click', () => { close(); openGloss(); }); },
+  } });
   $$('#plot-tabs button').forEach((b) => b.addEventListener('click', () => setTab(b.dataset.plot)));
   setTab(uiStore.tab || 'park');
   $('#btn-play').addEventListener('click', soloPlay);
@@ -487,7 +531,10 @@ function boot() {
   $('#btn-reset').addEventListener('click', soloNew);
   $('#sel-speed').addEventListener('change', () => { const r = res(); if (r && app().role === 'solo') { G.dispatch('solo-pace', { v: $('#sel-speed').value }); render(true); } });
   setupViewport();
-  renderWhy(); renderLedger();
+  renderWhy(); renderLedger(); renderGloss();
+  $$('[data-i18n-ph]').forEach((el) => { el.placeholder = t(el.dataset.i18nPh); });
+  $('#gloss-q').addEventListener('input', renderGloss);
+  if (!app().role) $('#journal').innerHTML = '<p class="faint">' + escapeHtml(t('ui.reg.guide')) + '</p>';
   S.level = uiStore.level || 0;
   if (root.IMPAKLive) root.IMPAKLive.init({ onState: () => render(true), onOffset: HOST.setOffset, t, K, G });
   const h = (location.hash || '').replace('#', '');

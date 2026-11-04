@@ -134,3 +134,67 @@ body.on-landing #r-tiles, body.on-landing .plots { display: none; }
 body.on-landing .reshead .rtools { visibility: hidden; }
 /* the Values toggle folds the IMPAK tiles (#r-tiles; Cable Lab called them #kpis) */
 body.res-nokpis #r-tiles { display: none; }
+
+/* ---------- header: larger title, mode chip on the same line */
+.brand { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
+.brand h1 { font-size: 1.75em; letter-spacing: 0.005em; line-height: 1.1; white-space: nowrap; }
+.brand h1 .tmk { font-size: 0.32em; font-weight: 400; color: var(--muted); vertical-align: super; margin-left: 1px; }
+.brand h1 small { font-size: 0.78em; font-weight: 400; }
+.brand .modechip { font-size: 0.86em; padding: 2px 10px; }
+@media (max-width: 1100px) { .brand h1 { font-size: 1.4em; } }
+
+/* ---------- big running clock in the middle of the bar */
+.bigclock { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; gap: 14px; min-width: 0; color: var(--bar-ink); }
+.bigclock:empty { visibility: hidden; }
+.bc-date { font-size: 2.1em; line-height: 1; font-weight: 400; font-variant-numeric: tabular-nums; letter-spacing: 0.01em; white-space: nowrap; }
+.bc-date b { font-weight: 700; }
+.bc-meta { display: grid; gap: 3px; min-width: 120px; }
+.bc-year { font-size: 1.15em; font-weight: 700; line-height: 1.1; }
+.bc-month { font-size: 0.8em; color: var(--bar-ink2); }
+.bc-bar { display: block; height: 4px; border-radius: 2px; background: var(--bar-line); overflow: hidden; }
+.bc-bar i { display: block; height: 100%; background: var(--bar-accent); }
+@media (max-width: 1100px) { .bigclock { order: -1; flex-basis: 100%; } .bc-date { font-size: 1.7em; } }
+
+/* ---------- Deal Room advice */
+.g .advice { margin: 4px 0 10px; padding: 0; border: 1px solid color-mix(in srgb, var(--acc-guide) 55%, var(--line)); border-left: 4px solid var(--acc-guide); border-radius: 10px; background: color-mix(in srgb, var(--acc-guide) 7%, var(--card)); }
+.g .advice > summary { padding: 8px 12px; font-weight: 700; color: var(--ink); cursor: pointer; }
+.g .advice[open] > summary { border-bottom: 1px solid var(--line-soft); }
+.g .advice > :not(summary) { margin-left: 12px; margin-right: 12px; }
+.g .adv-sub { margin-top: 8px; font-size: 0.78em; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink2); }
+.g .adv-checks, .g .adv-risks { margin: 4px 0 8px; padding-left: 18px; font-size: 0.9em; line-height: 1.45; }
+.g .adv-checks { list-style: none; padding-left: 2px; }
+.g .adv-checks li { display: flex; gap: 6px; align-items: baseline; margin: 2px 0; }
+.g .adv-checks i { font-style: normal; font-weight: 700; width: 1.1em; text-align: center; flex: 0 0 auto; }
+.g .adv-checks i.ok { color: var(--c-good); }
+.g .adv-checks i.no { color: var(--c-crit); }
+.g .adv-checks small { color: var(--muted); }
+.g .adv-note { font-size: 0.82em; color: var(--muted); margin: 0 12px 8px; }
+.g .advice.after { padding: 10px 12px; }
+.g .advice.after > * { margin-left: 0; margin-right: 0; }
+.g .advice.after p { margin: 6px 0 0; font-size: 0.92em; line-height: 1.45; }
+.g .advice.is-sound { border-left-color: var(--c-good); background: color-mix(in srgb, var(--c-good) 7%, var(--card)); border-color: color-mix(in srgb, var(--c-good) 45%, var(--line)); }
+.g .advice.is-unsound { border-left-color: var(--c-crit); background: color-mix(in srgb, var(--c-crit) 6%, var(--card)); border-color: color-mix(in srgb, var(--c-crit) 40%, var(--line)); }
+.g .adv-verdict { font-weight: 700; }
+.g .advice.is-sound .adv-verdict { color: var(--c-good); }
+.g .advice.is-unsound .adv-verdict { color: var(--c-crit); }
+
+/* ---------- decision journal and glossary in the guide */
+.blk.journalbox { --acc: var(--acc-predict); }
+.blk.glossbox { --acc: var(--acc-theory); }
+#journal, #gloss { margin: 8px 12px 10px !important; font-size: 0.88em; }
+#journal .adv-sum { margin: 0 0 6px; font-weight: 700; color: var(--ink); }
+ol.journal { margin: 0; padding-left: 18px; }
+ol.journal li { margin: 0 0 8px; color: var(--ink2); line-height: 1.4; }
+ol.journal li b { color: var(--ink); }
+ol.journal li small { color: var(--muted); }
+ol.journal .jv { font-weight: 700; }
+ol.journal li.ok .jv { color: var(--c-good); }
+ol.journal li.no .jv { color: var(--c-crit); }
+ol.journal li.na { color: var(--muted); }
+ol.journal .jw { font-size: 0.95em; }
+.gloss-search { margin: 8px 12px 0; }
+.gloss-search input { width: 100%; padding: 6px 9px; border: 1px solid var(--line); border-radius: 6px; background: var(--view); color: var(--ink); font: inherit; }
+#gloss .gcat { margin: 10px 0 2px; font-size: 0.78em; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--acc-theory); }
+#gloss dt { margin-top: 6px; font-weight: 700; color: var(--ink); }
+#gloss dt small { font-weight: 400; color: var(--muted); }
+#gloss dd { margin: 1px 0 0; color: var(--ink2); line-height: 1.45; }

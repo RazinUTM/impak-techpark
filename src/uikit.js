@@ -969,7 +969,7 @@ function createTour(stops) {
 /* ------------------------------------------------------------ screen guide */
 /* ⓘ button: a dialog naming every area of the screen (clickable map + list), the symbols and colours, the
    keyboard shortcuts, and a tour through the areas. regions: [{ id, sel, name: () => '', desc: () => '', acc }]. */
-function createScreenGuide({ button, regions }) {
+function createScreenGuide({ button, regions, extra }) {
   const t = () => cfg.t;
   const btn = $(button);
   const tour = createTour(regions.map((r) => ({ sel: r.sel, title: () => r.name(), text: () => r.desc() })));
@@ -990,11 +990,12 @@ function createScreenGuide({ button, regions }) {
       '<div class="imap" role="group" aria-label="' + escapeHtml(t()('ui.info.map')) + '">' + regions.map(area).join('') + '</div>' +
       '<h3>' + escapeHtml(t()('ui.info.areas')) + '</h3><ol class="ilist">' + regions.map((r) => '<li style="--acc:var(' + r.acc + ')"><div><b>' + escapeHtml(r.name()) + '</b> ' + escapeHtml(r.desc()) + '</div><button type="button" class="tb" data-r="' + r.id + '">' + escapeHtml(t()('ui.info.show')) + '</button></li>').join('') + '</ol>' +
       '<h3>' + escapeHtml(t()('ui.info.symbols')) + '</h3><ul class="isym"><li>' + ['ui.sym.blocks', 'ui.sym.tags', 'ui.sym.colour', 'ui.sym.lines'].map((k) => escapeHtml(t()(k))).join('</li><li>') + '</li></ul>' +
-      '<h3>' + escapeHtml(t()('ui.info.keys')) + '</h3><ul class="ikeys"><li>' + ['ui.key.space', 'ui.key.r', 'ui.key.dot', 'ui.key.esc'].map((k) => escapeHtml(t()(k))).join('</li><li>') + '</li></ul></div>' +
+      '<h3>' + escapeHtml(t()('ui.info.keys')) + '</h3><ul class="ikeys"><li>' + ['ui.key.space', 'ui.key.r', 'ui.key.dot', 'ui.key.esc'].map((k) => escapeHtml(t()(k))).join('</li><li>') + '</li></ul>' + (extra ? extra.html() : '') + '</div>' +
       '<div class="sgfoot"><button type="button" class="tb primary" data-a="tour">' + escapeHtml(t()('ui.info.tour', { n: regions.length })) + '</button><button type="button" class="tb" data-a="close">' + escapeHtml(t()('ui.info.close')) + '</button></div>';
     dlg.querySelectorAll('[data-r]').forEach((b) => b.addEventListener('click', () => { const r = regions.find((x) => x.id === b.dataset.r); if (r) showRegion(r); }));
     dlg.querySelectorAll('[data-a="close"]').forEach((b) => b.addEventListener('click', close));
     dlg.querySelector('[data-a="tour"]').addEventListener('click', () => { close(); tour.start(); });
+    if (extra && extra.wire) extra.wire(dlg, close);
   }
   function open() {
     seen.seen = true; seen.save(); hint();

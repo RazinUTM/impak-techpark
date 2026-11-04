@@ -3,7 +3,7 @@
 Tools: Claude (Fable 5.1, claude.ai), 3 Nov 2026 onward. Earlier versions (v0.1–v0.5.4, Sep–Oct 2026) were also built with Claude in claude.ai; no per-module record was kept at the time.
 Scope: code generation, refactoring, tests, documentation, image processing scripts, BM/EN translation of UI strings.
 Human verification: all generated material was reviewed, modified where needed and validated by the author, who made the design decisions recorded in DESIGN.md and DECISIONS.md. The author designed the game (levels, mandates, deals, scoring) and its calibration targets, chose the shell layout, the access model and the licence posture.
-Last updated: 2026-11-03
+Last updated: 2026-11-04
 
 | Component | Origin | Human role | Verified by |
 | --- | --- | --- | --- |
@@ -15,6 +15,8 @@ Last updated: 2026-11-03
 | src/app.js | AI-generated from DESIGN.md s4–s5 (shell integration, tutor, activities, pins, clock bar, landing) | Specified and reviewed | tools/shot.js (BM/EN, light/dark, phone) |
 | src/live.js, apps-script/Code.gs | AI-generated from DESIGN.md s2–s3 (Apps Script store, join, codes, orders, replay verification) | Access model chosen by the author | tools/gs_test.js (23 checks), tools/live_test.js (GM → team → screen through tools/mock_server.js); real Google deployment by the author |
 | src/i18n.js | AI-generated; BM wording in the author's register | Author review pending | — |
+| src/advice.js | AI-generated: figures behind each Deal Room lesson, the advice block before and after a decision, the decision journal | Requested by the author (learning from decisions); reviewed | Playwright checks (Bina deal before/after, journal) |
+| content/lessons.js, content/glossary.js | AI-drafted from the engine's soundness rules (`sound()`) and parameters; BM/EN | Author review pending | figures cross-checked against engine.js CFG |
 | content/texts.js, content/run-sheet.md | AI-drafted tutor lines, activity steps, predictions and theory from the author's rule book | Author review pending | — |
 | tools/avatar_split.py | AI-generated | Author checked the contact sheet | visual check |
 | tools/build.py, tools/calib.js, tools/shot.js, tools/gs_test.js, tools/mock_server.js, tools/live_test.js | AI-generated | Reviewed | run in session |

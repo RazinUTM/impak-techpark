@@ -1040,12 +1040,76 @@ body.on-landing .reshead .rtools { visibility: hidden; }
 /* the Values toggle folds the IMPAK tiles (#r-tiles; Cable Lab called them #kpis) */
 body.res-nokpis #r-tiles { display: none; }
 
+/* ---------- header: larger title, mode chip on the same line */
+.brand { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
+.brand h1 { font-size: 1.75em; letter-spacing: 0.005em; line-height: 1.1; white-space: nowrap; }
+.brand h1 .tmk { font-size: 0.32em; font-weight: 400; color: var(--muted); vertical-align: super; margin-left: 1px; }
+.brand h1 small { font-size: 0.78em; font-weight: 400; }
+.brand .modechip { font-size: 0.86em; padding: 2px 10px; }
+@media (max-width: 1100px) { .brand h1 { font-size: 1.4em; } }
+
+/* ---------- big running clock in the middle of the bar */
+.bigclock { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; gap: 14px; min-width: 0; color: var(--bar-ink); }
+.bigclock:empty { visibility: hidden; }
+.bc-date { font-size: 2.1em; line-height: 1; font-weight: 400; font-variant-numeric: tabular-nums; letter-spacing: 0.01em; white-space: nowrap; }
+.bc-date b { font-weight: 700; }
+.bc-meta { display: grid; gap: 3px; min-width: 120px; }
+.bc-year { font-size: 1.15em; font-weight: 700; line-height: 1.1; }
+.bc-month { font-size: 0.8em; color: var(--bar-ink2); }
+.bc-bar { display: block; height: 4px; border-radius: 2px; background: var(--bar-line); overflow: hidden; }
+.bc-bar i { display: block; height: 100%; background: var(--bar-accent); }
+@media (max-width: 1100px) { .bigclock { order: -1; flex-basis: 100%; } .bc-date { font-size: 1.7em; } }
+
+/* ---------- Deal Room advice */
+.g .advice { margin: 4px 0 10px; padding: 0; border: 1px solid color-mix(in srgb, var(--acc-guide) 55%, var(--line)); border-left: 4px solid var(--acc-guide); border-radius: 10px; background: color-mix(in srgb, var(--acc-guide) 7%, var(--card)); }
+.g .advice > summary { padding: 8px 12px; font-weight: 700; color: var(--ink); cursor: pointer; }
+.g .advice[open] > summary { border-bottom: 1px solid var(--line-soft); }
+.g .advice > :not(summary) { margin-left: 12px; margin-right: 12px; }
+.g .adv-sub { margin-top: 8px; font-size: 0.78em; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink2); }
+.g .adv-checks, .g .adv-risks { margin: 4px 0 8px; padding-left: 18px; font-size: 0.9em; line-height: 1.45; }
+.g .adv-checks { list-style: none; padding-left: 2px; }
+.g .adv-checks li { display: flex; gap: 6px; align-items: baseline; margin: 2px 0; }
+.g .adv-checks i { font-style: normal; font-weight: 700; width: 1.1em; text-align: center; flex: 0 0 auto; }
+.g .adv-checks i.ok { color: var(--c-good); }
+.g .adv-checks i.no { color: var(--c-crit); }
+.g .adv-checks small { color: var(--muted); }
+.g .adv-note { font-size: 0.82em; color: var(--muted); margin: 0 12px 8px; }
+.g .advice.after { padding: 10px 12px; }
+.g .advice.after > * { margin-left: 0; margin-right: 0; }
+.g .advice.after p { margin: 6px 0 0; font-size: 0.92em; line-height: 1.45; }
+.g .advice.is-sound { border-left-color: var(--c-good); background: color-mix(in srgb, var(--c-good) 7%, var(--card)); border-color: color-mix(in srgb, var(--c-good) 45%, var(--line)); }
+.g .advice.is-unsound { border-left-color: var(--c-crit); background: color-mix(in srgb, var(--c-crit) 6%, var(--card)); border-color: color-mix(in srgb, var(--c-crit) 40%, var(--line)); }
+.g .adv-verdict { font-weight: 700; }
+.g .advice.is-sound .adv-verdict { color: var(--c-good); }
+.g .advice.is-unsound .adv-verdict { color: var(--c-crit); }
+
+/* ---------- decision journal and glossary in the guide */
+.blk.journalbox { --acc: var(--acc-predict); }
+.blk.glossbox { --acc: var(--acc-theory); }
+#journal, #gloss { margin: 8px 12px 10px !important; font-size: 0.88em; }
+#journal .adv-sum { margin: 0 0 6px; font-weight: 700; color: var(--ink); }
+ol.journal { margin: 0; padding-left: 18px; }
+ol.journal li { margin: 0 0 8px; color: var(--ink2); line-height: 1.4; }
+ol.journal li b { color: var(--ink); }
+ol.journal li small { color: var(--muted); }
+ol.journal .jv { font-weight: 700; }
+ol.journal li.ok .jv { color: var(--c-good); }
+ol.journal li.no .jv { color: var(--c-crit); }
+ol.journal li.na { color: var(--muted); }
+ol.journal .jw { font-size: 0.95em; }
+.gloss-search { margin: 8px 12px 0; }
+.gloss-search input { width: 100%; padding: 6px 9px; border: 1px solid var(--line); border-radius: 6px; background: var(--view); color: var(--ink); font: inherit; }
+#gloss .gcat { margin: 10px 0 2px; font-size: 0.78em; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--acc-theory); }
+#gloss dt { margin-top: 6px; font-weight: 700; color: var(--ink); }
+#gloss dt small { font-weight: 400; color: var(--muted); }
+#gloss dd { margin: 1px 0 0; color: var(--ink2); line-height: 1.45; }
+
 </style>
 </head>
 <body>
 <!-- SPDX-License-Identifier: MIT · Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia -->
 <header class="topbar">
-  <div class="brand"><h1><span data-i18n="app.title">IMPAK</span> <small data-i18n="app.sub">Technovation Park</small></h1><div class="sub"><span id="mode-chip" class="modechip"></span></div></div>
+  <div class="brand"><h1><span data-i18n="app.title">IMPAK</span><sup class="tmk">™</sup> <small data-i18n="app.sub">Technovation Park</small></h1><span id="mode-chip" class="modechip"></span></div>
   <nav class="stages" id="stages" role="tablist" aria-label="Level"></nav>
   <div class="prefs">
     <button type="button" id="btn-lang" data-i18n-title="pref.lang" title="Language">EN</button>
@@ -1107,7 +1171,9 @@ body.res-nokpis #r-tiles { display: none; }
     <div id="r-banner" class="g banners"></div>
     <section class="blk predict" id="predict" hidden></section>
     <details class="blk checklist" id="checklist" open></details>
+    <details class="blk journalbox" id="journalbox"><summary><span data-i18n="ex.journal">Decision journal</span> <span class="count" id="journal-count"></span></summary><div id="journal"></div></details>
     <details class="blk why"><summary data-i18n="ex.why">Why?</summary><div id="why"></div></details>
+    <details class="blk glossbox" id="glossbox"><summary data-i18n="ex.gloss">Glossary</summary><div class="gloss-search"><input type="search" id="gloss-q" data-i18n-ph="gloss.search" placeholder="Search a term" autocomplete="off"></div><dl id="gloss"></dl></details>
     <details class="blk ledgerbox"><summary data-i18n="ex.ledger">Assumption ledger</summary><ul id="ledger"></ul></details>
     <div id="log"></div>
   </aside>
@@ -1130,7 +1196,7 @@ body.res-nokpis #r-tiles { display: none; }
     <select id="sel-speed"><option value="5000">5 s</option><option value="10000" selected>10 s</option><option value="20000">20 s</option><option value="60000">60 s</option></select>
     <span class="ro" data-i18n="tr.perMonth">per month</span>
   </label>
-  <span class="spacer"></span>
+  <div class="bigclock" id="bigclock" aria-live="off"></div>
   <div class="readouts" id="readouts"></div>
 </footer>
 <div id="r-over" class="g"></div>
@@ -3198,7 +3264,7 @@ function dealTeam(res, tm) {
     return `<div class="overlay"><div class="deal"><div class="deal-top"><span class="chip ${Cd.tone === "threat" ? "tone-thr" : "tone-opp"}">${Cd.tone === "threat" ? "Threat" : "Opportunity"}</span><span class="label">Deal closed</span></div>
 <div class="deal-body"><div style="display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center">${dieHTML(ev, res.sc)}<h2>${esc(Cd.title)}</h2></div>
 <p class="txt">${dl && dl.eligible ? `You chose <b>${optName[dl.opt]}${dl.site ? " on Zone " + dl.site : ""}</b>.` : "This deal did not apply to your park."} ${outcome ? esc(outcome.text.slice(Cd.title.length + 2)) : ""}</p>
-<div class="row">${solo ? `<button class="btn primary" data-act="solo-resume">Continue</button>` : `<button class="btn" data-act="seen-reveal">Close</button><span class="muted">The clock restarts when the Game Master resumes.</span>`}</div></div></div></div>`;
+${HOST.dealAdvice ? HOST.dealAdvice(res, tm, ev, "after") : ""}<div class="row">${solo ? `<button class="btn primary" data-act="solo-resume">Continue</button>` : `<button class="btn" data-act="seen-reveal">Close</button><span class="muted">The clock restarts when the Game Master resumes.</span>`}</div></div></div></div>`;
   }
   if (!ck.hold || ck.hold.kind !== "event") return "";
   const ev = ck.hold.ev, Cd = CARDS[ev.card], t = tm.t, m = res.mCur;
@@ -3223,7 +3289,7 @@ function dealTeam(res, tm) {
   const foot = (my ? "Your choice is recorded. You can change it until the deal closes." : "No decision counts as Leave.") + " " + (res.lv.dice ? "Previews show the immediate effect; the die for Conditions is rolled when the deal closes." : "In this level every counterparty accepts your conditions.");
   return `<div class="overlay" role="dialog" aria-label="Deal Room"><div class="deal"><div class="deal-top"><span class="chip ${Cd.tone === "threat" ? "tone-thr" : "tone-opp"}">${Cd.tone === "threat" ? "Threat" : "Opportunity"}</span><span class="label">Deal Room · ${d.day} ${d.month}, Year ${d.year}</span><span class="timer${left < 20000 ? " low" : ""}" data-live="dealtimer">${fmtTimer(left)}</span><button class="btn sm" data-act="home" title="Leave this dashboard">Start page</button></div>
 <div class="deal-body"><h2>${esc(Cd.title)}</h2>${Cd.sdg ? `<div class="row">${sdgChips(Cd)}</div>` : ""}<p class="txt">${esc(Cd.text)}</p>
-${elig ? `<div class="opts">${opts}</div>${picker}<p class="faint" style="margin:0;font-size:12.5px">${esc(foot)}</p>` : `<div class="note">${esc(t.receiver ? "Your park is in receivership." : (NOT_ELIG[ev.card] || "This deal does not apply to your park."))}</div>`}
+${elig ? `<div class="opts">${opts}</div>${picker}${HOST.dealAdvice ? HOST.dealAdvice(res, tm, ev, "before") : ""}<p class="faint" style="margin:0;font-size:12.5px">${esc(foot)}</p>` : `<div class="note">${esc(t.receiver ? "Your park is in receivership." : (NOT_ELIG[ev.card] || "This deal does not apply to your park."))}</div>`}
 ${st.mode === "solo" ? `<div class="row"><button class="btn primary" data-act="solo-close"${!my && elig ? " disabled" : ""}>${res.lv.dice ? "Close the deal and roll" : "Close the deal"}</button><span class="muted">${elig && !my ? "Choose an option first." : ""}</span></div>` : ""}
 </div></div></div>`;
 }
@@ -4629,7 +4695,7 @@ function createTour(stops) {
 /* ------------------------------------------------------------ screen guide */
 /* ⓘ button: a dialog naming every area of the screen (clickable map + list), the symbols and colours, the
    keyboard shortcuts, and a tour through the areas. regions: [{ id, sel, name: () => '', desc: () => '', acc }]. */
-function createScreenGuide({ button, regions }) {
+function createScreenGuide({ button, regions, extra }) {
   const t = () => cfg.t;
   const btn = $(button);
   const tour = createTour(regions.map((r) => ({ sel: r.sel, title: () => r.name(), text: () => r.desc() })));
@@ -4650,11 +4716,12 @@ function createScreenGuide({ button, regions }) {
       '<div class="imap" role="group" aria-label="' + escapeHtml(t()('ui.info.map')) + '">' + regions.map(area).join('') + '</div>' +
       '<h3>' + escapeHtml(t()('ui.info.areas')) + '</h3><ol class="ilist">' + regions.map((r) => '<li style="--acc:var(' + r.acc + ')"><div><b>' + escapeHtml(r.name()) + '</b> ' + escapeHtml(r.desc()) + '</div><button type="button" class="tb" data-r="' + r.id + '">' + escapeHtml(t()('ui.info.show')) + '</button></li>').join('') + '</ol>' +
       '<h3>' + escapeHtml(t()('ui.info.symbols')) + '</h3><ul class="isym"><li>' + ['ui.sym.blocks', 'ui.sym.tags', 'ui.sym.colour', 'ui.sym.lines'].map((k) => escapeHtml(t()(k))).join('</li><li>') + '</li></ul>' +
-      '<h3>' + escapeHtml(t()('ui.info.keys')) + '</h3><ul class="ikeys"><li>' + ['ui.key.space', 'ui.key.r', 'ui.key.dot', 'ui.key.esc'].map((k) => escapeHtml(t()(k))).join('</li><li>') + '</li></ul></div>' +
+      '<h3>' + escapeHtml(t()('ui.info.keys')) + '</h3><ul class="ikeys"><li>' + ['ui.key.space', 'ui.key.r', 'ui.key.dot', 'ui.key.esc'].map((k) => escapeHtml(t()(k))).join('</li><li>') + '</li></ul>' + (extra ? extra.html() : '') + '</div>' +
       '<div class="sgfoot"><button type="button" class="tb primary" data-a="tour">' + escapeHtml(t()('ui.info.tour', { n: regions.length })) + '</button><button type="button" class="tb" data-a="close">' + escapeHtml(t()('ui.info.close')) + '</button></div>';
     dlg.querySelectorAll('[data-r]').forEach((b) => b.addEventListener('click', () => { const r = regions.find((x) => x.id === b.dataset.r); if (r) showRegion(r); }));
     dlg.querySelectorAll('[data-a="close"]').forEach((b) => b.addEventListener('click', close));
     dlg.querySelector('[data-a="tour"]').addEventListener('click', () => { close(); tour.start(); });
+    if (extra && extra.wire) extra.wire(dlg, close);
   }
   function open() {
     seen.seen = true; seen.save(); hint();
@@ -4812,6 +4879,13 @@ const I18N = {
     'tab.rules': 'Rules',
     'ex.why': 'Why?',
     'ex.ledger': 'Assumption ledger',
+    'ex.journal': 'Decision journal',
+    'ex.gloss': 'Glossary',
+    'gloss.search': 'Search a term',
+    'gloss.none': 'No term matches.',
+    'gloss.open': 'Open the glossary',
+    'ui.info.gloss': 'Terms and abbreviations',
+    'ui.info.gloss.d': 'Every term and short form used in the game is explained in the Glossary at the bottom of the Guide panel.',
     'ledger.note': 'Engine parameters as used by this build. They are placeholders chosen for play balance, not measured values; see DESIGN.md.',
     'vp.pinA': 'Pin A',
     'vp.pinB': 'Pin B',
@@ -4837,6 +4911,7 @@ const I18N = {
     'tr.confirmNew': 'Start a new game and lose this one?',
     'tr.locked': 'The Game Master runs the clock',
     'ro.year': 'Year {y}',
+    'ro.month': 'month {m} of {n}',
     'ro.room': 'Room {code}',
     'ro.sync.ok': 'synced',
     'ro.sync.wait': 'syncing…',
@@ -4897,7 +4972,7 @@ const I18N = {
     'ui.reg.results': 'Results',
     'ui.reg.results.d': 'Key values (cash, fund, loans, score pace, ESG, action points) and tabs: Park, Impact, Standings, News, Pins and Rules. Fold either part to give the site plan more room.',
     'ui.reg.guide': 'Guide',
-    'ui.reg.guide.d': 'The tutor explains what is happening. The yellow box is the current activity step: do it and the next one appears; “Go to” shows where the control is. Below: coach tips and notices, predictions, the step list, “Why?” (theory) and the assumption ledger.',
+    'ui.reg.guide.d': 'The tutor explains what is happening. The yellow box is the current activity step: do it and the next one appears; “Go to” shows where the control is. Below: coach tips and notices, predictions, the step list, the decision journal, “Why?” (theory), the assumption ledger and the glossary of terms.',
     'ui.reg.sim': 'Clock bar',
     'ui.reg.sim.d': 'Start, pause or resume the month clock, jump to the next event, continue after a checkpoint, start a new game; choose the pace. On the right: the date, phase, status and action points.',
     'ui.sym.blocks': 'Block colours: blue = orders, yellow = guide and activities, teal = theory, violet = predictions.',
@@ -5006,6 +5081,13 @@ const I18N = {
     'tab.rules': 'Peraturan',
     'ex.why': 'Kenapa?',
     'ex.ledger': 'Assumption ledger',
+    'ex.journal': 'Jurnal keputusan',
+    'ex.gloss': 'Glosari',
+    'gloss.search': 'Cari istilah',
+    'gloss.none': 'Tiada istilah yang sepadan.',
+    'gloss.open': 'Buka glosari',
+    'ui.info.gloss': 'Istilah dan singkatan',
+    'ui.info.gloss.d': 'Setiap istilah dan singkatan dalam permainan diterangkan dalam Glosari di bahagian bawah panel Panduan.',
     'ledger.note': 'Parameter engine yang digunakan build ini. Semuanya placeholder yang dipilih untuk keseimbangan permainan, bukan nilai yang diukur; lihat DESIGN.md.',
     'vp.pinA': 'Pin A',
     'vp.pinB': 'Pin B',
@@ -5031,6 +5113,7 @@ const I18N = {
     'tr.confirmNew': 'Mulakan permainan baharu dan tinggalkan yang ini?',
     'tr.locked': 'Game Master yang mengawal jam',
     'ro.year': 'Tahun {y}',
+    'ro.month': 'bulan {m} daripada {n}',
     'ro.room': 'Bilik {code}',
     'ro.sync.ok': 'segerak',
     'ro.sync.wait': 'menunggu pelayan…',
@@ -5087,7 +5170,7 @@ const I18N = {
     'ui.reg.results': 'Keputusan',
     'ui.reg.results.d': 'Nilai utama (tunai, fund, pinjaman, pace skor, ESG, action point) dan tab: Park, Impak, Kedudukan, Berita, Pin dan Peraturan. Lipat mana-mana bahagian supaya site plan dapat lebih ruang.',
     'ui.reg.guide': 'Panduan',
-    'ui.reg.guide.d': 'Tutor menerangkan apa yang berlaku. Kotak kuning ialah langkah aktiviti semasa: buat, dan langkah seterusnya muncul; “Pergi ke” menunjukkan kedudukan kawalan. Di bawah: tip coach dan notis, ramalan, senarai langkah, “Kenapa?” (teori) dan assumption ledger.',
+    'ui.reg.guide.d': 'Tutor menerangkan apa yang berlaku. Kotak kuning ialah langkah aktiviti semasa: buat, dan langkah seterusnya muncul; “Pergi ke” menunjukkan kedudukan kawalan. Di bawah: tip coach dan notis, ramalan, senarai langkah, jurnal keputusan, “Kenapa?” (teori), assumption ledger dan glosari istilah.',
     'ui.reg.sim': 'Bar jam',
     'ui.reg.sim.d': 'Mula, jeda atau sambung jam bulanan, lompat ke acara seterusnya, teruskan selepas checkpoint, mulakan permainan baharu; pilih kelajuan. Di kanan: tarikh, fasa, status dan action point.',
     'ui.sym.blocks': 'Warna blok: biru = arahan, kuning = panduan dan aktiviti, teal = teori, ungu = ramalan.',
@@ -5346,6 +5429,342 @@ if (typeof window !== 'undefined') window.CONTENT = CONTENT;
 
 </script>
 <script>
+/* IMPAK – Technovation Park — decision lessons for the Deal Room (game content).
+   Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia.
+   Licensed under CC BY-NC-ND 4.0 — see content/LICENSE. Not covered by the MIT licence of the code.
+
+   One entry per deal card. `checks` name the figures the decision depends on (computed in src/advice.js);
+   `principle` restates the soundness rule the engine scores in Part C; `risk` warns about each option;
+   `watch` says what to keep an eye on afterwards. Technical terms stay in English in the BM text. */
+const LESSONS = {
+  contractor: { checks: ['occ', 'fund'],
+    en: { principle: 'Build ahead of demand only when existing space is nearly full (occupancy 80% or more) and the fund can still carry most of the cost.',
+      risk: { T: '12 units arrive at once: if they stand empty, upkeep (2 Cr a year each) eats your income.', C: 'A smaller bet, but the contractor may refuse (die 1–2).', L: 'No new space: an anchor or a wave of applicants may find no room later.' },
+      watch: 'When the buildings complete: occupancy, upkeep and FCR12.' },
+    ms: { principle: 'Bina mendahului permintaan hanya bila ruang sedia ada hampir penuh (penghunian 80% atau lebih) dan fund masih boleh menanggung sebahagian besar kos.',
+      risk: { T: '12 unit siap serentak: jika kosong, upkeep (2 Cr setahun setiap satu) menghakis pendapatan.', C: 'Taruhan lebih kecil, tetapi kontraktor mungkin menolak (dadu 1–2).', L: 'Tiada ruang baharu: anchor atau gelombang pemohon mungkin tiada tempat nanti.' },
+      watch: 'Bila bangunan siap: penghunian, upkeep dan FCR12.' } },
+  datacentre: { checks: ['drift2', 'esg2', 'plotD'],
+    en: { principle: 'Unlinked income is fine in small doses: keep drift at or below 50% and ESG at or above zero. A covenant turns a landlord deal into an innovation deal.',
+      risk: { T: 'Drift and ESG both worsen, and the operator may default in a downturn.', C: 'Lower income, and it depends on the die; the plot you pick changes the value.', L: 'You give up income now, but keep the plot for a linked use.' },
+      watch: 'Drift, ESG, and whether the lease survives the downturn.' },
+    ms: { principle: 'Pendapatan unlinked tidak mengapa dalam dos kecil: kekalkan drift pada 50% atau kurang dan ESG sifar atau lebih. Covenant mengubah deal tuan tanah menjadi deal inovasi.',
+      risk: { T: 'Drift dan ESG sama-sama merosot, dan operator mungkin mungkir semasa downturn.', C: 'Pendapatan lebih rendah dan bergantung pada dadu; plot yang dipilih mengubah nilainya.', L: 'Anda lepaskan pendapatan sekarang, tetapi plot kekal untuk kegunaan linked.' },
+      watch: 'Drift, ESG, dan sama ada pajakan bertahan semasa downturn.' } },
+  donor: { checks: ['linked'],
+    en: { principle: 'Free equipment is not free: take it only if enough linked tenants will use it (two or more for Take, at least one for Conditions).',
+      risk: { T: '1.2 Cr upkeep a year for good; the impact stops if linked tenants fall below two.', C: 'The donor may refuse (die 1–3); after Year 4 the service contract is yours.', L: 'No equipment, no new upkeep.' },
+      watch: 'Your linked tenant count, and upkeep after Year 4.' },
+    ms: { principle: 'Peralatan percuma bukan percuma: ambil hanya jika cukup penyewa linked akan menggunakannya (dua atau lebih untuk Take, sekurang-kurangnya satu untuk Conditions).',
+      risk: { T: 'Upkeep 1.2 Cr setahun selama-lamanya; impak berhenti jika penyewa linked kurang daripada dua.', C: 'Penderma mungkin menolak (dadu 1–3); selepas Tahun 4 kontrak servis menjadi tanggungan anda.', L: 'Tiada peralatan, tiada upkeep baharu.' },
+      watch: 'Bilangan penyewa linked, dan upkeep selepas Tahun 4.' } },
+  jv: { checks: [],
+    en: { principle: 'Do not hand control of your start-up pipeline to a partner who can leave with it.',
+      risk: { T: 'Start-ups graduate half as often, and in Year 4 the partner may exit and take them.', C: 'Fewer start-ups and the partner may refuse (die 1–2), but you keep control.', L: 'No quick start-ups; you grow the pipeline yourself.' },
+      watch: 'Your incubator pipeline and graduations.' },
+    ms: { principle: 'Jangan serahkan kawalan saluran start-up kepada rakan kongsi yang boleh pergi membawanya.',
+      risk: { T: 'Start-up bergraduat separuh kerap, dan pada Tahun 4 rakan kongsi mungkin keluar membawa mereka.', C: 'Start-up lebih sedikit dan rakan kongsi mungkin menolak (dadu 1–2), tetapi kawalan kekal pada anda.', L: 'Tiada start-up segera; anda membina saluran sendiri.' },
+      watch: 'Saluran incubator dan graduasi.' } },
+  flood: { checks: ['lowground'],
+    en: { principle: 'Protect or insure what you have built on low ground; take the risk only if nothing of value stands there.',
+      risk: { T: '1.5 Cr now, protection for good.', C: '0.3 Cr every year for as long as the game runs.', L: 'If the flood comes (an even chance in mid Year 3): 1.5 Cr repairs and two months of lost rent in Zones E and G.' },
+      watch: 'If you choose Leave, think twice before building in Zones E or G later.' },
+    ms: { principle: 'Lindungi atau insuranskan apa yang dibina di tanah rendah; ambil risiko hanya jika tiada aset bernilai di situ.',
+      risk: { T: '1.5 Cr sekarang, perlindungan selama-lamanya.', C: '0.3 Cr setiap tahun sepanjang permainan.', L: 'Jika banjir berlaku (peluang separuh pada pertengahan Tahun 3): pembaikan 1.5 Cr dan dua bulan sewa hilang di Zon E dan G.' },
+      watch: 'Jika memilih Leave, fikir dua kali sebelum membina di Zon E atau G kemudian.' } },
+  telecom: { checks: ['fibre'],
+    en: { principle: 'A trade-off between speed and a permanent rent share; each option is defensible. Compare 5% of rent for ever with fibre at 0.5 Cr a zone.',
+      risk: { T: '5% of every rent goes to the telco from now on.', C: 'Only zones with a road get fibre, and the telco may refuse (die 1–2).', L: 'You pay for fibre zone by zone; tech tenants wait until it is in.' },
+      watch: 'Where tech tenants are waiting for fibre.' },
+    ms: { principle: 'Pertukaran antara kepantasan dan bahagian sewa yang kekal; setiap pilihan boleh dipertahankan. Bandingkan 5% sewa selama-lamanya dengan fibre 0.5 Cr sezon.',
+      risk: { T: '5% daripada setiap sewa kepada telco mulai sekarang.', C: 'Hanya zon yang ada road mendapat fibre, dan telco mungkin menolak (dadu 1–2).', L: 'Anda bayar fibre zon demi zon; penyewa teknologi menunggu sehingga ia siap.' },
+      watch: 'Di mana penyewa teknologi sedang menunggu fibre.' } },
+  inquiry: { checks: ['lab', 'cash'],
+    en: { principle: 'A pre-let lowers the risk of building but does not remove it: one anchor in three still walks away.',
+      risk: { T: '7 Cr into a New Build that may stand empty if the anchor withdraws.', C: 'Needs a Lab or Lab Access, and the anchor may refuse (die 1–2).', L: 'No anchor now; anchors bring the most impact.' },
+      watch: 'If the anchor withdraws: who will fill six units?' },
+    ms: { principle: 'Pre-let mengurangkan risiko membina tetapi tidak menghapuskannya: satu daripada tiga anchor masih menarik diri.',
+      risk: { T: '7 Cr ke dalam New Build yang mungkin kosong jika anchor menarik diri.', C: 'Perlukan Lab atau Lab Access, dan anchor mungkin menolak (dadu 1–2).', L: 'Tiada anchor sekarang; anchor membawa impak paling tinggi.' },
+      watch: 'Jika anchor menarik diri: siapa akan mengisi enam unit?' } },
+  developer: { checks: ['drift4'],
+    en: { principle: 'Reserve land is the university\'s long-term asset: lease it unlinked only if the park stays a technology park (drift at or below 50%).',
+      risk: { T: 'Drift rises, and the developer may default in a downturn.', C: 'Less income, and the developer may refuse (die 1–2).', L: 'You keep the land, but every Zone H plot must be signed by 31 Dec Year 3 or it is reclaimed.' },
+      watch: 'The Zone H deadline and your drift.' },
+    ms: { principle: 'Tanah rizab ialah aset jangka panjang universiti: pajakkan kepada unlinked hanya jika park kekal sebagai park teknologi (drift 50% atau kurang).',
+      risk: { T: 'Drift meningkat, dan pemaju mungkin mungkir semasa downturn.', C: 'Pendapatan kurang, dan pemaju mungkin menolak (dadu 1–2).', L: 'Tanah kekal, tetapi setiap plot Zon H mesti ditandatangani sebelum 31 Dis Tahun 3 atau diambil semula.' },
+      watch: 'Tarikh akhir Zon H dan drift anda.' } },
+  bts: { checks: ['conc'],
+    en: { principle: 'Do not let one tenant become most of your park: a build-to-suit should be at most 40% of your units.',
+      risk: { T: '7 Cr from cash or loans (the fund is closed); if the anchor struggles, a large share of income goes with it.', C: 'Needs a Lab or Lab Access, and the anchor may refuse (die 1–2).', L: 'No new anchor, no new debt.' },
+      watch: 'Debt, and the anchor\'s share of income when the downturn comes.' },
+    ms: { principle: 'Jangan biar seorang penyewa menjadi sebahagian besar park: build-to-suit sepatutnya tidak melebihi 40% daripada unit anda.',
+      risk: { T: '7 Cr daripada tunai atau pinjaman (fund sudah ditutup); jika anchor bermasalah, sebahagian besar pendapatan turut terjejas.', C: 'Perlukan Lab atau Lab Access, dan anchor mungkin menolak (dadu 1–2).', L: 'Tiada anchor baharu, tiada hutang baharu.' },
+      watch: 'Hutang, dan bahagian pendapatan daripada anchor bila downturn tiba.' } },
+  agency: { checks: ['drift3'],
+    en: { principle: 'A safe, unlinked tenant is good for cash but not for the mission: take it plain only if drift stays at or below 50%.',
+      risk: { T: 'Drift rises by three units.', C: 'Linked and adds impact, but the agency may refuse (die 1–3).', L: 'No new rent.' },
+      watch: 'Drift.' },
+    ms: { principle: 'Penyewa unlinked yang selamat baik untuk tunai tetapi bukan untuk misi: ambil begitu sahaja hanya jika drift kekal 50% atau kurang.',
+      risk: { T: 'Drift meningkat sebanyak tiga unit.', C: 'Linked dan menambah impak, tetapi agensi mungkin menolak (dadu 1–3).', L: 'Tiada sewa baharu.' },
+      watch: 'Drift.' } },
+  rector: { checks: [],
+    en: { principle: 'Keep the university on side: refusing costs the allocation and goodwill.',
+      risk: { T: '20% of every monthly surplus goes to the university.', C: '10% on a good die (3–6), 30% on a bad one (1–2).', L: 'The allocation stops and the relationship costs 2 impact.' },
+      watch: 'A smaller surplus means a thinner cash buffer for the downturn.' },
+    ms: { principle: 'Kekalkan sokongan universiti: menolak mengorbankan peruntukan dan hubungan baik.',
+      risk: { T: '20% daripada setiap lebihan bulanan kepada universiti.', C: '10% jika dadu baik (3–6), 30% jika buruk (1–2).', L: 'Peruntukan berhenti dan hubungan merosot, −2 impak.' },
+      watch: 'Lebihan lebih kecil bermakna penampan tunai lebih nipis untuk downturn.' } },
+  factory: { checks: ['occ'],
+    en: { principle: 'Buy space when you need it: only if your current units are 80% let or more.',
+      risk: { T: '3 Cr from cash or loans during a downturn, and 1 Cr upkeep a year.', C: 'Comes with a Tech SME, but the seller may refuse (die 1–3).', L: 'No new space.' },
+      watch: 'Cash runway and occupancy.' },
+    ms: { principle: 'Beli ruang bila anda memerlukannya: hanya jika unit sedia ada 80% atau lebih disewa.',
+      risk: { T: '3 Cr daripada tunai atau pinjaman semasa downturn, dan upkeep 1 Cr setahun.', C: 'Datang bersama Tech SME, tetapi penjual mungkin menolak (dadu 1–3).', L: 'Tiada ruang baharu.' },
+      watch: 'Jangka hayat tunai dan penghunian.' } },
+  natlab: { checks: [],
+    en: { principle: 'A national laboratory is the strongest linked tenant a park can get: take it.',
+      risk: { T: 'One reserve plot is committed.', C: '', L: 'You lose 3 impact a year and a linked anchor.' },
+      watch: 'Nothing special: it pays and adds impact.' },
+    ms: { principle: 'Makmal kebangsaan ialah penyewa linked paling kukuh yang boleh diperoleh park: ambil.',
+      risk: { T: 'Satu plot rizab digunakan.', C: '', L: 'Anda kehilangan 3 impak setahun dan anchor linked.' },
+      watch: 'Tiada yang khusus: ia membayar dan menambah impak.' } },
+  holiday: { checks: ['anchorShare'],
+    en: { principle: 'If anchors pay more than 30% of your income, you cannot afford to lose them: keep them, even at a discount. If they pay less, you can refuse.',
+      risk: { T: 'No anchor rent for the rest of the game, but they stay and keep their impact.', C: 'Half rent; they still leave on die 1–2.', L: 'They leave on die 1–4.' },
+      watch: 'Income, FCR12 and occupancy after the decision.' },
+    ms: { principle: 'Jika anchor membayar lebih 30% daripada pendapatan, anda tidak mampu kehilangan mereka: kekalkan, walaupun dengan diskaun. Jika kurang, anda boleh menolak.',
+      risk: { T: 'Tiada sewa anchor untuk baki permainan, tetapi mereka kekal bersama impaknya.', C: 'Separuh sewa; mereka masih keluar jika dadu 1–2.', L: 'Mereka keluar jika dadu 1–4.' },
+      watch: 'Pendapatan, FCR12 dan penghunian selepas keputusan.' } },
+  restructure: { checks: ['debt'],
+    en: { principle: 'Fix the rate when you carry a lot of debt (5 Cr or more); with little debt the fee is not worth it.',
+      risk: { T: '1 Cr fee now.', C: '', L: 'Downturn rates (12–20%) apply to all your debt.' },
+      watch: 'Interest in the Money group.' },
+    ms: { principle: 'Tetapkan kadar bila hutang tinggi (5 Cr atau lebih); jika hutang kecil, yuran itu tidak berbaloi.',
+      risk: { T: 'Yuran 1 Cr sekarang.', C: '', L: 'Kadar downturn (12–20%) dikenakan pada semua hutang.' },
+      watch: 'Faedah dalam kumpulan Kewangan.' } },
+  stimulus: { checks: ['incub'],
+    en: { principle: 'Money that is aligned with the park\'s mission: take it.',
+      risk: { T: 'More start-up applicants need incubator places.', C: '', L: 'You give up cash and applicants in the hardest year.' },
+      watch: 'Incubator capacity.' },
+    ms: { principle: 'Wang yang sejajar dengan misi park: ambil.',
+      risk: { T: 'Lebih ramai pemohon start-up memerlukan tempat incubator.', C: '', L: 'Anda melepaskan tunai dan pemohon pada tahun paling sukar.' },
+      watch: 'Kapasiti incubator.' } },
+  talent: { checks: ['freeTech'],
+    en: { principle: 'Spin-offs are linked and graduate; the question is whether you have room for them.',
+      risk: { T: '1 Cr; three spin-off applicants who need free units with fibre.', C: 'Cheaper, two applicants, but the university may refuse (die 1–2).', L: 'No new founders.' },
+      watch: 'Free units with fibre.' },
+    ms: { principle: 'Spin-off adalah linked dan boleh bergraduat; persoalannya sama ada anda ada ruang untuk mereka.',
+      risk: { T: '1 Cr; tiga pemohon spin-off yang perlukan unit kosong dengan fibre.', C: 'Lebih murah, dua pemohon, tetapi universiti mungkin menolak (dadu 1–2).', L: 'Tiada pengasas baharu.' },
+      watch: 'Unit kosong yang ada fibre.' } },
+  solar: { checks: [],
+    en: { principle: 'Compare the payback: buying pays back in five years (1.5 Cr saving 0.3 Cr a year); a power-purchase agreement costs nothing now. Both raise ESG.',
+      risk: { T: '1.5 Cr cash now.', C: 'Smaller saving, and the company may refuse (die 1–2).', L: 'No saving, no ESG gain.' },
+      watch: 'ESG, if your level scores it.' },
+    ms: { principle: 'Bandingkan tempoh pulang modal: membeli pulang modal dalam lima tahun (1.5 Cr menjimatkan 0.3 Cr setahun); power-purchase agreement tiada kos sekarang. Kedua-duanya menaikkan ESG.',
+      risk: { T: 'Tunai 1.5 Cr sekarang.', C: 'Penjimatan lebih kecil, dan syarikat mungkin menolak (dadu 1–2).', L: 'Tiada penjimatan, tiada kenaikan ESG.' },
+      watch: 'ESG, jika level anda menilainya.' } },
+  chemical: { checks: ['drift2', 'esg1'],
+    en: { principle: 'The highest rent with a pollution risk is never worth it. With a zero-discharge covenant, only if drift and ESG stay within bounds.',
+      risk: { T: 'ESG −3 and a one-in-six chance every year of a spill (2 Cr fine, −2 ESG, −3 impact).', C: 'ESG −1, unlinked; the firm may refuse (die 1–3).', L: 'No rent from the firm.' },
+      watch: 'ESG and drift.' },
+    ms: { principle: 'Sewa tertinggi dengan risiko pencemaran tidak pernah berbaloi. Dengan covenant zero-discharge, hanya jika drift dan ESG kekal dalam had.',
+      risk: { T: 'ESG −3 dan peluang satu dalam enam setiap tahun untuk tumpahan (denda 2 Cr, −2 ESG, −3 impak).', C: 'ESG −1, unlinked; firma mungkin menolak (dadu 1–3).', L: 'Tiada sewa daripada firma itu.' },
+      watch: 'ESG dan drift.' } },
+  greencert: { checks: ['cash2'],
+    en: { principle: 'Buy reputation only when you can afford it (cash of 2 Cr or more).',
+      risk: { T: '1 Cr now and 0.2 Cr a year.', C: '', L: 'No certification; no extra linked applicants.' },
+      watch: 'Keep ESG at 3 or more to get the extra applicants.' },
+    ms: { principle: 'Beli reputasi hanya bila mampu (tunai 2 Cr atau lebih).',
+      risk: { T: '1 Cr sekarang dan 0.2 Cr setahun.', C: '', L: 'Tiada pensijilan; tiada pemohon linked tambahan.' },
+      watch: 'Kekalkan ESG 3 atau lebih untuk mendapat pemohon tambahan.' } },
+  audit: { checks: ['esgRecord'],
+    en: { principle: 'With a strong ESG record (2 or more) any answer is safe. With a weak record, never ignore an audit: plan the restoration.',
+      risk: { T: 'Pass: small cost and a gain. Fail: 1 Cr restoration.', C: 'Applies only if you fail; cheaper restoration if the university agrees (die 3–6).', L: 'If you fail: −3 impact and ESG −2.' },
+      watch: 'ESG for the rest of the game.' },
+    ms: { principle: 'Dengan rekod ESG yang kukuh (2 atau lebih) apa-apa jawapan selamat. Dengan rekod lemah, jangan abaikan audit: rancang pemulihan.',
+      risk: { T: 'Lulus: kos kecil dan keuntungan. Gagal: pemulihan 1 Cr.', C: 'Hanya jika gagal; pemulihan lebih murah jika universiti bersetuju (dadu 3–6).', L: 'Jika gagal: −3 impak dan ESG −2.' },
+      watch: 'ESG untuk baki permainan.' } },
+  drought: { checks: ['gpark'],
+    en: { principle: 'Invest in resilience unless you are already immune (a retention park in Zone G).',
+      risk: { T: '0.8 Cr, immune now and later.', C: '0.4 Cr if the university agrees (die 3–6).', L: 'Upkeep +0.4 Cr for 12 months, unless Zone G is a retention park.' },
+      watch: 'Upkeep over the next year.' },
+    ms: { principle: 'Labur dalam daya tahan melainkan anda sudah kebal (retention park di Zon G).',
+      risk: { T: '0.8 Cr, kebal sekarang dan akan datang.', C: '0.4 Cr jika universiti bersetuju (dadu 3–6).', L: 'Upkeep +0.4 Cr selama 12 bulan, melainkan Zon G ialah retention park.' },
+      watch: 'Upkeep sepanjang tahun depan.' } },
+};
+if (typeof window !== 'undefined') window.LESSONS = LESSONS;
+
+</script>
+<script>
+/* IMPAK – Technovation Park — glossary of terms and short forms (game content).
+   Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia.
+   Licensed under CC BY-NC-ND 4.0 — see content/LICENSE. Not covered by the MIT licence of the code.
+   Figures follow the engine parameters of v0.6 (see the Assumption ledger in the game). */
+const GLOSSARY = [
+  /* ---------------- money and time */
+  { cat: 'money', term: 'Cr', en: 'The game\'s unit of money (credit). Every price, rent and loan is in Cr; it is not a real ringgit amount.', ms: 'Unit wang dalam permainan (credit). Semua harga, sewa dan pinjaman dalam Cr; ia bukan amaun ringgit sebenar.' },
+  { cat: 'money', term: 'Development Fund', en: 'Capital grant for the first two years: 20 Cr paying 100% of capital costs in Rintis, 30 Cr paying 80% in Bina and Lestari. What is unspent lapses on 31 December Year 2.', ms: 'Geran modal untuk dua tahun pertama: 20 Cr membayar 100% kos modal dalam Rintis, 30 Cr membayar 80% dalam Bina dan Lestari. Baki yang tidak dibelanjakan luput pada 31 Disember Tahun 2.' },
+  { cat: 'money', term: 'University allocation', en: '1 Cr a year from the university in Years 1–3, nothing after.', ms: '1 Cr setahun daripada universiti pada Tahun 1–3, tiada selepas itu.' },
+  { cat: 'money', term: 'Upkeep', en: 'The yearly running cost of buildings, facilities and the park office. It is charged every month, used or not.', ms: 'Kos operasi tahunan bangunan, kemudahan dan pejabat park. Ia dikenakan setiap bulan, digunakan atau tidak.' },
+  { cat: 'money', term: 'Committed income', en: 'Rent and lease income already signed for the next twelve months.', ms: 'Pendapatan sewa dan pajakan yang sudah ditandatangani untuk dua belas bulan akan datang.' },
+  { cat: 'money', term: 'FCR12', aka: 'Financial Cover Ratio', en: 'Committed income over the next 12 months divided by what it must cover: upkeep, interest and emergency loans. 1.3 or more earns the full bonus (+8), 1.0 to 1.3 earns +5, below 0.8 costs −5. Below 1 the park loses money.', ms: 'Committed income 12 bulan akan datang dibahagi dengan kos yang mesti ditampung: upkeep, faedah dan pinjaman kecemasan. 1.3 atau lebih dapat bonus penuh (+8), 1.0 hingga 1.3 dapat +5, di bawah 0.8 ditolak −5. Di bawah 1, park kerugian.' },
+  { cat: 'money', term: 'Loan · loan limit · headroom', en: 'Bank loans up to 15 Cr at 10% a year (the limit falls and the rate rises in a downturn). Headroom is how much more you can still borrow.', ms: 'Pinjaman bank sehingga 15 Cr pada 10% setahun (had turun dan kadar naik semasa downturn). Headroom ialah baki yang masih boleh dipinjam.' },
+  { cat: 'money', term: 'Emergency loan · bailout', en: 'When cash falls below zero the bank lends automatically at 20% if the limit allows. If not, the university bails you out: −5 impact, one action point fewer next quarter, and no Gold.', ms: 'Bila tunai jatuh bawah sifar, bank memberi pinjaman automatik pada 20% jika had membenarkan. Jika tidak, universiti menyelamatkan (bailout): −5 impak, kurang satu action point suku berikutnya, dan tiada Gold.' },
+  { cat: 'money', term: 'Receivership', en: 'A second bailout. The park can no longer act and only half of its impact counts.', ms: 'Bailout kali kedua. Park tidak boleh bertindak lagi dan hanya separuh impaknya dikira.' },
+  { cat: 'money', term: 'Ground lease', en: 'Renting out a plot (not a building) for an outside party to build on; income for years, but the plot is gone.', ms: 'Menyewakan plot (bukan bangunan) untuk pihak luar membina; pendapatan bertahun-tahun, tetapi plot itu tidak lagi milik anda untuk digunakan.' },
+  { cat: 'money', term: 'Sale and leaseback', en: 'Selling a finished building for cash and renting it back; cash now, rent for ever after.', ms: 'Menjual bangunan yang siap untuk tunai dan menyewanya semula; tunai sekarang, sewa selepas itu.' },
+  { cat: 'money', term: 'Mothball', en: 'Closing an empty building to cut its upkeep until you need it again.', ms: 'Menutup bangunan kosong untuk mengurangkan upkeep sehingga diperlukan semula.' },
+  { cat: 'time', term: 'AP', aka: 'Action points', en: 'Three a quarter, reset on 1 January, April, July and October; unused points are lost. Works, buildings, facilities, programmes, policy changes, mothballing and lease-backs use one; admitting tenants and loans do not.', ms: 'Tiga setiap suku tahun, ditetapkan semula pada 1 Januari, April, Julai dan Oktober; mata yang tidak digunakan hilang. Kerja, bangunan, kemudahan, program, perubahan polisi, mothball dan lease-back menggunakan satu; penerimaan penyewa dan pinjaman tidak.' },
+  { cat: 'time', term: 'Phase 1 · 2 · 3', en: 'Phase 1 Build (Years 1–2, the fund pays); Phase 2 Expand (Year 3, Zone H released; in Rintis: Operate); Phase 3 Survive (Years 4–5, the downturn).', ms: 'Phase 1 Bina (Tahun 1–2, fund membayar); Phase 2 Kembang (Tahun 3, Zon H dilepaskan; dalam Rintis: Operasi); Phase 3 Bertahan (Tahun 4–5, downturn).' },
+  { cat: 'time', term: 'Checkpoint', en: 'A pause at the end of a phase that scores it (B1 at the end of Year 2, B2 at the end of Year 3).', ms: 'Hentian pada hujung fasa yang menilai fasa itu (B1 pada hujung Tahun 2, B2 pada hujung Tahun 3).' },
+  { cat: 'time', term: 'Downturn · forecast', en: 'An economic slump in Phase 3: mild, severe or crisis. Rates rise, the loan limit falls, unlinked rents fall (linked by half as much) and some tenants close. In Bina a forecast warns six months ahead; in Lestari it comes unannounced.', ms: 'Kemelesetan ekonomi dalam Phase 3: ringan, teruk atau krisis. Kadar naik, had pinjaman turun, sewa unlinked jatuh (linked separuh daripadanya) dan sebahagian penyewa tutup. Dalam Bina, ramalan memberi amaran enam bulan awal; dalam Lestari ia datang tanpa amaran.' },
+  /* ---------------- site and building */
+  { cat: 'site', term: 'Zone A–H', en: 'The eight areas of the site: A Gateway, B Old Workshops, C Campus Edge, D Highway Frontage, E Central Plateau, F Forest Ridge, G Wetland, H University Reserve. Each level opens some of them.', ms: 'Lapan kawasan tapak: A Gateway, B Old Workshops, C Campus Edge, D Highway Frontage, E Central Plateau, F Forest Ridge, G Wetland, H University Reserve. Setiap level membuka sebahagian daripadanya.' },
+  { cat: 'site', term: 'R · W · P · F', aka: 'Road, Water, Power, Fibre', en: 'The four services a zone needs, shown as squares on the plan: filled = in place, outlined = partial, amber = works under way. Tech tenants need fibre.', ms: 'Empat perkhidmatan yang diperlukan zon, dipaparkan sebagai petak pada plan: penuh = tersedia, garis = separa, amber = kerja sedang berjalan. Penyewa teknologi perlukan fibre.' },
+  { cat: 'site', term: 'Works', en: 'Services and site preparation: road link, water, power (half price as a shared substation next to a powered zone), fibre, forest clearance, retention works.', ms: 'Perkhidmatan dan penyediaan tapak: road link, water, power (separuh harga sebagai shared substation di sebelah zon yang ada power), fibre, forest clearance, retention works.' },
+  { cat: 'site', term: 'Shed · Retrofit', en: 'The old workshops in Zone B. A retrofit turns a shed into 3 lettable units in 6 months for 3 Cr.', ms: 'Bengkel lama di Zon B. Retrofit menjadikan shed 3 unit boleh disewa dalam 6 bulan dengan 3 Cr.' },
+  { cat: 'site', term: 'Modular block · New Build', en: 'New buildings on a free plot: Modular block 4 units in 6 months for 4 Cr; New Build 6 units in 12 months for 7 Cr.', ms: 'Bangunan baharu di plot kosong: Modular block 4 unit dalam 6 bulan dengan 4 Cr; New Build 6 unit dalam 12 bulan dengan 7 Cr.' },
+  { cat: 'site', term: 'Unit · occupancy', en: 'A unit is one lettable space. Occupancy is the share of units in ready buildings that are let.', ms: 'Unit ialah satu ruang yang boleh disewa. Penghunian (occupancy) ialah bahagian unit dalam bangunan siap yang sudah disewa.' },
+  { cat: 'site', term: 'Zone H plot uses', en: 'Each University Reserve plot must be signed by 31 December Year 3: build, lease, lease with covenant, keep as reserve, or national lab. Unsigned plots are reclaimed.', ms: 'Setiap plot University Reserve mesti ditandatangani sebelum 31 Disember Tahun 3: bina, pajak, pajak dengan covenant, kekal sebagai rizab, atau makmal kebangsaan. Plot yang tidak ditandatangani diambil semula.' },
+  { cat: 'site', term: 'TTO', aka: 'Technology Transfer Office', en: 'The university\'s commercialisation office, shown as the admin office in Zone A.', ms: 'Pejabat pengkomersialan universiti, dipaparkan sebagai pejabat pentadbiran di Zon A.' },
+  /* ---------------- tenants */
+  { cat: 'tenant', term: 'Linked · unlinked', en: 'Linked tenants work with the university (Tech SME, spin-off, R&D anchor, agency SME desk); unlinked ones only rent space (back-office, government agency, chemicals). The mandate rewards linked tenants.', ms: 'Penyewa linked bekerjasama dengan universiti (Tech SME, spin-off, R&D anchor, agency SME desk); unlinked hanya menyewa ruang (back-office, agensi kerajaan, kimia). Mandat mengganjari penyewa linked.' },
+  { cat: 'tenant', term: 'Drift', aka: 'Landlord drift', en: 'The share of let units that go to unlinked tenants: how far the park has drifted from a technology park towards an office estate. Above 50% costs 5 points, above 70% costs 10; Gold needs 50% or less.', ms: 'Bahagian unit disewa yang pergi kepada penyewa unlinked: sejauh mana park beralih daripada park teknologi kepada estet pejabat. Melebihi 50% ditolak 5 mata, melebihi 70% ditolak 10; Gold perlukan 50% atau kurang.' },
+  { cat: 'tenant', term: 'Back-office corporate', en: 'A company\'s support office: pays the most rent per unit (1.0 Cr) but brings no impact and is unlinked.', ms: 'Pejabat sokongan syarikat: membayar sewa tertinggi seunit (1.0 Cr) tetapi tiada impak dan unlinked.' },
+  { cat: 'tenant', term: 'Tech SME', en: 'A small technology firm: 0.7 Cr rent, +1 impact a year, linked, needs fibre.', ms: 'Firma teknologi kecil: sewa 0.7 Cr, +1 impak setahun, linked, perlukan fibre.' },
+  { cat: 'tenant', term: 'Spin-off', aka: 'University spin-off', en: 'A company founded on university research: 0.4 Cr rent, +2 impact a year, linked; more likely to leave without support.', ms: 'Syarikat yang ditubuhkan daripada penyelidikan universiti: sewa 0.4 Cr, +2 impak setahun, linked; lebih mudah keluar tanpa sokongan.' },
+  { cat: 'tenant', term: 'R&D anchor', en: 'A large research tenant taking 3 units (6 if build-to-suit): the most rent and impact, linked; needs a Lab or Lab Access.', ms: 'Penyewa penyelidikan besar yang mengambil 3 unit (6 jika build-to-suit): sewa dan impak tertinggi, linked; perlukan Lab atau Lab Access.' },
+  { cat: 'tenant', term: 'Start-up · incubator · graduation', en: 'Start-ups sit in the incubator (4 places) for a small fee. After 12 to 36 months a start-up may graduate into a tenant (one in three, one in two with a lab) or fail.', ms: 'Start-up berada dalam incubator (4 tempat) dengan yuran kecil. Selepas 12 hingga 36 bulan, start-up boleh bergraduat menjadi penyewa (satu dalam tiga, satu dalam dua jika ada lab) atau gagal.' },
+  { cat: 'tenant', term: 'Applicant · admission policy', en: 'Firms that apply each month and wait three months. Admitting one is free and uses no action point; the policy decides which types may enter.', ms: 'Firma yang memohon setiap bulan dan menunggu tiga bulan. Menerima satu adalah percuma dan tidak menggunakan action point; polisi menentukan jenis yang boleh masuk.' },
+  { cat: 'tenant', term: 'Build-to-suit', en: 'A building put up for one named tenant to its specification.', ms: 'Bangunan yang dibina untuk seorang penyewa tertentu mengikut spesifikasinya.' },
+  { cat: 'tenant', term: 'Pre-let', en: 'A tenant signs before the building exists; it lowers but does not remove the risk of an empty building.', ms: 'Penyewa menandatangani sebelum bangunan wujud; ia mengurangkan tetapi tidak menghapuskan risiko bangunan kosong.' },
+  { cat: 'tenant', term: 'Covenant', en: 'A condition written into a lease or deal (for example renewable energy, research use, an SME desk) that makes the tenant count as linked or adds impact.', ms: 'Syarat dalam pajakan atau deal (contohnya tenaga boleh baharu, kegunaan penyelidikan, meja SME) yang menjadikan penyewa dikira linked atau menambah impak.' },
+  /* ---------------- facilities */
+  { cat: 'fac', term: 'Shared Prototyping Lab · University Lab Access', en: 'A lab in the park (3 Cr) or access to university labs (0.5 Cr). Either lets anchors in and raises start-up graduation.', ms: 'Makmal dalam park (3 Cr) atau akses ke makmal universiti (0.5 Cr). Mana-mana satu membolehkan anchor masuk dan meningkatkan graduasi start-up.' },
+  { cat: 'fac', term: 'KPI & Impact Reporting', en: 'Measures and verifies impact. Until it is set up, impact is unverified and counts only half.', ms: 'Mengukur dan mengesahkan impak. Selagi belum disediakan, impak tidak disahkan dan hanya dikira separuh.' },
+  { cat: 'fac', term: 'Industry Liaison Office · Engagement Covenant · Park Management Team · Shared Services', en: 'Facilities that strengthen links with industry and the university, manage the park and support tenants; each has an upkeep.', ms: 'Kemudahan yang mengukuhkan hubungan dengan industri dan universiti, mengurus park dan menyokong penyewa; setiap satu ada upkeep.' },
+  { cat: 'fac', term: 'Innovation programmes', en: 'Yearly programmes (up to six levels) that turn cash into impact.', ms: 'Program tahunan (sehingga enam tahap) yang menukar tunai kepada impak.' },
+  /* ---------------- deals */
+  { cat: 'deal', term: 'Deal Room', en: 'Opportunities and threats that arrive during the game. The clock holds while it is open; no decision counts as Leave.', ms: 'Peluang dan ancaman yang tiba sepanjang permainan. Jam berhenti semasa ia dibuka; tiada keputusan dikira sebagai Leave.' },
+  { cat: 'deal', term: 'Take · Conditions · Leave', en: 'Accept the offer as it stands, counter with your own terms, or decline.', ms: 'Terima tawaran seadanya, balas dengan syarat sendiri, atau tolak.' },
+  { cat: 'deal', term: 'Die', en: 'From Bina on, a six-sided die decides whether the other party accepts your Conditions (for example "accepts on 3–6"). The roll is shown when the deal closes.', ms: 'Mulai Bina, dadu enam sisi menentukan sama ada pihak lain menerima Conditions anda (contohnya "accepts on 3–6"). Hasilnya dipaparkan bila deal ditutup.' },
+  { cat: 'deal', term: 'Sound decision', en: 'A decision that fits the park\'s position at the time, whatever the die later does. Part C scores the share of sound decisions, not luck. See the Decision journal.', ms: 'Keputusan yang sesuai dengan kedudukan park pada masa itu, apa pun hasil dadu kemudian. Bahagian C menilai bahagian keputusan wajar, bukan nasib. Lihat Jurnal keputusan.' },
+  { cat: 'deal', term: 'Dare index', en: 'How bold your choices were, from 0 (always Leave) upwards. Not scored; used in the debrief.', ms: 'Sejauh mana pilihan anda berani, dari 0 (sentiasa Leave) ke atas. Tidak dinilai; digunakan semasa debrief.' },
+  /* ---------------- ESG */
+  { cat: 'esg', term: 'ESG', aka: 'Environmental, Social and Governance', en: 'A running score of environmental decisions: clearing forest −3, building on wetland −1, a green buffer +2, retention works +1, solar and certification +1 to +2. Scored in Bina (5 marks) and Lestari (10 marks; Gold needs ESG of 0 or more).', ms: 'Skor berjalan bagi keputusan alam sekitar: membersihkan hutan −3, membina di tanah lembap −1, green buffer +2, retention works +1, solar dan pensijilan +1 hingga +2. Dinilai dalam Bina (5 markah) dan Lestari (10 markah; Gold perlukan ESG 0 atau lebih).' },
+  { cat: 'esg', term: 'SDG', aka: 'Sustainable Development Goals', en: 'The United Nations goals tagged on some deals, for example SDG 7 clean energy and SDG 9 industry and innovation.', ms: 'Matlamat Pertubuhan Bangsa-Bangsa Bersatu yang ditandakan pada sesetengah deal, contohnya SDG 7 tenaga bersih dan SDG 9 industri dan inovasi.' },
+  { cat: 'esg', term: 'Green buffer · retention works · retention park', en: 'Keeping the forest untouched as a buffer; works that hold storm water; a wetland turned into a park after retention works. All raise ESG.', ms: 'Mengekalkan hutan sebagai penampan; kerja yang menakung air ribut; tanah lembap yang dijadikan park selepas retention works. Semuanya menaikkan ESG.' },
+  /* ---------------- scoring */
+  { cat: 'score', term: 'Impact · verified impact', en: 'Points earned each year from tenants, programmes and labs; the measure of what the park achieves. Verified impact needs KPI & Impact Reporting.', ms: 'Mata yang diperoleh setiap tahun daripada penyewa, program dan makmal; ukuran pencapaian park. Impak disahkan (verified) perlukan KPI & Impact Reporting.' },
+  { cat: 'score', term: 'Park score', en: 'Impact plus the FCR12 bonus, minus the drift penalty and half of any debt above cash. Each level sets a target (115, 170, 250).', ms: 'Impak ditambah bonus FCR12, ditolak penalti drift dan separuh daripada hutang yang melebihi tunai. Setiap level menetapkan sasaran (115, 170, 250).' },
+  { cat: 'score', term: 'A · B1 · B2 · B3 · C · D · E', en: 'The parts of the final mark: A park score against the target; B1 Phase 1 (fund used, income gained); B2 Zone H plots signed; B3 survival of the downturn (in Rintis: operations); C share of sound decisions; D the team\'s defence to the panel; E ESG.', ms: 'Bahagian markah akhir: A skor park berbanding sasaran; B1 Phase 1 (fund digunakan, pendapatan bertambah); B2 plot Zon H ditandatangani; B3 bertahan dalam downturn (dalam Rintis: operasi); C bahagian keputusan wajar; D pembentangan (defence) team kepada panel; E ESG.' },
+  { cat: 'score', term: 'Medals · gates', en: 'Gold 80, Silver 65, Bronze 50 marks. Silver and Gold also need a park score of at least half the target (park gate); Gold also needs no bailout, FCR12 of 1 or more, drift of 50% or less, and in Lestari ESG of 0 or more.', ms: 'Gold 80, Silver 65, Bronze 50 markah. Silver dan Gold juga perlukan skor park sekurang-kurangnya separuh sasaran (park gate); Gold juga perlukan tiada bailout, FCR12 1 atau lebih, drift 50% atau kurang, dan dalam Lestari ESG 0 atau lebih.' },
+  { cat: 'score', term: 'Benchmark parks', en: 'Computer-run parks with a fixed style (Garden, Bold, Rocket, Caretaker and others) shown in the standings for comparison.', ms: 'Park yang dijalankan komputer dengan gaya tetap (Garden, Bold, Rocket, Caretaker dan lain-lain) dipaparkan dalam kedudukan untuk perbandingan.' },
+];
+const GLOSS_CATS = {
+  en: { money: 'Money', time: 'Time and phases', site: 'Site and buildings', tenant: 'Tenants', fac: 'Facilities', deal: 'Deal Room', esg: 'ESG', score: 'Scoring' },
+  ms: { money: 'Kewangan', time: 'Masa dan fasa', site: 'Tapak dan bangunan', tenant: 'Penyewa', fac: 'Kemudahan', deal: 'Deal Room', esg: 'ESG', score: 'Pemarkahan' },
+};
+if (typeof window !== 'undefined') { window.GLOSSARY = GLOSSARY; window.GLOSS_CATS = GLOSS_CATS; }
+
+</script>
+<script>
+/* SPDX-License-Identifier: MIT
+   Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia */
+/* IMPAK v0.6 — decision advice in the Deal Room and the decision journal.
+   Texts come from content/LESSONS (CC BY-NC-ND); this file computes the figures each lesson refers to.
+   Before a decision: what to check and the risk of each option (Rintis and Bina show the current figures and
+   whether they meet the rule of thumb; Lestari shows the questions only). After the deal closes: sound or not,
+   the principle, and what to watch next. Nothing here changes the engine or the score. */
+(function (root) {
+'use strict';
+const PB = root.PB, C = PB.CFG;
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const pc = (v) => Math.round((v || 0) * 100) + '%';
+const n1 = (v) => (Math.round((+v || 0) * 10) / 10).toFixed(1);
+
+/* each check: label (en, ms), the value now, the target, and whether the value meets it */
+const CHECKS = {
+  occ: { en: 'Occupancy now', ms: 'Penghunian sekarang', target: '≥ 80%', v: (t) => PB.occupancy(t), f: pc, ok: (x) => x >= C.SPEC.gateOcc },
+  fund: { en: 'Development Fund left', ms: 'Baki Development Fund', target: '≥ 9.6 Cr', v: (t) => t.fund, f: (x) => n1(x) + ' Cr', ok: (x) => x >= 9.6 },
+  drift2: { en: 'Drift with 2 more unlinked units', ms: 'Drift jika tambah 2 unit unlinked', target: '≤ 50%', v: (t) => PB.driftOf(t, 2, 2), f: pc, ok: (x) => x <= 0.5 },
+  drift3: { en: 'Drift with 3 more unlinked units', ms: 'Drift jika tambah 3 unit unlinked', target: '≤ 50%', v: (t) => PB.driftOf(t, 3, 3), f: pc, ok: (x) => x <= 0.5 },
+  drift4: { en: 'Drift with 4 more unlinked units', ms: 'Drift jika tambah 4 unit unlinked', target: '≤ 50%', v: (t) => PB.driftOf(t, 4, 4), f: pc, ok: (x) => x <= 0.5 },
+  esg2: { en: 'ESG after −2', ms: 'ESG selepas −2', target: '≥ 0', v: (t) => t.esg + C.ESG.dcOffered, f: (x) => (x >= 0 ? '+' : '') + n1(x), ok: (x) => x >= 0 },
+  esg1: { en: 'ESG after −1', ms: 'ESG selepas −1', target: '≥ 0', v: (t) => t.esg + C.ESG.chemC, f: (x) => (x >= 0 ? '+' : '') + n1(x), ok: (x) => x >= 0 },
+  esgRecord: { en: 'ESG now', ms: 'ESG sekarang', target: '≥ 2', v: (t) => t.esg, f: (x) => (x >= 0 ? '+' : '') + n1(x), ok: (x) => x >= 2 },
+  plotD: { en: 'Free plots in Zone D', ms: 'Plot kosong di Zon D', target: '≥ 1', v: (t, m) => PB.plotsFree(t, 'D', m), f: String, ok: (x) => x >= 1 },
+  linked: { en: 'Linked tenants', ms: 'Penyewa linked', target: '≥ 2 (Take) · ≥ 1 (Conditions)', v: (t) => PB.linkedCount(t), f: String, ok: (x) => x >= 2 },
+  lowground: { en: 'Buildings in Zones E and G', ms: 'Bangunan di Zon E dan G', target: '0 → Leave is safe', v: (t) => t.buildings.filter((b) => (b.zone === 'E' || b.zone === 'G') && b.status !== 'shed').length, f: String, ok: (x) => x === 0 },
+  fibre: { en: 'Zones with fibre', ms: 'Zon yang ada fibre', target: '—', v: (t) => Object.keys(t.zones).filter((z) => t.zones[z].svc.fibre >= 1).length, f: String, ok: () => null },
+  lab: { en: 'Lab or Lab Access (for Conditions)', ms: 'Lab atau Lab Access (untuk Conditions)', target: 'yes', v: (t) => !!(t.fac.lab || t.fac.labaccess), f: (x) => (x ? '✓' : '✗'), ok: (x) => x },
+  cash: { en: 'Cash', ms: 'Tunai', target: '—', v: (t) => t.cash, f: (x) => n1(x) + ' Cr', ok: () => null },
+  conc: { en: 'Share of your units in the new building', ms: 'Bahagian unit anda dalam bangunan baharu', target: '≤ 40%', v: (t) => 6 / (t.buildings.filter((b) => b.status === 'ready' || b.status === 'building').reduce((a, b) => a + b.units, 0) + 6), f: pc, ok: (x) => x <= 0.4 },
+  anchorShare: { en: 'Anchors\' share of committed income', ms: 'Bahagian anchor dalam committed income', target: '≤ 30% → you can refuse', v: (t) => t.tenants.filter((x) => x.type === 'anchor' || x.type === 'bigAnchor').reduce((a, x) => a + C.TEN[x.type].rent, 0) / Math.max(0.1, PB.committedIncome(t)), f: pc, ok: (x) => x <= 0.3 },
+  debt: { en: 'Debt (loans + emergency)', ms: 'Hutang (pinjaman + kecemasan)', target: '≥ 5 Cr → fix the rate', v: (t) => t.debt + t.emerg, f: (x) => n1(x) + ' Cr', ok: (x) => x >= 5 },
+  cash2: { en: 'Cash', ms: 'Tunai', target: '≥ 2 Cr', v: (t) => t.cash, f: (x) => n1(x) + ' Cr', ok: (x) => x >= 2 },
+  gpark: { en: 'Zone G is a retention park', ms: 'Zon G ialah retention park', target: 'yes → Leave is safe', v: (t) => t.zones.G.mode === 'park', f: (x) => (x ? '✓' : '✗'), ok: (x) => x },
+  incub: { en: 'Incubator set up', ms: 'Incubator disediakan', target: 'yes', v: (t) => !!t.fac.incubator, f: (x) => (x ? '✓' : '✗'), ok: (x) => x },
+  freeTech: { en: 'Free units with fibre', ms: 'Unit kosong dengan fibre', target: '≥ 2', v: (t) => t.buildings.filter((b) => b.status === 'ready' && t.zones[b.zone] && t.zones[b.zone].svc.fibre >= 1).reduce((a, b) => a + PB.freeUnits(t, b), 0), f: String, ok: (x) => x >= 2 },
+};
+const OPT = { en: { T: 'Take', C: 'Conditions', L: 'Leave' }, ms: { T: 'Take', C: 'Conditions', L: 'Leave' } };
+const TXT = {
+  en: { before: 'Think it through', checks: 'What this decision depends on', now: 'now', target: 'rule of thumb', risks: 'Risk of each option', noDice: 'In Rintis every counterparty accepts your conditions; the die notes apply from Bina on.', lestari: 'Lestari shows the questions, not the answers: read your figures in the tiles and the Money group.',
+    after: 'Lesson', sound: 'Sound decision', unsound: 'Not a sound decision', principle: 'Principle', watch: 'Watch next', journal: 'Decision journal', journalEmpty: 'Your Deal Room decisions and their lessons appear here.', soundCount: '{s} of {n} sound', na: 'did not apply' },
+  ms: { before: 'Fikir dahulu', checks: 'Keputusan ini bergantung pada', now: 'sekarang', target: 'panduan', risks: 'Risiko setiap pilihan', noDice: 'Dalam Rintis setiap pihak menerima syarat anda; nota dadu terpakai mulai Bina.', lestari: 'Lestari hanya memaparkan soalan, bukan jawapan: baca angka anda pada tiles dan kumpulan Kewangan.',
+    after: 'Pelajaran', sound: 'Keputusan wajar', unsound: 'Keputusan kurang wajar', principle: 'Prinsip', watch: 'Perhatikan seterusnya', journal: 'Jurnal keputusan', journalEmpty: 'Keputusan Deal Room anda dan pelajarannya akan dipaparkan di sini.', soundCount: '{s} daripada {n} wajar', na: 'tidak terpakai' },
+};
+const lang = () => (root.IMPAK && root.IMPAK.HOST.lang === 'ms' ? 'ms' : 'en');
+const tx = (k, p) => { let s = TXT[lang()][k]; if (p) for (const x in p) s = s.split('{' + x + '}').join(p[x]); return s; };
+const lessonOf = (card) => (root.LESSONS || {})[card];
+
+function checksHTML(L, t, m, showValues) {
+  if (!L.checks.length) return '';
+  const rows = L.checks.map((id) => {
+    const c = CHECKS[id]; if (!c) return '';
+    let val = '', mark = '';
+    if (showValues) { const x = c.v(t, m), ok = c.ok(x); val = '<b>' + esc(c.f(x)) + '</b>'; mark = ok === null ? '' : (ok ? '<i class="ok">✓</i>' : '<i class="no">!</i>'); }
+    return '<li>' + mark + '<span>' + esc(c[lang()]) + (val ? ': ' + val : '') + ' <small>· ' + esc(tx('target')) + ' ' + esc(c.target) + '</small></span></li>';
+  }).join('');
+  return '<div class="adv-sub">' + esc(tx('checks')) + '</div><ul class="adv-checks">' + rows + '</ul>';
+}
+/* before the decision, inside the Deal Room card */
+function before(res, tm, ev) {
+  const L = lessonOf(ev.card); if (!L) return '';
+  const T = L[lang()], t = tm.t, m = res.mCur, lv = res.lv;
+  const show = lv.key !== 'lestari';
+  const Cd = PB.CARDS[ev.card];
+  const risks = ['T', 'C', 'L'].filter((k) => Cd[k] && T.risk[k]).map((k) => '<li><b>' + OPT[lang()][k] + '</b> — ' + esc(T.risk[k]) + '</li>').join('');
+  return '<details class="advice" open><summary>' + esc(tx('before')) + '</summary>' + checksHTML(L, t, m, show) +
+    '<div class="adv-sub">' + esc(tx('risks')) + '</div><ul class="adv-risks">' + risks + '</ul>' +
+    (!lv.dice ? '<p class="adv-note">' + esc(tx('noDice')) + '</p>' : '') + (!show ? '<p class="adv-note">' + esc(tx('lestari')) + '</p>' : '') + '</details>';
+}
+/* after the deal closes, on the outcome card */
+function after(res, tm, ev) {
+  const L = lessonOf(ev.card); if (!L) return '';
+  const T = L[lang()], d = tm.t.dlog.find((x) => x.eid === ev.id);
+  if (!d || !d.eligible) return '';
+  return '<div class="advice after ' + (d.sound ? 'is-sound' : 'is-unsound') + '"><div class="adv-verdict">' + (d.sound ? '✓ ' : '✗ ') + esc(tx(d.sound ? 'sound' : 'unsound')) + ' · ' + esc(OPT[lang()][d.opt]) + '</div>' +
+    '<p><b>' + esc(tx('principle')) + ':</b> ' + esc(T.principle) + '</p><p><b>' + esc(tx('watch')) + ':</b> ' + esc(T.watch) + '</p></div>';
+}
+/* the journal in the Guide panel */
+function journal(res, tm) {
+  const list = tm.t.dlog.filter((d) => d.eligible || d.opt === null);
+  if (!list.length) return '<p class="faint">' + esc(tx('journalEmpty')) + '</p>';
+  const el = list.filter((d) => d.eligible), s = el.filter((d) => d.sound).length;
+  return '<p class="adv-sum">' + esc(tx('soundCount', { s, n: el.length })) + '</p><ol class="journal">' + list.map((d) => {
+    const Cd = PB.CARDS[d.card], L = lessonOf(d.card), T = L ? L[lang()] : null, ev = res.sc.events.find((e) => e.id === d.eid);
+    const when = ev && root.IMPAK ? root.IMPAK.mnameL(ev.month) : '';
+    if (!d.eligible) return '<li class="na"><b>' + esc(Cd.title) + '</b> <small>' + esc(when) + ' · ' + esc(tx('na')) + '</small></li>';
+    return '<li class="' + (d.sound ? 'ok' : 'no') + '"><b>' + esc(Cd.title) + '</b> <small>' + esc(when) + ' · ' + esc(OPT[lang()][d.opt]) + (d.site ? ' · Zone ' + esc(d.site) : '') + '</small>' +
+      '<div class="jv">' + (d.sound ? '✓ ' : '✗ ') + esc(tx(d.sound ? 'sound' : 'unsound')) + '</div>' + (T ? '<div class="jp">' + esc(T.principle) + '</div><div class="jw"><b>' + esc(tx('watch')) + ':</b> ' + esc(T.watch) + '</div>' : '') + '</li>';
+  }).join('') + '</ol>';
+}
+root.IMPAKAdvice = { before, after, journal, CHECKS, title: () => tx('journal') };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
 /* SPDX-License-Identifier: MIT
    Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia */
 /* Deployment settings. After deploying apps-script/ as a web app, paste its URL here and rebuild.
@@ -5543,6 +5962,7 @@ HOST.remember = (k, v) => { if (k === 'tab' && ['park', 'impact', 'stand', 'news
 HOST.landing = () => '';
 HOST.footer = () => '';
 HOST.setOffset = (ms) => { OFFSET = ms; };
+HOST.dealAdvice = (res, tm, ev, phase) => { const A = root.IMPAKAdvice; if (!A) return ''; return phase === 'after' ? A.after(res, tm, ev) : A.before(res, tm, ev); };
 const ACT = G.ACT;
 HOST.act = {
   'pin'(d) { pinNow(d.pin); },
@@ -5709,16 +6129,25 @@ function setTab(k) { uiStore.tab = k; uiStore.save(); $$('#plot-tabs button').fo
 function readoutsHTML(r, tm) {
   if (!r) return '';
   const d = G.dateParts(r.ck.T, r.months), g = r.g;
-  let h = '<span class="ro"><b>' + d.day + ' ' + d.month + '</b> · ' + escapeHtml(t('ro.year', { y: d.year })) + '</span>' + G.levelChip(r).replace('class="chip lvl"', 'class="chip"') + G.phaseChip(r) + G.statusChip(g, r.ck);
+  let h = G.levelChip(r).replace('class="chip lvl"', 'class="chip"') + G.phaseChip(r) + G.statusChip(g, r.ck);
   if (tm) h += '<span class="ro">' + escapeHtml(t('ro.ap')) + ' <b>' + tm.t.ap + '</b></span>';
   if (G.store() && G.store().mode === 'live') { const L = root.IMPAKLive; h += '<span class="chip">' + escapeHtml(t('ro.room', { code: (L && L.room) || '' })) + '</span><span class="sync ' + (L ? L.syncClass() : 'off') + '"><i></i>' + escapeHtml(t(L ? L.syncKey() : 'ro.sync.off')) + '</span>'; }
   return h;
+}
+const MON = { en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], ms: ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogo', 'Sep', 'Okt', 'Nov', 'Dis'] };
+function bigClockHTML(r) {
+  if (!r) return '';
+  const d = G.dateParts(r.ck.T, r.months), mi = Math.min(r.months - 1, Math.floor(r.ck.T + 1e-9)), mo = mi % 12;
+  const frac = Math.max(0, Math.min(1, r.ck.T / r.months));
+  return '<div class="bc-date"><b>' + d.day + '</b> ' + escapeHtml(MON[prefs.lang === 'ms' ? 'ms' : 'en'][mo]) + '</div>' +
+    '<div class="bc-meta"><span class="bc-year">' + escapeHtml(t('ro.year', { y: d.year })) + '</span><span class="bc-month">' + escapeHtml(t('ro.month', { m: mi + 1, n: r.months })) + '</span>' +
+    '<span class="bc-bar" aria-hidden="true"><i style="width:' + (frac * 100).toFixed(1) + '%"></i></span></div>';
 }
 function updateTransport(r) {
   const bar = $('.transport'), a = app(), live = G.store() && G.store().mode === 'live';
   bar.classList.toggle('locked', !!live && a.role !== 'gm');
   const play = $('#btn-play'), step = $('#btn-step'), reset = $('#btn-reset'), speed = $('#sel-speed');
-  if (!r || a.role !== 'solo') { play.disabled = !r && a.role !== 'solo'; play.classList.remove('running'); $('#lbl-play').textContent = t('tr.play'); step.disabled = true; reset.disabled = a.role !== 'solo'; if (!r) { $('#readouts').innerHTML = ''; return; } }
+  if (!r || a.role !== 'solo') { play.disabled = !r && a.role !== 'solo'; play.classList.remove('running'); $('#lbl-play').textContent = t('tr.play'); step.disabled = true; reset.disabled = a.role !== 'solo'; if (!r) { $('#readouts').innerHTML = ''; const bc = $('#bigclock'); bc.innerHTML = ''; bc._k = ''; return; } }
   const g = r.g, ck = r.ck;
   if (a.role === 'solo') {
     const running = g.status === 'running' && !ck.hold;
@@ -5730,6 +6159,7 @@ function updateTransport(r) {
     if (String(g.msPerMonth) !== speed.value) speed.value = String(g.msPerMonth);
   }
   $('#readouts').innerHTML = readoutsHTML(r, teamNow(r));
+  const bc = $('#bigclock'), bh = bigClockHTML(r); if (bc._k !== bh) { bc.innerHTML = bh; bc._k = bh; }
 }
 function soloPlay() { const r = res(); if (!r) return; const g = r.g; if (g.status === 'setup') G.dispatch('solo-start'); else if (g.status === 'running' && !r.ck.hold) G.dispatch('solo-pause'); else if (g.status === 'paused') G.dispatch('solo-resume'); render(true); }
 function soloStep() { const r = res(); if (!r || r.ck.hold || r.g.status === 'ended' || r.g.status === 'setup') return; const nx = r.ck.next; if (!nx) return; G.store().gmUpdate({ accMs: nx.t * r.g.msPerMonth, startedAt: HOST.now(), status: 'running', lastReveal: null }); render(true); }
@@ -5843,6 +6273,33 @@ function watch(r, tm) {
   if (predict && predict.state && !predict.state.revealed && predict.state.chosen >= 0 && r.T >= 6) predict.reveal();
 }
 
+/* ---------------------------------------------------------------- decision journal and glossary */
+function renderJournal(r, tm) {
+  const A = root.IMPAKAdvice, box = $('#journal'); if (!A || !box) return;
+  const key = prefs.lang + '|' + JSON.stringify(tm.t.dlog.map((d) => [d.eid, d.opt, d.sound]));
+  if (box._k === key) return; box._k = key;
+  box.innerHTML = A.journal(r, tm);
+  const el = tm.t.dlog.filter((d) => d.eligible);
+  $('#journal-count').textContent = el.length ? el.filter((d) => d.sound).length + '/' + el.length : '';
+}
+function renderGloss() {
+  const box = $('#gloss'), q = ($('#gloss-q').value || '').trim().toLowerCase(), L = prefs.lang === 'ms' ? 'ms' : 'en';
+  const cats = (root.GLOSS_CATS || {})[L] || {};
+  const items = (root.GLOSSARY || []).filter((g) => !q || (g.term + ' ' + (g.aka || '') + ' ' + g[L]).toLowerCase().indexOf(q) >= 0);
+  if (!items.length) { box.innerHTML = '<p class="faint">' + escapeHtml(t('gloss.none')) + '</p>'; return; }
+  let h = '', cat = '';
+  for (const g of items) {
+    if (g.cat !== cat) { cat = g.cat; h += '<div class="gcat">' + escapeHtml(cats[cat] || cat) + '</div>'; }
+    h += '<dt>' + escapeHtml(g.term) + (g.aka ? ' <small>(' + escapeHtml(g.aka) + ')</small>' : '') + '</dt><dd>' + escapeHtml(g[L]) + '</dd>';
+  }
+  box.innerHTML = h;
+}
+function openGloss() {
+  const d = $('#glossbox'); if (!d) return; d.open = true;
+  try { d.scrollIntoView({ block: 'start', behavior: 'smooth' }); } catch (e) { /* ignore */ }
+  setTimeout(() => { const i = $('#gloss-q'); if (i) i.focus({ preventScroll: true }); }, 350);
+}
+
 /* ---------------------------------------------------------------- why? and the assumption ledger */
 function renderWhy() { const el = $('#why'); if (el) el.innerHTML = t('why.' + S.level); }
 function renderLedger() {
@@ -5903,6 +6360,7 @@ function render(force) {
   lastKind = '';
   apply(teamRegions(r, tm));
   groupStatus(r, tm);
+  renderJournal(r, tm);
   updateTransport(r);
   applyLive(G.liveData(r));
   watch(r, tm);
@@ -5921,7 +6379,9 @@ function loop() {
 function applyLang() {
   HOST.lang = prefs.lang;
   K.applyStaticText(t); K.applyPrefsUI(prefs, t);
-  renderWhy(); renderLedger();
+  renderWhy(); renderLedger(); renderGloss();
+  $$('[data-i18n-ph]').forEach((el) => { el.placeholder = t(el.dataset.i18nPh); });
+  const jb = $('#journal'); if (jb) jb._k = '';
   if (stageNav) stageNav.render();
   if (activity) activity.render();
   if (screenGuide) screenGuide.render();
@@ -5989,7 +6449,10 @@ function boot() {
     { id: 'results', sel: '#results', name: () => t('ui.reg.results'), desc: () => t('ui.reg.results.d'), acc: '--acc-output' },
     { id: 'guide', sel: '.explain', name: () => t('ui.reg.guide'), desc: () => t('ui.reg.guide.d'), acc: '--acc-guide' },
     { id: 'sim', sel: '.transport', name: () => t('ui.reg.sim'), desc: () => t('ui.reg.sim.d'), acc: '--acc-data' },
-  ] });
+  ], extra: {
+    html: () => '<h3>' + escapeHtml(t('ui.info.gloss')) + '</h3><p class="lead">' + escapeHtml(t('ui.info.gloss.d')) + ' <button type="button" class="tb" data-a="gloss">' + escapeHtml(t('gloss.open')) + '</button></p>',
+    wire: (dlg, close) => { const b = dlg.querySelector('[data-a="gloss"]'); if (b) b.addEventListener('click', () => { close(); openGloss(); }); },
+  } });
   $$('#plot-tabs button').forEach((b) => b.addEventListener('click', () => setTab(b.dataset.plot)));
   setTab(uiStore.tab || 'park');
   $('#btn-play').addEventListener('click', soloPlay);
@@ -5997,7 +6460,10 @@ function boot() {
   $('#btn-reset').addEventListener('click', soloNew);
   $('#sel-speed').addEventListener('change', () => { const r = res(); if (r && app().role === 'solo') { G.dispatch('solo-pace', { v: $('#sel-speed').value }); render(true); } });
   setupViewport();
-  renderWhy(); renderLedger();
+  renderWhy(); renderLedger(); renderGloss();
+  $$('[data-i18n-ph]').forEach((el) => { el.placeholder = t(el.dataset.i18nPh); });
+  $('#gloss-q').addEventListener('input', renderGloss);
+  if (!app().role) $('#journal').innerHTML = '<p class="faint">' + escapeHtml(t('ui.reg.guide')) + '</p>';
   S.level = uiStore.level || 0;
   if (root.IMPAKLive) root.IMPAKLive.init({ onState: () => render(true), onOffset: HOST.setOffset, t, K, G });
   const h = (location.hash || '').replace('#', '');
