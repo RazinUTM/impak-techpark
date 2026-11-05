@@ -38,7 +38,7 @@ function ApiStore(session) {
   let SEQ = 0; const nextSeq = () => { SEQ = (SEQ + 1) % 1000; return Date.now() * 1000 + SEQ; };
   const s = {
     mode: 'live', version: 0, listeners: new Set(), game: null, orders: {}, decisions: {}, ready: false, db: true,
-    lastOk: 0, lastTry: 0, pending: 0, timer: null, session,
+    lastOk: 0, lastTry: 0, pending: 0, writes: 0, timer: null, session,
     emit() { this.version++; this._cache = null; for (const f of this.listeners) f(this); },
     on(f) { this.listeners.add(f); },
     ordersFor(team) { return this.orders[team] || []; },
@@ -63,15 +63,17 @@ function ApiStore(session) {
       await this.post({ op: 'gm', action: 'update', patch: p });
     },
     async post(payload) {
-      this.pending++;
+      this.pending++; this.writes++;
       try { return await call(Object.assign({ room: this.session.room, token: this.session.token }, payload)); }
       catch (e) { G.HOST.toast(String(e.message || e), 'bad'); throw e; }
       finally { this.pending--; setTimeout(() => this.poll(), 800); }
     },
     async poll() {
       if (!this.session.room || this._polling) return; this._polling = true; this.lastTry = Date.now();
+      const w0 = this.writes;
       try {
         const r = await call({ op: 'state', room: this.session.room, team: this.session.team || '', token: this.session.token || '' });
+        if (this.pending > 0 || this.writes !== w0) return;   // a write happened meanwhile: this snapshot predates it
         if (r.serverTime) { const off = r.serverTime - Date.now(); if (Math.abs(off) > 400 && onOffset) onOffset(off); }
         this.game = r.game || null; this.orders = r.orders || {}; this.decisions = r.decisions || {};
         this.ready = true; this.lastOk = Date.now(); this.emit();

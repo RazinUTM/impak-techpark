@@ -67,3 +67,10 @@ Decided by: Ahmad Razin
 Decision: three layers of advice around every Deal Room card, without touching the engine or the score: (1) before the decision, "Think it through" lists the figures the decision depends on and the risk of each option; Rintis and Bina show the current figures with ✓/! against the rule of thumb, Lestari shows the questions only; (2) after the deal closes, sound or not, the principle (the engine's `sound()` rule in words) and what to watch next; (3) a Decision journal in the Guide panel for the debrief. A searchable Glossary (BM/EN, ~50 terms) sits in the Guide panel and is linked from the ⓘ dialog. Title enlarged with the mode chip beside it; a large running clock (date, year, month n of N, progress) in the middle of the clock bar.
 Open: "Cr" is defined in the glossary as the game's unit of money (credit), pending the author's confirmation.
 Decided by: Ahmad Razin
+
+## 2026-11-05 Fixes after the first real test (GM + team)
+- Deal Room overlay was rebuilt every second (its render key carried the clock second): taps were lost between press and release, and devices never rested (iPad ran hot). Removed; the timer updates in place. Readouts now update only when they change; the loop does nothing while the tab is hidden.
+- GM message box lost focus because the console re-renders as the clock advances: re-renders now keep focus and caret.
+- "Switch to manual" could flip back: a poll that started before a GM write overwrote it. Stale polls are now dropped. The console explains what automatic and manual mean (deals and reveal only; the month clock always runs until Pause).
+- New: "End the game…" with confirmation (remaining months play out with no orders); a "← Game Master console" button on the front screen; starting cash set by the GM (teams, benchmarks and the server replay use it); the guided activity steps are hidden in live sessions (the tutor and coach stay).
+Decided by: Ahmad Razin

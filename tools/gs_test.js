@@ -65,5 +65,17 @@ check('code tier: join without a code is refused', H({ op: 'join', room, pin, na
 const code = ctx.__mail.body.match(/\d{6}/)[0];
 check('code tier: join with the e-mailed code', !H({ op: 'join', room, pin, name: 'Ali', email: 'ali@example.com', code }).error);
 check('code tier: a code cannot be reused', H({ op: 'join', room, pin, name: 'Ali', email: 'ali@example.com', code }).error === 'code');
+// starting cash set by the GM: the server replay must use it (else every report is a mismatch)
+{
+  const PB = require(path.join(__dirname, '..', 'src', 'engine.js'));
+  const g2 = Object.assign({}, game, { gid: 't2', seed: 'cash-1', startCash: 9, status: 'setup' });
+  const r2 = H({ op: 'gm', action: 'set', token: gmtok, game: g2 });
+  const sc = PB.makeScenario('cash-1', 'rintis'); sc.lv = Object.assign({}, sc.lv, { startCash: 9 });
+  const t = PB.replay(sc, 't1', 'priority', [], {}, {}, sc.months), local = Math.round(PB.rubric(t, sc, null, sc.months).total * 100) / 100;
+  const tok2 = H({ op: 'join', room: r2.room, pin: r2.game.pins.t1, name: 'B', email: 'b@example.com' }).token;
+  H({ op: 'gm', action: 'update', token: r2.token, room: r2.room, patch: { status: 'running', startedAt: Date.now() } });
+  const rep = H({ op: 'report', token: tok2, room: r2.room, team: 't1', score: local });
+  check('server replay uses the GM starting cash', rep.flag === 'ok' && t.cashHist[0] !== undefined, 'local ' + local + ' official ' + rep.official);
+}
 console.log(fails ? fails + ' FAILED' : 'all checks passed');
 process.exit(fails ? 1 : 0);

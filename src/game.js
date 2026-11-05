@@ -71,6 +71,13 @@ function levelAcres(L) { return L.zones.reduce((a, z) => a + C.ZONES[z].acres, 0
 /* =============================================================== scenario, clock, AI */
 const SC = {};
 function scen(seed, level) { const k = seed + "|" + (level || "lestari"); return SC[k] || (SC[k] = PB.makeScenario(seed, level || "lestari")); }
+/* v0.6: a game may set its own starting cash (g.startCash); the scenario's level copy carries it to newTeam() */
+function scenG(g) {
+  const base = scen(g.seed, g.level || "lestari");
+  if (g.startCash == null || g.startCash === base.lv.startCash) return base;
+  const k = g.seed + "|" + (g.level || "lestari") + "|cash" + g.startCash;
+  return SC[k] || (SC[k] = Object.assign({}, base, { lv: Object.assign({}, base.lv, { startCash: g.startCash }), _pp: null }));
+}
 function pausePoints(sc) {
   if (sc._pp) return sc._pp;
   const lv = sc.lv;
@@ -106,7 +113,7 @@ function aiRecord(sc, key) {
   }
   return { log, dec, label: S.label, policy: S.policy, note: S.note };
 }
-function aiRec(seed, level, key) { const k = seed + "|" + level + "|" + key; return AIC[k] || (AIC[k] = aiRecord(scen(seed, level), key)); }
+function aiRec(seed, level, key, sc) { sc = sc || scen(seed, level); const k = seed + "|" + level + "|" + key + "|" + sc.lv.startCash; return AIC[k] || (AIC[k] = aiRecord(sc, key)); }
 
 /* =============================================================== in-memory store (solo practice, and every room on the server) */
 function MemStore(mode) {
@@ -141,7 +148,7 @@ function game() { return APP.store && APP.store.game; }
 function compute() {
   const st = store(), g = st && st.game; if (!g || !g.seed || !g.teams) return null;
   const level = g.level || "lestari";
-  const sc = scen(g.seed, level), ck = clockOf(g, sc, now()), T = ck.T, M = sc.months;
+  const sc = scenG(g), ck = clockOf(g, sc, now()), T = ck.T, M = sc.months;
   const final = g.status === "ended" || T >= M - 1e-9;
   const mCur = T >= M - 1e-9 ? M : Math.floor(T + 1e-9) + 1;
   const ol = {}; let vis = 0;
@@ -162,7 +169,7 @@ function compute() {
     teams.push(mk(tm.id, tm.name, false, PB.replay(sc, tm.id, "priority", ol[tm.id], dec, g.closed || {}, T)));
   }
   for (const k of (g.bench || [])) {
-    if (!AI.S[k]) continue; const r = aiRec(g.seed, level, k);
+    if (!AI.S[k]) continue; const r = aiRec(g.seed, level, k, sc);
     teams.push(mk("ai-" + k, r.label, true, PB.replay(sc, r.label, r.policy, r.log, r.dec, g.closed || {}, T)));
   }
   const res = { key, sc, lv: sc.lv, ck, T, mCur, months: M, final, teams, g };
@@ -1079,7 +1086,8 @@ function goldMiss(x, lv) { const r = x.rub, t = x.t, o = []; if (r.park.score < 
 function gmSetupHTML() {
   const s = APP.ui.setup || (APP.ui.setup = { seed: newSeed(), n: 6, names: [], bench: ["garden", "rocket", "caretaker"], pace: LEVEL_TEXT.rintis.pace, window: 90, auto: true, level: "rintis", site: HOST.site || "corridor" });
   for (let i = 0; i < s.n; i++) if (!s.names[i]) s.names[i] = "Team " + (i + 1);
-  const key = JSON.stringify([s.n, s.bench, s.pace, s.window, s.auto, s.level, s.site, APP.ui.setupNonce || 0, !!game()]);
+  if (s.cash == null) s.cash = lvl(s.level).startCash;
+  const key = JSON.stringify([s.n, s.bench, s.pace, s.window, s.auto, s.level, s.site, s.cash, APP.ui.setupNonce || 0, !!game()]);
   const L = lvl(s.level), sc = scen("preview", s.level);
   const clockMin = Math.round(L.months * s.pace / 60000), dealMin = Math.round(sc.events.length * (s.window + 20) / 60);
   const html = `<div class="setup panel card"><h2>Set up a live game</h2>
@@ -1087,7 +1095,7 @@ function gmSetupHTML() {
 <div class="field"><span class="label">Level</span><div class="lvlcards">${LEVEL_KEYS.map(k => { const X = lvl(k); return `<button class="lvlcard${s.level === k ? " on" : ""}" data-act="su-level" data-level="${k}"><b>Level ${X.n} · ${esc(X.name)}</b><span class="sub">${esc(X.sub)}</span><span>${esc(LEVEL_TEXT[k].blurb)}</span></button>`; }).join("")}</div></div>
 <div class="row"><span class="label">Site plan</span>${[["corridor", "Campus corridor"], ["valley", "Green valley"]].map(([k, l]) => `<button class="btn sm${(s.site || "corridor") === k ? " primary" : ""}" data-act="su-site" data-site="${k}">${l}</button>`).join("")}<span class="muted">Same rules on both; only the map changes.</span></div>
 <div class="row"><label class="field" style="flex:1;min-width:200px"><span class="label">Seed</span><input type="text" id="su-seed" value="${esc(s.seed)}" data-in="seed"></label><button class="btn" data-act="su-seed" style="align-self:end">New seed</button></div>
-<div class="row"><span class="label">Teams</span>${stepper("su-n", s.n)}</div>
+<div class="row"><span class="label">Teams</span>${stepper("su-n", s.n)}<span class="label" style="margin-left:14px">Starting cash (Cr)</span>${stepper("su-cash", s.cash)}<span class="muted">default ${lvl(s.level).startCash} Cr; every team and benchmark park starts with the same amount</span></div>
 <div class="teamnames">${s.names.slice(0, s.n).map((nm, i) => `<label class="field"><span class="label">Team ${i + 1}</span><input type="text" id="su-name-${i}" value="${esc(nm)}" data-in="name" data-i="${i}" maxlength="24"></label>`).join("")}</div>
 <div class="field"><span class="label">Benchmark parks on the leaderboard</span><div class="checks">${AI.ORDER.slice().reverse().map(k => `<label><input type="checkbox" data-act="su-bench" data-k="${k}"${s.bench.includes(k) ? " checked" : ""}> ${esc(AI.S[k].label)}</label>`).join("")}</div></div>
 <div class="row"><span class="label">One month every</span>${[30000, 45000, 60000, 90000].map(v => `<button class="btn sm${s.pace === v ? " primary" : ""}" data-act="su-pace" data-v="${v}">${v / 1000} s</button>`).join("")}<span class="muted">about ${clockMin} minutes of clock and ${dealMin} minutes of deals</span></div>
@@ -1103,6 +1111,9 @@ function viewGM(res) {
   if (g.status === "setup") ctl = `<button class="btn primary" data-act="gm-start">Start the clock</button>`;
   else if (g.status === "running" && !ck.hold) ctl = `<button class="btn" data-act="gm-pause">Pause</button>`;
   else if (g.status === "paused" && !ck.hold && !g.lastReveal) ctl = `<button class="btn primary" data-act="gm-resume">Resume</button>`;
+  if (g.status !== "setup" && g.status !== "ended") ctl += APP.ui.confirmEnd
+    ? `<span class="row" style="gap:6px;padding:4px 8px;border:1px solid var(--c-crit);border-radius:8px"><b>End the game now?</b><span class="muted">The remaining months play out with no further orders; then results are computed.</span><button class="btn danger sm" data-act="gm-end-yes">End now</button><button class="btn sm" data-act="gm-end-no">Cancel</button></span>`
+    : `<button class="btn danger" data-act="gm-end-ask">End the game…</button>`;
   const nx = ck.next; let nxt = "";
   const kindName = x => x.kind === "event" ? "Deal Room · " + esc(CARDS[x.ev.card].title) : (x.kind === "checkpoint" ? "Phase " + x.phase + " checkpoint" : (x.kind === "downturn" ? "downturn (" + C.SEV[res.sc.downturn.sev].label + ")" : (x.kind === "forecast" ? "downturn forecast" : "final bell")));
   if (nx && !ck.hold) nxt = `Next stop in ${(nx.t - ck.T).toFixed(1)} months: ${kindName(nx)}.`;
@@ -1110,7 +1121,7 @@ function viewGM(res) {
 <div class="bigdate" style="font-size:64px">${d.day} ${d.month}<small>Year ${d.year}</small></div>
 <div class="row">${ctl}<span class="label" style="margin-left:6px">One month every</span>${[30000, 45000, 60000, 90000].map(v => `<button class="btn sm${mpm === v ? " primary" : ""}" data-act="gm-pace" data-v="${v}">${v / 1000} s</button>`).join("")}</div>
 <div class="muted">${nxt || "&nbsp;"}</div>
-<div class="faint" style="font-size:12px">Seed ${esc(g.seed)} · ${g.teams.length} teams · deals close ${g.auto ? "automatically after " + (g.window || 90) + " s" : "when you close them"} · <button class="btn sm" data-act="gm-auto">${g.auto ? "Switch to manual" : "Switch to automatic"}</button></div></div>`;
+<div class="faint" style="font-size:12px">Seed ${esc(g.seed)} · ${g.teams.length} teams · start cash ${g.startCash != null ? g.startCash : res.lv.startCash} Cr</div><div class="row" style="font-size:13px"><span class="chip ${g.auto ? "acc" : "amb"}">${g.auto ? "Deals: automatic" : "Deals: manual"}</span><span class="muted">${g.auto ? "Each deal closes when its " + (g.window || 90) + " s run out and the clock restarts 15 s after the reveal. The month clock always runs until you pause it." : "Deals stay open until you press Close now, and the clock waits until you press Resume. The month clock still runs between deals; use Pause to stop it."}</span><button class="btn sm" data-act="gm-auto">${g.auto ? "Switch to manual" : "Switch to automatic"}</button></div></div>`;
   L += `<div class="panel card"><h2>Message to every screen</h2><div class="row"><input type="text" id="gm-notice" data-in="notice" data-enter="gm-notice" maxlength="160" value="${esc(APP.ui.notice || "")}" placeholder="e.g. Ten minutes to the checkpoint. Check your applicants." style="flex:1;min-width:220px;font:inherit;padding:7px 9px;border:1px solid var(--rule);border-radius:6px;background:var(--panel);color:var(--ink)"><button class="btn primary" data-act="gm-notice">Send</button>${g.notice ? `<button class="btn" data-act="gm-notice-clear">Clear</button>` : ""}</div>${g.notice ? `<div class="muted">Showing now: “${esc(g.notice.text)}”</div>` : `<div class="faint" style="font-size:12px">Shows as a banner on every team dashboard and on the front screen until you clear it.</div>`}</div>`;
   L += gmHold(res);
   if (res.final) L += gmEnd(res);
@@ -1269,6 +1280,7 @@ const ACT = {
     const k = d.k, v = +d.d;
     if (k === "loan") APP.ui.loan += v; else if (k === "repay") APP.ui.repay += v;
     else if (k === "su-n") { const s = APP.ui.setup; s.n = clamp(s.n + v, 1, 12); }
+    else if (k === "su-cash") { const s = APP.ui.setup; s.cash = clamp((s.cash == null ? lvl(s.level).startCash : s.cash) + v, 0, 30); }
     else if (k.indexOf("def-") === 0) { const id = k.slice(4), g = game(); const res = currentRes(); const Dmax = res ? res.lv.score.D : 15; const cur = (g.defence || {})[id]; const nv = clamp((cur == null ? 10 : cur) + (cur == null ? 0 : v), 0, Dmax); store().gmUpdate({ defence: { [id]: nv } }); }
   },
   order(d) {
@@ -1296,7 +1308,7 @@ const ACT = {
   "solo-close"() { const res = currentRes(); if (res && res.ck.hold && res.ck.hold.kind === "event") closeHold(res, res.ck.hold); },
   "solo-cont"() { const res = currentRes(); if (res && res.ck.hold) closeHold(res, res.ck.hold); },
   "solo-new"(d) { newSolo(game() ? game().msPerMonth : 10000, (d && d.level) || APP.ui.soloLevel); APP.ui.seenEnd = false; APP.ui.seenReveal = null; },
-  "su-level"(d) { const s = APP.ui.setup; s.level = d.level; s.pace = LEVEL_TEXT[d.level].pace; },
+  "su-level"(d) { const s = APP.ui.setup; s.level = d.level; s.pace = LEVEL_TEXT[d.level].pace; s.cash = lvl(d.level).startCash; },
   "su-site"(d) { if (d.site === "corridor" || d.site === "valley") APP.ui.setup.site = d.site; },
   "su-seed"() { APP.ui.setup.seed = newSeed(); APP.ui.setupNonce = (APP.ui.setupNonce || 0) + 1; },
   "su-bench"(d, el) { const s = APP.ui.setup; const on = !!(el && el.checked); s.bench = s.bench.filter(k => k !== d.k); if (on) s.bench.push(d.k); },
@@ -1306,7 +1318,7 @@ const ACT = {
   "gm-create"() {
     const s = APP.ui.setup; const seed = (s.seed || "").trim().replace(/[^A-Za-z0-9_.~:@+-]/g, "-") || newSeed();
     const teams = []; for (let i = 0; i < s.n; i++) teams.push({ id: "t" + (i + 1), name: (s.names[i] || "Team " + (i + 1)).trim().slice(0, 24) || "Team " + (i + 1) });
-    const g = { gid: seed + "-" + rid(4), seed, level: s.level || "lestari", site: s.site || HOST.site || "corridor", teams, bench: s.bench.slice(), status: "setup", startedAt: 0, accMs: 0, msPerMonth: s.pace, window: s.window, auto: s.auto,
+    const g = { gid: seed + "-" + rid(4), seed, startCash: s.cash != null ? s.cash : lvl(s.level || "lestari").startCash, level: s.level || "lestari", site: s.site || HOST.site || "corridor", teams, bench: s.bench.slice(), status: "setup", startedAt: 0, accMs: 0, msPerMonth: s.pace, window: s.window, auto: s.auto,
       closed: {}, dec: {}, openAt: {}, defence: {}, reveal: false, lastReveal: null, revealAt: 0, hb: Date.now(), createdAt: Date.now() };
     APP.ui.gmNew = false; APP.ui.confirmNew = false;
     Promise.resolve(store().gmSet(g)).then(() => toast("Game created. Start the clock when the teams are ready."), e => toast("Could not create the game: " + (e && e.message || e), "bad"));
@@ -1317,6 +1329,9 @@ const ACT = {
   "gm-resume"() { store().gmUpdate({ status: "running", startedAt: now(), lastReveal: null, hb: Date.now() }); },
   "gm-pace"(d) { const res = currentRes(), v = +d.v; store().gmUpdate({ msPerMonth: v, accMs: res.ck.T * v, startedAt: now() }); },
   "gm-auto"() { store().gmUpdate({ auto: !game().auto }); },
+  "gm-end-ask"() { APP.ui.confirmEnd = true; },
+  "gm-end-no"() { APP.ui.confirmEnd = false; },
+  "gm-end-yes"() { APP.ui.confirmEnd = false; const res = currentRes(); if (!res) return; const closed = {}; for (const p of pausePoints(res.sc)) closed[p.id] = true; store().gmUpdate({ status: "ended", closed, lastReveal: null, accMs: res.sc.months * res.g.msPerMonth }); },
   "gm-close"() { const res = currentRes(); if (res.ck.hold && res.ck.hold.kind === "event") closeHold(res, res.ck.hold); },
   "gm-extend"() { const res = currentRes(); const h = res.ck.hold; if (h) store().gmUpdate({ openAt: { [h.id]: res.ck.openAt + 30000 } }); },
   "gm-cont"() { const res = currentRes(); if (res.ck.hold) closeHold(res, res.ck.hold); },
@@ -1354,7 +1369,7 @@ function resultsCSV(res) {
 const CORE = { BRAND, HOST, PB, AI, C, CARDS, esc, n1, n0, sg1, pc, clamp, mname, planSVG, planLegend, SITES, brandHTML, lvl, lvLabel, LEVEL_KEYS, LEVEL_TEXT, levelAcres, yearsWord,
   /* v0.6 shell pieces */ L, whyL, mnameL, barTeam, bannerTeam, coachTips, coachHTML, zonePanel, tabsTeam, tabBody, tabApps, tabPark, tabImpact, tabMoney, tabFac, tabNews, tabStand, RULES_HTML, dealTeam, soloHoldOverlay, finalOverlay,
   apDots, nextAPMonth, levelChip, phaseChip, statusChip, phaseName, partLabel, parts, partBars, radarSVG, resultCharts, breakdown, compareTo, leaderboard, ceremony, viewScreen, viewGM, gmSetupHTML, closeHold, newSolo, currentRes, store, game, now, toast, ZSHORT, ztext, orderText, dateParts, MOUNT,
-  MemStore, newCtx, withCtx, compute, buildFrame, resultsCSV, teamOf, canAct, sortedTeams, liveData, liveText, autoTick, dispatch, onInput, ACT, scen, clockOf, pausePoints, newSeed, rid, deepMerge, dateParts, fmtTimer,
+  MemStore, newCtx, withCtx, scenG, compute, buildFrame, resultsCSV, teamOf, canAct, sortedTeams, liveData, liveText, autoTick, dispatch, onInput, ACT, scen, clockOf, pausePoints, newSeed, rid, deepMerge, dateParts, fmtTimer,
   get APP() { return APP; }, set APP(v) { APP = v; } };
 if (IS_NODE) { module.exports = CORE; return; }
 root.IMPAK = CORE;

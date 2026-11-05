@@ -217,3 +217,8 @@ ol.journal .jw { font-size: 0.95em; }
 /* landing: the paused game's steps, prediction and empty order groups stay out of sight */
 body.on-landing #task, body.on-landing #predict, body.on-landing #checklist, body.on-landing #journalbox,
 body.on-landing #r-banner, body.on-landing #controls details.group, body.on-landing #controls .phbtns { display: none !important; }
+
+/* live session: the guided steps are for practice; the tutor and coach stay */
+body.live-mode #task, body.live-mode #checklist { display: none !important; }
+.toconsole { position: fixed; left: 12px; bottom: 12px; z-index: 80; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--ink); font: inherit; font-weight: 700; box-shadow: 0 4px 14px rgba(0,0,0,.18); cursor: pointer; }
+.toconsole:hover { border-color: var(--accent); color: var(--accent); }

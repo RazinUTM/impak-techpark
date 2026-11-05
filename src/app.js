@@ -220,7 +220,7 @@ function updateTransport(r) {
   const bar = $('.transport'), a = app(), live = G.store() && G.store().mode === 'live';
   bar.classList.toggle('locked', !!live && a.role !== 'gm');
   const play = $('#btn-play'), step = $('#btn-step'), reset = $('#btn-reset'), speed = $('#sel-speed');
-  if (!r || a.role !== 'solo') { play.disabled = !r && a.role !== 'solo'; play.classList.remove('running'); $('#lbl-play').textContent = t('tr.play'); step.disabled = true; reset.disabled = a.role !== 'solo'; if (!r) { $('#readouts').innerHTML = ''; const bc = $('#bigclock'); bc.innerHTML = ''; bc._k = ''; return; } }
+  if (!r || a.role !== 'solo') { play.disabled = !r && a.role !== 'solo'; play.classList.remove('running'); $('#lbl-play').textContent = t('tr.play'); step.disabled = true; reset.disabled = a.role !== 'solo'; if (!r) { const ro = $('#readouts'); ro.innerHTML = ''; ro._k = ''; const bc = $('#bigclock'); bc.innerHTML = ''; bc._k = ''; return; } }
   const g = r.g, ck = r.ck;
   if (a.role === 'solo') {
     const running = g.status === 'running' && !ck.hold;
@@ -231,7 +231,7 @@ function updateTransport(r) {
     reset.disabled = false;
     if (String(g.msPerMonth) !== speed.value) speed.value = String(g.msPerMonth);
   }
-  $('#readouts').innerHTML = readoutsHTML(r, teamNow(r));
+  const ro = $('#readouts'), rh = readoutsHTML(r, teamNow(r)); if (ro._k !== rh) { ro.innerHTML = rh; ro._k = rh; }
   const bc = $('#bigclock'), bh = bigClockHTML(r); if (bc._k !== bh) { bc.innerHTML = bh; bc._k = bh; }
 }
 function soloPlay() { const r = res(); if (!r) return; const g = r.g; if (g.status === 'setup') G.dispatch('solo-start'); else if (g.status === 'running' && !r.ck.hold) G.dispatch('solo-pause'); else if (g.status === 'paused') G.dispatch('solo-resume'); render(true); }
@@ -331,11 +331,22 @@ function afterJoin() {
 }
 
 /* ---------------------------------------------------------------- frames: regions mounted into the shell */
+function focusState(el) {
+  const a = doc.activeElement; if (!a || !el.contains(a) || !/^(INPUT|TEXTAREA)$/.test(a.tagName)) return null;
+  return { id: a.id, din: a.dataset.in, di: a.dataset.i, value: a.value, s: a.selectionStart, e: a.selectionEnd };
+}
+function restoreFocus(el, f) {
+  if (!f) return;
+  const q = f.id ? '#' + CSS.escape(f.id) : '[data-in="' + f.din + '"]' + (f.di != null ? '[data-i="' + f.di + '"]' : '');
+  const n = el.querySelector(q); if (!n) return;
+  if (n.value !== f.value) n.value = f.value;
+  try { n.focus({ preventScroll: true }); if (f.s != null) n.setSelectionRange(f.s, f.e); } catch (e) { /* ignore */ }
+}
 function apply(regions) {
   for (const r of regions) {
     const el = doc.getElementById(r.id); if (!el) continue;
     const key = r.key !== undefined ? r.key : r.html;
-    if (el._k !== key) { el.innerHTML = r.html !== undefined ? r.html : r.fn(); el._k = key; if (r.after) r.after(el); }
+    if (el._k !== key) { const f = focusState(el); el.innerHTML = r.html !== undefined ? r.html : r.fn(); el._k = key; restoreFocus(el, f); if (r.after) r.after(el); }
   }
 }
 function clearRegions(ids) { for (const id of ids) { const el = doc.getElementById(id); if (el && el._k !== '') { el.innerHTML = ''; el._k = ''; } } }
@@ -344,7 +355,7 @@ function teamRegions(r, tm) {
   const a = app(), ca = prefs.lang + JSON.stringify(G.canAct(r));
   const MS = 20, mapT = tm.t.buildings.some((b) => b.status === 'building') ? Math.floor(r.T * MS) / MS : '';
   const hold = r.ck.hold;
-  const overKey = [prefs.lang, r.key, hold && hold.id, r.g.status, r.g.lastReveal, r.g.reveal, a.ui.seenReveal, a.ui.seenEnd, hold && hold.kind === 'event' ? JSON.stringify(G.store().decisionOf(hold.id, tm.id)) : '', Math.floor(HOST.now() / 1000)].join('|');
+  const overKey = [prefs.lang, r.key, hold && hold.id, r.g.status, r.g.lastReveal, r.g.reveal, a.ui.seenReveal, a.ui.seenEnd, hold && hold.kind === 'event' ? JSON.stringify(G.store().decisionOf(hold.id, tm.id)) : ''].join('|');
   return [
     { id: 'r-tiles', key: r.key + '|' + Math.floor(r.T * 4) + '|' + prefs.lang, fn: () => tilesHTML(r, tm) },
     { id: 'r-banner', html: G.bannerTeam(r, tm) },
@@ -453,6 +464,8 @@ function render(force) {
   const a = app();
   setMode();
   doc.body.classList.toggle('on-landing', !a.role);
+  doc.body.classList.toggle('live-mode', !!(G.store() && G.store().mode === 'live'));
+  const bc = $('#to-console'); if (bc) bc.hidden = !(a.role === 'screen' && a.canEdit);
   $('#btn-home').hidden = !a.role;
   if (!a.role) {
     const land = $('#r-land'), key = 'land|' + prefs.lang + '|' + (app().solo && app().solo.game ? app().solo.game.gid + app().solo.game.status : '') + '|' + (root.IMPAKLive && root.IMPAKLive.room) + '|' + LAND.view + '|' + LAND.err + '|' + LAND.busy + '|' + LAND.codeSent + '|' + (root.IMPAKLive && root.IMPAKLive.configured);
@@ -486,6 +499,7 @@ function applyLive(live) {
   doc.querySelectorAll('[data-live="resumetimer"]').forEach((el) => { if (live.resumeEnd == null) return; el.textContent = G.liveText('resume', live.resumeEnd - now); });
 }
 function loop() {
+  if (doc.hidden) return;
   try { const r = res(); G.autoTick(r, false); render(); } catch (err) { console.error(err); }
 }
 
@@ -571,6 +585,8 @@ function boot() {
   $$('#plot-tabs button').forEach((b) => b.addEventListener('click', () => setTab(b.dataset.plot)));
   setTab(uiStore.tab || 'park');
   $('#btn-home').addEventListener('click', goHome);
+  const tc = doc.createElement('button'); tc.type = 'button'; tc.id = 'to-console'; tc.className = 'toconsole'; tc.hidden = true; tc.textContent = '← Game Master console';
+  tc.addEventListener('click', () => { ACT['role-gm'](); lastKind = ''; render(true); }); doc.body.appendChild(tc);
   $('#btn-home').title = t('nav.home.tip');
   const setAll = (open) => { for (const k of ['zone', 'apps', 'money', 'fac']) { const d = $('#grp-' + k); d.open = open; openState[k] = open; } openState.save(); };
   $('#grp-open-all').addEventListener('click', () => setAll(true));

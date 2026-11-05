@@ -198,6 +198,7 @@ function report(p) {
 /* ------------------------------------------------------------------ server-side replay with the shared engine */
 function replayTeam(room, teamId) {
   var g = room.game, sc = PB.makeScenario(g.seed, g.level || 'lestari');
+  if (g.startCash != null && g.startCash !== sc.lv.startCash) { var lv = {}; for (var k in sc.lv) lv[k] = sc.lv[k]; lv.startCash = g.startCash; sc.lv = lv; }
   var orders = ordersOf(room.code)[teamId] || [], decs = decisionsOf(room.code);
   var dec = {}; Object.keys(g.dec || {}).forEach(function (eid) { dec[eid] = (g.dec[eid] || {})[teamId] || 'L'; });
   Object.keys(decs).forEach(function (eid) { if (dec[eid] === undefined && decs[eid][teamId] != null) dec[eid] = decs[eid][teamId]; });
