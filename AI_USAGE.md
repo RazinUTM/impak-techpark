@@ -16,6 +16,7 @@ Last updated: 2026-11-04
 | src/live.js, apps-script/Code.gs | AI-generated from DESIGN.md s2–s3 (Apps Script store, join, codes, orders, replay verification) | Access model chosen by the author | tools/gs_test.js (23 checks), tools/live_test.js (GM → team → screen through tools/mock_server.js); real Google deployment by the author |
 | src/i18n.js | AI-generated; BM wording in the author's register | Author review pending | — |
 | src/advice.js | AI-generated: figures behind each Deal Room lesson, the advice block before and after a decision, the decision journal | Requested by the author (learning from decisions); reviewed | Playwright checks (Bina deal before/after, journal) |
+| src/debrief.js | AI-generated: end-of-game debrief (marks lost by part, missed opportunities, next medal, comparison) and the printable team transcript (browser print to PDF, no library) | Requested by the author (take-away points after the game); reviewed | Playwright: solo games ended at Rintis, Bina and Lestari in BM and EN; transcript printed to A4 PDF |
 | content/lessons.js, content/glossary.js | AI-drafted from the engine's soundness rules (`sound()`) and parameters; BM/EN | Author review pending | figures cross-checked against engine.js CFG |
 | content/texts.js, content/run-sheet.md | AI-drafted tutor lines, activity steps, predictions and theory from the author's rule book | Author review pending | — |
 | tools/avatar_split.py | AI-generated | Author checked the contact sheet | visual check |

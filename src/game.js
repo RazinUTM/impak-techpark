@@ -280,7 +280,7 @@ function canAct(res) {
   if (tm.t.receiver) return no("Your park is in receivership.");
   return { ok: true };
 }
-function partLabel(k, lv) { return (lv.labels && lv.labels[k]) || ({ A: "Park score", B1: "Phase 1", B2: "Zone H", B3: "Survival", C: "Decisions", D: "Defence", E: "ESG" }[k]); }
+function partLabel(k, lv) { const ops = lv.labels && lv.labels.B3 === "Operations"; return ({ A: L("Park score", "Skor park"), B1: L("Phase 1", "Fasa 1"), B2: L("Zone H", "Zon H"), B3: ops ? L("Operations", "Operasi") : L("Survival", "Survival"), C: L("Decisions", "Keputusan"), D: L("Defence", "Defence"), E: "ESG" }[k]); }
 function parts(lv) { return ["A", "B1", "B2", "B3", "C", "D", "E"].filter(k => lv.score[k] > 0); }
 
 /* =============================================================== language of the guide-side views (v0.6)
@@ -985,15 +985,16 @@ function resultCharts(res, tm, small) {
   const series = [{ name: tm.name, r: tm.rub }]; if (cmp) series.push({ name: cmp.name + (cmp.bench ? " (benchmark)" : ""), r: cmp.rub });
   return `<div class="rcharts${small ? " small" : ""}"><div><div class="label">Marks by part</div>${partBars(tm.rub, lv)}</div><div><div class="label">Profile${cmp ? " against " + esc(cmp.bench ? "the best benchmark" : "the leader") : ""}</div>${radarSVG(series, lv, small ? 190 : 220)}</div></div>`;
 }
-function breakdown(r, lv) { return `<div class="brk" style="grid-template-columns:repeat(${parts(lv).length},1fr)">${parts(lv).map(k => `<span title="${esc(partLabel(k, lv))}"><em>${k}</em>${n1(r[k])}</span>`).join("")}</div>`; }
+function breakdown(r, lv) { return `<div class="brk" style="grid-template-columns:repeat(${parts(lv).length},1fr)">${parts(lv).map(k => `<span title="${esc(partLabel(k, lv))}"><em>${k}</em>${n1(r[k])}<small>${esc(partLabel(k, lv))}</small></span>`).join("")}</div>`; }
 function finalOverlay(res, tm) {
   const g = res.g; if (!res.final || !g.reveal || APP.ui.seenEnd || !tm.rub) return "";
-  const r = tm.rub;
-  return `<div class="overlay"><div class="deal"><div class="deal-body"><span class="label">Final result · ${esc(tm.name)} · ${esc(lvLabel(res.sc.level))}</span>
-<div class="medal ${r.medal}" style="border-width:1px"><div class="m">${r.medal === "none" ? "Completed" : r.medal}</div><div class="tot">${n1(r.total)}</div>${breakdown(r, res.lv)}${resultCharts(res, tm)}
-<div class="muted" style="font-size:12.5px">Park score ${n1(r.park.score)} · impact ${n1(r.park.ip)} · FCR12 ${r.park.fcr > 8 ? "—" : r.park.fcr.toFixed(2)} · drift ${pc(r.park.drift)}${res.lv.score.E ? " · ESG " + n1(r.esg) : ""} · dare ${r.dare} · sound ${pc(r.soundShare)}${tm.hasD ? "" : " · defence not yet marked"}</div>
-<div class="muted" style="font-size:12.5px">Impact (not scored): ${(() => { const so = PB.socio(tm.t); return `${so.jobs} jobs · ${so.interns} interns/yr · ${so.firms} firms, ${so.alumni} alumni-founded · ${pc(so.uniShare)} university-linked · economic impact ${n1(so.econ)} Cr/yr`; })()}</div></div>
-<div class="row"><button class="btn" data-act="seen-end">Close</button>${store().mode === "solo" ? LEVEL_KEYS.map(k => `<button class="btn ${k === res.sc.level ? "" : "primary"}" data-act="solo-new" data-level="${k}">New game · ${esc(lvLabel(k))}</button>`).join("") : ""}</div></div></div></div>`;
+  const r = tm.rub, so = PB.socio(tm.t), MED = { gold: L("Gold", "Emas"), silver: L("Silver", "Perak"), bronze: L("Bronze", "Gangsa"), none: L("Completed", "Tamat") };
+  return `<div class="overlay"><div class="deal"><div class="deal-body"><span class="label">${L("Final result", "Keputusan akhir")} · ${esc(tm.name)} · ${esc(lvLabel(res.sc.level))}</span>
+<div class="medal ${r.medal}" style="border-width:1px"><div class="m">${MED[r.medal]}</div><div class="tot">${n1(r.total)}</div>${breakdown(r, res.lv)}${resultCharts(res, tm)}
+<div class="muted" style="font-size:12.5px">${L("Park score", "Skor park")} ${n1(r.park.score)} · impact ${n1(r.park.ip)} · FCR12 ${r.park.fcr > 8 ? "—" : r.park.fcr.toFixed(2)} · drift ${pc(r.park.drift)}${res.lv.score.E ? " · ESG " + n1(r.esg) : ""} · dare ${r.dare} · ${L("sound", "wajar")} ${pc(r.soundShare)}${tm.hasD ? "" : L(" · defence not yet marked", " · defence belum dinilai")}</div>
+<div class="muted" style="font-size:12.5px">${L("Impact (not scored)", "Impak (tidak diberi markah)")}: ${so.jobs} ${L("jobs", "pekerjaan")} · ${so.interns} ${L("interns/yr", "intern/tahun")} · ${so.firms} ${L("firms", "syarikat")}, ${so.alumni} ${L("alumni-founded", "diasaskan alumni")} · ${pc(so.uniShare)} ${L("university-linked", "berkait universiti")} · ${L("economic impact", "impak ekonomi")} ${n1(so.econ)} Cr/${L("yr", "thn")}</div></div>
+${HOST.finalExtra ? HOST.finalExtra(res, tm) : ""}
+<div class="row"><button class="btn" data-act="seen-end">${L("Close", "Tutup")}</button>${store().mode === "solo" ? LEVEL_KEYS.map(k => `<button class="btn ${k === res.sc.level ? "" : "primary"}" data-act="solo-new" data-level="${k}">${L("New game", "Permainan baharu")} · ${esc(lvLabel(k))}</button>`).join("") : ""}</div></div></div></div>`;
 }
 
 /* =============================================================== front screen */
@@ -1167,7 +1168,7 @@ function gmHold(res) {
 function gmEnd(res) {
   const g = res.g; const H = res.teams.filter(x => !x.bench), D = res.lv.score.D;
   return `<div class="panel card"><h2>${D ? "Defence marks and medals" : "Medals"}</h2>${D ? `<p class="muted" style="margin:0">Mark each team's defence out of ${D} after its presentation. Totals update as you mark.</p>` : `<p class="muted" style="margin:0">This level has no defence round. Reveal the medals when you are ready.</p>`}
-<div class="scroll-x"><table class="tbl"><thead><tr><th>Park</th>${D ? "<th>Defence</th>" : ""}<th class="r">Total</th><th>Medal</th></tr></thead><tbody>${H.map(x => { const dv = (g.defence || {})[x.id]; return `<tr><td><b>${esc(x.name)}</b></td>${D ? `<td>${stepper("def-" + x.id, dv == null ? "—" : dv)}</td>` : ""}<td class="r mono">${x.rub ? n1(x.rub.total) : ""}</td><td>${x.rub ? (x.rub.medal === "none" ? "—" : x.rub.medal) : ""}</td></tr>`; }).join("")}</tbody></table></div>
+<div class="scroll-x"><table class="tbl"><thead><tr><th>Park</th>${D ? "<th>Defence</th>" : ""}<th class="r">Total</th><th>Medal</th><th></th></tr></thead><tbody>${H.map(x => { const dv = (g.defence || {})[x.id]; return `<tr><td><b>${esc(x.name)}</b></td>${D ? `<td>${stepper("def-" + x.id, dv == null ? "—" : dv)}</td>` : ""}<td class="r mono">${x.rub ? n1(x.rub.total) : ""}</td><td>${x.rub ? (x.rub.medal === "none" ? "—" : x.rub.medal) : ""}</td><td>${x.rub && HOST.finalExtra ? `<button class="btn sm" data-act="transcript" data-team="${esc(x.id)}">${L("Transcript", "Transkrip")}</button>` : ""}</td></tr>`; }).join("")}</tbody></table></div>
 <div class="row"><button class="btn ${g.reveal ? "" : "primary"}" data-act="gm-reveal">${g.reveal ? "Hide medals" : "Show medals on the front screen"}</button></div></div>`;
 }
 
@@ -1273,6 +1274,7 @@ function newSolo(pace, level) {
   return APP.solo.gmSet({ gid: "solo-" + seed, seed, level: APP.ui.soloLevel, site: HOST.site || "corridor", teams: [{ id: "you", name: "Your park" }], bench: ["garden", "bold", "rocket", "caretaker"], status: "setup", startedAt: 0, accMs: 0, msPerMonth: pace || 10000, window: 60, auto: true, closed: {}, dec: {}, openAt: {}, defence: { you: 11 }, reveal: true, lastReveal: null });
 }
 const ACT = {
+  transcript(d) { const res = currentRes(); if (!res || !window.IMPAKDebrief) return; const tm = teamOf(res, d.team || APP.teamId || (res.teams.find(x => !x.bench) || {}).id); if (tm && tm.rub) window.IMPAKDebrief.open(res, tm, HOST.transcriptMeta ? HOST.transcriptMeta(tm) : {}); },
   home() { APP.role = null; APP.teamId = null; APP.store = APP.live; HOST.hash(""); },
   zone(d) { APP.ui.zone = d.z; },
   tab(d) { APP.ui.tab = d.k; if (HOST.remember) HOST.remember("tab", d.k); },
@@ -1367,7 +1369,7 @@ function resultsCSV(res) {
 }
 
 const CORE = { BRAND, HOST, PB, AI, C, CARDS, esc, n1, n0, sg1, pc, clamp, mname, planSVG, planLegend, SITES, brandHTML, lvl, lvLabel, LEVEL_KEYS, LEVEL_TEXT, levelAcres, yearsWord,
-  /* v0.6 shell pieces */ L, whyL, mnameL, barTeam, bannerTeam, coachTips, coachHTML, zonePanel, tabsTeam, tabBody, tabApps, tabPark, tabImpact, tabMoney, tabFac, tabNews, tabStand, RULES_HTML, dealTeam, soloHoldOverlay, finalOverlay,
+  /* v0.6 shell pieces */ aiRec, L, whyL, mnameL, barTeam, bannerTeam, coachTips, coachHTML, zonePanel, tabsTeam, tabBody, tabApps, tabPark, tabImpact, tabMoney, tabFac, tabNews, tabStand, RULES_HTML, dealTeam, soloHoldOverlay, finalOverlay,
   apDots, nextAPMonth, levelChip, phaseChip, statusChip, phaseName, partLabel, parts, partBars, radarSVG, resultCharts, breakdown, compareTo, leaderboard, ceremony, viewScreen, viewGM, gmSetupHTML, closeHold, newSolo, currentRes, store, game, now, toast, ZSHORT, ztext, orderText, dateParts, MOUNT,
   MemStore, newCtx, withCtx, scenG, compute, buildFrame, resultsCSV, teamOf, canAct, sortedTeams, liveData, liveText, autoTick, dispatch, onInput, ACT, scen, clockOf, pausePoints, newSeed, rid, deepMerge, dateParts, fmtTimer,
   get APP() { return APP; }, set APP(v) { APP = v; } };

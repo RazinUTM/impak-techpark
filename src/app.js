@@ -33,6 +33,8 @@ HOST.remember = (k, v) => { if (k === 'tab' && ['park', 'impact', 'stand', 'news
 HOST.landing = () => '';
 HOST.footer = () => '';
 HOST.setOffset = (ms) => { OFFSET = ms; };
+HOST.finalExtra = (res, tm) => (root.IMPAKDebrief ? root.IMPAKDebrief.html(res, tm, { open: true, team: tm.id }) : '');
+HOST.transcriptMeta = () => { const L = root.IMPAKLive, ss = L && L.store && L.store.session; return { room: L ? L.room : '', members: ss && ss.role === 'team' && ss.name ? ss.name + ', …' : '' }; };
 HOST.dealAdvice = (res, tm, ev, phase) => { const A = root.IMPAKAdvice; if (!A) return ''; return phase === 'after' ? A.after(res, tm, ev) : A.before(res, tm, ev); };
 const ACT = G.ACT;
 HOST.act = {
@@ -410,9 +412,10 @@ function watch(r, tm) {
 /* ---------------------------------------------------------------- decision journal and glossary */
 function renderJournal(r, tm) {
   const A = root.IMPAKAdvice, box = $('#journal'); if (!A || !box) return;
-  const key = prefs.lang + '|' + JSON.stringify(tm.t.dlog.map((d) => [d.eid, d.opt, d.sound]));
+  const fin = r.final && tm.rub && root.IMPAKDebrief;
+  const key = prefs.lang + '|' + JSON.stringify(tm.t.dlog.map((d) => [d.eid, d.opt, d.sound])) + (fin ? '|end' + tm.rub.total.toFixed(2) : '');
   if (box._k === key) return; box._k = key;
-  box.innerHTML = A.journal(r, tm);
+  box.innerHTML = (fin ? root.IMPAKDebrief.html(r, tm, { open: true, team: tm.id }) : '') + A.journal(r, tm);
   const el = tm.t.dlog.filter((d) => d.eligible);
   $('#journal-count').textContent = el.length ? el.filter((d) => d.sound).length + '/' + el.length : '';
 }

@@ -259,3 +259,22 @@ body.live-mode #task, body.live-mode #checklist { display: none !important; }
 /* the clock bar has nothing to do on the landing page */
 body.on-landing .transport { display: none; }
 body.on-landing { grid-template-rows: auto minmax(0, 1fr); }
+
+/* v0.6 — debrief on the final card and in the Guide; part labels on the medal card */
+.g .brk span small { font-family: var(--f-ui); font-size: 9.5px; color: var(--muted); line-height: 1.15; padding: 0 2px; }
+.debrief { margin: 10px 0; border: 1px solid color-mix(in srgb, var(--acc-guide) 55%, var(--line)); border-left: 4px solid var(--acc-guide); border-radius: 10px; background: color-mix(in srgb, var(--acc-guide) 6%, var(--card)); text-align: left; }
+.debrief > summary { padding: 8px 12px; font-weight: 700; color: var(--ink); cursor: pointer; }
+.debrief[open] > summary { border-bottom: 1px solid var(--line-soft); }
+.debrief > :not(summary) { margin-left: 12px; margin-right: 12px; }
+.debrief .db-sum { font-weight: 600; color: var(--ink); margin-top: 8px; margin-bottom: 4px; }
+.debrief .db-sub { margin-top: 10px; font-size: 11.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.debrief ol.db-gaps, .debrief ul.db-list { padding-left: 18px; margin-top: 4px; margin-bottom: 4px; }
+.debrief ol.db-gaps li { margin: 0 0 8px; }
+.debrief .db-h { display: flex; gap: 8px; justify-content: space-between; align-items: baseline; color: var(--ink); }
+.debrief .db-pts { font-family: var(--f-mono); font-size: 12px; color: var(--bad); white-space: nowrap; }
+.debrief .db-d { color: var(--ink2); font-size: 13px; line-height: 1.4; margin-top: 2px; }
+.debrief .db-tip { color: var(--good, var(--ink)); font-size: 13px; line-height: 1.4; margin-top: 2px; }
+.debrief ul.db-list li { color: var(--ink2); font-size: 13px; line-height: 1.4; margin: 0 0 4px; }
+.debrief ul.db-list.ok li::marker { content: '✓  '; color: var(--good, var(--accent)); }
+.debrief .db-actions { margin-top: 8px; margin-bottom: 10px; }
+.g .overlay .deal .debrief { max-height: none; }
