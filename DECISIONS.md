@@ -84,3 +84,12 @@ Decided by: Ahmad Razin
 Bug: during the end-of-Phase-1 checkpoint the browser's clock holds at month 24 (orders allowed), but the server counted wall-clock time and refused the order as late ("order time 24 vs server 27.27"). The server now stops at the same pause points as the browser (deals, checkpoints, forecast, downturn, final bell) until the Game Master closes them. Requires redeploying Code.gs.
 "Think it through" in the Deal Room is folded by default; participants open it when they want it.
 Decided by: Ahmad Razin
+
+## 2026-11-05 End-of-game debrief and team transcript
+After the final bell the medal card and the Guide show a debrief: where the marks went (by part, with the cause and the fix), opportunities missed, what went well, what the next medal needed, and a comparison with the leading team or best benchmark. "Download transcript (PDF)" opens a print-ready A4 page; the browser saves it as PDF, so no PDF library is added. The GM's medal table has a Transcript button per team.
+Decided by: Ahmad Razin
+
+## 2026-11-06 Full BM interface; transcript as a certificate
+Every screen is bilingual, including the game core, the GM console, the front screen, the rules, the site plan, the deal cards, deal outcomes and the news log. The engine stays verbatim in English (the server replays it); its output is translated for display by content/game-ms.js. Game terms stay in English and everyday words are in Malay; the full list is content/glossary-bm.md (Phase → Fasa, team → pasukan, medal names in Malay, impact kept as the scored metric, startup not start-up, park benchmark rather than penanda aras).
+The transcript's first page is a certificate: large IMPAK™ – Technovation Park title, the team name, a medal seal with the score, the tutor avatar (cheering for Gold and Silver) with a short message, the members and signature lines. The page says it is a record of a training game, not an assessment of competence.
+Decided by: Ahmad Razin

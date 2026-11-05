@@ -172,10 +172,11 @@ function pinsHTML() {
 function tilesHTML(r, tm) {
   const T = tm.t, lv = r.lv, n1 = G.n1, n0 = G.n0, sg1 = G.sg1, pc = G.pc;
   const cap = PB.loanCap(T, r.sc, r.mCur);
-  const fund = r.mCur <= T.fundEnd ? n1(T.fund) : '<small>lapsed</small>';
+  const LL = (en, ms) => (prefs.lang === 'ms' ? ms : en);
+  const fund = r.mCur <= T.fundEnd ? n1(T.fund) : '<small>' + LL('lapsed', 'luput') + '</small>';
   const net = tm.P.net, run = net < 0 && T.cash > 0 ? T.cash / -net : (T.cash <= 0 ? 0 : 99);
   const cashCls = T.cash < 0 || run < 6 ? 'bad' : (run < 12 ? 'warn' : '');
-  const cashTip = T.cash < 0 ? 'Cash is negative: the bank will step in' : (run < 12 ? 'At this rate cash runs out in about ' + Math.max(1, Math.floor(run)) + ' months' : 'Cash and the monthly change (income minus costs)');
+  const cashTip = T.cash < 0 ? LL('Cash is negative: the bank will step in', 'Tunai negatif: bank akan campur tangan') : (run < 12 ? LL('At this rate cash runs out in about ' + Math.max(1, Math.floor(run)) + ' months', 'Pada kadar ini tunai habis dalam kira-kira ' + Math.max(1, Math.floor(run)) + ' bulan') : LL('Cash and the monthly change (income minus costs)', 'Tunai dan perubahan bulanan (pendapatan tolak kos)'));
   const left = T.fundEnd - r.mCur + 1, fundCls = r.mCur <= T.fundEnd && T.fund > 3 && left <= 6 ? 'warn' : '';
   const debt = T.debt + T.emerg, loanCls = T.emerg > 0 || (cap > 0 && debt / cap >= 0.8) ? 'warn' : '';
   const behind = r.ck.T > 12 && tm.ps.score < lv.score.parkTarget * (r.ck.T - 6) / r.months;
@@ -371,22 +372,23 @@ function teamRegions(r, tm) {
   return [
     { id: 'r-tiles', key: r.key + '|' + Math.floor(r.T * 4) + '|' + prefs.lang, fn: () => tilesHTML(r, tm) },
     { id: 'r-banner', html: G.bannerTeam(r, tm) },
-    { id: 'r-map', key: r.key + '|' + a.ui.zone + '|' + mapT, fn: () => G.planSVG(tm.t, r.mCur, mapT === '' ? r.T : mapT, a.ui.zone, 'm') },
-    { id: 'r-leg', key: 'leg', fn: G.planLegend },
+    { id: 'r-map', key: prefs.lang + '|' + r.key + '|' + a.ui.zone + '|' + mapT, fn: () => G.planSVG(tm.t, r.mCur, mapT === '' ? r.T : mapT, a.ui.zone, 'm') },
+    { id: 'r-leg', key: 'leg' + prefs.lang, fn: G.planLegend },
     { id: 'r-zone', key: r.key + '|' + a.ui.zone + '|' + ca, fn: () => G.zonePanel(r, tm) },
     { id: 'r-apps', key: r.key + '|' + ca, fn: () => G.tabApps(r, tm) },
     { id: 'r-money', key: r.key + '|' + a.ui.loan + '|' + a.ui.repay + '|' + ca, fn: () => G.tabMoney(r, tm) },
     { id: 'r-fac', key: r.key + '|' + ca, fn: () => G.tabFac(r, tm) },
-    { id: 'r-tab', key: r.key + '|' + uiStore.tab + '|' + (uiStore.tab === 'stand' ? Math.floor(r.T * 4) : '') + '|' + (S.pins.A ? 'A' : '') + (S.pins.B ? 'B' : ''), fn: () => tabHTML(r, tm) },
+    { id: 'r-tab', key: prefs.lang + '|' + r.key + '|' + uiStore.tab + '|' + (uiStore.tab === 'stand' ? Math.floor(r.T * 4) : '') + '|' + (S.pins.A ? 'A' : '') + (S.pins.B ? 'B' : ''), fn: () => tabHTML(r, tm) },
     { id: 'r-over', key: overKey, fn: () => G.dealTeam(r, tm) || G.soloHoldOverlay(r, tm) || G.finalOverlay(r, tm) },
   ];
 }
 function groupStatus(r, tm) {
   const T = tm.t;
   $('#zone-status').textContent = a().ui.zone + ' · ' + (C.ZONES[a().ui.zone] ? C.ZONES[a().ui.zone].name : '');
-  $('#apps-status').textContent = T.applicants.length ? T.applicants.length + ' applying' : '';
-  $('#money-status').textContent = 'cash ' + G.n1(T.cash) + (T.debt ? ' · debt ' + G.n1(T.debt + T.emerg) : '');
-  $('#fac-status').textContent = Object.keys(T.fac).filter((k) => T.fac[k]).length + ' set up';
+  const ms = prefs.lang === 'ms';
+  $('#apps-status').textContent = T.applicants.length ? T.applicants.length + (ms ? ' memohon' : ' applying') : '';
+  $('#money-status').textContent = (ms ? 'tunai ' : 'cash ') + G.n1(T.cash) + (T.debt ? (ms ? ' · hutang ' : ' · debt ') + G.n1(T.debt + T.emerg) : '');
+  $('#fac-status').textContent = Object.keys(T.fac).filter((k) => T.fac[k]).length + (ms ? ' disediakan' : ' set up');
   function a() { return app(); }
 }
 
@@ -441,24 +443,25 @@ function openGloss() {
 function renderWhy() { const el = $('#why'); if (el) el.innerHTML = t('why.' + S.level); }
 function renderLedger() {
   const el = $('#ledger'); if (!el) return;
+  const ms = prefs.lang === 'ms', LL = (en, m2) => (ms ? m2 : en), mo = LL(' mo', ' bln'), yr = LL('/yr', '/thn');
   const row = (k, v) => '<li><b>' + escapeHtml(k) + '</b>: ' + escapeHtml(v) + '</li>';
-  const ten = Object.keys(C.TEN).map((k) => C.TEN[k].label + ' ' + C.TEN[k].rent + ' Cr/unit/yr, IP ' + C.TEN[k].ip + (C.TEN[k].linked ? ', linked' : '')).join('; ');
+  const ten = Object.keys(C.TEN).map((k) => C.TEN[k].label + ' ' + C.TEN[k].rent + ' Cr/unit' + yr + ', IP ' + C.TEN[k].ip + (C.TEN[k].linked ? ', linked' : '')).join('; ');
   el.innerHTML = '<li class="faint">' + escapeHtml(t('ledger.note')) + '</li>' +
-    row('Development Fund', C.FUND + ' Cr, pays ' + Math.round(C.FUND_SHARE * 100) + '% of capital works until month ' + C.FUND_END + ' (Rintis: 20 Cr, 100%)') +
-    row('Start cash · park office', C.START_CASH + ' Cr · ' + C.PARK_OFFICE + ' Cr/yr') +
-    row('Loans', 'cap ' + C.LOAN_CAP + ' Cr at ' + Math.round(C.RATE * 100) + '%/yr; emergency loan ' + Math.round(C.EMERG * 100) + '%') +
-    row('Action points', C.AP_Q + ' per quarter') +
-    row('Works', Object.keys(C.WORKS).map((k) => C.WORKS[k].label + ' ' + C.WORKS[k].cost + ' Cr / ' + C.WORKS[k].months + ' mo').join('; ')) +
-    row('Buildings', Object.keys(C.BUILD).map((k) => C.BUILD[k].label + ' ' + C.BUILD[k].cost + ' Cr, ' + C.BUILD[k].units + ' units, ' + C.BUILD[k].months + ' mo, upkeep ' + C.BUILD[k].upkeep).join('; ')) +
-    row('Tenants', ten) +
-    row('Start-ups', 'fee ' + C.STARTUP.fee + ' Cr, graduation 1/3 (1/2 with a lab), failure 1/6, IP on graduation ' + C.STARTUP.gradIP) +
-    row('Applicant mix', C.MIX.map((m) => m[0] + ' ' + Math.round(m[1] * 100) + '%').join(', ')) +
-    row('Downturn', Object.keys(C.SEV).map((k) => C.SEV[k].label + ': cap ' + C.SEV[k].cap + ', rate ' + Math.round(C.SEV[k].rate * 100) + '%, unlinked rents −' + Math.round(C.SEV[k].cut * 100) + '%').join('; ')) +
-    row('FCR bands', C.FCR_BANDS.map((b) => '≥ ' + b[0] + ' → +' + b[1]).join(', ') + '; below → ' + C.FCR_LOW) +
-    row('Drift penalty', C.DRIFT_PEN.map((b) => '> ' + Math.round(b[0] * 100) + '% → −' + b[1]).join(', ')) +
-    row('ESG', 'floor ' + C.ESG.floor + ', target ' + C.ESG.target + '; clear ' + C.ESG.clear + ', buffer +' + C.ESG.buffer + ', park +' + C.ESG.park + ', certification +' + C.ESG.cert) +
-    row('Medals', 'Gold ' + C.MEDALS.gold + ' · Silver ' + C.MEDALS.silver + ' · Bronze ' + C.MEDALS.bronze + ' (+ park gate: half the target)') +
-    row('Impact coefficients', 'jobs per unit: ' + Object.keys(PB.SOCIO).filter((k) => PB.SOCIO[k] && PB.SOCIO[k].jobs != null).map((k) => k + ' ' + PB.SOCIO[k].jobs).join(', ') + '; local multiplier ' + PB.SOCIO.mult);
+    row('Development Fund', C.FUND + LL(' Cr, pays ', ' Cr, membayar ') + Math.round(C.FUND_SHARE * 100) + LL('% of capital works until month ', '% kerja modal hingga bulan ') + C.FUND_END + LL(' (Rintis: 20 Cr, 100%)', ' (Rintis: 20 Cr, 100%)')) +
+    row(LL('Start cash · park office', 'Tunai permulaan · pejabat park'), C.START_CASH + ' Cr · ' + C.PARK_OFFICE + ' Cr' + yr) +
+    row(LL('Loans', 'Pinjaman'), LL('cap ', 'had ') + C.LOAN_CAP + LL(' Cr at ', ' Cr pada ') + Math.round(C.RATE * 100) + '%' + yr + LL('; emergency loan ', '; pinjaman kecemasan ') + Math.round(C.EMERG * 100) + '%') +
+    row('Action points', C.AP_Q + LL(' per quarter', ' setiap suku tahun')) +
+    row(LL('Works', 'Kerja tanah'), Object.keys(C.WORKS).map((k) => C.WORKS[k].label + ' ' + C.WORKS[k].cost + ' Cr / ' + C.WORKS[k].months + mo).join('; ')) +
+    row(LL('Buildings', 'Bangunan'), Object.keys(C.BUILD).map((k) => C.BUILD[k].label + ' ' + C.BUILD[k].cost + ' Cr, ' + C.BUILD[k].units + LL(' units, ', ' unit, ') + C.BUILD[k].months + mo + ', upkeep ' + C.BUILD[k].upkeep).join('; ')) +
+    row(LL('Tenants', 'Penyewa'), ten) +
+    row('Startup', LL('fee ', 'fi ') + C.STARTUP.fee + LL(' Cr, graduation 1/3 (1/2 with a lab), failure 1/6, IP on graduation ', ' Cr, bergraduat 1/3 (1/2 dengan lab), gagal 1/6, IP semasa bergraduat ') + C.STARTUP.gradIP) +
+    row(LL('Applicant mix', 'Campuran pemohon'), C.MIX.map((m) => m[0] + ' ' + Math.round(m[1] * 100) + '%').join(', ')) +
+    row('Downturn', Object.keys(C.SEV).map((k) => C.SEV[k].label + LL(': cap ', ': had ') + C.SEV[k].cap + LL(', rate ', ', kadar ') + Math.round(C.SEV[k].rate * 100) + LL('%, unlinked rents −', '%, sewa unlinked −') + Math.round(C.SEV[k].cut * 100) + '%').join('; ')) +
+    row(LL('FCR bands', 'Jalur FCR'), C.FCR_BANDS.map((b) => '≥ ' + b[0] + ' → +' + b[1]).join(', ') + LL('; below → ', '; bawah → ') + C.FCR_LOW) +
+    row(LL('Drift penalty', 'Penalti drift'), C.DRIFT_PEN.map((b) => '> ' + Math.round(b[0] * 100) + '% → −' + b[1]).join(', ')) +
+    row('ESG', LL('floor ', 'lantai ') + C.ESG.floor + ', target ' + C.ESG.target + LL('; clear ', '; buka hutan ') + C.ESG.clear + ', buffer +' + C.ESG.buffer + ', park +' + C.ESG.park + LL(', certification +', ', pensijilan +') + C.ESG.cert) +
+    row(LL('Medals', 'Pingat'), LL('Gold ', 'Emas ') + C.MEDALS.gold + LL(' · Silver ', ' · Perak ') + C.MEDALS.silver + LL(' · Bronze ', ' · Gangsa ') + C.MEDALS.bronze + LL(' (+ park gate: half the target)', ' (+ syarat park: separuh target)')) +
+    row(LL('Impact coefficients', 'Pekali impak'), LL('jobs per unit: ', 'pekerjaan setiap unit: ') + Object.keys(PB.SOCIO).filter((k) => PB.SOCIO[k] && PB.SOCIO[k].jobs != null).map((k) => k + ' ' + PB.SOCIO[k].jobs).join(', ') + LL('; local multiplier ', '; pengganda tempatan ') + PB.SOCIO.mult);
 }
 
 /* ---------------------------------------------------------------- rendering */

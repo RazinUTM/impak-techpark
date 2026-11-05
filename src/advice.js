@@ -36,6 +36,8 @@ const CHECKS = {
   incub: { en: 'Incubator set up', ms: 'Incubator disediakan', target: 'yes', v: (t) => !!t.fac.incubator, f: (x) => (x ? '✓' : '✗'), ok: (x) => x },
   freeTech: { en: 'Free units with fibre', ms: 'Unit kosong dengan fibre', target: '≥ 2', v: (t) => t.buildings.filter((b) => b.status === 'ready' && t.zones[b.zone] && t.zones[b.zone].svc.fibre >= 1).reduce((a, b) => a + PB.freeUnits(t, b), 0), f: String, ok: (x) => x >= 2 },
 };
+const TARGET_MS = { 'yes': 'ya', '0 → Leave is safe': '0 → Leave selamat', 'yes → Leave is safe': 'ya → Leave selamat', '≥ 2 (Take) · ≥ 1 (Conditions)': '≥ 2 (Take) · ≥ 1 (Conditions)',
+  '≤ 30% → you can refuse': '≤ 30% → anda boleh menolak', '≥ 5 Cr → fix the rate': '≥ 5 Cr → tetapkan kadar' };
 const OPT = { en: { T: 'Take', C: 'Conditions', L: 'Leave' }, ms: { T: 'Take', C: 'Conditions', L: 'Leave' } };
 const TXT = {
   en: { before: 'Think it through', checks: 'What this decision depends on', now: 'now', target: 'rule of thumb', risks: 'Risk of each option', noDice: 'In Rintis every counterparty accepts your conditions; the die notes apply from Bina on.', lestari: 'Lestari shows the questions, not the answers: read your figures in the tiles and the Money group.',
@@ -53,7 +55,7 @@ function checksHTML(L, t, m, showValues) {
     const c = CHECKS[id]; if (!c) return '';
     let val = '', mark = '';
     if (showValues) { const x = c.v(t, m), ok = c.ok(x); val = '<b>' + esc(c.f(x)) + '</b>'; mark = ok === null ? '' : (ok ? '<i class="ok">✓</i>' : '<i class="no">!</i>'); }
-    return '<li>' + mark + '<span>' + esc(c[lang()]) + (val ? ': ' + val : '') + ' <small>· ' + esc(tx('target')) + ' ' + esc(c.target) + '</small></span></li>';
+    return '<li>' + mark + '<span>' + esc(c[lang()]) + (val ? ': ' + val : '') + ' <small>· ' + esc(tx('target')) + ' ' + esc(lang() === 'ms' ? (TARGET_MS[c.target] || c.target) : c.target) + '</small></span></li>';
   }).join('');
   return '<div class="adv-sub">' + esc(tx('checks')) + '</div><ul class="adv-checks">' + rows + '</ul>';
 }
@@ -84,8 +86,8 @@ function journal(res, tm) {
   return '<p class="adv-sum">' + esc(tx('soundCount', { s, n: el.length })) + '</p><ol class="journal">' + list.map((d) => {
     const Cd = PB.CARDS[d.card], L = lessonOf(d.card), T = L ? L[lang()] : null, ev = res.sc.events.find((e) => e.id === d.eid);
     const when = ev && root.IMPAK ? root.IMPAK.mnameL(ev.month) : '';
-    if (!d.eligible) return '<li class="na"><b>' + esc(Cd.title) + '</b> <small>' + esc(when) + ' · ' + esc(tx('na')) + '</small></li>';
-    return '<li class="' + (d.sound ? 'ok' : 'no') + '"><b>' + esc(Cd.title) + '</b> <small>' + esc(when) + ' · ' + esc(OPT[lang()][d.opt]) + (d.site ? ' · Zone ' + esc(d.site) : '') + '</small>' +
+    if (!d.eligible) return '<li class="na"><b>' + esc(root.IMPAK && root.IMPAK.cardL ? root.IMPAK.cardL(d.card, 'title') : Cd.title) + '</b> <small>' + esc(when) + ' · ' + esc(tx('na')) + '</small></li>';
+    return '<li class="' + (d.sound ? 'ok' : 'no') + '"><b>' + esc(root.IMPAK && root.IMPAK.cardL ? root.IMPAK.cardL(d.card, 'title') : Cd.title) + '</b> <small>' + esc(when) + ' · ' + esc(OPT[lang()][d.opt]) + (d.site ? (lang() === 'ms' ? ' · Zon ' : ' · Zone ') + esc(d.site) : '') + '</small>' +
       '<div class="jv">' + (d.sound ? '✓ ' : '✗ ') + esc(tx(d.sound ? 'sound' : 'unsound')) + '</div>' + (T ? '<div class="jp">' + esc(T.principle) + '</div><div class="jw"><b>' + esc(tx('watch')) + ':</b> ' + esc(T.watch) + '</div>' : '') + '</li>';
   }).join('') + '</ol>';
 }

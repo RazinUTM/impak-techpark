@@ -143,8 +143,9 @@ const L = {
   gmBarExtra() {
     const g = G.game(), s = this.store && this.store.session; if (!g || !s) return '';
     const pins = (g.pins || {});
-    return '<span class="chip">Room <b>' + G.esc(s.room) + '</b></span>' + g.teams.map((x) => '<span class="chip" title="Team PIN">' + G.esc(x.name) + ' · ' + G.esc(pins[x.id] || '····') + '</span>').join('') +
-      '<button class="btn sm" data-act="role-screen">Front screen</button>';
+    const ms = G.HOST.lang === 'ms';
+    return '<span class="chip">' + (ms ? 'Bilik' : 'Room') + ' <b>' + G.esc(s.room) + '</b></span>' + g.teams.map((x) => '<span class="chip" title="' + (ms ? 'PIN pasukan' : 'Team PIN') + '">' + G.esc(x.name) + ' · ' + G.esc(pins[x.id] || '····') + '</span>').join('') +
+      '<button class="btn sm" data-act="role-screen">' + (ms ? 'Skrin hadapan' : 'Front screen') + '</button>';
   },
 };
 G.HOST.gmBarExtra = () => L.gmBarExtra();

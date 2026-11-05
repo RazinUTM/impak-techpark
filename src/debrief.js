@@ -42,6 +42,8 @@ const FACN = () => ({
 });
 const OPT = { T: 'Take', C: 'Conditions', L: 'Leave' };
 const MEDAL = (m) => ({ gold: L('Gold', 'Emas'), silver: L('Silver', 'Perak'), bronze: L('Bronze', 'Gangsa'), none: L('Completed', 'Tamat') }[m]);
+const ctitle = (c) => (root.IMPAK && root.IMPAK.cardL ? root.IMPAK.cardL(c, 'title') : PB.CARDS[c].title);
+const ewhy = (w) => (root.IMPAK && root.IMPAK.esgWhyL ? root.IMPAK.esgWhyL(w) : w);
 const mname = (m) => (root.IMPAK ? root.IMPAK.mnameL(m) : 'M' + m);
 
 /* the best other park to compare with: the leading team if there is one, otherwise the best benchmark */
@@ -76,7 +78,7 @@ function analyse(res, tm) {
       L('FCR12 ended at ' + (p.fcr > 8 ? '—' : p.fcr.toFixed(2)) + ', worth ' + sgn(p.fcrBonus) + '. At 1.3 or more it is worth +8; below 0.8 it costs −5.',
         'FCR12 berakhir pada ' + (p.fcr > 8 ? '—' : p.fcr.toFixed(2)) + ', bernilai ' + sgn(p.fcrBonus) + '. Pada 1.3 ke atas nilainya +8; bawah 0.8 ditolak −5.'),
       L('Committed income should cover at least 1.3 times the yearly upkeep and interest: let empty units, add ground leases, close facilities that do not pay their way, and repay loans.',
-        'Committed income perlu menampung sekurang-kurangnya 1.3 kali upkeep dan interest setahun: sewakan unit kosong, tambah ground lease, tutup kemudahan yang tidak berbaloi, dan bayar balik pinjaman.'));
+        'Committed income perlu menampung sekurang-kurangnya 1.3 kali upkeep dan faedah setahun: sewakan unit kosong, tambah ground lease, tutup kemudahan yang tidak berbaloi, dan bayar balik pinjaman.'));
   }
   if (!t.receiver && p.driftPen > 0) {
     const g = gainA(p.driftPen); explained += g;
@@ -94,8 +96,8 @@ function analyse(res, tm) {
   const restA = W.A - r.A - explained;
   if (!t.receiver && restA > 1) {
     const lev = [];
-    if (!t.fac.lab) lev.push(L('a Shared Prototyping Lab (+1 to +2 impact a year with linked tenants, and startups graduate more often)', 'Shared Prototyping Lab (+1 hingga +2 impact setahun dengan penyewa linked, dan startup lebih kerap graduate)'));
-    if (!t.fac.incubator) lev.push(L('an Incubator (each startup adds +1 impact a year; graduates add +3)', 'Incubator (setiap startup tambah +1 impact setahun; graduate tambah +3)'));
+    if (!t.fac.lab) lev.push(L('a Shared Prototyping Lab (+1 to +2 impact a year with linked tenants, and startups graduate more often)', 'Shared Prototyping Lab (+1 hingga +2 impact setahun dengan penyewa linked, dan startup lebih kerap bergraduat)'));
+    if (!t.fac.incubator) lev.push(L('an Incubator (each startup adds +1 impact a year; graduates add +3)', 'Incubator (setiap startup tambah +1 impact setahun; yang bergraduat tambah +3)'));
     if (!(t.prog > 0)) lev.push(L('Innovation programmes (+' + C.PROG.ipPerCr + ' impact for each Cr a year)', 'Innovation programmes (+' + C.PROG.ipPerCr + ' impact bagi setiap Cr setahun)'));
     if (!t.fac.liaison) lev.push(L('an Industry Liaison Office (+1 impact a year with two linked tenants, and more applicants)', 'Industry Liaison Office (+1 impact setahun dengan dua penyewa linked, dan lebih ramai pemohon)'));
     if (!t.fac.covenant) lev.push(L('an Engagement Covenant (+1 impact a year for every two linked tenants)', 'Engagement Covenant (+1 impact setahun bagi setiap dua penyewa linked)'));
@@ -135,7 +137,7 @@ function analyse(res, tm) {
     if (bail) add('B3', third, L('Bailout', 'Bailout'), L('The university had to rescue the park' + (ops ? '' : ' in Phase 3') + ' (−5 impact and one action point fewer).', 'Universiti terpaksa menyelamatkan park' + (ops ? '' : ' dalam Fasa 3') + ' (−5 impact dan kurang satu action point).'),
       L('Keep a cash buffer of at least one quarter of upkeep, and borrow while the bank still lends.', 'Simpan penampan tunai sekurang-kurangnya satu suku tahun upkeep, dan pinjam ketika bank masih memberi pinjaman.'));
     if (!(p.fcr >= 1) || t.receiver) add('B3', third, L('FCR12 below 1 at the end', 'FCR12 bawah 1 di akhir'), L('Committed income did not cover the yearly running costs.', 'Committed income tidak menampung kos operasi tahunan.'),
-      L('Before each new facility or building, check that committed income still covers upkeep and interest.', 'Sebelum setiap kemudahan atau bangunan baharu, pastikan committed income masih menampung upkeep dan interest.'));
+      L('Before each new facility or building, check that committed income still covers upkeep and interest.', 'Sebelum setiap kemudahan atau bangunan baharu, pastikan committed income masih menampung upkeep dan faedah.'));
     const share = ops ? cl((r.retention - 0.5) / 0.4) : cl((r.retention - C.RET[0]) / (C.RET[1] - C.RET[0]));
     add('B3', third * (1 - share), ops ? L('Empty units', 'Unit kosong') : L('Tenants lost in the downturn', 'Penyewa hilang semasa downturn'),
       ops ? L('Occupancy ended at ' + pc(r.retention) + '; full marks need 90%.', 'Occupancy berakhir pada ' + pc(r.retention) + '; markah penuh memerlukan 90%.')
@@ -147,10 +149,10 @@ function analyse(res, tm) {
   const dl = t.dlog.filter((d) => d.eligible);
   const unsound = dl.filter((d) => !d.sound), half = dl.filter((d) => d.sound && d.credit < 1);
   if (W.C && unsound.length) add('C', W.C * unsound.length / Math.max(1, dl.length), L('Unsound Deal Room decisions', 'Keputusan Deal Room kurang wajar'),
-    L(unsound.length + ' of ' + dl.length + ' decisions were not sound: ', unsound.length + ' daripada ' + dl.length + ' keputusan kurang wajar: ') + unsound.map((d) => PB.CARDS[d.card].title + ' (' + OPT[d.opt] + ')').join(', ') + '.',
+    L(unsound.length + ' of ' + dl.length + ' decisions were not sound: ', unsound.length + ' daripada ' + dl.length + ' keputusan kurang wajar: ') + unsound.map((d) => ctitle(d.card) + ' (' + OPT[d.opt] + ')').join(', ') + '.',
     L('Open "Think it through" before choosing: check the values it lists against the rule of thumb, then pick the option whose risk you can carry.', 'Buka "Fikir dahulu" sebelum memilih: semak nilai yang disenaraikan berbanding panduan, kemudian pilih opsyen yang risikonya mampu ditanggung.'));
   if (W.C && half.length) add('C', W.C * 0.5 * half.length / Math.max(1, dl.length), L('Opportunities left on the table', 'Peluang yang dilepaskan'),
-    L('You chose Leave on ' + half.map((d) => PB.CARDS[d.card].title).join(', ') + ', although a sound way to engage existed (half credit).', 'Anda memilih Leave pada ' + half.map((d) => PB.CARDS[d.card].title).join(', ') + ', walaupun ada cara wajar untuk mengambilnya (separuh markah).'),
+    L('You chose Leave on ' + half.map((d) => ctitle(d.card)).join(', ') + ', although a sound way to engage existed (half credit).', 'Anda memilih Leave pada ' + half.map((d) => ctitle(d.card)).join(', ') + ', walaupun ada cara wajar untuk mengambilnya (separuh markah).'),
     L('Leave is safe but not free. When the checks are met, Take or Conditions earns full credit and adds to the park.', 'Leave memang selamat tetapi ada kosnya. Apabila semakan dipenuhi, Take atau Conditions mendapat markah penuh dan menambah nilai park.'));
   /* D, E */
   if (W.D && tm.hasD && r.D < 0.7 * W.D) add('D', W.D - r.D, L('Defence', 'Defence'), L('Defence marked ' + n1(r.D) + ' of ' + W.D + '.', 'Defence mendapat ' + n1(r.D) + ' daripada ' + W.D + '.'),
@@ -158,7 +160,7 @@ function analyse(res, tm) {
   if (W.E) {
     const neg = (t.esgLog || []).filter((e) => e.d < 0);
     add('E', W.E - r.E, L('ESG record', 'Rekod ESG'),
-      L('ESG ended at ' + sgn(t.esg) + (neg.length ? '. Losses came from: ' + neg.map((e) => e.why + ' (' + e.d + ')').join(', ') : '') + '.', 'ESG berakhir pada ' + sgn(t.esg) + (neg.length ? '. Kerugian datang daripada: ' + neg.map((e) => e.why + ' (' + e.d + ')').join(', ') : '') + '.'),
+      L('ESG ended at ' + sgn(t.esg) + (neg.length ? '. Losses came from: ' + neg.map((e) => ewhy(e.why) + ' (' + e.d + ')').join(', ') : '') + '.', 'ESG berakhir pada ' + sgn(t.esg) + (neg.length ? '. Kerugian datang daripada: ' + neg.map((e) => ewhy(e.why) + ' (' + e.d + ')').join(', ') : '') + '.'),
       L('Protect the low ground and the forest edge, choose covenants with environmental conditions, and add a buffer or retention park where the level allows.', 'Lindungi tanah rendah dan pinggir hutan, pilih covenant dengan syarat alam sekitar, dan tambah buffer atau retention park jika level membenarkan.'));
   }
   gaps.sort((a, b) => b.lost - a.lost);
@@ -273,15 +275,30 @@ function transcript(res, tm, meta) {
   const row = (k, v) => '<tr><th>' + esc(k) + '</th><td>' + v + '</td></tr>';
   const sec = (title, body) => '<section><h2>' + esc(title) + '</h2>' + body + '</section>';
 
-  let body = '<header><div class="brand">IMPAK<sup>™</sup> – Technovation Park</div><h1>' + esc(L('Team achievement transcript', 'Transkrip pencapaian pasukan')) + '</h1>' +
-    '<table class="meta">' + row(L('Team', 'Pasukan'), '<b>' + esc(tm.name) + '</b>') +
-    row(L('Members', 'Ahli'), '<span class="edit" contenteditable="true">' + esc(m.members || L('(type the names here before printing)', '(taip nama ahli di sini sebelum cetak)')) + '</span>') +
-    row(L('Level', 'Level'), esc(lvName) + ' · ' + Math.round((res.sc.months || lv.months) / 12) + L(' years', ' tahun')) +
+  const AV = root.__AVATARS || {}, pose = r.medal === 'gold' || r.medal === 'silver' ? 'cheer' : 'thanks', av = AV[pose] || AV.ok || AV.idle || '';
+  const greet = { gold: L('Outstanding work. Your park met every gate.', 'Syabas! Park anda memenuhi semua syarat.'), silver: L('Well done. A strong park with room to grow.', 'Tahniah! Park yang kukuh, masih ada ruang untuk berkembang.'),
+    bronze: L('Good effort. The park stands; the debrief shows what to sharpen.', 'Usaha yang baik. Park anda berdiri; ulasan di dalam menunjukkan apa yang perlu dipertajam.'), none: L('Thank you for playing. Every lesson inside is a step to a medal.', 'Terima kasih kerana bermain. Setiap pelajaran di dalam ialah langkah ke arah pingat.') }[r.medal];
+  let body = '<section class="cert ' + r.medal + '"><div class="frame">' +
+    '<div class="c-brand">IMPAK<sup>™</sup><span>Technovation Park</span></div>' +
+    '<div class="c-sub">' + esc(L('Team achievement transcript', 'Transkrip pencapaian pasukan')) + '</div>' +
+    '<div class="c-rule"></div>' +
+    '<div class="c-lead">' + esc(L('This record is presented to the team', 'Rekod ini diberikan kepada pasukan')) + '</div>' +
+    '<div class="c-team">' + esc(tm.name) + '</div>' +
+    '<div class="c-lead">' + esc(L('for completing', 'kerana menamatkan')) + ' <b>' + esc(lvName) + '</b> · ' + Math.round((res.sc.months || lv.months) / 12) + L(' simulated years', ' tahun simulasi') + '</div>' +
+    '<div class="c-mid"><div class="c-av">' + (av ? '<img src="' + av + '" alt="' + esc(L('IMPAK tutor', 'Tutor IMPAK')) + '">' : '') + '<div class="c-bubble">' + esc(greet) + '</div></div>' +
+    '<div class="seal ' + r.medal + '"><div><span class="s-m">' + esc(MEDAL(r.medal)) + '</span><span class="s-t">' + n1(r.total) + '</span><span class="s-o">' + esc(L('of 100', 'daripada 100')) + '</span></div></div>' +
+    '<div class="c-facts">' + (H.length > 1 ? '<div><span>' + esc(L('Place', 'Tempat')) + '</span><b>' + rank + ' / ' + H.length + '</b></div>' : '') +
+    '<div><span>' + esc(L('Park score', 'Skor park')) + '</span><b>' + n1(p.score) + ' / ' + lv.score.parkTarget + '</b></div>' +
+    '<div><span>' + esc(L('Sound decisions', 'Keputusan wajar')) + '</span><b>' + a.dl.filter((d) => d.sound).length + ' / ' + a.dl.length + '</b></div>' +
+    '<div><span>Impact</span><b>' + n1(p.ip) + '</b></div></div></div>' +
+    '<table class="meta">' + row(L('Members', 'Ahli'), '<span class="edit" contenteditable="true">' + esc(m.members || L('(type the names here before printing)', '(taip nama ahli di sini sebelum cetak)')) + '</span>') +
     (m.room ? row(L('Room', 'Bilik'), esc(m.room)) : '') + row(L('Game', 'Permainan'), esc(res.g.gid || '') + ' · seed ' + esc(res.g.seed)) +
-    (m.event ? row(L('Programme', 'Program'), esc(m.event)) : '') + row(L('Date', 'Tarikh'), esc(dstr)) + '</table></header>';
-
-  body += '<div class="hero ' + r.medal + '"><div class="medal">' + esc(MEDAL(r.medal)) + '</div><div class="tot">' + n1(r.total) + '<small>/100</small></div><div class="hs">' +
-    (H.length > 1 ? esc(L('Place ' + rank + ' of ' + H.length + ' teams', 'Tempat ' + rank + ' daripada ' + H.length + ' pasukan')) + '<br>' : '') + esc(summary(a)) + '</div></div>';
+    (m.event ? row(L('Programme', 'Program'), esc(m.event)) : '') + row(L('Date', 'Tarikh'), esc(dstr)) + '</table>' +
+    '<div class="c-sign"><div><span class="line"></span>' + esc(L('Facilitator', 'Fasilitator')) + '</div><div><span class="line"></span>' + esc(L('Team representative', 'Wakil pasukan')) + '</div></div>' +
+    '<div class="c-note">' + esc(L('A record of a training game, not an assessment of the members\' competence. The pages that follow explain each mark and what to do next time.', 'Rekod permainan latihan, bukan penilaian kompetensi ahli. Halaman berikutnya menerangkan setiap markah dan apa yang perlu dibuat lain kali.')) + '</div>' +
+    '</div></section>';
+  body += '<header class="run"><div class="brand">IMPAK<sup>™</sup> – Technovation Park</div><div>' + esc(tm.name) + ' · ' + esc(lvName) + ' · ' + esc(MEDAL(r.medal)) + ' ' + n1(r.total) + '</div></header>';
+  body += '<p class="lede">' + esc(summary(a)) + '</p>';
 
   body += sec(L('Marks by part', 'Markah mengikut bahagian'), '<table class="parts"><thead><tr><th></th><th>' + esc(L('Part', 'Bahagian')) + '</th><th>' + esc(L('What it measures', 'Apa yang diukur')) + '</th><th class="r">' + esc(L('Marks', 'Markah')) + '</th><th class="bar"></th></tr></thead><tbody>' +
     a.parts.map((P) => '<tr><td class="k">' + P.k + '</td><td><b>' + esc(P.label) + '</b></td><td class="w">' + esc(P.what) + (P.k === 'D' && !tm.hasD ? ' <i>' + esc(L('(not yet marked)', '(belum dinilai)')) + '</i>' : '') + '</td><td class="r">' + n1(P.got) + ' / ' + P.max + '</td><td class="bar"><span style="width:' + Math.round(100 * cl(P.got / P.max)) + '%"></span></td></tr>').join('') +
@@ -311,8 +328,8 @@ function transcript(res, tm, meta) {
   const dl = t.dlog.filter((d) => d.eligible || d.opt === null);
   if (dl.length) body += sec(L('Decision journal', 'Jurnal keputusan'), '<table class="dj"><thead><tr><th>' + esc(L('When', 'Bila')) + '</th><th>' + esc(L('Deal', 'Deal')) + '</th><th>' + esc(L('Choice', 'Pilihan')) + '</th><th></th><th>' + esc(L('Principle', 'Prinsip')) + '</th></tr></thead><tbody>' + dl.map((d) => {
     const ev = res.sc.events.find((e) => e.id === d.eid), Ls = (root.LESSONS || {})[d.card];
-    if (!d.eligible) return '<tr class="na"><td>' + esc(ev ? mname(ev.month) : '') + '</td><td>' + esc(PB.CARDS[d.card].title) + '</td><td colspan="3">' + esc(L('did not apply to this park', 'tidak terpakai untuk park ini')) + '</td></tr>';
-    return '<tr><td>' + esc(ev ? mname(ev.month) : '') + '</td><td>' + esc(PB.CARDS[d.card].title) + '</td><td>' + OPT[d.opt] + (d.site ? ' · ' + esc(d.site) : '') + '</td><td class="v ' + (d.sound ? 'ok' : 'no') + '">' + (d.sound ? (d.credit < 1 ? '½' : '✓') : '✗') + '</td><td>' + esc(Ls ? Ls[lang()].principle : '') + '</td></tr>';
+    if (!d.eligible) return '<tr class="na"><td>' + esc(ev ? mname(ev.month) : '') + '</td><td>' + esc(ctitle(d.card)) + '</td><td colspan="3">' + esc(L('did not apply to this park', 'tidak terpakai untuk park ini')) + '</td></tr>';
+    return '<tr><td>' + esc(ev ? mname(ev.month) : '') + '</td><td>' + esc(ctitle(d.card)) + '</td><td>' + OPT[d.opt] + (d.site ? ' · ' + esc(d.site) : '') + '</td><td class="v ' + (d.sound ? 'ok' : 'no') + '">' + (d.sound ? (d.credit < 1 ? '½' : '✓') : '✗') + '</td><td>' + esc(Ls ? Ls[lang()].principle : '') + '</td></tr>';
   }).join('') + '</tbody></table><p class="note">✓ ' + esc(L('sound', 'wajar')) + ' · ½ ' + esc(L('sound but an opportunity was left', 'wajar tetapi peluang dilepaskan')) + ' · ✗ ' + esc(L('not sound', 'kurang wajar')) + '</p>');
 
   body += sec(L('Take-away points', 'Perkara utama untuk dibawa pulang'), '<ol class="take">' + a.take.map((x) => '<li>' + esc(x) + '</li>').join('') + '</ol>' +
@@ -322,13 +339,31 @@ function transcript(res, tm, meta) {
 .page{max-width:186mm;margin:12px auto;background:#fff;padding:14mm 13mm;box-shadow:0 1px 6px rgba(0,0,0,.12)}
 .bar-top{position:sticky;top:0;background:#1d2330;color:#fff;padding:10px 14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:13px;z-index:2}
 .bar-top button{font:inherit;font-weight:600;background:#4f7cff;color:#fff;border:0;border-radius:6px;padding:8px 14px;cursor:pointer}
-header .brand{font-weight:700;letter-spacing:.02em;color:#4f5b76;font-size:10pt}header sup{font-size:.6em}h1{font-size:18pt;margin:2px 0 8px}
-h2{font-size:11.5pt;margin:16px 0 6px;padding-bottom:3px;border-bottom:1.5px solid #d8dce6;break-after:avoid}section{break-inside:auto}
-table{border-collapse:collapse;width:100%}th,td{text-align:left;vertical-align:top;padding:3px 6px}.meta th,.kv th{width:38%;color:#5b6478;font-weight:500}
+.cert{break-after:page;page-break-after:always;margin:0 0 6mm}
+.cert .frame{border:3px double #1d2a4a;outline:1px solid #b8892b;outline-offset:-9px;padding:12mm 12mm 9mm;text-align:center;position:relative;background:radial-gradient(circle at 50% 0,#fbf7ec 0,#fff 60%)}
+.c-brand{font-weight:800;letter-spacing:.06em;color:#1d2a4a;font-size:38pt;line-height:1.05}.c-brand sup{font-size:.35em;vertical-align:super}
+.c-brand span{display:block;font-size:20pt;letter-spacing:.32em;text-transform:uppercase;font-weight:600;color:#b8892b;margin-top:2mm}
+.c-sub{font:italic 15pt/1.3 Georgia,"Times New Roman",serif;color:#384157;margin-top:4mm}
+.c-rule{width:46mm;height:2px;background:#b8892b;margin:5mm auto}
+.c-lead{font:12pt/1.4 Georgia,"Times New Roman",serif;color:#4a5368}
+.c-team{font:700 26pt/1.15 Georgia,"Times New Roman",serif;color:#1d2a4a;margin:2mm 0 3mm}
+.c-mid{display:grid;grid-template-columns:1fr auto 1fr;gap:6mm;align-items:center;margin:7mm 0 5mm}
+.c-av{display:flex;align-items:flex-end;gap:2mm;justify-content:flex-end}.c-av img{height:60mm;width:auto}
+.c-bubble{position:relative;min-width:38mm;max-width:50mm;text-align:left;font-size:10pt;line-height:1.35;background:#f3f5fa;border:1px solid #d8dce6;border-radius:8px;padding:7px 9px;margin-bottom:34mm}
+.seal{width:40mm;height:40mm;border-radius:50%;display:grid;place-items:center;color:#1d2a4a;border:2px solid rgba(0,0,0,.18);box-shadow:inset 0 0 0 4px rgba(255,255,255,.55),inset 0 0 0 6px rgba(0,0,0,.12)}
+.seal.gold{background:radial-gradient(circle at 35% 30%,#fff3c4,#e2b53f 55%,#b8892b)}.seal.silver{background:radial-gradient(circle at 35% 30%,#fff,#c9ced6 55%,#9aa3b0)}
+.seal.bronze{background:radial-gradient(circle at 35% 30%,#ffe2c7,#d39062 55%,#a5683b)}.seal.none{background:radial-gradient(circle at 35% 30%,#fff,#e3e6ec 60%,#c3c8d2)}
+.seal div{display:grid;justify-items:center;line-height:1.05}.s-m{font-weight:800;font-size:11pt;letter-spacing:.12em;text-transform:uppercase}.s-t{font-weight:800;font-size:26pt}.s-o{font-size:8.5pt}
+.c-facts{display:grid;gap:2mm;justify-items:start;text-align:left}.c-facts div{display:grid}.c-facts span{font-size:8.5pt;color:#5b6478;text-transform:uppercase;letter-spacing:.06em}.c-facts b{font-size:12pt;color:#1d2a4a}
+.cert .meta{width:auto;margin:2mm auto 0;text-align:left}.cert .meta th{width:auto;padding-right:10px}
+.c-sign{display:flex;justify-content:space-around;margin-top:12mm;font-size:9.5pt;color:#4a5368}.c-sign div{display:grid;justify-items:center;gap:2mm}.c-sign .line{display:block;width:55mm;border-bottom:1px solid #4a5368;height:10mm}
+.c-note{margin-top:7mm;font-size:8.3pt;color:#6b7387}
+header.run{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid #1d2a4a;padding-bottom:2mm;color:#384157;font-size:9.5pt}header.run .brand{font-weight:700;color:#1d2a4a;font-size:11pt}header.run sup{font-size:.6em}
+.lede{font-weight:600;color:#1d2a4a;margin:4mm 0 0}
+h2{font-size:11.5pt;margin:16px 0 6px;padding-bottom:3px;border-bottom:1.5px solid #d8dce6;break-after:avoid;color:#1d2a4a}section{break-inside:auto}
+table{border-collapse:collapse;width:100%}th,td{text-align:left;vertical-align:top;padding:3px 6px}
+.meta th,.kv th{width:38%;color:#5b6478;font-weight:500}
 .edit{border-bottom:1px dashed #9aa3b5;outline:none;min-width:40mm;display:inline-block}
-.hero{display:flex;gap:16px;align-items:center;border:1.5px solid #d8dce6;border-radius:8px;padding:10px 14px;margin:12px 0;break-inside:avoid}
-.hero .medal{font-weight:700;font-size:14pt;padding:6px 12px;border-radius:6px;background:#eceff5}.hero.gold .medal{background:#f5e3a3}.hero.silver .medal{background:#e3e6ec}.hero.bronze .medal{background:#ecd2bd}
-.hero .tot{font-size:24pt;font-weight:700}.hero .tot small{font-size:11pt;color:#5b6478;font-weight:500}.hero .hs{color:#384157}
 .parts th{font-size:9pt;color:#5b6478;font-weight:600;border-bottom:1px solid #d8dce6}.parts td{border-bottom:1px solid #eef0f4}.parts .k{font-weight:700;width:8mm}.parts .w{color:#4a5368;font-size:9.2pt}
 .r{text-align:right;white-space:nowrap}td.bar{width:26mm}td.bar span{display:block;height:8px;border-radius:0 4px 4px 0;background:#4f7cff;margin-top:5px}.parts .sum td{border-bottom:0}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.note{font-size:8.8pt;color:#5b6478;margin:4px 0}
@@ -338,7 +373,7 @@ table{border-collapse:collapse;width:100%}th,td{text-align:left;vertical-align:t
 .dj{font-size:9pt}.dj th{color:#5b6478;font-weight:600;border-bottom:1px solid #d8dce6}.dj td{border-bottom:1px solid #eef0f4}.dj .na td{color:#8a92a5}.v{font-weight:700;text-align:center}.v.ok{color:#1f7a3a}.v.no{color:#b4472c}
 ul,ol{margin:4px 0;padding-left:18px}li{margin:2px 0}.take li{margin:4px 0}.refl{border:1px solid #d8dce6;border-radius:6px;padding:6px 10px;margin-top:10px;break-inside:avoid}.refl p{min-height:14mm;margin:4px 0 0;display:block}
 footer{margin-top:16px;padding-top:6px;border-top:1px solid #d8dce6;font-size:8.3pt;color:#6b7387}
-@media print{body{background:#fff}.page{margin:0;padding:0;box-shadow:none;max-width:none}.bar-top{display:none}.edit{border-bottom:0}}
+@media print{body{background:#fff}.page{margin:0;padding:0;box-shadow:none;max-width:none}.bar-top{display:none}.edit{border-bottom:0}.cert .frame{min-height:265mm}}
 @media (max-width:600px){.page{padding:14px}.two{grid-template-columns:1fr}}`;
   const top = '<div class="bar-top"><button onclick="window.print()">' + esc(L('Print / Save as PDF', 'Cetak / Simpan sebagai PDF')) + '</button><span>' + esc(L('Type the members\' names and your reflection first, then choose "Save as PDF" as the printer.', 'Taip nama ahli dan refleksi dahulu, kemudian pilih "Save as PDF" sebagai pencetak.')) + '</span></div>';
   const foot = '<footer>' + esc(L('Generated by IMPAK – Technovation Park ', 'Dijana oleh IMPAK – Technovation Park ') + (brand.version || '') + ' · ' + dstr + '. ' +
