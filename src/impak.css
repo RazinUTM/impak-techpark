@@ -222,3 +222,40 @@ body.on-landing #r-banner, body.on-landing #controls details.group, body.on-land
 body.live-mode #task, body.live-mode #checklist { display: none !important; }
 .toconsole { position: fixed; left: 12px; bottom: 12px; z-index: 80; padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--ink); font: inherit; font-weight: 700; box-shadow: 0 4px 14px rgba(0,0,0,.18); cursor: pointer; }
 .toconsole:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- QR code on the landing page and the front-screen join card */
+.g .qrbox { display: flex; gap: 14px; align-items: center; margin: 12px 0 2px; }
+.g .qrbox svg { width: 124px; height: 124px; flex: 0 0 auto; border-radius: 8px; background: #fff; box-shadow: 0 0 0 1px var(--line); }
+.g .qrbox .adv-sub { margin: 0 0 2px; }
+.g .qrurl { font-weight: 700; color: var(--accent); font-size: 1.02em; word-break: break-all; }
+.g .qrbox .faint { font-size: 0.82em; margin-top: 3px; line-height: 1.4; }
+.g .joincard svg { width: clamp(150px, 16vw, 230px); height: auto; }
+.g .joincard .qrurl { font-size: clamp(15px, 1.4vw, 22px); }
+.g .joincard svg { width: clamp(180px, 18vw, 260px) !important; height: clamp(180px, 18vw, 260px) !important; padding: 8px; }
+/* narrow screens: the landing page flows in the page (it was absolutely placed in a viewport of zero height) */
+@media (max-width: 1100px) {
+  body.on-landing .center { grid-template-rows: auto auto; }
+  body.on-landing .viewport-wrap { min-height: 0; border-bottom: 0; }
+  body.on-landing #r-land { position: static; padding: 12px 14px 18px; }
+  body.on-landing .vpscroll, body.on-landing .vptools, body.on-landing #results { display: none; }
+  body.on-landing .g .hero { grid-template-columns: 1fr; }
+  body.on-landing .g .hero > .panel { display: none; }
+  body.on-landing .g .qrbox { display: none; }
+}
+/* phones: a compact clock bar, and the join card first when a room code came with the link */
+@media (max-width: 640px) {
+  .transport { gap: 6px 8px; padding: 6px 10px; }
+  .bigclock { gap: 10px; }
+  .bc-date { font-size: 1.45em; }
+  .bc-year { font-size: 1em; }
+  .bc-meta { min-width: 0; }
+  .tbtn { height: 36px; }
+  .tbtn.primary { height: 38px; min-width: 0; }
+  .transport .speed .ro:last-child { display: none; }
+  .readouts { gap: 6px; flex-wrap: wrap; font-size: 0.8em; }
+  .readouts .chip { padding: 0 7px; }
+}
+.g .rolecards.joining .rolecard.live { order: -1; }
+/* the clock bar has nothing to do on the landing page */
+body.on-landing .transport { display: none; }
+body.on-landing { grid-template-rows: auto minmax(0, 1fr); }

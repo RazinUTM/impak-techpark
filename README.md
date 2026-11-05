@@ -25,7 +25,7 @@ See `apps-script/README.md` for deploying the backend (one Google Sheet + one Ap
 | `tools/` | `build.py` → `dist/index.html`; validation and image scripts |
 | `dist/` | the built single file that GitHub Pages serves |
 
-Build: `python3 tools/build.py --check` (Python 3 and Node for the syntax check). Validate: `node tools/calib.js` (engine), `node tools/gs_test.js` (backend), `node tools/shot.js` and `node tools/live_test.js` (screens, Playwright).
+Build: `pip install segno==1.6.6` once (QR code), then `python3 tools/build.py --check` (Python 3, and Node for the syntax check). Validate: `node tools/calib.js` (engine), `node tools/gs_test.js` (backend), `node tools/shot.js` and `node tools/live_test.js` (screens, Playwright).
 
 Hosting: publish `dist/index.html` with GitHub Pages (the repository must be public on a free account; the site is public either way). Paste the Apps Script web-app URL into `src/config.js` before building — see `apps-script/README.md`.
 

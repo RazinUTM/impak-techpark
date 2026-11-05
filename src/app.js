@@ -249,13 +249,23 @@ function landingHTML() {
   else live = '<div class="rcbtns"><button type="button" class="btn accent" data-a="open" data-v="live">' + escapeHtml(t('land.live')) + '</button></div>';
   const t0 = PB.newTeam('preview', 'priority', 'lestari');
   return '<div class="hero"><div><h1>' + escapeHtml(G.BRAND.name) + '<sup class="tm">™</sup><small>' + escapeHtml(G.BRAND.tag) + '</small></h1>' +
-    '<p>' + escapeHtml(t('say.landing')) + '</p>' + resumeHTML() + '</div><div class="panel" style="padding:8px">' + G.planSVG(t0, 1, 0, null, 'L') + '</div></div>' +
-    '<div class="rolecards">' +
+    '<p>' + escapeHtml(t('say.landing')) + '</p>' + qrHTML() + resumeHTML() + '</div><div class="panel" style="padding:8px">' + G.planSVG(t0, 1, 0, null, 'L') + '</div></div>' +
+    '<div class="rolecards' + (LAND.view === 'live' ? ' joining' : '') + '">' +
     '<div class="rolecard solo"><h3>' + escapeHtml(t('land.solo')) + '</h3><p>' + escapeHtml(t('land.solo.d')) + '</p><div class="rcbtns">' + levelBtns + '</div></div>' +
     '<div class="rolecard live"><h3>' + escapeHtml(t('land.live')) + '</h3><p>' + escapeHtml(t('land.live.d')) + '</p>' + live + '</div>' +
     (online ? '<div class="rolecard rc-gm"><h3>' + escapeHtml(t('land.gm')) + '</h3><p>' + escapeHtml(t('land.gm.d')) + '</p><div class="rcbtns"><button type="button" class="btn" data-a="open" data-v="gm">' + escapeHtml(t('join.gm')) + '</button><button type="button" class="btn" data-a="screen">' + escapeHtml(t('join.screen')) + '</button></div></div>' : '') +
     '</div><div class="foot">' + escapeHtml(G.BRAND.mark) + ' · ' + escapeHtml(G.BRAND.copyright) + ' · v' + escapeHtml(G.BRAND.version) + '</div>';
 }
+function qrHTML() {
+  if (!root.__QR_SITE) return '';
+  const u = String(root.IMPAK_SITE || '').replace(/^https:\/\//, '').replace(/\/$/, '');
+  return '<div class="qrbox">' + root.__QR_SITE + '<div><div class="adv-sub">' + escapeHtml(t('land.qr')) + '</div><div class="qrurl">' + escapeHtml(u) + '</div><div class="faint">' + escapeHtml(t('land.qr.d')) + '</div></div></div>';
+}
+HOST.joinCard = (res) => {
+  const L = root.IMPAKLive, room = L && L.room;
+  return '<div class="joincard">' + (root.__QR_SITE || '') + '<div><div class="label">' + escapeHtml(t('land.qr')) + '</div><div class="qrurl">' + escapeHtml(String(root.IMPAK_SITE || '').replace(/^https:\/\//, '').replace(/\/$/, '')) + '</div>' +
+    (room ? '<div class="label" style="margin-top:10px">' + escapeHtml(t('join.room')) + '</div><div class="code">' + escapeHtml(room) + '</div>' : '') + '<div class="faint">' + escapeHtml(t('land.qr.join')) + '</div></div></div>';
+};
 function resumeHTML() {
   const A = app(), btns = [];
   const sg = A.solo && A.solo.game;
@@ -602,6 +612,8 @@ function boot() {
   if (!app().role) $('#journal').innerHTML = '<p class="faint">' + escapeHtml(t('ui.reg.guide')) + '</p>';
   S.level = uiStore.level || 0;
   if (root.IMPAKLive) root.IMPAKLive.init({ onState: () => render(true), onOffset: HOST.setOffset, t, K, G });
+  const qroom = new URLSearchParams(location.search).get('room');
+  if (qroom && root.IMPAKLive && root.IMPAKLive.configured) { root.IMPAKLive.form.room = qroom.toUpperCase().slice(0, 6); LAND.view = 'live'; }
   const h = (location.hash || '').replace('#', '');
   if (h === 'solo' || /^solo-/.test(h)) { const n = levelIndex(h.slice(5)); switchLevel(/^solo-/.test(h) ? n : S.level, true); }
   else if (root.IMPAKLive && root.IMPAKLive.resume()) { afterJoin(); }

@@ -25,6 +25,23 @@ SRC, CONTENT, ASSETS, DIST = ROOT / "src", ROOT / "content", ROOT / "assets", RO
 
 JS_PARTS = [SRC / "engine.js", SRC / "strategies.js", SRC / "game.js", SRC / "uikit.js", SRC / "i18n.js", CONTENT / "texts.js", CONTENT / "lessons.js", CONTENT / "glossary.js", SRC / "advice.js", SRC / "config.js", SRC / "live.js", SRC / "app.js"]
 POSES = ["idle", "point", "think", "thumbs", "note", "explain", "thanks", "ok", "wave", "cheer"]
+SITE_URL = "https://razinutm.github.io/impak-techpark/"   # the published page; the QR codes point here
+
+
+def qr_js() -> str:
+    """QR code of the site URL as inline SVG, made at build time with segno (BSD-3-Clause; not shipped)."""
+    try:
+        import segno
+    except ImportError:
+        print("warning: segno not installed (pip install segno==1.6.6): no QR code in this build")
+        return "window.__QR_SITE='';window.IMPAK_SITE=" + repr(SITE_URL) + ";"
+    svg = segno.make(SITE_URL, error="m").svg_inline(scale=4, border=2, dark="#111111", light="#ffffff")
+    import re as _re
+    m = _re.search(r'width="(\d+)" height="(\d+)"', svg)
+    if m and "viewBox" not in svg:   # without a viewBox the drawing keeps its pixel size when CSS enlarges the box
+        svg = svg.replace("<svg ", '<svg viewBox="0 0 %s %s" ' % (m.group(1), m.group(2)), 1)
+    svg = svg.replace('"', "'")
+    return "window.__QR_SITE=\"" + svg + "\";window.IMPAK_SITE='" + SITE_URL + "';"
 
 
 def read(p: Path) -> str:
@@ -61,7 +78,7 @@ def main():
     body = read(SRC / "body.html")
     engine = read(SRC / "engine.js")
     scripts = [
-        "<script>\n" + avatars_js() + "\n</script>",
+        "<script>\n" + avatars_js() + "\n" + qr_js() + "\n</script>",
         '<script id="engine-src">\n' + engine + "\n</script>",
     ]
     for p in JS_PARTS[1:]:

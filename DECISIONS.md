@@ -74,3 +74,8 @@ Decided by: Ahmad Razin
 - "Switch to manual" could flip back: a poll that started before a GM write overwrote it. Stale polls are now dropped. The console explains what automatic and manual mean (deals and reveal only; the month clock always runs until Pause).
 - New: "End the game…" with confirmation (remaining months play out with no orders); a "← Game Master console" button on the front screen; starting cash set by the GM (teams, benchmarks and the server replay use it); the guided activity steps are hidden in live sessions (the tutor and coach stay).
 Decided by: Ahmad Razin
+
+## 2026-11-05 QR code; phone landing
+Decision: a QR code of the published URL on the landing page and on the front screen's join card (with the room code). Drawn at build time with segno 1.6.6 (BSD-3-Clause, build-time only; nothing third-party ships in the page); decoded back with OpenCV in the session to check it. A link with ?room=CODE pre-fills the join form and shows the join card first.
+Found while testing: on phones the landing page had zero height (hidden), so a participant who scanned the QR saw no join form. Fixed; the clock bar is compact on phones and hidden on the landing page.
+Decided by: Ahmad Razin
