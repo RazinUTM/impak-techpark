@@ -118,7 +118,29 @@ function readToken(tok) {
 function auth(p, role) { var t = readToken(p.token); if (!t) return null; if (role && t.role !== role) return null; if (p.room && t.room && String(p.room).toUpperCase() !== t.room) return null; return t; }
 
 /* ------------------------------------------------------------------ clock (mirrors clockOf in the game core) */
-function serverT(g) { if (!g || g.status === 'setup') return 0; var acc = g.accMs + (g.status === 'running' ? Math.max(0, Date.now() - g.startedAt) : 0); return acc / g.msPerMonth; }
+/* The clock stops at every pause point (deal, checkpoint, forecast, downturn, final bell) until the Game Master
+   closes it; the browser computes this in clockOf() and lets teams place orders during a checkpoint. The server
+   must stop at the same points, or it judges such orders "late" (seen 5 Nov 2026: order at 24 vs server 27.27). */
+var SCN = {};
+function scenarioOf(g) { var k = g.seed + '|' + (g.level || 'lestari'); return SCN[k] || (SCN[k] = PB.makeScenario(g.seed, g.level || 'lestari')); }
+function pausePointsSrv(sc) {
+  var lv = sc.lv, p = sc.events.map(function (e) { return { id: e.id, t: e.t }; });
+  if (sc.months > lv.fundEnd) p.push({ id: 'cp24', t: lv.fundEnd });
+  if (lv.zones.indexOf('H') >= 0 && sc.months > 36) p.push({ id: 'cp36', t: 36 });
+  if (sc.downturn.forecastAt) p.push({ id: 'fc', t: sc.downturn.forecastAt - 1 + 0.02 });
+  if (!sc.downturn.none && sc.downturn.start <= sc.months) p.push({ id: 'dt', t: sc.downturn.start - 1 + 0.02 });
+  p.push({ id: 'end', t: sc.months });
+  return p.sort(function (a, b) { return a.t - b.t; });
+}
+function serverT(g) {
+  if (!g || g.status === 'setup') return 0;
+  var sc = scenarioOf(g);
+  if (g.status === 'ended') return sc.months;
+  var T = (g.accMs + (g.status === 'running' ? Math.max(0, Date.now() - g.startedAt) : 0)) / g.msPerMonth;
+  var closed = g.closed || {}, pts = pausePointsSrv(sc);
+  for (var i = 0; i < pts.length; i++) if (!closed[pts[i].id]) { if (T >= pts[i].t - 1e-9) T = pts[i].t; break; }
+  return Math.min(T, sc.months);
+}
 
 /* ------------------------------------------------------------------ state (polled by every screen) */
 function state(p) {

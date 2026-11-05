@@ -79,3 +79,8 @@ Decided by: Ahmad Razin
 Decision: a QR code of the published URL on the landing page and on the front screen's join card (with the room code). Drawn at build time with segno 1.6.6 (BSD-3-Clause, build-time only; nothing third-party ships in the page); decoded back with OpenCV in the session to check it. A link with ?room=CODE pre-fills the join form and shows the join card first.
 Found while testing: on phones the landing page had zero height (hidden), so a participant who scanned the QR saw no join form. Fixed; the clock bar is compact on phones and hidden on the landing page.
 Decided by: Ahmad Razin
+
+## 2026-11-05 Server clock stops at pause points; advice folded
+Bug: during the end-of-Phase-1 checkpoint the browser's clock holds at month 24 (orders allowed), but the server counted wall-clock time and refused the order as late ("order time 24 vs server 27.27"). The server now stops at the same pause points as the browser (deals, checkpoints, forecast, downturn, final bell) until the Game Master closes them. Requires redeploying Code.gs.
+"Think it through" in the Deal Room is folded by default; participants open it when they want it.
+Decided by: Ahmad Razin

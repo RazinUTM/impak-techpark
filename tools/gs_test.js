@@ -65,6 +65,19 @@ check('code tier: join without a code is refused', H({ op: 'join', room, pin, na
 const code = ctx.__mail.body.match(/\d{6}/)[0];
 check('code tier: join with the e-mailed code', !H({ op: 'join', room, pin, name: 'Ali', email: 'ali@example.com', code }).error);
 check('code tier: a code cannot be reused', H({ op: 'join', room, pin, name: 'Ali', email: 'ali@example.com', code }).error === 'code');
+// the server clock stops at pause points like the browser (order at 24 during the end-of-Phase-1 checkpoint)
+{
+  const g3 = Object.assign({}, game, { gid: 't3', seed: 'cp-1', status: 'setup' });
+  const r3 = H({ op: 'gm', action: 'set', token: gmtok, game: g3 });
+  const PB = require(path.join(__dirname, '..', 'src', 'engine.js'));
+  const sc = PB.makeScenario('cp-1', 'rintis'); const closed = {}; for (const e of sc.events) closed[e.id] = true;   // every deal before month 24 is closed
+  H({ op: 'gm', action: 'update', token: r3.token, room: r3.room, patch: { status: 'running', accMs: 27.27 * 5000, startedAt: Date.now(), closed } });
+  const tok3 = H({ op: 'join', room: r3.room, pin: r3.game.pins.t1, name: 'C', email: 'c@example.com' }).token;
+  const o = H({ op: 'order', token: tok3, room: r3.room, team: 't1', order: { type: 'fac', kind: 'kpi', t: 24, seq: 9 } });
+  check('order at month 24 during the checkpoint is accepted', !o.error, o.error ? o.message : 'ok');
+  const late = H({ op: 'order', token: tok3, room: r3.room, team: 't1', order: { type: 'fac', kind: 'kpi', t: 22, seq: 10 } });
+  check('an order truly behind the clock is still refused', late.error === 'late');
+}
 // starting cash set by the GM: the server replay must use it (else every report is a mismatch)
 {
   const PB = require(path.join(__dirname, '..', 'src', 'engine.js'));

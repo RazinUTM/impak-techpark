@@ -64,7 +64,7 @@ function before(res, tm, ev) {
   const show = lv.key !== 'lestari';
   const Cd = PB.CARDS[ev.card];
   const risks = ['T', 'C', 'L'].filter((k) => Cd[k] && T.risk[k]).map((k) => '<li><b>' + OPT[lang()][k] + '</b> — ' + esc(T.risk[k]) + '</li>').join('');
-  return '<details class="advice" open><summary>' + esc(tx('before')) + '</summary>' + checksHTML(L, t, m, show) +
+  return '<details class="advice"><summary>' + esc(tx('before')) + '</summary>' + checksHTML(L, t, m, show) +
     '<div class="adv-sub">' + esc(tx('risks')) + '</div><ul class="adv-risks">' + risks + '</ul>' +
     (!lv.dice ? '<p class="adv-note">' + esc(tx('noDice')) + '</p>' : '') + (!show ? '<p class="adv-note">' + esc(tx('lestari')) + '</p>' : '') + '</details>';
 }
