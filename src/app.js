@@ -460,7 +460,7 @@ function renderLedger() {
     row(LL('FCR bands', 'Jalur FCR'), C.FCR_BANDS.map((b) => '≥ ' + b[0] + ' → +' + b[1]).join(', ') + LL('; below → ', '; bawah → ') + C.FCR_LOW) +
     row(LL('Drift penalty', 'Penalti drift'), C.DRIFT_PEN.map((b) => '> ' + Math.round(b[0] * 100) + '% → −' + b[1]).join(', ')) +
     row('ESG', LL('floor ', 'lantai ') + C.ESG.floor + ', target ' + C.ESG.target + LL('; clear ', '; buka hutan ') + C.ESG.clear + ', buffer +' + C.ESG.buffer + ', park +' + C.ESG.park + LL(', certification +', ', pensijilan +') + C.ESG.cert) +
-    row(LL('Medals', 'Pingat'), LL('Gold ', 'Emas ') + C.MEDALS.gold + LL(' · Silver ', ' · Perak ') + C.MEDALS.silver + LL(' · Bronze ', ' · Gangsa ') + C.MEDALS.bronze + LL(' (+ park gate: half the target)', ' (+ syarat park: separuh target)')) +
+    row(LL('Medals', 'Pingat'), LL('Gold ', 'Emas ') + C.MEDALS.gold + LL(' · Silver ', ' · Perak ') + C.MEDALS.silver + LL(' · Bronze ', ' · Gangsa ') + C.MEDALS.bronze + LL(' (+ park gate: half the target)', ' (+ syarat park: separuh sasaran)')) +
     row(LL('Impact coefficients', 'Pekali impak'), LL('jobs per unit: ', 'pekerjaan setiap unit: ') + Object.keys(PB.SOCIO).filter((k) => PB.SOCIO[k] && PB.SOCIO[k].jobs != null).map((k) => k + ' ' + PB.SOCIO[k].jobs).join(', ') + LL('; local multiplier ', '; pengganda tempatan ') + PB.SOCIO.mult);
 }
 

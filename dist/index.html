@@ -3053,7 +3053,7 @@ function coachTips(res, tm) {
     tips.push({ text: L(`Applicants are waiting but cannot move in: ${why.replace(/\.$/, "")}. Retrofit a shed in Zone B or build in Zone C, and bring fibre where tech tenants need it.`,
       `Ada pemohon menunggu tetapi belum boleh masuk: ${why.replace(/\.$/, "")}. Retrofit shed di Zon B atau bina di Zon C, dan sediakan fibre di tempat penyewa teknologi memerlukannya.`), act: "zone", z: t.zones.B.svc.fibre < 1 ? "B" : "C", go: L("Show me", "Tunjukkan") });
   }
-  if (!t.fac.kpi && m >= 2) tips.push({ text: L("Launch KPI & Impact Reporting: until you do, your impact counts only half.", "Lancarkan KPI & Impact Reporting: selagi belum, impak anda hanya dikira separuh."), act: "tab", k: "fac", go: L("Facilities", "Kemudahan") });
+  if (!t.fac.kpi && m >= 2) tips.push({ text: L("Launch KPI & Impact Reporting: until you do, your impact counts only half.", "Lancarkan KPI & Impact Reporting: selagi belum, impact anda hanya dikira separuh."), act: "tab", k: "fac", go: L("Facilities", "Kemudahan") });
   if (t.zones.C.svc.road < 1 && !t.zones.C.works.length && m <= 18) tips.push({ text: L("Zone C's road is half built. Completing it (0.8 Cr, 2 months) opens four plots beside the campus.", "Road Zon C baru separuh siap. Menyiapkannya (0.8 Cr, 2 bulan) membuka empat plot di sebelah kampus."), act: "zone", z: "C", go: L("Zone C", "Zon C") });
   if (m <= t.fundEnd && t.fund > 3 && m >= t.fundEnd - 8) tips.push({ text: L(`${n1(t.fund)} Cr of the fund lapses on 31 Dec Year 2. Spend it on works, buildings or facilities while it pays ${pc(t.fundShare)}.`, `${n1(t.fund)} Cr daripada fund akan luput pada 31 Dis Tahun 2. Belanjakan untuk kerja, bangunan atau kemudahan selagi ia membayar ${pc(t.fundShare)}.`), act: "zone", z: "B", go: L("Spend it", "Belanjakan") });
   if (tm.ps.fcr < 1 && tm.ps.fcr < 8) tips.push({ text: L(`Income covers only ${pc(tm.ps.fcr)} of upkeep and interest. Fill empty units before you build more.`, `Pendapatan hanya menampung ${pc(tm.ps.fcr)} daripada upkeep dan faedah. Penuhkan unit kosong sebelum membina lagi.`), act: "tab", k: "park", go: "Park" });
@@ -3070,12 +3070,12 @@ function bannerTeam(res, tm) {
   const g = res.g, ck = res.ck, t = tm.t, m = res.mCur, lv = res.lv, out = [];
   out.push(soloControls(res));
   if (g.notice && g.notice.text) out.push(`<div class="banner notice"><span class="label">Game Master</span><b>${esc(g.notice.text)}</b></div>`);
-  if (g.status === "setup" && store().mode === "live") out.push(`<div class="banner info"><b>${L("Waiting for the Game Master.", "Menunggu Game Master.")}</b><span class="muted">${L("Explore your site, the applicants and the rules. Orders open when the clock starts.", "Tinjau tapak, pemohon dan peraturan. Arahan dibuka bila jam bermula.")}</span></div>`);
-  if (t.receiver) out.push(`<div class="banner down"><b>Receivership.</b><span>${L("Your park went bankrupt twice. You can no longer act, and only half of your impact counts.", "Park anda muflis dua kali. Anda tidak boleh bertindak lagi, dan hanya separuh impak dikira.")}</span></div>`);
+  if (g.status === "setup" && store().mode === "live") out.push(`<div class="banner info"><b>${L("Waiting for the Game Master.", "Menunggu Game Master.")}</b><span class="muted">${L("Explore your site, the applicants and the rules. Orders open when the clock starts.", "Tinjau tapak, pemohon dan peraturan. Arahan dibuka apabila jam bermula.")}</span></div>`);
+  if (t.receiver) out.push(`<div class="banner down"><b>Receivership.</b><span>${L("Your park went bankrupt twice. You can no longer act, and only half of your impact counts.", "Park anda bankrap dua kali. Anda tidak boleh bertindak lagi, dan hanya separuh impact dikira.")}</span></div>`);
   if (ck.hold && ck.hold.kind === "checkpoint") {
     const r = tm.now;
-    if (ck.hold.phase === 1) out.push(`<div class="banner phase"><b>${L("Checkpoint · end of Phase 1.", "Checkpoint · tamat Phase 1.")}</b><span>${L(`The Development Fund has closed. You used ${n1(t.snap.fundUsed || 0)} of ${t.fund0} Cr; committed income grew by ${sg1((t.snap.ci24 || 0) - t.snap.ci0)} Cr a year.`, `Development Fund sudah ditutup. Anda menggunakan ${n1(t.snap.fundUsed || 0)} daripada ${t.fund0} Cr; committed income bertambah ${sg1((t.snap.ci24 || 0) - t.snap.ci0)} Cr setahun.`)} <b>B1 = ${n1(r.B1)} / ${lv.score.B1}.</b> ${lv.key === "rintis" ? L("Year 3: run the park. Fill your units and keep income above costs.", "Tahun 3: operasikan park. Penuhkan unit dan kekalkan pendapatan melebihi kos.") : L("Zone H opens now.", "Zon H dibuka sekarang.")}</span></div>`);
-    else out.push(`<div class="banner phase"><b>${L("Checkpoint · end of Phase 2.", "Checkpoint · tamat Phase 2.")}</b><span>${L("Zone H plots signed", "Plot Zon H ditandatangani")}: ${(t.snap.hplots || t.hplots).filter(p => p && p !== "reclaimed").length} ${L("of", "daripada")} 4. <b>B2 = ${n1(r.B2)} / ${lv.score.B2}.</b> ${lv.downturn && lv.downturn.forecast ? L("Watch for the economists' forecast.", "Perhatikan ramalan pakar ekonomi.") : L("Phase 3 begins: a downturn will start in an unannounced month between January and June of Year 4.", "Phase 3 bermula: downturn akan bermula pada bulan yang tidak diumumkan antara Januari dan Jun Tahun 4.")}</span></div>`);
+    if (ck.hold.phase === 1) out.push(`<div class="banner phase"><b>${L("Checkpoint · end of Phase 1.", "Checkpoint · tamat Fasa 1.")}</b><span>${L(`The Development Fund has closed. You used ${n1(t.snap.fundUsed || 0)} of ${t.fund0} Cr; committed income grew by ${sg1((t.snap.ci24 || 0) - t.snap.ci0)} Cr a year.`, `Development Fund sudah ditutup. Anda menggunakan ${n1(t.snap.fundUsed || 0)} daripada ${t.fund0} Cr; committed income bertambah ${sg1((t.snap.ci24 || 0) - t.snap.ci0)} Cr setahun.`)} <b>B1 = ${n1(r.B1)} / ${lv.score.B1}.</b> ${lv.key === "rintis" ? L("Year 3: run the park. Fill your units and keep income above costs.", "Tahun 3: operasikan park. Penuhkan unit dan kekalkan pendapatan melebihi kos.") : L("Zone H opens now.", "Zon H dibuka sekarang.")}</span></div>`);
+    else out.push(`<div class="banner phase"><b>${L("Checkpoint · end of Phase 2.", "Checkpoint · tamat Fasa 2.")}</b><span>${L("Zone H plots signed", "Plot Zon H ditandatangani")}: ${(t.snap.hplots || t.hplots).filter(p => p && p !== "reclaimed").length} ${L("of", "daripada")} 4. <b>B2 = ${n1(r.B2)} / ${lv.score.B2}.</b> ${lv.downturn && lv.downturn.forecast ? L("Watch for the economists' forecast.", "Perhatikan ramalan pakar ekonomi.") : L("Phase 3 begins: a downturn will start in an unannounced month between January and June of Year 4.", "Fasa 3 bermula: downturn akan bermula pada bulan yang tidak diumumkan antara Januari dan Jun Tahun 4.")}</span></div>`);
   }
   if (ck.hold && ck.hold.kind === "forecast") { const k = res.sc.downturn.sev, S = C.SEV[k]; out.push(`<div class="banner down"><b>${L(`Forecast: a ${S.label.toLowerCase()} downturn from ${mname(res.sc.downturn.start)}.`, `Ramalan: downturn ${sevL(k)} bermula ${mnameL(res.sc.downturn.start)}.`)}</b><span>${L(`You have six months to prepare: rates rise to ${pc(S.rate)}, the loan limit falls to ${S.cap} Cr and unlinked rents fall ${pc(S.cut)}.`, `Anda ada enam bulan untuk bersedia: kadar faedah naik ke ${pc(S.rate)}, had pinjaman turun ke ${S.cap} Cr dan sewa penyewa unlinked jatuh ${pc(S.cut)}.`)}</span></div>`); }
   if (ck.hold && ck.hold.kind === "downturn") { const k = res.sc.downturn.sev, S = C.SEV[k]; out.push(`<div class="banner down"><b>${L(`Downturn: ${S.label}.`, `Downturn: ${sevL(k)}.`)}</b><span>${L(`Loan rate ${pc(S.rate)}, loan limit ${S.cap} Cr, unlinked rents −${pc(S.cut)} (linked −${pc(S.cut / 2)}), fewer applicants. Tenants close now and again in 12 months.`, `Kadar pinjaman ${pc(S.rate)}, had pinjaman ${S.cap} Cr, sewa unlinked −${pc(S.cut)} (linked −${pc(S.cut / 2)}), pemohon berkurang. Penyewa tutup sekarang dan sekali lagi dalam 12 bulan.`)}</span></div>`); }
@@ -3085,7 +3085,7 @@ function bannerTeam(res, tm) {
     if (!t.zones.H.locked && m >= 25 && m <= 36 && t.hplots.includes(null)) { const n = t.hplots.filter(q => q === null).length; out.push(`<div class="banner info"><span class="chip warn">${L("Zone H", "Zon H")}</span><span>${L(`${n} plot(s) unsigned. Sign a use by 31 Dec Year 3 (${36 - m + 1} months) or they are reclaimed.`, `${n} plot belum ditandatangani. Tandatangani penggunaannya sebelum 31 Dis Tahun 3 (${36 - m + 1} bulan lagi) atau ia diambil semula.`)}</span></div>`); }
   }
   out.push(coachHTML(res, tm));
-  if (res.final && !g.reveal) out.push(`<div class="banner phase"><b>${L("Final bell.", "Loceng akhir.")}</b><span>${lv.score.D > 0 ? L("Your results appear here after the defence round.", "Keputusan anda dipaparkan di sini selepas pusingan pembentangan (defence).") : L("Your results appear here when the Game Master reveals the medals.", "Keputusan anda dipaparkan di sini bila Game Master mendedahkan pingat.")}</span></div>`);
+  if (res.final && !g.reveal) out.push(`<div class="banner phase"><b>${L("Final bell.", "Loceng akhir.")}</b><span>${lv.score.D > 0 ? L("Your results appear here after the defence round.", "Keputusan anda dipaparkan di sini selepas pusingan defence.") : L("Your results appear here when the Game Master reveals the medals.", "Keputusan anda dipaparkan di sini apabila Game Master mendedahkan pingat.")}</span></div>`);
   return out.join("");
 }
 function zonePanel(res, tm) {
@@ -3133,7 +3133,7 @@ function zonePanel(res, tm) {
     for (const k of ["modular", "newbuild"]) {
       const B = C.BUILD[k];
       acts.push(btn({ type: "build", zone: z, kind: k }, B.label, [`${B.cost} Cr · ${B.months}${mo} · ${B.units} unit${L("s", "")} · upkeep ${n1(B.upkeep)}/${L("yr", "thn")} · 1 AP`, split(B.cost)],
-        gate ? "" : L(`Speculative: occupancy ${pc(PB.occupancy(t))} is below 80% and you have no anchor. Half the time it costs +2 Cr and 3 months more.`, `Spekulatif: occupancy ${pc(PB.occupancy(t))} bawah 80% dan anda tiada anchor. Separuh daripada masa, kosnya +2 Cr dan 3 bulan lebih lama.`)));
+        gate ? "" : L(`Speculative: occupancy ${pc(PB.occupancy(t))} is below 80% and you have no anchor. Half the time it costs +2 Cr and 3 months more.`, `Spekulatif: penghunian ${pc(PB.occupancy(t))} bawah 80% dan anda tiada anchor. Dalam separuh kes, kosnya +2 Cr dan 3 bulan lebih lama.`)));
     }
   }
   if (z === "F" && S.mode === "forest") acts.push(btn({ type: "declare", zone: "F" }, L("Declare a green buffer", "Isytiharkan green buffer"), [L("Free · no AP · +1 impact a year · ESG +2 · no building here", "Percuma · tiada AP · +1 impact setahun · ESG +2 · tiada pembinaan di sini")]));
@@ -3176,7 +3176,7 @@ function tabApps(res, tm) {
     }
     h += `</div>`;
   }
-  if (t.pendingAnchor) h += `<div class="note good">${L(`An R&D anchor has agreed to take 3 units when a ready unit block with fibre is free (until end of ${mnameL(t.pendingAnchor.until)}).`, `Sebuah R&D anchor bersetuju mengambil 3 unit apabila blok unit siap yang ada fibre kosong (sehingga hujung ${mnameL(t.pendingAnchor.until)}).`)}</div>`;
+  if (t.pendingAnchor) h += `<div class="note good">${L(`An R&D anchor has agreed to take 3 units when a ready unit block with fibre is free (until end of ${mnameL(t.pendingAnchor.until)}).`, `Sebuah R&D anchor bersetuju mengambil 3 unit apabila ada blok unit siap dengan fibre yang kosong (sehingga hujung ${mnameL(t.pendingAnchor.until)}).`)}</div>`;
   h += `<div class="note">${L("Admission policy", "Polisi kemasukan")}: <b>${esc(t.policy)}</b>. ${t.policy === "priority" ? L("Unlinked tenants are admitted only while they fill 50% of let units or less.", "Penyewa unlinked diterima hanya selagi mereka mengisi 50% atau kurang daripada unit yang disewa.") : (t.policy === "linked" ? L("Only linked tenants are admitted.", "Hanya penyewa linked diterima.") : L("Anyone is admitted.", "Semua pemohon diterima."))} ${L("Change it in Money.", "Tukar dalam Kewangan.")}</div>`;
   const groups = {};
   for (const x of t.tenants) { const g = groups[x.type] = groups[x.type] || { n: 0, units: 0, rent: 0, ip: 0 }; g.n++; g.units += C.TEN[x.type].units; g.rent += C.TEN[x.type].rent; g.ip += C.TEN[x.type].ip; }
@@ -3226,7 +3226,7 @@ function tabPark(res, tm) {
 ${tile(L("Income/yr", "Pendapatan/thn"), n1(tm.ci), "", L("committed rent + leases", "sewa committed + lease"))}
 ${tile(L("Upkeep/yr", "Upkeep/thn"), n1(PB.annualUpkeep(t, m)), "", L("buildings, facilities, office", "bangunan, kemudahan, pejabat"))}
 ${tile("FCR12", fcr > 8 ? "—" : fcr.toFixed(2), fcr >= 1.3 ? "good" : (fcr >= 1 ? "" : "bad"), L("income ÷ (upkeep + interest)", "pendapatan ÷ (upkeep + faedah)"))}
-${tile("Occupancy", pc(tm.occ), tm.occ >= 0.8 ? "good" : (tm.occ < 0.5 ? "warn" : ""), L(PB.occUnits(t) + " of " + PB.readyUnits(t) + " units", PB.occUnits(t) + " daripada " + PB.readyUnits(t) + " unit"))}
+${tile(L("Occupancy", "Penghunian"), pc(tm.occ), tm.occ >= 0.8 ? "good" : (tm.occ < 0.5 ? "warn" : ""), L(PB.occUnits(t) + " of " + PB.readyUnits(t) + " units", PB.occUnits(t) + " daripada " + PB.readyUnits(t) + " unit"))}
 ${tile(L("Landlord drift", "Drift tuan tanah"), pc(dr), dr > 0.5 ? "bad" : (dr > 0.4 ? "warn" : "good"), L("unlinked share of let units", "bahagian unlinked dalam unit disewa"))}
 ${tile("Impact", n1(ps.ip), "", n1(t.ipv) + L(" verified · ", " disahkan · ") + n1(t.ipu) + L(" unverified", " belum disahkan"))}
 ${tile(L("Linked tenants", "Penyewa linked"), PB.linkedCount(t), "", t.startups.length + " startup" + L("s", ""))}
@@ -3238,7 +3238,7 @@ ${W.E > 0 ? tile("ESG", (t.esg >= 0 ? "+" : "") + n1(t.esg), t.esg < 0 ? "bad" :
 <tr><td>${L("FCR12 bonus", "Bonus FCR12")} (${fcr > 8 ? L("no costs", "tiada kos") : fcr.toFixed(2)})</td><td>${sg1(ps.fcrBonus)}</td></tr>
 <tr><td>${L("Landlord drift penalty", "Penalti drift tuan tanah")} (${pc(dr)})</td><td>${sg1(-ps.driftPen)}</td></tr>
 <tr><td>${L("Debt penalty (half of debt above cash)", "Penalti hutang (separuh daripada hutang yang melebihi tunai)")}</td><td>${sg1(-ps.debtPen)}</td></tr>
-<tr class="tot"><td>${L("Park score · target ", "Skor park · target ")}${W.parkTarget}</td><td>${n1(ps.score)}</td></tr>
+<tr class="tot"><td>${L("Park score · target ", "Skor park · sasaran ")}${W.parkTarget}</td><td>${n1(ps.score)}</td></tr>
 <tr><td>${L(`Part A so far (${W.A} × score ÷ ${W.parkTarget}, max ${W.A})`, `Bahagian A setakat ini (${W.A} × skor ÷ ${W.parkTarget}, maks ${W.A})`)}</td><td>${n1(W.A * clamp(ps.score / W.parkTarget, 0, 1))}</td></tr></tbody></table>`;
   if (t.esgLog.length) h += `<div class="label">${L("ESG record", "Rekod ESG")}</div><div class="log">${t.esgLog.slice().reverse().slice(0, 8).map(x => `<div><span class="m">${mnameL(x.m)}</span><span class="${x.d > 0 ? "good" : "bad"}">${x.d > 0 ? "+" : ""}${x.d} · ${esc(esgWhyL(x.why))}</span></div>`).join("")}</div>`;
   const cm = commitments(t, m);
@@ -3327,7 +3327,7 @@ function tabNews(res, tm) {
 function sortedTeams(res) { return res.teams.slice().sort((a, b) => (a.t.receiver - b.t.receiver) || (b.ps.score - a.ps.score)); }
 function tabStand(res, tm) {
   const rows = sortedTeams(res), E = res.lv.score.E > 0;
-  return `<div class="scroll-x"><table class="tbl"><thead><tr><th>#</th><th>Park</th><th class="r">${L("Score", "Skor")}</th><th class="r">Impact</th>${E ? `<th class="r">ESG</th>` : ""}<th class="r">${L("Income", "Pendapatan")}</th><th class="r">Occ.</th></tr></thead><tbody>${rows.map((x, i) => `<tr${x.id === tm.id ? ` style="background:var(--accent-soft)"` : ""}><td class="mono">${i + 1}</td><td><b>${esc(x.name)}</b>${x.bench ? ` <span class="chip">benchmark</span>` : ""}${x.t.receiver ? ` <span class="chip bad">receivership</span>` : (x.t.bailouts ? ` <span class="chip warn">bailout</span>` : "")}</td><td class="r mono">${n0(x.ps.score)}</td><td class="r mono">${n0(x.ps.ip)}</td>${E ? `<td class="r mono">${x.t.esg >= 0 ? "+" : ""}${n1(x.t.esg)}</td>` : ""}<td class="r mono">${n1(x.ci)}</td><td class="r mono">${pc(x.occ)}</td></tr>`).join("")}</tbody></table></div>
+  return `<div class="scroll-x"><table class="tbl"><thead><tr><th>#</th><th>Park</th><th class="r">${L("Score", "Skor")}</th><th class="r">Impact</th>${E ? `<th class="r">ESG</th>` : ""}<th class="r">${L("Income", "Pendapatan")}</th><th class="r">${L("Occ.", "Penghunian")}</th></tr></thead><tbody>${rows.map((x, i) => `<tr${x.id === tm.id ? ` style="background:var(--accent-soft)"` : ""}><td class="mono">${i + 1}</td><td><b>${esc(x.name)}</b>${x.bench ? ` <span class="chip">benchmark</span>` : ""}${x.t.receiver ? ` <span class="chip bad">receivership</span>` : (x.t.bailouts ? ` <span class="chip warn">bailout</span>` : "")}</td><td class="r mono">${n0(x.ps.score)}</td><td class="r mono">${n0(x.ps.ip)}</td>${E ? `<td class="r mono">${x.t.esg >= 0 ? "+" : ""}${n1(x.t.esg)}</td>` : ""}<td class="r mono">${n1(x.ci)}</td><td class="r mono">${pc(x.occ)}</td></tr>`).join("")}</tbody></table></div>
 <div class="faint" style="font-size:12px">${L("Benchmarks are scripted parks playing the same site and deals: Garden grows in phases, Bold takes calculated risks, Purist is mission-first, Rocket grows fast on debt, Tower builds for corporates, Caretaker spends the minimum, Reckless does everything at once.", "Benchmark ialah park berskrip yang bermain di tapak dan deal yang sama: Garden berkembang secara berperingkat, Bold mengambil risiko yang dikira, Purist mengutamakan misi, Rocket berkembang pantas dengan hutang, Tower membina untuk korporat, Caretaker berbelanja minimum, Reckless melakukan semuanya serentak.")}</div>`;
 }
 const RULES_CACHE = {};
@@ -3375,7 +3375,7 @@ function RULES_HTML(sc) {
 <h3>${L("Land works", "Kerja tanah")}</h3><table class="tbl"><thead><tr><th>${L("Work", "Kerja")}</th><th class="r">Cr</th><th class="r">${L("Months", "Bulan")}</th></tr></thead><tbody>${Object.keys(W).filter(k => lv.zones.includes("F") || (k !== "clear" && k !== "retention")).map(k => `<tr><td>${esc(workL(k))}</td><td class="r mono">${n1(W[k].cost)}</td><td class="r mono">${W[k].months}</td></tr>`).join("")}</tbody></table>
 <p>${L("Tenants move in only where the zone has road, water and power; tech tenants also need fibre. A shared substation applies when a neighbouring zone already has power.", "Penyewa hanya boleh masuk jika zon itu ada road, water dan power; penyewa teknologi juga perlukan fibre. Substation dikongsi terpakai apabila zon jiran sudah ada power.")}</p>
 <h3>${L("Buildings", "Bangunan")}</h3><table class="tbl"><thead><tr><th>${L("Building", "Bangunan")}</th><th class="r">Cr</th><th class="r">${L("Months", "Bulan")}</th><th class="r">Unit</th><th class="r">Upkeep/${L("yr", "thn")}</th></tr></thead><tbody>${Object.keys(B).map(k => `<tr><td>${esc(B[k].label)}</td><td class="r mono">${B[k].cost}</td><td class="r mono">${B[k].months}</td><td class="r mono">${B[k].units}</td><td class="r mono">${n1(B[k].upkeep)}</td></tr>`).join("")}</tbody></table>
-<p>${L("The demand gate: a Modular or New Build started while occupancy is below 80% and you have no anchor is speculative, and half the time costs 2 Cr and 3 months more. With the gate met, 1 in 6 still runs 3 months late.", "Demand gate: Modular atau New Build yang dimulakan ketika occupancy bawah 80% dan anda tiada anchor dianggap spekulatif, dan separuh daripada masa kosnya 2 Cr dan 3 bulan lebih. Walaupun gate dipenuhi, 1 dalam 6 masih lewat 3 bulan.")}</p>
+<p>${L("The demand gate: a Modular or New Build started while occupancy is below 80% and you have no anchor is speculative, and half the time costs 2 Cr and 3 months more. With the gate met, 1 in 6 still runs 3 months late.", "Demand gate: Modular atau New Build yang dimulakan ketika penghunian bawah 80% dan anda tiada anchor dianggap spekulatif, dan dalam separuh kes kosnya 2 Cr dan 3 bulan lebih. Walaupun gate dipenuhi, 1 dalam 6 masih lewat 3 bulan.")}</p>
 <h3>${L("Tenants", "Penyewa")}</h3><table class="tbl"><thead><tr><th>${L("Type", "Jenis")}</th><th class="r">Unit</th><th class="r">${L("Rent/yr", "Sewa/thn")}</th><th class="r">Impact/${L("yr", "thn")}</th><th>Linked</th></tr></thead><tbody>${["backoffice", "sme", "spinoff", "anchor", "bigAnchor", "agency", "agencyL"].map(k => `<tr><td>${esc(tenL(k))}</td><td class="r mono">${T[k].units}</td><td class="r mono">${n1(T[k].rent)}</td><td class="r mono">${n1(T[k].ip)}</td><td>${T[k].linked ? L("yes", "ya") : L("no", "tidak")}</td></tr>`).join("")}</tbody></table>
 <p>${L(`Linked tenants in Zone C add +1 impact a year each. Back-office tenants pay 30% more in Zone D. Spin-offs leave 1 in 3 a year (1 in 6 with a Lab, an Incubator or a JV). Applicants wait ${C.WAIT} months, then go elsewhere.`, `Setiap penyewa linked di Zon C menambah +1 impact setahun. Penyewa back-office membayar 30% lebih di Zon D. Spin-off keluar 1 dalam 3 setahun (1 dalam 6 jika ada Lab, Incubator atau JV). Pemohon menunggu ${C.WAIT} bulan, kemudian beralih ke tempat lain.`)}</p>
 <h3>${L("Phases", "Fasa")}</h3><ul>${phases}</ul>`;
@@ -3392,7 +3392,7 @@ function RULES_HTML(sc) {
   else h += `<p class="faint">${L("ESG is scored from Level 2 onward.", "ESG dinilai mulai Level 2.")}</p>`;
   const awardsL = [lv.key === "rintis" ? L("Best Operator (highest B3)", "Best Operator (B3 tertinggi)") : L("Best Survivor (highest B3)", "Best Survivor (B3 tertinggi)"), S.B2 ? L("Land Steward (highest B2)", "Land Steward (B2 tertinggi)") : "", L("Impact Champion (most verified impact)", "Impact Champion (impact disahkan paling banyak)"), L("Sound Judgement (highest C)", "Sound Judgement (C tertinggi)"), S.E ? L("Green Steward (highest ESG)", "Green Steward (ESG tertinggi)") : "", L("Boldest Sound Bet (highest Dare Index with at least 80% sound decisions)", "Boldest Sound Bet (Dare Index tertinggi dengan sekurang-kurangnya 80% keputusan wajar)")].filter(Boolean).join(", ");
   h += L(`<p><b>Medals.</b> Gold: ${M.gold} or more, never bailed out, FCR12 ≥ 1, drift ≤ 50%${lv.esgGate ? " and ESG ≥ 0" : ""} at the end. Silver: ${M.silver} or more, not in receivership, and a park score of at least half the target (${Math.round(S.parkTarget / 2)}); Gold needs that too. Bronze: ${M.bronze} or more. Several teams can take the same medal.</p>
-<p><b>Special awards</b> (no marks): ${awardsL}.</p></div>`, `<p><b>Pingat.</b> Emas: ${M.gold} atau lebih, tiada bailout, FCR12 ≥ 1, drift ≤ 50%${lv.esgGate ? " dan ESG ≥ 0" : ""} di akhir. Perak: ${M.silver} atau lebih, tidak dalam receivership, dan skor park sekurang-kurangnya separuh target (${Math.round(S.parkTarget / 2)}); Emas juga memerlukannya. Gangsa: ${M.bronze} atau lebih. Beberapa pasukan boleh memenangi pingat yang sama.</p>
+<p><b>Special awards</b> (no marks): ${awardsL}.</p></div>`, `<p><b>Pingat.</b> Emas: ${M.gold} atau lebih, tiada bailout, FCR12 ≥ 1, drift ≤ 50%${lv.esgGate ? " dan ESG ≥ 0" : ""} di akhir. Perak: ${M.silver} atau lebih, tidak dalam receivership, dan skor park sekurang-kurangnya separuh sasaran (${Math.round(S.parkTarget / 2)}); Emas juga memerlukannya. Gangsa: ${M.bronze} atau lebih. Beberapa pasukan boleh memenangi pingat yang sama.</p>
 <p><b>Anugerah khas</b> (tiada markah): ${awardsL}.</p></div>`);
   return (RULES_CACHE[ck] = h);
 }
@@ -3470,8 +3470,8 @@ function soloHoldOverlay(res, tm) {
     const k = res.sc.downturn.sev, S = C.SEV[k];
     if (h.kind === "downturn") body = `<h2>Downturn ${L(S.label, sevL(k))}</h2><p class="txt">${L(`Loan rate ${pc(S.rate)} and loan limit ${S.cap} Cr until the end. Unlinked rents fall ${pc(S.cut)}, linked ${pc(S.cut / 2)}. ${pc(S.bo)} of back-office tenants close now and again in 12 months; fewer applicants arrive.`, `Kadar pinjaman ${pc(S.rate)} dan had pinjaman ${S.cap} Cr sehingga tamat. Sewa unlinked jatuh ${pc(S.cut)}, linked ${pc(S.cut / 2)}. ${pc(S.bo)} penyewa back-office tutup sekarang dan sekali lagi dalam 12 bulan; pemohon berkurang.`)}</p>`;
     else if (h.kind === "forecast") body = `<h2>${L(`Forecast: ${S.label.toLowerCase()} downturn ahead`, `Ramalan: downturn ${sevL(k)} akan datang`)}</h2><p class="txt">${L(`Economists expect a ${S.label.toLowerCase()} downturn from ${mname(res.sc.downturn.start)}. Six months to prepare: rates will rise to ${pc(S.rate)} and the bank will cut the loan limit to ${S.cap} Cr.`, `Pakar ekonomi menjangka downturn ${sevL(k)} bermula ${mnameL(res.sc.downturn.start)}. Enam bulan untuk bersedia: kadar faedah akan naik ke ${pc(S.rate)} dan bank akan memotong had pinjaman ke ${S.cap} Cr.`)}</p>`;
-    else if (h.phase === 1) body = `<h2>${L("End of Phase 1", "Tamat Phase 1")}</h2><p class="txt">${L("The Development Fund has closed.", "Development Fund sudah ditutup.")} B1 = ${n1(tm.now.B1)} / ${lv.score.B1}. ${lv.key === "rintis" ? L("Year 3: run the park. Fill your units and keep income above costs.", "Tahun 3: operasikan park. Penuhkan unit dan kekalkan pendapatan melebihi kos.") : L("Zone H is released: sign a use for each plot by 31 December Year 3.", "Zon H dilepaskan: tandatangani penggunaan setiap plot sebelum 31 Disember Tahun 3.")}</p>`;
-    else body = `<h2>${L("End of Phase 2", "Tamat Phase 2")}</h2><p class="txt">B2 = ${n1(tm.now.B2)} / ${lv.score.B2}. ${lv.downturn && lv.downturn.forecast ? L("The survival phase begins; watch for the forecast.", "Fasa survival bermula; perhatikan ramalan.") : L("The survival phase begins: a downturn will start between January and June of Year 4.", "Fasa survival bermula: downturn akan bermula antara Januari dan Jun Tahun 4.")}</p>`;
+    else if (h.phase === 1) body = `<h2>${L("End of Phase 1", "Tamat Fasa 1")}</h2><p class="txt">${L("The Development Fund has closed.", "Development Fund sudah ditutup.")} B1 = ${n1(tm.now.B1)} / ${lv.score.B1}. ${lv.key === "rintis" ? L("Year 3: run the park. Fill your units and keep income above costs.", "Tahun 3: operasikan park. Penuhkan unit dan kekalkan pendapatan melebihi kos.") : L("Zone H is released: sign a use for each plot by 31 December Year 3.", "Zon H dilepaskan: tandatangani penggunaan setiap plot sebelum 31 Disember Tahun 3.")}</p>`;
+    else body = `<h2>${L("End of Phase 2", "Tamat Fasa 2")}</h2><p class="txt">B2 = ${n1(tm.now.B2)} / ${lv.score.B2}. ${lv.downturn && lv.downturn.forecast ? L("The survival phase begins; watch for the forecast.", "Fasa 3 bermula; perhatikan ramalan.") : L("The survival phase begins: a downturn will start between January and June of Year 4.", "Fasa 3 bermula: downturn akan bermula antara Januari dan Jun Tahun 4.")}</p>`;
     return `<div class="overlay"><div class="deal"><div class="deal-body">${body}<div class="row"><button class="btn primary" data-act="solo-cont">${L("Continue", "Teruskan")}</button></div></div></div></div>`;
   }
   return "";
@@ -3557,7 +3557,7 @@ function stageHTML(res) {
 }
 function leaderboard(res) {
   const rows = sortedTeams(res); const T = res.lv.score.parkTarget, E = res.lv.score.E > 0;
-  return `<div class="scroll-x"><table class="lb"><thead><tr><th>#</th><th>Park</th><th>${L("Park score · target ", "Skor park · target ")}${T}</th><th>Impact</th>${E ? "<th>ESG</th>" : ""}<th>${L("Income/yr", "Pendapatan/thn")}</th><th>Occupancy</th><th>${L("Net cash", "Tunai bersih")}</th><th>FCR12</th></tr></thead><tbody>${rows.map((x, i) => {
+  return `<div class="scroll-x"><table class="lb"><thead><tr><th>#</th><th>Park</th><th>${L("Park score · target ", "Skor park · sasaran ")}${T}</th><th>Impact</th>${E ? "<th>ESG</th>" : ""}<th>${L("Income/yr", "Pendapatan/thn")}</th><th>${L("Occupancy", "Penghunian")}</th><th>${L("Net cash", "Tunai bersih")}</th><th>FCR12</th></tr></thead><tbody>${rows.map((x, i) => {
     const t = x.t, net = t.cash - t.debt - t.emerg;
     const st = t.receiver ? `<span class="chip bad">receivership</span>` : (t.bailouts ? `<span class="chip warn">bailout</span>` : "");
     return `<tr class="${x.bench ? "bench" : ""}${t.receiver ? " bust" : ""}"><td class="rk">${i + 1}</td><td class="tm">${esc(x.name)} ${st}</td><td class="sc"><span class="scv">${n0(x.ps.score)}</span><div class="bar"><i style="width:${clamp(x.ps.score / T, 0, 1) * 100}%"></i></div></td><td>${n0(x.ps.ip)}</td>${E ? `<td style="color:${t.esg < 0 ? "var(--bad)" : "inherit"}">${t.esg >= 0 ? "+" : ""}${n1(t.esg)}</td>` : ""}<td>${n1(x.ci)}</td><td>${pc(x.occ)}</td><td>${n1(net)}</td><td>${x.ps.fcr > 8 ? "—" : x.ps.fcr.toFixed(2)}</td></tr>`;
@@ -3607,7 +3607,7 @@ function ceremony(res) {
 ${H.length > 1 ? `<div class="rcharts cer"><div><div class="label">${L("Score profiles", "Profil skor")}</div>${radarSVG(H.slice(0, 4).map(x => ({ name: x.name, r: x.rub })), res.lv, 260)}${H.length > 4 ? `<div class="faint">${L("The top four parks are drawn.", "Empat park teratas dilukis.")}</div>` : ""}</div></div>` : ""}
 ${aw.length ? `<div class="label">${L("Special awards", "Anugerah khas")}</div><div class="decided">${aw.map(a => `<span class="y">${esc(a[0])}: ${esc(a[1])}</span>`).join("")}</div>` : ""}</div>`;
 }
-function goldMiss(x, lv) { const r = x.rub, t = x.t, o = []; if (r.park.score < 0.5 * lv.score.parkTarget) o.push(L("park score below half the target", "skor park bawah separuh target")); if (t.bailouts) o.push(L("bailed out", "pernah bailout")); if (!(r.park.fcr >= 1)) o.push(L("FCR12 below 1", "FCR12 bawah 1")); if (r.park.drift > 0.5) o.push(L("drift above 50%", "drift melebihi 50%")); if (lv.esgGate && t.esg < 0) o.push(L("ESG below 0", "ESG bawah 0")); return o.join(", "); }
+function goldMiss(x, lv) { const r = x.rub, t = x.t, o = []; if (r.park.score < 0.5 * lv.score.parkTarget) o.push(L("park score below half the target", "skor park bawah separuh sasaran")); if (t.bailouts) o.push(L("bailed out", "pernah bailout")); if (!(r.park.fcr >= 1)) o.push(L("FCR12 below 1", "FCR12 bawah 1")); if (r.park.drift > 0.5) o.push(L("drift above 50%", "drift melebihi 50%")); if (lv.esgGate && t.esg < 0) o.push(L("ESG below 0", "ESG bawah 0")); return o.join(", "); }
 
 /* =============================================================== GM console */
 function gmSetupHTML() {
@@ -3648,7 +3648,7 @@ function viewGM(res) {
 <div class="bigdate" style="font-size:64px">${dmyL(d)}<small>${yrL(d.year)}</small></div>
 <div class="row">${ctl}<span class="label" style="margin-left:6px">${L("One month every", "Satu bulan setiap")}</span>${[30000, 45000, 60000, 90000].map(v => `<button class="btn sm${mpm === v ? " primary" : ""}" data-act="gm-pace" data-v="${v}">${v / 1000} s</button>`).join("")}</div>
 <div class="muted">${nxt || "&nbsp;"}</div>
-<div class="faint" style="font-size:12px">Seed ${esc(g.seed)} · ${g.teams.length} ${L("teams", "pasukan")} · ${L("start cash", "tunai permulaan")} ${g.startCash != null ? g.startCash : res.lv.startCash} Cr</div><div class="row" style="font-size:13px"><span class="chip ${g.auto ? "acc" : "amb"}">${g.auto ? L("Deals: automatic", "Deal: automatik") : L("Deals: manual", "Deal: manual")}</span><span class="muted">${g.auto ? L("Each deal closes when its " + (g.window || 90) + " s run out and the clock restarts 15 s after the reveal. The month clock always runs until you pause it.", "Setiap deal ditutup apabila " + (g.window || 90) + " s tamat dan jam bermula semula 15 s selepas keputusan didedahkan. Jam bulanan sentiasa berjalan sehingga anda menjedanya.") : L("Deals stay open until you press Close now, and the clock waits until you press Resume. The month clock still runs between deals; use Pause to stop it.", "Deal kekal dibuka sehingga anda menekan Tutup, dan jam menunggu sehingga anda menekan Sambung. Jam bulanan masih berjalan antara deal; gunakan Jeda untuk menghentikannya.")}</span><button class="btn sm" data-act="gm-auto">${g.auto ? L("Switch to manual", "Tukar ke manual") : L("Switch to automatic", "Tukar ke automatik")}</button></div></div>`;
+<div class="faint" style="font-size:12px">Seed ${esc(g.seed)} · ${g.teams.length} ${L("teams", "pasukan")} · ${L("start cash", "tunai permulaan")} ${g.startCash != null ? g.startCash : res.lv.startCash} Cr</div><div class="row" style="font-size:13px"><span class="chip ${g.auto ? "acc" : "amb"}">${g.auto ? L("Deals: automatic", "Deal: automatik") : L("Deals: manual", "Deal: manual")}</span><span class="muted">${g.auto ? L("Each deal closes when its " + (g.window || 90) + " s run out and the clock restarts 15 s after the reveal. The month clock always runs until you pause it.", "Setiap deal ditutup apabila " + (g.window || 90) + " s tamat dan jam bermula semula 15 s selepas keputusan didedahkan. Jam bulanan sentiasa berjalan sehingga anda menjedanya.") : L("Deals stay open until you press Close the deal and reveal, and the clock waits until you press Resume. The month clock still runs between deals; use Pause to stop it.", "Deal kekal dibuka sehingga anda menekan Tutup deal dan dedahkan, dan jam menunggu sehingga anda menekan Sambung. Jam bulanan masih berjalan antara deal; gunakan Jeda untuk menghentikannya.")}</span><button class="btn sm" data-act="gm-auto">${g.auto ? L("Switch to manual", "Tukar ke manual") : L("Switch to automatic", "Tukar ke automatik")}</button></div></div>`;
   Lh += `<div class="panel card"><h2>${L("Message to every screen", "Mesej ke semua skrin")}</h2><div class="row"><input type="text" id="gm-notice" data-in="notice" data-enter="gm-notice" maxlength="160" value="${esc(APP.ui.notice || "")}" placeholder="${L("e.g. Ten minutes to the checkpoint. Check your applicants.", "cth. Sepuluh minit lagi ke checkpoint. Semak pemohon anda.")}" style="flex:1;min-width:220px;font:inherit;padding:7px 9px;border:1px solid var(--rule);border-radius:6px;background:var(--panel);color:var(--ink)"><button class="btn primary" data-act="gm-notice">${L("Send", "Hantar")}</button>${g.notice ? `<button class="btn" data-act="gm-notice-clear">${L("Clear", "Kosongkan")}</button>` : ""}</div>${g.notice ? `<div class="muted">${L("Showing now", "Dipaparkan sekarang")}: “${esc(g.notice.text)}”</div>` : `<div class="faint" style="font-size:12px">${L("Shows as a banner on every team dashboard and on the front screen until you clear it.", "Dipaparkan sebagai banner pada papan setiap pasukan dan skrin hadapan sehingga anda mengosongkannya.")}</div>`}</div>`;
   Lh += gmHold(res);
   if (res.final) Lh += gmEnd(res);
@@ -3658,12 +3658,12 @@ function viewGM(res) {
 ${st.purgeOld ? `<button class="btn" data-act="gm-purge">${L("Delete orders from earlier games", "Padam arahan daripada permainan terdahulu")}</button>` : ""}${APP.ui.purge ? `<span class="muted">${esc(APP.ui.purge)}</span>` : ""}</div>
 ${st.purgeOld ? `<div class="faint" style="font-size:12px">${L("The page holds at most 5,000 records. One game of 8 teams uses about 700; delete earlier games between cohorts.", "Halaman ini memuatkan paling banyak 5,000 rekod. Satu permainan 8 pasukan menggunakan kira-kira 700; padam permainan terdahulu antara kohort.")}</div>` : ""}</div>`;
   const hold = ck.hold && ck.hold.kind === "event" ? ck.hold : null, E = res.lv.score.E > 0;
-  R += `<div class="panel card"><h2>Park</h2><div class="scroll-x"><table class="tbl"><thead><tr><th>Park</th><th class="r">${L("Score", "Skor")}</th>${E ? `<th class="r">ESG</th>` : ""}<th class="r">${L("Cash", "Tunai")}</th><th class="r">${L("Loans", "Pinjaman")}</th><th class="r">Occ.</th><th class="r">FCR12</th><th class="r">AP</th><th class="r">${L("Orders", "Arahan")}</th>${hold ? "<th>Deal</th>" : ""}</tr></thead><tbody>${sortedTeams(res).map(x => {
+  R += `<div class="panel card"><h2>Park</h2><div class="scroll-x"><table class="tbl"><thead><tr><th>Park</th><th class="r">${L("Score", "Skor")}</th>${E ? `<th class="r">ESG</th>` : ""}<th class="r">${L("Cash", "Tunai")}</th><th class="r">${L("Loans", "Pinjaman")}</th><th class="r">${L("Occ.", "Penghunian")}</th><th class="r">FCR12</th><th class="r">AP</th><th class="r">${L("Orders", "Arahan")}</th>${hold ? "<th>Deal</th>" : ""}</tr></thead><tbody>${sortedTeams(res).map(x => {
     const t = x.t, orders = x.bench ? "—" : st.ordersFor(x.id).length;
     const dd = hold && !x.bench ? (decLabel(st.decisionOf(hold.id, x.id)) || (PB.eligible(hold.ev.card, t, res.mCur) ? "…" : L("n/a", "t/b"))) : "";
     return `<tr${x.bench ? ` style="opacity:.6"` : ""}><td><b>${esc(x.name)}</b>${x.bench ? ` <span class="chip">benchmark</span>` : ""}${t.receiver ? ` <span class="chip bad">receivership</span>` : (t.bailouts ? ` <span class="chip warn">bailout</span>` : "")}</td><td class="r mono">${n0(x.ps.score)}</td>${E ? `<td class="r mono">${t.esg >= 0 ? "+" : ""}${n1(t.esg)}</td>` : ""}<td class="r mono">${n1(t.cash)}</td><td class="r mono">${n1(t.debt + t.emerg)}</td><td class="r mono">${pc(x.occ)}</td><td class="r mono">${x.ps.fcr > 8 ? "—" : x.ps.fcr.toFixed(2)}</td><td class="r mono">${t.ap}</td><td class="r mono">${orders}</td>${hold ? `<td class="mono">${x.bench ? "" : esc(dd)}</td>` : ""}</tr>`;
   }).join("")}</tbody></table></div>
-<div class="faint" style="font-size:12px">${HOST.kind === "server" ? L("You can open any team's dashboard from the join page with its PIN and act for a team that has no laptop.", "Anda boleh membuka papan mana-mana pasukan dari halaman sertai dengan PIN pasukan itu dan bertindak bagi pasukan yang tiada komputer riba.") : L("Teams open this page, choose \"Join as a team\" and pick their name. You can also open a team's dashboard from the start page and act for a team that has no laptop. For the projector, open this page in a second browser tab and choose \"Front screen\"; deals keep closing on time while either tab is open.", "Pasukan membuka halaman ini, memilih \"Sertai sebagai pasukan\" dan memilih nama mereka. Anda juga boleh membuka papan pasukan dari halaman utama dan bertindak bagi pasukan yang tiada komputer riba. Untuk projektor, buka halaman ini dalam tab pelayar kedua dan pilih \"Skrin hadapan\"; deal terus ditutup tepat pada masanya selagi salah satu tab dibuka.")}</div></div>`;
+<div class="faint" style="font-size:12px">${HOST.kind === "server" ? L("You can open any team's dashboard from the join page with its PIN and act for a team that has no laptop.", "Anda boleh membuka papan mana-mana pasukan dari halaman sertai dengan PIN pasukan itu dan bertindak bagi pasukan yang tiada komputer riba.") : L("Teams open this page, choose \"Join as a team\" and pick their name. You can also open a team's dashboard from the start page and act for a team that has no laptop. For the projector, open this page in a second browser tab and choose \"Front screen\"; deals keep closing on time while either tab is open.", "Pasukan membuka halaman ini, memilih \"Sertai sesi langsung\" dan memilih nama mereka. Anda juga boleh membuka papan pasukan dari halaman utama dan bertindak bagi pasukan yang tiada komputer riba. Untuk projektor, buka halaman ini dalam tab pelayar kedua dan pilih \"Skrin hadapan\"; deal terus ditutup tepat pada masanya selagi salah satu tab dibuka.")}</div></div>`;
   if (HOST.gmSide) R += HOST.gmSide(res);
   return `<div class="gm"><div style="display:grid;gap:16px">${Lh}</div><div style="display:grid;gap:16px">${R}</div></div>`;
 }
@@ -5286,25 +5286,25 @@ const I18N = {
     'gloss.open': 'Buka glosari',
     'ui.info.gloss': 'Istilah dan singkatan',
     'ui.info.gloss.d': 'Setiap istilah dan singkatan dalam permainan diterangkan dalam Glosari di bahagian bawah panel Panduan.',
-    'ledger.note': 'Parameter engine yang digunakan build ini. Semuanya placeholder yang dipilih untuk keseimbangan permainan, bukan nilai yang diukur; lihat DESIGN.md.',
+    'ledger.note': 'Parameter engine yang digunakan oleh build ini. Semuanya placeholder yang dipilih untuk keseimbangan permainan, bukan nilai yang diukur; lihat DESIGN.md.',
     'vp.pinA': 'Pin A',
     'vp.pinB': 'Pin B',
     'vp.clearPins': 'Buang pin',
     'vp.fit': 'Muat',
     'vp.pin.tip': 'Simpan gambar site plan sekarang untuk dibandingkan kemudian dalam tab Pin',
-    'vp.zoom.tip': 'Scroll dengan Ctrl untuk zoom, seret untuk pan, Muat untuk kembali',
+    'vp.zoom.tip': 'Skrol sambil tekan Ctrl untuk zum, seret untuk menganjak, Muat untuk kembali',
     'vp.pinned': 'Pin {pin} disimpan pada {when}',
     'pins.empty': 'Pin site plan pada dua masa (Pin A, Pin B di atas peta) untuk membandingkannya di sini.',
     'tr.play': 'Mulakan jam',
     'tr.pause': 'Jeda',
     'tr.resume': 'Sambung',
-    'tr.play.tip': 'Jalankan atau jeda jam bulanan (bar ruang)',
+    'tr.play.tip': 'Jalankan atau jeda jam bulanan (Space)',
     'tr.step': 'Acara seterusnya',
     'tr.step.tip': 'Lompat ke Deal Room, checkpoint atau loceng akhir yang seterusnya',
     'tr.reset': 'Permainan baharu',
     'tr.reset.tip': 'Mulakan permainan latihan baharu pada level ini (langkah aktiviti juga bermula semula)',
-    'nav.home': 'Laman utama',
-    'nav.home.tip': 'Kembali ke halaman mula (permainan latihan dijeda dan disimpan; sesi langsung kekal disertai)',
+    'nav.home': 'Halaman utama',
+    'nav.home.tip': 'Kembali ke halaman utama (permainan latihan dijeda dan disimpan; sesi langsung kekal disertai)',
     'ctl.openAll': 'Buka semua',
     'ctl.foldAll': 'Lipat semua',
     'ctl.openAll.tip': 'Buka semua kumpulan arahan',
@@ -5343,7 +5343,7 @@ const I18N = {
     'ui.stage.menu': 'Level',
     'ui.stage.open': 'Buka menu level',
     'ui.stage.item': 'Level {n}: {name}',
-    'ui.stage.prev': 'Level sebelum',
+    'ui.stage.prev': 'Level sebelumnya',
     'ui.stage.next': 'Level seterusnya',
     'ui.stage.prevTo': 'Sebelum: {where}',
     'ui.stage.nextTo': 'Seterusnya: {where}',
@@ -5380,17 +5380,17 @@ const I18N = {
     'ui.reg.controls': 'Arahan',
     'ui.reg.controls.d': 'Semua yang boleh diarahkan, dalam kumpulan yang boleh dilipat: kerja dan bangunan di zon dipilih, pemohon untuk diterima, pinjaman dan bayaran balik, kemudahan dan program. Setiap arahan kerja, bangunan atau kemudahan menggunakan satu action point.',
     'ui.reg.viewport': 'Site plan',
-    'ui.reg.viewport.d': 'Park seperti sedia ada: lapan zon, perkhidmatan, bangunan dalam pembinaan dan penyewanya. Klik zon untuk memilihnya; hover untuk butiran. Pin A / B menyimpan gambar untuk perbandingan; Muat mengembalikan paparan.',
+    'ui.reg.viewport.d': 'Park seperti sedia ada: lapan zon, services, bangunan dalam pembinaan dan penyewanya. Klik zon untuk memilihnya; hover untuk butiran. Pin A / B menyimpan gambar untuk perbandingan; Muat mengembalikan paparan.',
     'ui.reg.results': 'Keputusan',
-    'ui.reg.results.d': 'Nilai utama (tunai, fund, pinjaman, pace skor, ESG, action point) dan tab: Park, Impact, Kedudukan, Berita, Pin dan Peraturan. Lipat mana-mana bahagian supaya site plan dapat lebih ruang.',
+    'ui.reg.results.d': 'Nilai utama (tunai, fund, pinjaman, skor park, ESG, action point) dan tab: Park, Impact, Kedudukan, Berita, Pin dan Peraturan. Lipat mana-mana bahagian supaya site plan dapat lebih ruang.',
     'ui.reg.guide': 'Panduan',
     'ui.reg.guide.d': 'Tutor menerangkan apa yang berlaku. Kotak kuning ialah langkah aktiviti semasa: buat, dan langkah seterusnya muncul; “Pergi ke” menunjukkan kedudukan kawalan. Di bawah: tip coach dan notis, ramalan, senarai langkah, jurnal keputusan, “Kenapa?” (teori), assumption ledger dan glosari istilah.',
     'ui.reg.sim': 'Bar jam',
     'ui.reg.sim.d': 'Mula, jeda atau sambung jam bulanan, lompat ke acara seterusnya, teruskan selepas checkpoint, mulakan permainan baharu; pilih kelajuan. Di kanan: tarikh, fasa, status dan action point.',
     'ui.sym.blocks': 'Warna blok: biru = arahan, kuning = panduan dan aktiviti, teal = teori, ungu = ramalan.',
-    'ui.sym.tags': 'Chip: amber = ada sesuatu menunggu anda (Deal Room, checkpoint); merah = downturn atau bahaya; “Phase” menunjukkan kedudukan anda dalam permainan.',
-    'ui.sym.colour': 'Nilai bertukar amber bila perlu perhatian dan merah bila kritikal (tunai hampir habis, fund hampir luput, pinjaman hampir had).',
-    'ui.sym.lines': 'Pada plan: kotak padat = bangunan digunakan, berjalur = dalam pembinaan, putus-putus = plot kosong; kunci menandakan zon belum dilepaskan.',
+    'ui.sym.tags': 'Chip: amber = ada sesuatu menunggu anda (Deal Room, checkpoint); merah = downturn atau bahaya; “Fasa” menunjukkan kedudukan anda dalam permainan.',
+    'ui.sym.colour': 'Nilai bertukar amber apabila perlu perhatian dan merah apabila kritikal (tunai hampir habis, fund hampir luput, pinjaman hampir had).',
+    'ui.sym.lines': 'Pada plan: kotak penuh = bangunan digunakan, berjalur = dalam pembinaan, putus-putus = plot kosong; kunci menandakan zon belum dilepaskan.',
     'ui.key.space': 'Space: mula / jeda jam',
     'ui.key.r': 'R: permainan baharu (tanya dahulu)',
     'ui.key.dot': '. (noktah): acara seterusnya',
@@ -5436,14 +5436,14 @@ const I18N = {
     'join.pin': 'PIN pasukan',
     'join.name': 'Nama anda',
     'join.email': 'E-mel',
-    'join.org': 'Organisasi (pilihan)',
+    'join.org': 'Organisasi (tidak wajib)',
     'join.code': 'Kod daripada e-mel',
     'join.sendCode': 'Hantar kod kepada saya',
     'join.go': 'Sertai',
     'join.gm': 'Buka konsol',
     'join.screen': 'Skrin hadapan',
     'join.gmPin': 'PIN GM',
-    'join.pdpa': 'Nama dan e-mel anda disimpan dalam sheet peribadi atas akaun UTM untuk mengenal pasti pasukan dan melaporkan keputusan; hanya nama pasukan dipaparkan pada papan kedudukan. Rekod dipadam 12 bulan selepas laporan kohort. Pertanyaan: fasilitator.',
+    'join.pdpa': 'Nama dan e-mel anda disimpan dalam sheet persendirian atas akaun UTM untuk mengenal pasti pasukan dan melaporkan keputusan; hanya nama pasukan dipaparkan pada papan kedudukan. Rekod dipadam 12 bulan selepas laporan kohort. Pertanyaan: fasilitator.',
     'join.consent': 'Saya faham',
     'join.err.room': 'Bilik tidak dijumpai atau sudah ditutup.',
     'join.err.pin': 'PIN salah.',
@@ -5549,7 +5549,7 @@ const CONTENT = {
     'pq.downturn.r': 'severe = 25 % (mild 10 %, crisis 40 %); linked tenants lose half as much, which is why a linked tenant mix is a hedge.',
     /* theory */
     'why.0': '<h4>What the park score measures</h4><p>Impact comes from tenants: each type brings IP points (anchors most, back-office none). The score adds a bonus for financial cover and subtracts penalties for drift (share of unlinked tenants) and uncovered debt.</p><h4>FCR12</h4><p>Committed income over the next twelve months divided by the costs it must cover: upkeep, interest and emergency loans. Above 1.3 earns the full bonus; below 0.8 earns none; below that a penalty.</p><h4>Action points</h4><p>Three per quarter. Works, buildings and facilities each use one; admissions and loans do not. Unused points are lost, so plan each quarter.</p>',
-    'why.1': '<h4>Loans and headroom</h4><p>The bank lends up to a cap that falls in a downturn. Debt above cash is penalised in the park score, and an emergency loan (bailout) closes the door to Gold.</p><h4>Drift</h4><p>The share of units let to unlinked tenants (back-office, agencies, chemicals). Above 50 % the score loses 5 points, above 70 % it loses 10: a technology park that fills up with offices stops being one.</p><h4>Zone H</h4><p>Released in Year 3 with four plots. Each plot signed for a building, a lease with covenant, a reserve or a national lab earns Phase 2 marks; unsigned plots are reclaimed.</p>',
+    'why.1': '<h4>Loans and headroom</h4><p>The bank lends up to a cap that falls in a downturn. Debt above cash is penalised in the park score, and a bailout closes the door to Gold.</p><h4>Drift</h4><p>The share of units let to unlinked tenants (back-office, agencies, chemicals). Above 50 % the score loses 5 points, above 70 % it loses 10: a technology park that fills up with offices stops being one.</p><h4>Zone H</h4><p>Released in Year 3 with four plots. Each plot signed for a building, a lease with covenant, a reserve or a national lab earns Phase 2 marks; unsigned plots are reclaimed.</p>',
     'why.2': '<h4>ESG as a running score</h4><p>Every environmental decision moves a running ESG score: clearing forest −3, building on wetland −1, a buffer +2, retention works +1, solar or certification +1 to +2. Part E rewards the score, and Gold needs it at or above zero.</p><h4>Downturn mechanics</h4><p>Rates rise, the loan cap falls, unlinked rents fall and some tenants leave now and again twelve months later. Survival marks need no bailout, FCR12 above 1 and a good share of tenants retained.</p><h4>Anchors and labs</h4><p>An R&D anchor takes three units and brings the most IP; a shared lab raises start-up graduation. Together they make the park university-linked, which is what the mandate pays for.</p>',
   },
   ms: {
@@ -5559,7 +5559,7 @@ const CONTENT = {
     'say.welcome.2': 'Lestari: lima tahun, lapan zon, ESG dikira dan downturn datang tanpa amaran. Bina park yang bertahan.',
     'say.setup': 'Jam belum bergerak. Tinjau site plan dahulu, kemudian tekan Mulakan jam.',
     'say.running': 'Jam bergerak bulan demi bulan. Arahan berkuat kuasa serta-merta; kerja dan bangunan ambil masa berbulan untuk siap.',
-    'say.hold.event': 'Kad Deal Room terbuka. Baca tawaran, semak preview setiap pilihan, kemudian putuskan — tiada keputusan dikira sebagai Leave.',
+    'say.hold.event': 'Kad Deal Room terbuka. Baca tawaran, semak pratonton setiap pilihan, kemudian putuskan — tiada keputusan dikira sebagai Leave.',
     'say.hold.checkpoint': 'Checkpoint. Baca banner: ia menunjukkan markah fasa ini dan apa yang fasa seterusnya minta.',
     'say.hold.forecast': 'Pakar ekonomi dah bersuara. Anda ada enam bulan: bina rizab tunai, perlahankan komitmen baharu, kekalkan drift rendah.',
     'say.hold.downturn': 'Downturn bermula. Sewa jatuh, bank mengetatkan, sebahagian penyewa keluar. Lindungi tunai dahulu.',
@@ -5571,7 +5571,7 @@ const CONTENT = {
     'say.final.bronze': 'Gangsa. Park berdiri, tapi skor menunjukkan apa yang kurang: biasanya impact atau FCR12.',
     'say.final.none': 'Tiada pingat kali ini. Lihat pecahan: bahagian mana paling rendah, dan arahan apa yang boleh mengubahnya?',
     'say.receiver': 'Receivership. Bank dah ambil alih; hanya separuh impact anda dikira sekarang. Dalam permainan seterusnya, kekalkan FCR12 melebihi 1.',
-    'say.cash.low': 'Tunai semakin rendah. Semak kumpulan Kewangan: pinjaman membeli masa, tapi setiap Cr hutang perlukan cover.',
+    'say.cash.low': 'Tunai semakin rendah. Semak kumpulan Kewangan: pinjaman memberi anda masa, tapi setiap Cr hutang mesti ditampung oleh pendapatan.',
     'say.fund.lapse': 'Development Fund akan luput tidak lama lagi. Belanjakan untuk kerja dan bangunan, atau hilang begitu sahaja.',
     'say.ap.none': 'Tiada action point lagi suku ini. Gunakan masa untuk terima pemohon dan rancang arahan seterusnya.',
     'say.live.wait': 'Menunggu Game Master mulakan jam. Tinjau site plan, pemohon dan peraturan.',
@@ -5586,19 +5586,19 @@ const CONTENT = {
     'act.0.admit': 'Terima pemohon pertama anda.',
     'act.0.admit.h': 'Kumpulan Pemohon menyenaraikan firma yang memohon bulan ini. Terima satu yang muat dalam unit kosong.',
     'act.0.deal': 'Putuskan kad Deal Room pertama anda.',
-    'act.0.deal.h': 'Bila kad terbuka, jam berhenti. Baca preview di bawah setiap pilihan sebelum memilih.',
+    'act.0.deal.h': 'Bila kad terbuka, jam berhenti. Baca pratonton di bawah setiap pilihan sebelum memilih.',
     'act.0.park': 'Buka tab Park dan baca FCR12 anda.',
-    'act.0.park.h': 'FCR12 ialah cover kos tahun depan oleh committed income. Di bawah 1, park kerugian.',
+    'act.0.park.h': 'FCR12 menunjukkan sejauh mana committed income menampung kos tahun depan. Di bawah 1, park rugi.',
     'act.0.year1': 'Sampai hujung Tahun 1 dengan tunai melebihi sifar.',
-    'act.0.year1.h': 'Perhatikan tile Cash: anak panah kecil ialah perubahan bulanan.',
+    'act.0.year1.h': 'Perhatikan tile Tunai: anak panah kecil ialah perubahan bulanan.',
     'act.1.start': 'Mulakan jam.',
     'act.1.start.h': 'Bina berjalan empat tahun; Development Fund membayar 80% kerja modal sehingga hujung Tahun 2.',
     'act.1.loan': 'Ambil pinjaman daripada kumpulan Kewangan.',
-    'act.1.loan.h': 'Pinjaman ada had; tile Loans menunjukkan hutang berbanding had. Faedah dikenakan setiap bulan.',
+    'act.1.loan.h': 'Pinjaman ada had; tile Pinjaman menunjukkan hutang berbanding had. Faedah dikenakan setiap bulan.',
     'act.1.build': 'Arahkan satu bangunan di zon yang ada services.',
     'act.1.build.h': 'Modular block (6 bulan) atau New Build (12 bulan). Unit hanya disewa selepas bangunan siap.',
     'act.1.fund': 'Gunakan sekurang-kurangnya separuh Development Fund sebelum ia luput.',
-    'act.1.fund.h': 'Tile Fund mengira turun. Markah Fasa 1 mengganjari fund yang digunakan dan pendapatan yang bertambah.',
+    'act.1.fund.h': 'Tile Development Fund semakin susut. Markah Fasa 1 mengganjari fund yang digunakan dan pendapatan yang bertambah.',
     'act.1.H': 'Selepas Zon H dilepaskan (Tahun 3), tandatangani penggunaan untuk salah satu plotnya.',
     'act.1.H.h': 'Plot Zon H yang tidak ditandatangani menjelang hujung Tahun 3 diambil semula oleh universiti.',
     'act.1.forecast': 'Baca ramalan downturn bila ia muncul.',
@@ -5608,35 +5608,35 @@ const CONTENT = {
     'act.2.start': 'Mulakan jam.',
     'act.2.start.h': 'Lestari: lima tahun, semua zon, ESG dikira dan tiada ramalan.',
     'act.2.esg': 'Buat satu keputusan yang positif ESG.',
-    'act.2.esg.h': 'Retention works, forest buffer, park, solar atau green certification. Membersihkan hutan mengurangkan ESG.',
+    'act.2.esg.h': 'Retention works, green buffer, retention park, solar atau pensijilan hijau. Membuka hutan mengurangkan ESG.',
     'act.2.lab': 'Sediakan Shared Prototyping Lab atau University Lab Access.',
-    'act.2.lab.h': 'Dalam Kemudahan dan program. Lab meningkatkan graduasi startup dan menarik firma linked.',
+    'act.2.lab.h': 'Dalam Kemudahan dan program. Lab menjadikan startup lebih kerap bergraduat dan menarik firma linked.',
     'act.2.anchor': 'Terima penyewa R&D anchor.',
     'act.2.anchor.h': 'Anchor perlukan tiga unit dan bangunan yang ada services serta fibre. Ia membawa IP paling banyak.',
     'act.2.deals': 'Putuskan tiga kad Deal Room dengan wajar.',
     'act.2.deals.h': 'Keputusan yang wajar sesuai dengan kedudukan park; dadu kemudian menentukan hasil. Bahagian C mengganjari kewajaran, bukan nasib.',
     'act.2.downturn': 'Masuk downturn dengan FCR12 sekurang-kurangnya 1.',
-    'act.2.downturn.h': 'Tiada ramalan dalam Lestari. Kekalkan cover melebihi 1 dari Tahun 3.',
+    'act.2.downturn.h': 'Tiada ramalan dalam Lestari. Kekalkan FCR12 melebihi 1 mulai Tahun 3.',
     'act.2.finish': 'Sampai loceng akhir.',
     'act.2.finish.h': 'Kemudian baca pecahan anda dan bandingkan dengan park benchmark.',
     'pq.rent': 'Jenis penyewa mana yang membayar sewa paling tinggi seunit?',
-    'pq.rent.a': 'Back-office corporate',
+    'pq.rent.a': 'Back-office korporat',
     'pq.rent.b': 'Tech SME',
-    'pq.rent.c': 'University spin-off',
-    'pq.rent.r': 'back-office membayar 1.0 Cr seunit setahun, Tech SME 0.7 dan spin-off 0.4 — tapi SME dan spin-off membawa mata IP dan dikira university-linked, yang diganjari oleh skor park.',
+    'pq.rent.c': 'Spin-off universiti',
+    'pq.rent.r': 'back-office membayar 1.0 Cr seunit setahun, Tech SME 0.7 dan spin-off 0.4 — tapi SME dan spin-off membawa mata IP dan dikira berkait universiti, yang diganjari oleh skor park.',
     'pq.fund': 'Jika Development Fund tidak dibelanjakan pada hujung Tahun 2, ia…',
     'pq.fund.a': 'dibawa ke Tahun 3',
     'pq.fund.b': 'luput',
     'pq.fund.c': 'bertukar menjadi pinjaman',
     'pq.fund.r': 'fund luput: markah Fasa 1 mengganjari bahagian yang digunakan, jadi belanjakan untuk kerja dan bangunan tepat pada masanya.',
-    'pq.downturn': 'Dalam downturn yang severe, sewa penyewa unlinked jatuh sebanyak…',
-    'pq.downturn.a': '10 %',
-    'pq.downturn.b': '25 %',
-    'pq.downturn.c': '40 %',
-    'pq.downturn.r': 'severe = 25 % (mild 10 %, crisis 40 %); penyewa linked hilang separuh daripada itu, sebab itulah campuran penyewa linked ialah satu hedge.',
-    'why.0': '<h4>Apa yang diukur oleh skor park</h4><p>Impact datang daripada penyewa: setiap jenis membawa mata IP (anchor paling banyak, back-office tiada). Skor menambah bonus untuk cover kewangan dan menolak penalti untuk drift (bahagian penyewa unlinked) dan hutang tanpa cover.</p><h4>FCR12</h4><p>Committed income dua belas bulan akan datang dibahagi dengan kos yang mesti ditampung: upkeep, faedah dan pinjaman kecemasan. Melebihi 1.3 dapat bonus penuh; di bawah 0.8 tiada bonus; lebih rendah lagi dikenakan penalti.</p><h4>Action point</h4><p>Tiga setiap suku tahun. Kerja, bangunan dan kemudahan masing-masing guna satu; penerimaan penyewa dan pinjaman tidak. Mata yang tidak digunakan hilang, jadi rancang setiap suku.</p>',
-    'why.1': '<h4>Pinjaman dan headroom</h4><p>Bank meminjamkan sehingga had yang turun semasa downturn. Hutang melebihi tunai dikenakan penalti dalam skor park, dan pinjaman kecemasan (bailout) menutup pintu Emas.</p><h4>Drift</h4><p>Bahagian unit yang disewa kepada penyewa unlinked (back-office, agensi, kimia). Melebihi 50 % skor hilang 5 mata, melebihi 70 % hilang 10: park teknologi yang dipenuhi pejabat tidak lagi menjadi park teknologi.</p><h4>Zon H</h4><p>Dilepaskan pada Tahun 3 dengan empat plot. Setiap plot yang ditandatangani untuk bangunan, pajakan dengan covenant, rizab atau makmal kebangsaan dapat markah Fasa 2; plot yang tidak ditandatangani diambil semula.</p>',
-    'why.2': '<h4>ESG sebagai skor berjalan</h4><p>Setiap keputusan alam sekitar menggerakkan skor ESG: membersihkan hutan −3, membina di tanah lembap −1, buffer +2, retention works +1, solar atau certification +1 hingga +2. Bahagian E mengganjari skor ini, dan Emas perlukan skor sifar atau lebih.</p><h4>Mekanik downturn</h4><p>Kadar naik, had pinjaman turun, sewa unlinked jatuh dan sebahagian penyewa keluar sekarang dan sekali lagi dua belas bulan kemudian. Markah survival perlukan tiada bailout, FCR12 melebihi 1 dan bahagian penyewa yang dikekalkan yang baik.</p><h4>Anchor dan makmal</h4><p>R&D anchor mengambil tiga unit dan membawa IP paling banyak; shared lab meningkatkan graduasi startup. Bersama-sama, ia menjadikan park university-linked, iaitu apa yang dibayar oleh mandat.</p>',
+    'pq.downturn': 'Dalam downturn yang teruk, sewa penyewa unlinked jatuh sebanyak…',
+    'pq.downturn.a': '10%',
+    'pq.downturn.b': '25%',
+    'pq.downturn.c': '40%',
+    'pq.downturn.r': 'teruk = 25% (ringan 10%, krisis 40%); penyewa linked hanya hilang separuh daripada itu, sebab itulah campuran penyewa linked melindungi park.',
+    'why.0': '<h4>Apa yang diukur oleh skor park</h4><p>Impact datang daripada penyewa: setiap jenis membawa mata IP (anchor paling banyak, back-office tiada). Skor menambah bonus FCR12 dan menolak penalti untuk drift (bahagian penyewa unlinked) dan hutang yang melebihi tunai.</p><h4>FCR12</h4><p>Committed income dua belas bulan akan datang dibahagi dengan kos yang mesti ditampung: upkeep, faedah dan pinjaman kecemasan. Melebihi 1.3 dapat bonus penuh; di bawah 0.8 tiada bonus; lebih rendah lagi dikenakan penalti.</p><h4>Action point</h4><p>Tiga setiap suku tahun. Kerja, bangunan dan kemudahan masing-masing guna satu; penerimaan penyewa dan pinjaman tidak. Action point yang tidak digunakan akan hilang, jadi rancang setiap suku tahun.</p>',
+    'why.1': '<h4>Pinjaman dan headroom</h4><p>Bank meminjamkan sehingga had yang turun semasa downturn. Hutang melebihi tunai dikenakan penalti dalam skor park, dan bailout menutup peluang Emas.</p><h4>Drift</h4><p>Bahagian unit yang disewa kepada penyewa unlinked (back-office, agensi, kimia). Melebihi 50% skor hilang 5 mata, melebihi 70% hilang 10: park teknologi yang dipenuhi pejabat tidak lagi menjadi park teknologi.</p><h4>Zon H</h4><p>Dilepaskan pada Tahun 3 dengan empat plot. Setiap plot yang ditandatangani untuk bangunan, pajakan dengan covenant, rizab atau makmal kebangsaan dapat markah Fasa 2; plot yang tidak ditandatangani diambil semula.</p>',
+    'why.2': '<h4>ESG sebagai skor berjalan</h4><p>Setiap keputusan alam sekitar menggerakkan skor ESG: membuka hutan −3, membina di tanah lembap −1, green buffer +2, retention works +1, solar atau pensijilan +1 hingga +2. Bahagian E mengganjari skor ini, dan Emas perlukan skor sifar atau lebih.</p><h4>Mekanik downturn</h4><p>Kadar naik, had pinjaman turun, sewa unlinked jatuh dan sebahagian penyewa keluar sekarang dan sekali lagi dua belas bulan kemudian. Markah survival perlukan tiada bailout, FCR12 melebihi 1 dan pengekalan penyewa yang baik.</p><h4>Anchor dan makmal</h4><p>R&D anchor mengambil tiga unit dan membawa IP paling banyak; Shared Prototyping Lab menjadikan startup lebih kerap bergraduat. Bersama-sama, kedua-duanya menjadikan park berkait universiti, dan itulah tujuan mandat park.</p>',
   },
 };
 if (typeof window !== 'undefined') window.CONTENT = CONTENT;
@@ -5655,15 +5655,15 @@ const LESSONS = {
     en: { principle: 'Build ahead of demand only when existing space is nearly full (occupancy 80% or more) and the fund can still carry most of the cost.',
       risk: { T: '12 units arrive at once: if they stand empty, upkeep (2 Cr a year each) eats your income.', C: 'A smaller bet, but the contractor may refuse (die 1–2).', L: 'No new space: an anchor or a wave of applicants may find no room later.' },
       watch: 'When the buildings complete: occupancy, upkeep and FCR12.' },
-    ms: { principle: 'Bina mendahului permintaan hanya bila ruang sedia ada hampir penuh (penghunian 80% atau lebih) dan fund masih boleh menanggung sebahagian besar kos.',
+    ms: { principle: 'Bina mendahului permintaan hanya apabila ruang sedia ada hampir penuh (penghunian 80% atau lebih) dan fund masih boleh menanggung sebahagian besar kos.',
       risk: { T: '12 unit siap serentak: jika kosong, upkeep (2 Cr setahun setiap satu) menghakis pendapatan.', C: 'Taruhan lebih kecil, tetapi kontraktor mungkin menolak (dadu 1–2).', L: 'Tiada ruang baharu: anchor atau gelombang pemohon mungkin tiada tempat nanti.' },
-      watch: 'Bila bangunan siap: penghunian, upkeep dan FCR12.' } },
+      watch: 'Apabila bangunan siap: penghunian, upkeep dan FCR12.' } },
   datacentre: { checks: ['drift2', 'esg2', 'plotD'],
     en: { principle: 'Unlinked income is fine in small doses: keep drift at or below 50% and ESG at or above zero. A covenant turns a landlord deal into an innovation deal.',
       risk: { T: 'Drift and ESG both worsen, and the operator may default in a downturn.', C: 'Lower income, and it depends on the die; the plot you pick changes the value.', L: 'You give up income now, but keep the plot for a linked use.' },
       watch: 'Drift, ESG, and whether the lease survives the downturn.' },
     ms: { principle: 'Pendapatan unlinked tidak mengapa dalam dos kecil: kekalkan drift pada 50% atau kurang dan ESG sifar atau lebih. Covenant mengubah deal tuan tanah menjadi deal inovasi.',
-      risk: { T: 'Drift dan ESG sama-sama merosot, dan operator mungkin mungkir semasa downturn.', C: 'Pendapatan lebih rendah dan bergantung pada dadu; plot yang dipilih mengubah nilainya.', L: 'Anda lepaskan pendapatan sekarang, tetapi plot kekal untuk kegunaan linked.' },
+      risk: { T: 'Drift dan ESG sama-sama merosot, dan pengendali mungkin mungkir semasa downturn.', C: 'Pendapatan lebih rendah dan bergantung pada dadu; plot yang dipilih mengubah nilainya.', L: 'Anda lepaskan pendapatan sekarang, tetapi plot kekal untuk kegunaan linked.' },
       watch: 'Drift, ESG, dan sama ada pajakan bertahan semasa downturn.' } },
   donor: { checks: ['linked'],
     en: { principle: 'Free equipment is not free: take it only if enough linked tenants will use it (two or more for Take, at least one for Conditions).',
@@ -5678,7 +5678,7 @@ const LESSONS = {
       watch: 'Your incubator pipeline and graduations.' },
     ms: { principle: 'Jangan serahkan kawalan saluran startup kepada rakan kongsi yang boleh pergi membawanya.',
       risk: { T: 'Startup bergraduat separuh kerap, dan pada Tahun 4 rakan kongsi mungkin keluar membawa mereka.', C: 'Startup lebih sedikit dan rakan kongsi mungkin menolak (dadu 1–2), tetapi kawalan kekal pada anda.', L: 'Tiada startup segera; anda membina saluran sendiri.' },
-      watch: 'Saluran incubator dan graduasi.' } },
+      watch: 'Saluran incubator dan startup yang bergraduat.' } },
   flood: { checks: ['lowground'],
     en: { principle: 'Protect or insure what you have built on low ground; take the risk only if nothing of value stands there.',
       risk: { T: '1.5 Cr now, protection for good.', C: '0.3 Cr every year for as long as the game runs.', L: 'If the flood comes (an even chance in mid Year 3): 1.5 Cr repairs and two months of lost rent in Zones E and G.' },
@@ -5690,7 +5690,7 @@ const LESSONS = {
     en: { principle: 'A trade-off between speed and a permanent rent share; each option is defensible. Compare 5% of rent for ever with fibre at 0.5 Cr a zone.',
       risk: { T: '5% of every rent goes to the telco from now on.', C: 'Only zones with a road get fibre, and the telco may refuse (die 1–2).', L: 'You pay for fibre zone by zone; tech tenants wait until it is in.' },
       watch: 'Where tech tenants are waiting for fibre.' },
-    ms: { principle: 'Pertukaran antara kepantasan dan bahagian sewa yang kekal; setiap pilihan boleh dipertahankan. Bandingkan 5% sewa selama-lamanya dengan fibre 0.5 Cr sezon.',
+    ms: { principle: 'Trade-off antara kepantasan dan bahagian sewa yang hilang selama-lamanya; setiap pilihan boleh dipertahankan. Bandingkan 5% sewa selama-lamanya dengan fibre 0.5 Cr bagi setiap zon.',
       risk: { T: '5% daripada setiap sewa kepada telco mulai sekarang.', C: 'Hanya zon yang ada road mendapat fibre, dan telco mungkin menolak (dadu 1–2).', L: 'Anda bayar fibre zon demi zon; penyewa teknologi menunggu sehingga ia siap.' },
       watch: 'Di mana penyewa teknologi sedang menunggu fibre.' } },
   inquiry: { checks: ['lab', 'cash'],
@@ -5713,7 +5713,7 @@ const LESSONS = {
       watch: 'Debt, and the anchor\'s share of income when the downturn comes.' },
     ms: { principle: 'Jangan biar seorang penyewa menjadi sebahagian besar park: build-to-suit sepatutnya tidak melebihi 40% daripada unit anda.',
       risk: { T: '7 Cr daripada tunai atau pinjaman (fund sudah ditutup); jika anchor bermasalah, sebahagian besar pendapatan turut terjejas.', C: 'Perlukan Lab atau Lab Access, dan anchor mungkin menolak (dadu 1–2).', L: 'Tiada anchor baharu, tiada hutang baharu.' },
-      watch: 'Hutang, dan bahagian pendapatan daripada anchor bila downturn tiba.' } },
+      watch: 'Hutang, dan bahagian pendapatan daripada anchor apabila downturn tiba.' } },
   agency: { checks: ['drift3'],
     en: { principle: 'A safe, unlinked tenant is good for cash but not for the mission: take it plain only if drift stays at or below 50%.',
       risk: { T: 'Drift rises by three units.', C: 'Linked and adds impact, but the agency may refuse (die 1–3).', L: 'No new rent.' },
@@ -5732,7 +5732,7 @@ const LESSONS = {
     en: { principle: 'Buy space when you need it: only if your current units are 80% let or more.',
       risk: { T: '3 Cr from cash or loans during a downturn, and 1 Cr upkeep a year.', C: 'Comes with a Tech SME, but the seller may refuse (die 1–3).', L: 'No new space.' },
       watch: 'Cash runway and occupancy.' },
-    ms: { principle: 'Beli ruang bila anda memerlukannya: hanya jika unit sedia ada 80% atau lebih disewa.',
+    ms: { principle: 'Beli ruang apabila anda memerlukannya: hanya jika unit sedia ada 80% atau lebih disewa.',
       risk: { T: '3 Cr daripada tunai atau pinjaman semasa downturn, dan upkeep 1 Cr setahun.', C: 'Datang bersama Tech SME, tetapi penjual mungkin menolak (dadu 1–3).', L: 'Tiada ruang baharu.' },
       watch: 'Jangka hayat tunai dan penghunian.' } },
   natlab: { checks: [],
@@ -5753,8 +5753,8 @@ const LESSONS = {
     en: { principle: 'Fix the rate when you carry a lot of debt (5 Cr or more); with little debt the fee is not worth it.',
       risk: { T: '1 Cr fee now.', C: '', L: 'Downturn rates (12–20%) apply to all your debt.' },
       watch: 'Interest in the Money group.' },
-    ms: { principle: 'Tetapkan kadar bila hutang tinggi (5 Cr atau lebih); jika hutang kecil, yuran itu tidak berbaloi.',
-      risk: { T: 'Yuran 1 Cr sekarang.', C: '', L: 'Kadar downturn (12–20%) dikenakan pada semua hutang.' },
+    ms: { principle: 'Tetapkan kadar apabila hutang tinggi (5 Cr atau lebih); jika hutang kecil, fi itu tidak berbaloi.',
+      risk: { T: 'Fi 1 Cr sekarang.', C: '', L: 'Kadar downturn (12–20%) dikenakan pada semua hutang.' },
       watch: 'Faedah dalam kumpulan Kewangan.' } },
   stimulus: { checks: ['incub'],
     en: { principle: 'Money that is aligned with the park\'s mission: take it.',
@@ -5788,7 +5788,7 @@ const LESSONS = {
     en: { principle: 'Buy reputation only when you can afford it (cash of 2 Cr or more).',
       risk: { T: '1 Cr now and 0.2 Cr a year.', C: '', L: 'No certification; no extra linked applicants.' },
       watch: 'Keep ESG at 3 or more to get the extra applicants.' },
-    ms: { principle: 'Beli reputasi hanya bila mampu (tunai 2 Cr atau lebih).',
+    ms: { principle: 'Beli reputasi hanya apabila mampu (tunai 2 Cr atau lebih).',
       risk: { T: '1 Cr sekarang dan 0.2 Cr setahun.', C: '', L: 'Tiada pensijilan; tiada pemohon linked tambahan.' },
       watch: 'Kekalkan ESG 3 atau lebih untuk mendapat pemohon tambahan.' } },
   audit: { checks: ['esgRecord'],
@@ -5823,26 +5823,26 @@ const GLOSSARY = [
   { cat: 'money', term: 'Committed income', en: 'Rent and lease income already signed for the next twelve months.', ms: 'Pendapatan sewa dan pajakan yang sudah ditandatangani untuk dua belas bulan akan datang.' },
   { cat: 'money', term: 'FCR12', aka: 'Financial Cover Ratio', en: 'Committed income over the next 12 months divided by what it must cover: upkeep, interest and emergency loans. 1.3 or more earns the full bonus (+8), 1.0 to 1.3 earns +5, below 0.8 costs −5. Below 1 the park loses money.', ms: 'Committed income 12 bulan akan datang dibahagi dengan kos yang mesti ditampung: upkeep, faedah dan pinjaman kecemasan. 1.3 atau lebih dapat bonus penuh (+8), 1.0 hingga 1.3 dapat +5, di bawah 0.8 ditolak −5. Di bawah 1, park kerugian.' },
   { cat: 'money', term: 'Loan · loan limit · headroom', en: 'Bank loans up to 15 Cr at 10% a year (the limit falls and the rate rises in a downturn). Headroom is how much more you can still borrow.', ms: 'Pinjaman bank sehingga 15 Cr pada 10% setahun (had turun dan kadar naik semasa downturn). Headroom ialah baki yang masih boleh dipinjam.' },
-  { cat: 'money', term: 'Emergency loan · bailout', en: 'When cash falls below zero the bank lends automatically at 20% if the limit allows. If not, the university bails you out: −5 impact, one action point fewer next quarter, and no Gold.', ms: 'Bila tunai jatuh bawah sifar, bank memberi pinjaman automatik pada 20% jika had membenarkan. Jika tidak, universiti menyelamatkan (bailout): −5 impact, kurang satu action point suku berikutnya, dan tiada Emas.' },
+  { cat: 'money', term: 'Emergency loan · bailout', en: 'When cash falls below zero the bank lends automatically at 20% if the limit allows. If not, the university bails you out: −5 impact, one action point fewer next quarter, and no Gold.', ms: 'Apabila tunai jatuh bawah sifar, bank memberi pinjaman automatik pada 20% jika had membenarkan. Jika tidak, universiti menyelamatkan (bailout): −5 impact, kurang satu action point suku berikutnya, dan tiada Emas.' },
   { cat: 'money', term: 'Receivership', en: 'A second bailout. The park can no longer act and only half of its impact counts.', ms: 'Bailout kali kedua. Park tidak boleh bertindak lagi dan hanya separuh impact-nya dikira.' },
   { cat: 'money', term: 'Ground lease', en: 'Renting out a plot (not a building) for an outside party to build on; income for years, but the plot is gone.', ms: 'Menyewakan plot (bukan bangunan) untuk pihak luar membina; pendapatan bertahun-tahun, tetapi plot itu tidak lagi milik anda untuk digunakan.' },
   { cat: 'money', term: 'Sale and leaseback', en: 'Selling a finished building for cash and renting it back; cash now, rent for ever after.', ms: 'Menjual bangunan yang siap untuk tunai dan menyewanya semula; tunai sekarang, sewa selepas itu.' },
   { cat: 'money', term: 'Mothball', en: 'Closing an empty building to cut its upkeep until you need it again.', ms: 'Menutup bangunan kosong untuk mengurangkan upkeep sehingga diperlukan semula.' },
-  { cat: 'time', term: 'AP', aka: 'Action points', en: 'Three a quarter, reset on 1 January, April, July and October; unused points are lost. Works, buildings, facilities, programmes, policy changes, mothballing and lease-backs use one; admitting tenants and loans do not.', ms: 'Tiga setiap suku tahun, ditetapkan semula pada 1 Januari, April, Julai dan Oktober; mata yang tidak digunakan hilang. Kerja, bangunan, kemudahan, program, perubahan polisi, mothball dan lease-back menggunakan satu; penerimaan penyewa dan pinjaman tidak.' },
+  { cat: 'time', term: 'AP', aka: 'Action points', en: 'Three a quarter, reset on 1 January, April, July and October; unused points are lost. Works, buildings, facilities, programmes, policy changes, mothballing and lease-backs use one; admitting tenants and loans do not.', ms: 'Tiga setiap suku tahun, ditetapkan semula pada 1 Januari, April, Julai dan Oktober; point yang tidak digunakan hilang. Kerja, bangunan, kemudahan, program, perubahan polisi, mothball dan lease-back menggunakan satu; penerimaan penyewa dan pinjaman tidak.' },
   { cat: 'time', term: 'Phase 1 · 2 · 3', en: 'Phase 1 Build (Years 1–2, the fund pays); Phase 2 Expand (Year 3, Zone H released; in Rintis: Operate); Phase 3 Survive (Years 4–5, the downturn).', ms: 'Fasa 1 Bina (Tahun 1–2, fund membayar); Fasa 2 Kembang (Tahun 3, Zon H dilepaskan; dalam Rintis: Operasi); Fasa 3 Bertahan (Tahun 4–5, downturn).' },
   { cat: 'time', term: 'Checkpoint', en: 'A pause at the end of a phase that scores it (B1 at the end of Year 2, B2 at the end of Year 3).', ms: 'Hentian pada hujung fasa yang menilai fasa itu (B1 pada hujung Tahun 2, B2 pada hujung Tahun 3).' },
   { cat: 'time', term: 'Downturn · forecast', en: 'An economic slump in Phase 3: mild, severe or crisis. Rates rise, the loan limit falls, unlinked rents fall (linked by half as much) and some tenants close. In Bina a forecast warns six months ahead; in Lestari it comes unannounced.', ms: 'Kemelesetan ekonomi dalam Fasa 3: ringan, teruk atau krisis. Kadar naik, had pinjaman turun, sewa unlinked jatuh (linked separuh daripadanya) dan sebahagian penyewa tutup. Dalam Bina, ramalan memberi amaran enam bulan awal; dalam Lestari ia datang tanpa amaran.' },
   /* ---------------- site and building */
   { cat: 'site', term: 'Zone A–H', en: 'The eight areas of the site: A Gateway, B Old Workshops, C Campus Edge, D Highway Frontage, E Central Plateau, F Forest Ridge, G Wetland, H University Reserve. Each level opens some of them.', ms: 'Lapan kawasan tapak: A Gateway, B Old Workshops, C Campus Edge, D Highway Frontage, E Central Plateau, F Forest Ridge, G Wetland, H University Reserve. Setiap level membuka sebahagian daripadanya.' },
-  { cat: 'site', term: 'R · W · P · F', aka: 'Road, Water, Power, Fibre', en: 'The four services a zone needs, shown as squares on the plan: filled = in place, outlined = partial, amber = works under way. Tech tenants need fibre.', ms: 'Empat perkhidmatan yang diperlukan zon, dipaparkan sebagai petak pada plan: penuh = tersedia, garis = separa, amber = kerja sedang berjalan. Penyewa teknologi perlukan fibre.' },
-  { cat: 'site', term: 'Works', en: 'Services and site preparation: road link, water, power (half price as a shared substation next to a powered zone), fibre, forest clearance, retention works.', ms: 'Perkhidmatan dan penyediaan tapak: road link, water, power (separuh harga sebagai shared substation di sebelah zon yang ada power), fibre, forest clearance, retention works.' },
+  { cat: 'site', term: 'R · W · P · F', aka: 'Road, Water, Power, Fibre', en: 'The four services a zone needs, shown as squares on the plan: filled = in place, outlined = partial, amber = works under way. Tech tenants need fibre.', ms: 'Empat services yang diperlukan zon, dipaparkan sebagai petak pada plan: penuh = tersedia, garis = separa, amber = kerja sedang berjalan. Penyewa teknologi perlukan fibre.' },
+  { cat: 'site', term: 'Works', en: 'Services and site preparation: road link, water, power (half price as a shared substation next to a powered zone), fibre, forest clearance, retention works.', ms: 'Services dan penyediaan tapak: road, water, power (separuh harga sebagai shared substation di sebelah zon yang ada power), fibre, forest clearance, retention works.' },
   { cat: 'site', term: 'Shed · Retrofit', en: 'The old workshops in Zone B. A retrofit turns a shed into 3 lettable units in 6 months for 3 Cr.', ms: 'Bengkel lama di Zon B. Retrofit menjadikan shed 3 unit boleh disewa dalam 6 bulan dengan 3 Cr.' },
   { cat: 'site', term: 'Modular block · New Build', en: 'New buildings on a free plot: Modular block 4 units in 6 months for 4 Cr; New Build 6 units in 12 months for 7 Cr.', ms: 'Bangunan baharu di plot kosong: Modular block 4 unit dalam 6 bulan dengan 4 Cr; New Build 6 unit dalam 12 bulan dengan 7 Cr.' },
-  { cat: 'site', term: 'Unit · occupancy', en: 'A unit is one lettable space. Occupancy is the share of units in ready buildings that are let.', ms: 'Unit ialah satu ruang yang boleh disewa. Penghunian (occupancy) ialah bahagian unit dalam bangunan siap yang sudah disewa.' },
+  { cat: 'site', term: 'Unit · occupancy', en: 'A unit is one lettable space. Occupancy is the share of units in ready buildings that are let.', ms: 'Unit ialah satu ruang yang boleh disewa. Penghunian ialah bahagian unit dalam bangunan siap yang sudah disewa.' },
   { cat: 'site', term: 'Zone H plot uses', en: 'Each University Reserve plot must be signed by 31 December Year 3: build, lease, lease with covenant, keep as reserve, or national lab. Unsigned plots are reclaimed.', ms: 'Setiap plot University Reserve mesti ditandatangani sebelum 31 Disember Tahun 3: bina, pajak, pajak dengan covenant, kekal sebagai rizab, atau makmal kebangsaan. Plot yang tidak ditandatangani diambil semula.' },
   { cat: 'site', term: 'TTO', aka: 'Technology Transfer Office', en: 'The university\'s commercialisation office, shown as the admin office in Zone A.', ms: 'Pejabat pengkomersialan universiti, dipaparkan sebagai pejabat pentadbiran di Zon A.' },
   /* ---------------- tenants */
-  { cat: 'tenant', term: 'Linked · unlinked', en: 'Linked tenants work with the university (Tech SME, spin-off, R&D anchor, agency SME desk); unlinked ones only rent space (back-office, government agency, chemicals). The mandate rewards linked tenants.', ms: 'Penyewa linked bekerjasama dengan universiti (Tech SME, spin-off, R&D anchor, agency SME desk); unlinked hanya menyewa ruang (back-office, agensi kerajaan, kimia). Mandat mengganjari penyewa linked.' },
+  { cat: 'tenant', term: 'Linked · unlinked', en: 'Linked tenants work with the university (Tech SME, spin-off, R&D anchor, agency SME desk); unlinked ones only rent space (back-office, government agency, chemicals). The mandate rewards linked tenants.', ms: 'Penyewa linked bekerjasama dengan universiti (Tech SME, spin-off, R&D anchor, meja SME agensi); unlinked hanya menyewa ruang (back-office, agensi kerajaan, kimia). Mandat mengganjari penyewa linked.' },
   { cat: 'tenant', term: 'Drift', aka: 'Landlord drift', en: 'The share of let units that go to unlinked tenants: how far the park has drifted from a technology park towards an office estate. Above 50% costs 5 points, above 70% costs 10; Gold needs 50% or less.', ms: 'Bahagian unit disewa yang pergi kepada penyewa unlinked: sejauh mana park beralih daripada park teknologi kepada estet pejabat. Melebihi 50% ditolak 5 mata, melebihi 70% ditolak 10; Emas perlukan 50% atau kurang.' },
   { cat: 'tenant', term: 'Back-office corporate', en: 'A company\'s support office: pays the most rent per unit (1.0 Cr) but brings no impact and is unlinked.', ms: 'Pejabat sokongan syarikat: membayar sewa tertinggi seunit (1.0 Cr) tetapi tiada impact dan unlinked.' },
   { cat: 'tenant', term: 'Tech SME', en: 'A small technology firm: 0.7 Cr rent, +1 impact a year, linked, needs fibre.', ms: 'Firma teknologi kecil: sewa 0.7 Cr, +1 impact setahun, linked, perlukan fibre.' },
@@ -5854,26 +5854,26 @@ const GLOSSARY = [
   { cat: 'tenant', term: 'Pre-let', en: 'A tenant signs before the building exists; it lowers but does not remove the risk of an empty building.', ms: 'Penyewa menandatangani sebelum bangunan wujud; ia mengurangkan tetapi tidak menghapuskan risiko bangunan kosong.' },
   { cat: 'tenant', term: 'Covenant', en: 'A condition written into a lease or deal (for example renewable energy, research use, an SME desk) that makes the tenant count as linked or adds impact.', ms: 'Syarat dalam pajakan atau deal (contohnya tenaga boleh baharu, kegunaan penyelidikan, meja SME) yang menjadikan penyewa dikira linked atau menambah impact.' },
   /* ---------------- facilities */
-  { cat: 'fac', term: 'Shared Prototyping Lab · University Lab Access', en: 'A lab in the park (3 Cr) or access to university labs (0.5 Cr). Either lets anchors in and raises start-up graduation.', ms: 'Makmal dalam park (3 Cr) atau akses ke makmal universiti (0.5 Cr). Mana-mana satu membolehkan anchor masuk dan meningkatkan graduasi startup.' },
+  { cat: 'fac', term: 'Shared Prototyping Lab · University Lab Access', en: 'A lab in the park (3 Cr) or access to university labs (0.5 Cr). Either lets anchors in and raises start-up graduation.', ms: 'Makmal dalam park (3 Cr) atau akses ke makmal universiti (0.5 Cr). Mana-mana satu membolehkan anchor masuk dan menjadikan startup lebih kerap bergraduat.' },
   { cat: 'fac', term: 'KPI & Impact Reporting', en: 'Measures and verifies impact. Until it is set up, impact is unverified and counts only half.', ms: 'Mengukur dan mengesahkan impact. Selagi belum disediakan, impact tidak disahkan dan hanya dikira separuh.' },
   { cat: 'fac', term: 'Industry Liaison Office · Engagement Covenant · Park Management Team · Shared Services', en: 'Facilities that strengthen links with industry and the university, manage the park and support tenants; each has an upkeep.', ms: 'Kemudahan yang mengukuhkan hubungan dengan industri dan universiti, mengurus park dan menyokong penyewa; setiap satu ada upkeep.' },
   { cat: 'fac', term: 'Innovation programmes', en: 'Yearly programmes (up to six levels) that turn cash into impact.', ms: 'Program tahunan (sehingga enam tahap) yang menukar tunai kepada impact.' },
   /* ---------------- deals */
   { cat: 'deal', term: 'Deal Room', en: 'Opportunities and threats that arrive during the game. The clock holds while it is open; no decision counts as Leave.', ms: 'Peluang dan ancaman yang tiba sepanjang permainan. Jam berhenti semasa ia dibuka; tiada keputusan dikira sebagai Leave.' },
   { cat: 'deal', term: 'Take · Conditions · Leave', en: 'Accept the offer as it stands, counter with your own terms, or decline.', ms: 'Terima tawaran seadanya, balas dengan syarat sendiri, atau tolak.' },
-  { cat: 'deal', term: 'Die', en: 'From Bina on, a six-sided die decides whether the other party accepts your Conditions (for example "accepts on 3–6"). The roll is shown when the deal closes.', ms: 'Mulai Bina, dadu enam sisi menentukan sama ada pihak lain menerima Conditions anda (contohnya "bersetuju jika dadu 3–6"). Hasilnya dipaparkan bila deal ditutup.' },
+  { cat: 'deal', term: 'Die', en: 'From Bina on, a six-sided die decides whether the other party accepts your Conditions (for example "accepts on 3–6"). The roll is shown when the deal closes.', ms: 'Mulai Bina, dadu enam sisi menentukan sama ada pihak lain menerima Conditions anda (contohnya "bersetuju jika dadu 3–6"). Hasilnya dipaparkan apabila deal ditutup.' },
   { cat: 'deal', term: 'Sound decision', en: 'A decision that fits the park\'s position at the time, whatever the die later does. Part C scores the share of sound decisions, not luck. See the Decision journal.', ms: 'Keputusan yang sesuai dengan kedudukan park pada masa itu, apa pun hasil dadu kemudian. Bahagian C menilai bahagian keputusan wajar, bukan nasib. Lihat Jurnal keputusan.' },
-  { cat: 'deal', term: 'Dare index', en: 'How bold your choices were, from 0 (always Leave) upwards. Not scored; used in the debrief.', ms: 'Sejauh mana pilihan anda berani, dari 0 (sentiasa Leave) ke atas. Tidak dinilai; digunakan semasa debrief.' },
+  { cat: 'deal', term: 'Dare index', en: 'How bold your choices were, from 0 (always Leave) upwards. Not scored; used in the debrief.', ms: 'Sejauh mana pilihan anda berani, dari 0 (sentiasa Leave) ke atas. Tidak dinilai; digunakan semasa sesi ulasan.' },
   /* ---------------- ESG */
-  { cat: 'esg', term: 'ESG', aka: 'Environmental, Social and Governance', en: 'A running score of environmental decisions: clearing forest −3, building on wetland −1, a green buffer +2, retention works +1, solar and certification +1 to +2. Scored in Bina (5 marks) and Lestari (10 marks; Gold needs ESG of 0 or more).', ms: 'Skor berjalan bagi keputusan alam sekitar: membersihkan hutan −3, membina di tanah lembap −1, green buffer +2, retention works +1, solar dan pensijilan +1 hingga +2. Dinilai dalam Bina (5 markah) dan Lestari (10 markah; Emas perlukan ESG 0 atau lebih).' },
+  { cat: 'esg', term: 'ESG', aka: 'Environmental, Social and Governance', en: 'A running score of environmental decisions: clearing forest −3, building on wetland −1, a green buffer +2, retention works +1, solar and certification +1 to +2. Scored in Bina (5 marks) and Lestari (10 marks; Gold needs ESG of 0 or more).', ms: 'Skor berjalan bagi keputusan alam sekitar: membuka hutan −3, membina di tanah lembap −1, green buffer +2, retention works +1, solar dan pensijilan +1 hingga +2. Dinilai dalam Bina (5 markah) dan Lestari (10 markah; Emas perlukan ESG 0 atau lebih).' },
   { cat: 'esg', term: 'SDG', aka: 'Sustainable Development Goals', en: 'The United Nations goals tagged on some deals, for example SDG 7 clean energy and SDG 9 industry and innovation.', ms: 'Matlamat Pertubuhan Bangsa-Bangsa Bersatu yang ditandakan pada sesetengah deal, contohnya SDG 7 tenaga bersih dan SDG 9 industri dan inovasi.' },
   { cat: 'esg', term: 'Green buffer · retention works · retention park', en: 'Keeping the forest untouched as a buffer; works that hold storm water; a wetland turned into a park after retention works. All raise ESG.', ms: 'Mengekalkan hutan sebagai penampan; kerja yang menakung air ribut; tanah lembap yang dijadikan park selepas retention works. Semuanya menaikkan ESG.' },
   /* ---------------- scoring */
-  { cat: 'score', term: 'Impact · verified impact', en: 'Points earned each year from tenants, programmes and labs; the measure of what the park achieves. Verified impact needs KPI & Impact Reporting.', ms: 'Mata yang diperoleh setiap tahun daripada penyewa, program dan makmal; ukuran pencapaian park. Impact disahkan (verified) perlukan KPI & Impact Reporting.' },
+  { cat: 'score', term: 'Impact · verified impact', en: 'Points earned each year from tenants, programmes and labs; the measure of what the park achieves. Verified impact needs KPI & Impact Reporting.', ms: 'Mata yang diperoleh setiap tahun daripada penyewa, program dan makmal; ukuran pencapaian park. Impact yang disahkan memerlukan KPI & Impact Reporting.' },
   { cat: 'score', term: 'Park score', en: 'Impact plus the FCR12 bonus, minus the drift penalty and half of any debt above cash. Each level sets a target (115, 170, 250).', ms: 'Impact ditambah bonus FCR12, ditolak penalti drift dan separuh daripada hutang yang melebihi tunai. Setiap level menetapkan sasaran (115, 170, 250).' },
-  { cat: 'score', term: 'A · B1 · B2 · B3 · C · D · E', en: 'The parts of the final mark: A park score against the target; B1 Phase 1 (fund used, income gained); B2 Zone H plots signed; B3 survival of the downturn (in Rintis: operations); C share of sound decisions; D the team\'s defence to the panel; E ESG.', ms: 'Bahagian markah akhir: A skor park berbanding sasaran; B1 Fasa 1 (fund digunakan, pendapatan bertambah); B2 plot Zon H ditandatangani; B3 bertahan dalam downturn (dalam Rintis: operasi); C bahagian keputusan wajar; D pembentangan (defence) pasukan kepada panel; E ESG.' },
-  { cat: 'score', term: 'Medals · gates', en: 'Gold 80, Silver 65, Bronze 50 marks. Silver and Gold also need a park score of at least half the target (park gate); Gold also needs no bailout, FCR12 of 1 or more, drift of 50% or less, and in Lestari ESG of 0 or more.', ms: 'Emas 80, Perak 65, Gangsa 50 markah. Perak dan Emas juga perlukan skor park sekurang-kurangnya separuh sasaran (park gate); Emas juga perlukan tiada bailout, FCR12 1 atau lebih, drift 50% atau kurang, dan dalam Lestari ESG 0 atau lebih.' },
-  { cat: 'score', term: 'Benchmark parks', en: 'Computer-run parks with a fixed style (Garden, Bold, Rocket, Caretaker and others) shown in the standings for comparison.', ms: 'Park yang dijalankan komputer dengan gaya tetap (Garden, Bold, Rocket, Caretaker dan lain-lain) dipaparkan dalam kedudukan untuk perbandingan.' },
+  { cat: 'score', term: 'A · B1 · B2 · B3 · C · D · E', en: 'The parts of the final mark: A park score against the target; B1 Phase 1 (fund used, income gained); B2 Zone H plots signed; B3 survival of the downturn (in Rintis: operations); C share of sound decisions; D the team\'s defence to the panel; E ESG.', ms: 'Bahagian markah akhir: A skor park berbanding sasaran; B1 Fasa 1 (fund digunakan, pendapatan bertambah); B2 plot Zon H ditandatangani; B3 bertahan dalam downturn (dalam Rintis: operasi); C bahagian keputusan wajar; D Defence, iaitu pembentangan pasukan kepada panel; E ESG.' },
+  { cat: 'score', term: 'Medals · gates', en: 'Gold 80, Silver 65, Bronze 50 marks. Silver and Gold also need a park score of at least half the target (park gate); Gold also needs no bailout, FCR12 of 1 or more, drift of 50% or less, and in Lestari ESG of 0 or more.', ms: 'Emas 80, Perak 65, Gangsa 50 markah. Perak dan Emas juga perlukan skor park sekurang-kurangnya separuh sasaran (syarat park); Emas juga perlukan tiada bailout, FCR12 1 atau lebih, drift 50% atau kurang, dan dalam Lestari ESG 0 atau lebih.' },
+  { cat: 'score', term: 'Benchmark parks', en: 'Computer-run parks with a fixed style (Garden, Bold, Rocket, Caretaker and others) shown in the standings for comparison.', ms: 'Park yang dimainkan oleh komputer dengan gaya tetap (Garden, Bold, Rocket, Caretaker dan lain-lain) dipaparkan dalam kedudukan untuk perbandingan.' },
 ];
 const GLOSS_CATS = {
   en: { money: 'Money', time: 'Time and phases', site: 'Site and buildings', tenant: 'Tenants', fac: 'Facilities', deal: 'Deal Room', esg: 'ESG', score: 'Scoring' },
@@ -5899,7 +5899,7 @@ const CARDS = {
   datacentre: { title: 'Ground lease pusat data', text: 'Pengendali pusat data mahukan ground lease 30 tahun di satu plot Highway Frontage. Ia akan menggunakan elektrik grid sepanjang masa.',
     T: 'Pajakkan seperti ditawarkan di Zon D: +1.5 Cr setahun, 2 unit unlinked, tiada syarat tenaga (−2 ESG); mungkin gagal bayar semasa downturn.',
     C: 'Pajakkan plot pilihan anda dengan covenant tenaga boleh baharu dan kegunaan penyelidikan: +1.0 Cr dan +1 impact setahun, linked. Pengendali bersetuju jika dadu 3–6; plot yang dipilih mengubah nilainya.', L: 'Simpan plot itu.' },
-  donor: { title: 'Penderma menawarkan peralatan', text: 'Sebuah penderma industri menawarkan peralatan prototaip secara percuma. Kontrak servisnya ditanggung anda.',
+  donor: { title: 'Penderma menawarkan peralatan', text: 'Sebuah syarikat industri menawarkan peralatan prototaip secara percuma. Kontrak servisnya ditanggung anda.',
     T: 'Terima: upkeep 1.2 Cr setahun; +1 impact setahun selagi anda ada 2 atau lebih penyewa linked.', C: 'Terima hanya jika penderma membayar kontrak servis hingga akhir Tahun 4' + DIE('4–6') + '.', L: 'Tolak.' },
   jv: { title: 'Joint venture incubator swasta', text: 'Sebuah accelerator swasta akan menjalankan inkubasi bersama di premisnya sendiri dan membawa startup sekarang. Ia mahu memilih startup itu sendiri.',
     T: 'Terima seperti ditawarkan: +2 Cr dan 3 startup sekarang; kadar bergraduat mereka separuh; pada Tahun 4 rakan kongsi mungkin keluar bersama mereka.',
@@ -6122,7 +6122,7 @@ const OPT = { en: { T: 'Take', C: 'Conditions', L: 'Leave' }, ms: { T: 'Take', C
 const TXT = {
   en: { before: 'Think it through', checks: 'What this decision depends on', now: 'now', target: 'rule of thumb', risks: 'Risk of each option', noDice: 'In Rintis every counterparty accepts your conditions; the die notes apply from Bina on.', lestari: 'Lestari shows the questions, not the answers: read your figures in the tiles and the Money group.',
     after: 'Lesson', sound: 'Sound decision', unsound: 'Not a sound decision', principle: 'Principle', watch: 'Watch next', journal: 'Decision journal', journalEmpty: 'Your Deal Room decisions and their lessons appear here.', soundCount: '{s} of {n} sound', na: 'did not apply' },
-  ms: { before: 'Fikir dahulu', checks: 'Keputusan ini bergantung pada', now: 'sekarang', target: 'panduan', risks: 'Risiko setiap pilihan', noDice: 'Dalam Rintis setiap pihak menerima syarat anda; nota dadu terpakai mulai Bina.', lestari: 'Lestari hanya memaparkan soalan, bukan jawapan: baca angka anda pada tiles dan kumpulan Kewangan.',
+  ms: { before: 'Fikir dahulu', checks: 'Keputusan ini bergantung pada', now: 'sekarang', target: 'panduan', risks: 'Risiko setiap pilihan', noDice: 'Dalam Rintis setiap pihak menerima syarat anda; nota dadu terpakai mulai Bina.', lestari: 'Lestari hanya memaparkan soalan, bukan jawapan: baca angka anda pada tile nilai dan kumpulan Kewangan.',
     after: 'Pelajaran', sound: 'Keputusan wajar', unsound: 'Keputusan kurang wajar', principle: 'Prinsip', watch: 'Perhatikan seterusnya', journal: 'Jurnal keputusan', journalEmpty: 'Keputusan Deal Room anda dan pelajarannya akan dipaparkan di sini.', soundCount: '{s} daripada {n} wajar', na: 'tidak terpakai' },
 };
 const lang = () => (root.IMPAK && root.IMPAK.HOST.lang === 'ms' ? 'ms' : 'en');
@@ -6197,13 +6197,13 @@ function partInfo(k, lv) {
   const W = lv.score, ops = lv.key === 'rintis';
   const P = {
     A: [L('Park score', 'Skor park'), L('Impact plus the FCR12 bonus, minus the drift and debt penalties, against a target of ' + W.parkTarget + '.',
-      'Impact ditambah bonus FCR12, ditolak penalti drift dan hutang, berbanding target ' + W.parkTarget + '.')],
+      'Impact ditambah bonus FCR12, ditolak penalti drift dan hutang, berbanding sasaran ' + W.parkTarget + '.')],
     B1: [L('Phase 1 · Development Fund', 'Fasa 1 · Development Fund'), L('Share of the Development Fund used by month 24 (40%) and growth in committed income by month 24 against a target of ' + W.fundIncomeTarget + ' Cr a year (60%).',
-      'Bahagian Development Fund yang digunakan sebelum bulan 24 (40%) dan pertumbuhan committed income hingga bulan 24 berbanding target ' + W.fundIncomeTarget + ' Cr setahun (60%).')],
+      'Bahagian Development Fund yang digunakan sebelum bulan 24 (40%) dan pertumbuhan committed income hingga bulan 24 berbanding sasaran ' + W.fundIncomeTarget + ' Cr setahun (60%).')],
     B2: [L('Zone H plots', 'Plot Zon H'), L('The four University Reserve plots signed by month 36: build, covenant lease, reserve or national lab 2.5 each; plain lease 1.5; reclaimed 0.',
-      'Empat plot University Reserve yang ditandatangani sebelum bulan 36: build, covenant lease, reserve atau national lab 2.5 setiap satu; lease biasa 1.5; reclaimed 0.')],
+      'Empat plot University Reserve yang ditandatangani sebelum bulan 36: bangunan, lease dengan covenant, rizab atau makmal kebangsaan 2.5 setiap satu; lease biasa 1.5; diambil semula 0.')],
     B3: ops ? [L('Operations', 'Operasi'), L('Three equal thirds: never bailed out, FCR12 of at least 1 at the end, and occupancy from 50% (none) to 90% (full).',
-      'Tiga bahagian sama rata: tiada bailout, FCR12 sekurang-kurangnya 1 di akhir, dan occupancy dari 50% (kosong) hingga 90% (penuh).')]
+      'Tiga bahagian sama rata: tiada bailout, FCR12 sekurang-kurangnya 1 di akhir, dan penghunian dari 50% (kosong) hingga 90% (penuh).')]
       : [L('Survival', 'Survival'), L('Three equal thirds: no bailout in Phase 3, FCR12 of at least 1 at the end, and the share of let units kept through the downturn from 50% (none) to 90% (full).',
         'Tiga bahagian sama rata: tiada bailout dalam Fasa 3, FCR12 sekurang-kurangnya 1 di akhir, dan bahagian unit yang kekal disewa sepanjang downturn dari 50% (kosong) hingga 90% (penuh).')],
     C: [L('Decisions', 'Keputusan'), L('Share of Deal Room decisions that were sound. Leaving an opportunity that had a sound way in earns half.',
@@ -6263,13 +6263,13 @@ function analyse(res, tm) {
     add('A', g, L('Mission drift', 'Mission drift'),
       L('Drift ended at ' + pc(p.drift) + ': unlinked tenants took too large a share of the park (−' + p.driftPen + ').', 'Drift berakhir pada ' + pc(p.drift) + ': penyewa unlinked mengambil bahagian park yang terlalu besar (−' + p.driftPen + ').'),
       L('Keep unlinked tenants (back offices, agencies, plain leases) to half the park or less. Fill space with tech SMEs, spin-offs and R&D anchors.',
-        'Hadkan penyewa unlinked (back office, agensi, lease biasa) kepada separuh park atau kurang. Isi ruang dengan tech SME, spin-off dan R&D anchor.'));
+        'Hadkan penyewa unlinked (back-office, agensi, lease biasa) kepada separuh park atau kurang. Isi ruang dengan Tech SME, spin-off dan R&D anchor.'));
   }
   if (!t.receiver && p.debtPen > 0) {
     const g = gainA(p.debtPen); explained += g;
     add('A', g, L('Debt above cash at the end', 'Hutang melebihi tunai di akhir'),
       L('Loans not covered by cash at the end cost ' + n1(p.debtPen) + ' points.', 'Pinjaman yang tidak ditampung tunai di akhir menyebabkan tolakan ' + n1(p.debtPen) + ' mata.'),
-      L('Plan the last year so that cash is at least equal to debt at the final bell, or repay early.', 'Rancang tahun terakhir supaya tunai sekurang-kurangnya sama dengan hutang pada final bell, atau bayar balik lebih awal.'));
+      L('Plan the last year so that cash is at least equal to debt at the final bell, or repay early.', 'Rancang tahun terakhir supaya tunai sekurang-kurangnya sama dengan hutang pada loceng akhir, atau bayar balik lebih awal.'));
   }
   const restA = W.A - r.A - explained;
   if (!t.receiver && restA > 1) {
@@ -6280,8 +6280,8 @@ function analyse(res, tm) {
     if (!t.fac.liaison) lev.push(L('an Industry Liaison Office (+1 impact a year with two linked tenants, and more applicants)', 'Industry Liaison Office (+1 impact setahun dengan dua penyewa linked, dan lebih ramai pemohon)'));
     if (!t.fac.covenant) lev.push(L('an Engagement Covenant (+1 impact a year for every two linked tenants)', 'Engagement Covenant (+1 impact setahun bagi setiap dua penyewa linked)'));
     lev.push(L('linked tenants in Zone C, which earn a bonus there', 'penyewa linked di Zon C, yang mendapat bonus di situ'));
-    add('A', restA, L('Impact below the target', 'Impact bawah target'),
-      L('Total impact was ' + n1(p.ip) + ' against a park-score target of ' + W.parkTarget + '.', 'Jumlah impact ' + n1(p.ip) + ' berbanding target skor park ' + W.parkTarget + '.'),
+    add('A', restA, L('Impact below the target', 'Impact bawah sasaran'),
+      L('Total impact was ' + n1(p.ip) + ' against a park-score target of ' + W.parkTarget + '.', 'Jumlah impact ' + n1(p.ip) + ' berbanding sasaran skor park ' + W.parkTarget + '.'),
       L('Impact grows each month from what the park holds. Levers you did not use: ', 'Impact bertambah setiap bulan berdasarkan apa yang ada dalam park. Tuas yang belum digunakan: ') + lev.slice(0, 3).join('; ') + '.');
   }
 
@@ -6295,7 +6295,7 @@ function analyse(res, tm) {
     const grow = (t.snap.ci24 != null ? t.snap.ci24 : PB.committedIncome(t)) - t.snap.ci0;
     const lost2 = 0.6 * W.B1 * (1 - cl(grow / W.fundIncomeTarget));
     add('B1', lost2, L('Income grew slowly in Phase 1', 'Pendapatan lambat meningkat dalam Fasa 1'),
-      L('Committed income grew by ' + n1(grow) + ' Cr a year by month 24 (target ' + W.fundIncomeTarget + ').', 'Committed income meningkat ' + n1(grow) + ' Cr setahun hingga bulan 24 (target ' + W.fundIncomeTarget + ').'),
+      L('Committed income grew by ' + n1(grow) + ' Cr a year by month 24 (target ' + W.fundIncomeTarget + ').', 'Committed income meningkat ' + n1(grow) + ' Cr setahun hingga bulan 24 (sasaran ' + W.fundIncomeTarget + ').'),
       L('Build early so units are ready well before month 24, put road, water and power in first, and admit applicants before they give up after ' + C.WAIT + ' months.',
         'Bina awal supaya unit siap jauh sebelum bulan 24, sediakan road, water dan power dahulu, dan terima pemohon sebelum mereka berputus asa selepas ' + C.WAIT + ' bulan.'));
   }
@@ -6306,7 +6306,7 @@ function analyse(res, tm) {
     add('B2', lost, L('Zone H not fully used', 'Zon H tidak digunakan sepenuhnya'),
       L(rec + ' plot(s) went back to the university and ' + plain + ' carried a plain lease.', rec + ' plot dipulangkan kepada universiti dan ' + plain + ' plot hanya lease biasa.'),
       L('Zone H opens at month 25 and unsigned plots are reclaimed at month 36. Sign all four, and prefer build, a covenant lease, a reserve or the national lab (2.5 each) over a plain lease (1.5).',
-        'Zon H dibuka pada bulan 25 dan plot yang belum ditandatangani diambil semula pada bulan 36. Tandatangani keempat-empat plot, dan utamakan build, covenant lease, reserve atau national lab (2.5 setiap satu) berbanding lease biasa (1.5).'));
+        'Zon H dibuka pada bulan 25 dan plot yang belum ditandatangani diambil semula pada bulan 36. Tandatangani keempat-empat plot, dan utamakan bangunan, lease dengan covenant, rizab atau makmal kebangsaan (2.5 setiap satu) berbanding lease biasa (1.5).'));
   }
   /* B3: operations or survival */
   if (W.B3) {
@@ -6318,7 +6318,7 @@ function analyse(res, tm) {
       L('Before each new facility or building, check that committed income still covers upkeep and interest.', 'Sebelum setiap kemudahan atau bangunan baharu, pastikan committed income masih menampung upkeep dan faedah.'));
     const share = ops ? cl((r.retention - 0.5) / 0.4) : cl((r.retention - C.RET[0]) / (C.RET[1] - C.RET[0]));
     add('B3', third * (1 - share), ops ? L('Empty units', 'Unit kosong') : L('Tenants lost in the downturn', 'Penyewa hilang semasa downturn'),
-      ops ? L('Occupancy ended at ' + pc(r.retention) + '; full marks need 90%.', 'Occupancy berakhir pada ' + pc(r.retention) + '; markah penuh memerlukan 90%.')
+      ops ? L('Occupancy ended at ' + pc(r.retention) + '; full marks need 90%.', 'Penghunian berakhir pada ' + pc(r.retention) + '; markah penuh memerlukan 90%.')
         : L(pc(r.retention) + ' of let units were kept through the downturn; full marks need 90%.', pc(r.retention) + ' unit yang disewa kekal sepanjang downturn; markah penuh memerlukan 90%.'),
       ops ? L('Match building to demand: let what is ready before building more, and keep services in place so tenants can move in.', 'Padankan pembinaan dengan permintaan: sewakan unit yang siap sebelum bina lagi, dan pastikan services tersedia supaya penyewa boleh masuk.')
         : L('Before the downturn, favour tenants that stay (agencies, R&D anchors, supported spin-offs) and keep a cash buffer for the slow years.', 'Sebelum downturn, utamakan penyewa yang kekal (agensi, R&D anchor, spin-off yang disokong) dan simpan penampan tunai untuk tahun yang perlahan.'));
@@ -6338,8 +6338,8 @@ function analyse(res, tm) {
   if (W.E) {
     const neg = (t.esgLog || []).filter((e) => e.d < 0);
     add('E', W.E - r.E, L('ESG record', 'Rekod ESG'),
-      L('ESG ended at ' + sgn(t.esg) + (neg.length ? '. Losses came from: ' + neg.map((e) => ewhy(e.why) + ' (' + e.d + ')').join(', ') : '') + '.', 'ESG berakhir pada ' + sgn(t.esg) + (neg.length ? '. Kerugian datang daripada: ' + neg.map((e) => ewhy(e.why) + ' (' + e.d + ')').join(', ') : '') + '.'),
-      L('Protect the low ground and the forest edge, choose covenants with environmental conditions, and add a buffer or retention park where the level allows.', 'Lindungi tanah rendah dan pinggir hutan, pilih covenant dengan syarat alam sekitar, dan tambah buffer atau retention park jika level membenarkan.'));
+      L('ESG ended at ' + sgn(t.esg) + (neg.length ? '. Losses came from: ' + neg.map((e) => ewhy(e.why) + ' (' + e.d + ')').join(', ') : '') + '.', 'ESG berakhir pada ' + sgn(t.esg) + (neg.length ? '. Penurunan ESG datang daripada: ' + neg.map((e) => ewhy(e.why) + ' (' + e.d + ')').join(', ') : '') + '.'),
+      L('Protect the low ground and the forest edge, choose covenants with environmental conditions, and add a buffer or retention park where the level allows.', 'Lindungi tanah rendah dan pinggir hutan, pilih covenant dengan syarat alam sekitar, dan tambah green buffer atau retention park jika level membenarkan.'));
   }
   gaps.sort((a, b) => b.lost - a.lost);
 
@@ -6444,6 +6444,7 @@ function lineChart(vals, title, unit) {
   return s;
 }
 function transcript(res, tm, meta) {
+  const tname = tm.id === 'you' ? L('Your park', 'Park anda') : tm.name;
   const a = analyse(res, tm), r = a.r, t = a.t, lv = a.lv, p = r.park, m = meta || {};
   const so = PB.socio(t), H = res.teams.filter((x) => !x.bench && x.rub).sort((x, y) => y.rub.total - x.rub.total);
   const rank = H.indexOf(tm) + 1, today = new Date();
@@ -6461,7 +6462,7 @@ function transcript(res, tm, meta) {
     '<div class="c-sub">' + esc(L('Team achievement transcript', 'Transkrip pencapaian pasukan')) + '</div>' +
     '<div class="c-rule"></div>' +
     '<div class="c-lead">' + esc(L('This record is presented to the team', 'Rekod ini diberikan kepada pasukan')) + '</div>' +
-    '<div class="c-team">' + esc(tm.name) + '</div>' +
+    '<div class="c-team">' + esc(tname) + '</div>' +
     '<div class="c-lead">' + esc(L('for completing', 'kerana menamatkan')) + ' <b>' + esc(lvName) + '</b> · ' + Math.round((res.sc.months || lv.months) / 12) + L(' simulated years', ' tahun simulasi') + '</div>' +
     '<div class="c-mid"><div class="c-av">' + (av ? '<img src="' + av + '" alt="' + esc(L('IMPAK tutor', 'Tutor IMPAK')) + '">' : '') + '<div class="c-bubble">' + esc(greet) + '</div></div>' +
     '<div class="seal ' + r.medal + '"><div><span class="s-m">' + esc(MEDAL(r.medal)) + '</span><span class="s-t">' + n1(r.total) + '</span><span class="s-o">' + esc(L('of 100', 'daripada 100')) + '</span></div></div>' +
@@ -6469,27 +6470,27 @@ function transcript(res, tm, meta) {
     '<div><span>' + esc(L('Park score', 'Skor park')) + '</span><b>' + n1(p.score) + ' / ' + lv.score.parkTarget + '</b></div>' +
     '<div><span>' + esc(L('Sound decisions', 'Keputusan wajar')) + '</span><b>' + a.dl.filter((d) => d.sound).length + ' / ' + a.dl.length + '</b></div>' +
     '<div><span>Impact</span><b>' + n1(p.ip) + '</b></div></div></div>' +
-    '<table class="meta">' + row(L('Members', 'Ahli'), '<span class="edit" contenteditable="true">' + esc(m.members || L('(type the names here before printing)', '(taip nama ahli di sini sebelum cetak)')) + '</span>') +
+    '<table class="meta">' + row(L('Members', 'Ahli'), '<span class="edit" data-k="members" contenteditable="true" data-ph="' + esc(L('type the names here before printing', 'taip nama ahli di sini sebelum cetak')) + '">' + esc(m.members || '') + '</span>') +
     (m.room ? row(L('Room', 'Bilik'), esc(m.room)) : '') + row(L('Game', 'Permainan'), esc(res.g.gid || '') + ' · seed ' + esc(res.g.seed)) +
     (m.event ? row(L('Programme', 'Program'), esc(m.event)) : '') + row(L('Date', 'Tarikh'), esc(dstr)) + '</table>' +
     '<div class="c-sign"><div><span class="line"></span>' + esc(L('Facilitator', 'Fasilitator')) + '</div><div><span class="line"></span>' + esc(L('Team representative', 'Wakil pasukan')) + '</div></div>' +
     '<div class="c-note">' + esc(L('A record of a training game, not an assessment of the members\' competence. The pages that follow explain each mark and what to do next time.', 'Rekod permainan latihan, bukan penilaian kompetensi ahli. Halaman berikutnya menerangkan setiap markah dan apa yang perlu dibuat lain kali.')) + '</div>' +
     '</div></section>';
-  body += '<header class="run"><div class="brand">IMPAK<sup>™</sup> – Technovation Park</div><div>' + esc(tm.name) + ' · ' + esc(lvName) + ' · ' + esc(MEDAL(r.medal)) + ' ' + n1(r.total) + '</div></header>';
+  body += '<header class="run"><div class="brand">IMPAK<sup>™</sup> – Technovation Park</div><div>' + esc(tname) + ' · ' + esc(lvName) + ' · ' + esc(MEDAL(r.medal)) + ' ' + n1(r.total) + '</div></header>';
   body += '<p class="lede">' + esc(summary(a)) + '</p>';
 
   body += sec(L('Marks by part', 'Markah mengikut bahagian'), '<table class="parts"><thead><tr><th></th><th>' + esc(L('Part', 'Bahagian')) + '</th><th>' + esc(L('What it measures', 'Apa yang diukur')) + '</th><th class="r">' + esc(L('Marks', 'Markah')) + '</th><th class="bar"></th></tr></thead><tbody>' +
     a.parts.map((P) => '<tr><td class="k">' + P.k + '</td><td><b>' + esc(P.label) + '</b></td><td class="w">' + esc(P.what) + (P.k === 'D' && !tm.hasD ? ' <i>' + esc(L('(not yet marked)', '(belum dinilai)')) + '</i>' : '') + '</td><td class="r">' + n1(P.got) + ' / ' + P.max + '</td><td class="bar"><span style="width:' + Math.round(100 * cl(P.got / P.max)) + '%"></span></td></tr>').join('') +
     '<tr class="sum"><td></td><td><b>' + esc(L('Total', 'Jumlah')) + '</b></td><td class="w">' + esc(L('Medals: Gold ' + lv.medals.gold + ', Silver ' + lv.medals.silver + ', Bronze ' + lv.medals.bronze + '. Silver and Gold also need a park score of at least half the target; Gold also needs no bailout, FCR12 of at least 1 and drift of 50% or less' + (lv.esgGate ? ', and ESG of 0 or more' : '') + '.',
-      'Pingat: Emas ' + lv.medals.gold + ', Perak ' + lv.medals.silver + ', Gangsa ' + lv.medals.bronze + '. Perak dan Emas juga memerlukan skor park sekurang-kurangnya separuh target; Emas juga memerlukan tiada bailout, FCR12 sekurang-kurangnya 1 dan drift 50% atau kurang' + (lv.esgGate ? ', serta ESG 0 atau lebih' : '') + '.')) + '</td><td class="r"><b>' + n1(r.total) + '</b></td><td></td></tr></tbody></table>');
+      'Pingat: Emas ' + lv.medals.gold + ', Perak ' + lv.medals.silver + ', Gangsa ' + lv.medals.bronze + '. Perak dan Emas juga memerlukan skor park sekurang-kurangnya separuh sasaran; Emas juga memerlukan tiada bailout, FCR12 sekurang-kurangnya 1 dan drift 50% atau kurang' + (lv.esgGate ? ', serta ESG 0 atau lebih' : '') + '.')) + '</td><td class="r"><b>' + n1(r.total) + '</b></td><td></td></tr></tbody></table>');
 
   const kv = [[L('Park score', 'Skor park'), n1(p.score) + ' / ' + lv.score.parkTarget], [L('Impact', 'Impact'), n1(p.ip)], ['FCR12', p.fcr > 8 ? '—' : p.fcr.toFixed(2)], ['Drift', pc(p.drift)],
-    [L('Occupancy', 'Occupancy'), pc(PB.occupancy(t))], [L('Cash less debt', 'Tunai tolak hutang'), n1(t.cash - t.debt - t.emerg) + ' Cr'], ['Bailouts', String(t.bailouts)],
+    [L('Occupancy', 'Penghunian'), pc(PB.occupancy(t))], [L('Cash less debt', 'Tunai tolak hutang'), n1(t.cash - t.debt - t.emerg) + ' Cr'], ['Bailouts', String(t.bailouts)],
     [L('Sound decisions', 'Keputusan wajar'), a.dl.filter((d) => d.sound).length + ' / ' + a.dl.length], ['Dare', String(r.dare)]];
   if (lv.score.E) kv.push(['ESG', sgn(t.esg)]);
   const imp = [[L('Jobs', 'Pekerjaan'), so.jobs], [L('Student interns a year', 'Pelajar intern setahun'), so.interns], [L('Firms', 'Syarikat'), so.firms], [L('Alumni-founded', 'Diasaskan alumni'), so.alumni],
     [L('University-linked', 'Berkait universiti'), pc(so.uniShare)], [L('Economic impact', 'Impak ekonomi'), n1(so.econ) + L(' Cr a year', ' Cr setahun')]];
-  body += sec(L('Key figures at the final bell', 'Angka utama pada final bell'), '<div class="two"><table class="kv">' + kv.map((x) => row(x[0], esc(x[1]))).join('') + '</table><div><table class="kv">' + imp.map((x) => row(x[0], esc(x[1]))).join('') +
+  body += sec(L('Key figures at the final bell', 'Angka utama pada loceng akhir'), '<div class="two"><table class="kv">' + kv.map((x) => row(x[0], esc(x[1]))).join('') + '</table><div><table class="kv">' + imp.map((x) => row(x[0], esc(x[1]))).join('') +
     '</table><p class="note">' + esc(L('Socio-economic figures are shown for discussion and are not scored.', 'Angka sosioekonomi untuk perbincangan sahaja dan tidak diberi markah.')) + '</p></div></div>' +
     '<div class="two">' + lineChart(t.ipHist, L('Impact over time', 'Impact mengikut masa'), L('points', 'mata')) + lineChart(t.cashHist, L('Cash less debt over time', 'Tunai tolak hutang mengikut masa'), 'Cr') + '</div>');
 
@@ -6504,14 +6505,14 @@ function transcript(res, tm, meta) {
       (a.vs.theirFac.length ? L('. Facilities it had and you did not: ', '. Kemudahan yang ada padanya tetapi tiada pada anda: ') + a.vs.theirFac.join(', ') : '') + '.') + '</p>');
 
   const dl = t.dlog.filter((d) => d.eligible || d.opt === null);
-  if (dl.length) body += sec(L('Decision journal', 'Jurnal keputusan'), '<table class="dj"><thead><tr><th>' + esc(L('When', 'Bila')) + '</th><th>' + esc(L('Deal', 'Deal')) + '</th><th>' + esc(L('Choice', 'Pilihan')) + '</th><th></th><th>' + esc(L('Principle', 'Prinsip')) + '</th></tr></thead><tbody>' + dl.map((d) => {
+  if (dl.length) body += sec(L('Decision journal', 'Jurnal keputusan'), '<table class="dj"><thead><tr><th>' + esc(L('When', 'Tarikh')) + '</th><th>' + esc(L('Deal', 'Deal')) + '</th><th>' + esc(L('Choice', 'Pilihan')) + '</th><th></th><th>' + esc(L('Principle', 'Prinsip')) + '</th></tr></thead><tbody>' + dl.map((d) => {
     const ev = res.sc.events.find((e) => e.id === d.eid), Ls = (root.LESSONS || {})[d.card];
     if (!d.eligible) return '<tr class="na"><td>' + esc(ev ? mname(ev.month) : '') + '</td><td>' + esc(ctitle(d.card)) + '</td><td colspan="3">' + esc(L('did not apply to this park', 'tidak terpakai untuk park ini')) + '</td></tr>';
     return '<tr><td>' + esc(ev ? mname(ev.month) : '') + '</td><td>' + esc(ctitle(d.card)) + '</td><td>' + OPT[d.opt] + (d.site ? ' · ' + esc(d.site) : '') + '</td><td class="v ' + (d.sound ? 'ok' : 'no') + '">' + (d.sound ? (d.credit < 1 ? '½' : '✓') : '✗') + '</td><td>' + esc(Ls ? Ls[lang()].principle : '') + '</td></tr>';
   }).join('') + '</tbody></table><p class="note">✓ ' + esc(L('sound', 'wajar')) + ' · ½ ' + esc(L('sound but an opportunity was left', 'wajar tetapi peluang dilepaskan')) + ' · ✗ ' + esc(L('not sound', 'kurang wajar')) + '</p>');
 
   body += sec(L('Take-away points', 'Perkara utama untuk dibawa pulang'), '<ol class="take">' + a.take.map((x) => '<li>' + esc(x) + '</li>').join('') + '</ol>' +
-    '<div class="refl"><b>' + esc(L('Team reflection', 'Refleksi pasukan')) + '</b><p class="edit" contenteditable="true">' + esc(L('One thing we will do differently in a real park: …', 'Satu perkara yang akan kami buat secara berbeza dalam park sebenar: …')) + '</p></div>');
+    '<div class="refl"><b>' + esc(L('Team reflection', 'Refleksi pasukan')) + '</b><p class="edit" data-k="refl" contenteditable="true" data-ph="' + esc(L('One thing we will do differently in a real park: …', 'Satu perkara yang akan kami buat secara berbeza dalam park sebenar: …')) + '"></p></div>');
 
   const css = `@page{size:A4;margin:14mm 13mm 16mm}*{box-sizing:border-box}body{font:10.5pt/1.45 "Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#1d2330;margin:0;background:#eef0f4}
 .page{max-width:186mm;margin:12px auto;background:#fff;padding:14mm 13mm;box-shadow:0 1px 6px rgba(0,0,0,.12)}
@@ -6542,6 +6543,7 @@ h2{font-size:11.5pt;margin:16px 0 6px;padding-bottom:3px;border-bottom:1.5px sol
 table{border-collapse:collapse;width:100%}th,td{text-align:left;vertical-align:top;padding:3px 6px}
 .meta th,.kv th{width:38%;color:#5b6478;font-weight:500}
 .edit{border-bottom:1px dashed #9aa3b5;outline:none;min-width:40mm;display:inline-block}
+.edit:empty::before{content:attr(data-ph);color:#9aa3b5;font-style:italic}
 .parts th{font-size:9pt;color:#5b6478;font-weight:600;border-bottom:1px solid #d8dce6}.parts td{border-bottom:1px solid #eef0f4}.parts .k{font-weight:700;width:8mm}.parts .w{color:#4a5368;font-size:9.2pt}
 .r{text-align:right;white-space:nowrap}td.bar{width:26mm}td.bar span{display:block;height:8px;border-radius:0 4px 4px 0;background:#4f7cff;margin-top:5px}.parts .sum td{border-bottom:0}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.note{font-size:8.8pt;color:#5b6478;margin:4px 0}
@@ -6551,17 +6553,34 @@ table{border-collapse:collapse;width:100%}th,td{text-align:left;vertical-align:t
 .dj{font-size:9pt}.dj th{color:#5b6478;font-weight:600;border-bottom:1px solid #d8dce6}.dj td{border-bottom:1px solid #eef0f4}.dj .na td{color:#8a92a5}.v{font-weight:700;text-align:center}.v.ok{color:#1f7a3a}.v.no{color:#b4472c}
 ul,ol{margin:4px 0;padding-left:18px}li{margin:2px 0}.take li{margin:4px 0}.refl{border:1px solid #d8dce6;border-radius:6px;padding:6px 10px;margin-top:10px;break-inside:avoid}.refl p{min-height:14mm;margin:4px 0 0;display:block}
 footer{margin-top:16px;padding-top:6px;border-top:1px solid #d8dce6;font-size:8.3pt;color:#6b7387}
-@media print{body{background:#fff}.page{margin:0;padding:0;box-shadow:none;max-width:none}.bar-top{display:none}.edit{border-bottom:0}.cert .frame{min-height:265mm}}
+@media print{.edit:empty::before{content:''}body{background:#fff}.page{margin:0;padding:0;box-shadow:none;max-width:none}.bar-top{display:none}.edit{border-bottom:0}.cert .frame{min-height:265mm}}
 @media (max-width:600px){.page{padding:14px}.two{grid-template-columns:1fr}}`;
-  const top = '<div class="bar-top"><button onclick="window.print()">' + esc(L('Print / Save as PDF', 'Cetak / Simpan sebagai PDF')) + '</button><span>' + esc(L('Type the members\' names and your reflection first, then choose "Save as PDF" as the printer.', 'Taip nama ahli dan refleksi dahulu, kemudian pilih "Save as PDF" sebagai pencetak.')) + '</span></div>';
+  const top = '<div class="bar-top" data-lang="' + lang() + '"><button onclick="window.print()">' + esc(L('Print / Save as PDF', 'Cetak / Simpan sebagai PDF')) + '</button><span class="lsw" role="group" aria-label="' + esc(L('Language of the transcript', 'Bahasa transkrip')) + '"><button data-lg="ms">Bahasa Melayu</button><button data-lg="en">English</button></span><span>' + esc(L('Choose the language, type the members\' names and your reflection, then choose "Save as PDF" as the printer.', 'Pilih bahasa, taip nama ahli dan refleksi, kemudian pilih "Save as PDF" sebagai pencetak.')) + '</span></div>';
   const foot = '<footer>' + esc(L('Generated by IMPAK – Technovation Park ', 'Dijana oleh IMPAK – Technovation Park ') + (brand.version || '') + ' · ' + dstr + '. ' +
     L('A record of a training game, not an assessment of the team members\' competence.', 'Rekod permainan latihan, bukan penilaian kompetensi ahli pasukan.') + ' ' + (brand.copyright || '')) + '</footer>';
-  return '<!DOCTYPE html><html lang="' + lang() + '"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + esc('IMPAK – ' + L('Transcript', 'Transkrip') + ' – ' + tm.name) + '</title><style>' + css + '</style></head><body>' + top + '<div class="page">' + body + foot + '</div></body></html>';
+  return '<!DOCTYPE html><html lang="' + lang() + '" data-title="' + esc('IMPAK – ' + L('Transcript', 'Transkrip') + ' – ' + tname) + '"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + esc('IMPAK – ' + L('Transcript', 'Transkrip') + ' – ' + tname) + '</title><style>' + css + '</style></head><body>' + top + '<div class="page">' + body + foot + '</div></body></html>';
+}
+
+/* both languages in one page with a switch; the first one shown follows the app's language */
+function inLang(lg, fn) { const H = root.IMPAK && root.IMPAK.HOST; if (!H) return fn(); const old = H.lang; H.lang = lg; try { return fn(); } finally { H.lang = old; } }
+function bilingual(res, tm, meta) {
+  const cur = lang(), part = (lg) => inLang(lg, () => transcript(res, tm, meta));
+  const cut = (doc, a, b) => doc.slice(doc.indexOf(a), b ? doc.indexOf(b) : undefined);
+  const ms = part('ms'), en = part('en');
+  const head = cut(cur === 'ms' ? ms : en, '<!DOCTYPE html>', '<div class="bar-top"');
+  const bar = (doc, lg) => cut(doc, '<div class="bar-top"', '<div class="page">').replace('<div class="bar-top"', '<div class="bar-top" data-for="' + lg + '"');
+  const pg = (doc, lg) => cut(doc, '<div class="page">', '</body>').replace('<div class="page">', '<div class="page" data-for="' + lg + '" lang="' + lg + '">');
+  const css = '<style>[data-for]{display:none}body[data-lang="ms"] [data-for="ms"],body[data-lang="en"] [data-for="en"]{display:block}body[data-lang] .bar-top[data-for]{display:none}body[data-lang="ms"] .bar-top[data-for="ms"],body[data-lang="en"] .bar-top[data-for="en"]{display:flex}' +
+    '.lsw{display:inline-flex;border:1px solid #4f5b76;border-radius:6px;overflow:hidden}.lsw button{background:transparent;color:#fff;border-radius:0;padding:8px 12px;font-weight:500}body[data-lang="ms"] .lsw [data-lg="ms"],body[data-lang="en"] .lsw [data-lg="en"]{background:#4f7cff;font-weight:700}@media print{.bar-top{display:none!important}}</style>';
+  const js = '<script>(function(){var b=document.body;function set(l){b.setAttribute("data-lang",l);document.documentElement.lang=l;document.title=' + JSON.stringify({ ms: inLang('ms', () => 'IMPAK – Transkrip – ' + (tm.id === 'you' ? 'Park anda' : tm.name)), en: 'IMPAK – Transcript – ' + (tm.id === 'you' ? 'Your park' : tm.name) }) + '[l];}' +
+    'document.addEventListener("click",function(e){var x=e.target.closest("[data-lg]");if(x)set(x.getAttribute("data-lg"));});' +
+    'document.addEventListener("input",function(e){var x=e.target.closest(".edit[data-k]");if(!x)return;var k=x.getAttribute("data-k");document.querySelectorAll(\'.edit[data-k="\'+k+\'"]\').forEach(function(y){if(y!==x)y.innerText=x.innerText;});});set(' + JSON.stringify(cur) + ');})();</' + 'script>';
+  return head.replace('</head>', css + '</head>').replace('<body>', '<body data-lang="' + cur + '">') + bar(ms, 'ms') + bar(en, 'en') + pg(ms, 'ms') + pg(en, 'en') + js + '</body></html>';
 }
 
 /* open the transcript in a new tab; if the browser blocks it, download the page instead */
 function open(res, tm, meta) {
-  const doc = transcript(res, tm, meta);
+  const doc = bilingual(res, tm, meta);
   const w = root.open('', '_blank');
   if (w && w.document) { w.document.open(); w.document.write(doc); w.document.close(); return true; }
   const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([doc], { type: 'text/html' }));
@@ -6569,7 +6588,7 @@ function open(res, tm, meta) {
   return false;
 }
 
-root.IMPAKDebrief = { analyse, summary, html, transcript, open, partInfo };
+root.IMPAKDebrief = { analyse, summary, html, transcript, bilingual, open, partInfo };
 })(typeof window !== 'undefined' ? window : globalThis);
 
 </script>
@@ -7201,7 +7220,7 @@ function renderLedger() {
     row(LL('FCR bands', 'Jalur FCR'), C.FCR_BANDS.map((b) => '≥ ' + b[0] + ' → +' + b[1]).join(', ') + LL('; below → ', '; bawah → ') + C.FCR_LOW) +
     row(LL('Drift penalty', 'Penalti drift'), C.DRIFT_PEN.map((b) => '> ' + Math.round(b[0] * 100) + '% → −' + b[1]).join(', ')) +
     row('ESG', LL('floor ', 'lantai ') + C.ESG.floor + ', target ' + C.ESG.target + LL('; clear ', '; buka hutan ') + C.ESG.clear + ', buffer +' + C.ESG.buffer + ', park +' + C.ESG.park + LL(', certification +', ', pensijilan +') + C.ESG.cert) +
-    row(LL('Medals', 'Pingat'), LL('Gold ', 'Emas ') + C.MEDALS.gold + LL(' · Silver ', ' · Perak ') + C.MEDALS.silver + LL(' · Bronze ', ' · Gangsa ') + C.MEDALS.bronze + LL(' (+ park gate: half the target)', ' (+ syarat park: separuh target)')) +
+    row(LL('Medals', 'Pingat'), LL('Gold ', 'Emas ') + C.MEDALS.gold + LL(' · Silver ', ' · Perak ') + C.MEDALS.silver + LL(' · Bronze ', ' · Gangsa ') + C.MEDALS.bronze + LL(' (+ park gate: half the target)', ' (+ syarat park: separuh sasaran)')) +
     row(LL('Impact coefficients', 'Pekali impak'), LL('jobs per unit: ', 'pekerjaan setiap unit: ') + Object.keys(PB.SOCIO).filter((k) => PB.SOCIO[k] && PB.SOCIO[k].jobs != null).map((k) => k + ' ' + PB.SOCIO[k].jobs).join(', ') + LL('; local multiplier ', '; pengganda tempatan ') + PB.SOCIO.mult);
 }
 

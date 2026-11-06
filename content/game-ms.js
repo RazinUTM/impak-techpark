@@ -14,7 +14,7 @@ const CARDS = {
   datacentre: { title: 'Ground lease pusat data', text: 'Pengendali pusat data mahukan ground lease 30 tahun di satu plot Highway Frontage. Ia akan menggunakan elektrik grid sepanjang masa.',
     T: 'Pajakkan seperti ditawarkan di Zon D: +1.5 Cr setahun, 2 unit unlinked, tiada syarat tenaga (−2 ESG); mungkin gagal bayar semasa downturn.',
     C: 'Pajakkan plot pilihan anda dengan covenant tenaga boleh baharu dan kegunaan penyelidikan: +1.0 Cr dan +1 impact setahun, linked. Pengendali bersetuju jika dadu 3–6; plot yang dipilih mengubah nilainya.', L: 'Simpan plot itu.' },
-  donor: { title: 'Penderma menawarkan peralatan', text: 'Sebuah penderma industri menawarkan peralatan prototaip secara percuma. Kontrak servisnya ditanggung anda.',
+  donor: { title: 'Penderma menawarkan peralatan', text: 'Sebuah syarikat industri menawarkan peralatan prototaip secara percuma. Kontrak servisnya ditanggung anda.',
     T: 'Terima: upkeep 1.2 Cr setahun; +1 impact setahun selagi anda ada 2 atau lebih penyewa linked.', C: 'Terima hanya jika penderma membayar kontrak servis hingga akhir Tahun 4' + DIE('4–6') + '.', L: 'Tolak.' },
   jv: { title: 'Joint venture incubator swasta', text: 'Sebuah accelerator swasta akan menjalankan inkubasi bersama di premisnya sendiri dan membawa startup sekarang. Ia mahu memilih startup itu sendiri.',
     T: 'Terima seperti ditawarkan: +2 Cr dan 3 startup sekarang; kadar bergraduat mereka separuh; pada Tahun 4 rakan kongsi mungkin keluar bersama mereka.',

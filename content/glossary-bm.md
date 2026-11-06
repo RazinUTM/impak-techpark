@@ -41,8 +41,38 @@ Rules for the Bahasa Melayu interface (decided 6 Nov 2026, extending the earlier
 | graduate (a startup leaving the incubator) | bergraduat |
 | applicant · tenant | pemohon · penyewa |
 | acres | ekar (map captions: *ek*) |
+| occupancy | penghunian (tile, tables, lessons, debrief) |
+| target (park score, fund income) | sasaran |
+| preview (Deal Room option effects) | pratonton |
+| fee (bank restructuring) | fi |
+| bankrupt | bankrap (not *muflis*) |
+| final bell | loceng akhir |
+| Home / start page | Halaman utama |
+| scroll · zoom · pan | skrol · zum · anjak |
+| "buys time" | memberi anda masa |
+| "counts down" | semakin susut |
+| clearing forest | membuka hutan / pembukaan hutan (not *membersihkan*) |
+| private (the sheet) | persendirian |
+| optional | tidak wajib |
+| previous (stage) | sebelumnya |
+| solid (box) | penuh |
+| n/a | t/b |
 | Front screen · Room | Skrin hadapan · Bilik |
 | "agrees on 3–6" | "bersetuju jika dadu 3–6" |
+
+## Register
+
+- Interface, glossary, lessons, rules, debrief: formal (*apabila*, *tidak*, *memerlukan*).
+- The tutor's lines (`content/texts.js`): friendlier (*bila*, *dah*, *tapi*), always with *anda*.
+- Keyboard keys stay in English (*Space*, *Esc*, *Ctrl*).
+- Value tiles are named by their visible label: *tile Tunai*, *tile Pinjaman*, *tile Development Fund*.
+- No bracketed English glosses after a Malay word (*Penghunian*, not *Penghunian (occupancy)*).
+
+## Kept in English by decision
+
+- Admission policy names (*open*, *priority*, *linked*) and the special award titles (*Best Operator*, *Sound Judgement*…): they are names shown on the console and the front screen.
+- Colour names in the legends (*teal*, *amber*).
+- *trade-off*, *hover*, *banner*, *seed*, *Assumption ledger*.
 
 ## Work orders on the zone panel
 
@@ -55,5 +85,7 @@ Rules for the Bahasa Melayu interface (decided 6 Nov 2026, extending the earlier
 | Power (shared substation) | Power (substation dikongsi) |
 | Fibre | Pasang fibre |
 | Forest clearance · Retention works | same |
+
+PRPM could not be reached during the 6 Nov audit (the lookup needed an approval that was not answered), so the choices above follow common Malaysian usage and DBP spelling as known; entries to confirm on PRPM when convenient: *penghunian*, *fi*, *zum*, *skrol*, *anjak*. [PRPM: tidak dapat disemak]
 
 The tutor's steps quote these button names, so a change here must also change `content/texts.js` (`act.0.road`).
