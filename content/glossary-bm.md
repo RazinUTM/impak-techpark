@@ -86,6 +86,14 @@ Rules for the Bahasa Melayu interface (decided 6 Nov 2026, extending the earlier
 | Fibre | Pasang fibre |
 | Forest clearance · Retention works | same |
 
-PRPM could not be reached during the 6 Nov audit (the lookup needed an approval that was not answered), so the choices above follow common Malaysian usage and DBP spelling as known; entries to confirm on PRPM when convenient: *penghunian*, *fi*, *zum*, *skrol*, *anjak*. [PRPM: tidak dapat disemak]
+PRPM lookups (7 Nov 2026), one at a time:
+
+| Word | PRPM finding | Kept |
+|---|---|---|
+| penghunian | Kamus Inggeris-Melayu Dewan: *occupancy* → penghunian (occupying a house, building or land); *tempoh penghunian* for the period. https://prpm.dbp.gov.my/Cari1?keyword=occupancy | yes |
+| fi | Kamus Dewan Edisi Keempat: payment charged for a service or professional advice. https://prpm.dbp.gov.my/Cari1?keyword=fi | yes |
+| zum | Kamus Dewan Edisi Keempat: changing a lens's focal length to enlarge or shrink the image (*zum dekat*, *zum jauh*); 14 MABBIM and 41 Istilah entries. https://prpm.dbp.gov.my/Cari1?keyword=zum | yes |
+| skrol | Kamus Dewan Edisi Keempat records the spelling (older sense: a roll of written material); 21 Istilah and 2 MABBIM entries carry the computing sense. https://prpm.dbp.gov.my/Cari1?keyword=skrol | yes |
+| anjak | Kamus Dewan Edisi Keempat: *menganjak*, to move something from its place, usually by sliding it. *Pan* and *panning* have Istilah entries whose contents the page does not show, so no settled computing equivalent was confirmed; *menganjak* is kept as plain Malay for "drag to move the map". https://prpm.dbp.gov.my/Cari1?keyword=anjak | yes |
 
 The tutor's steps quote these button names, so a change here must also change `content/texts.js` (`act.0.road`).
