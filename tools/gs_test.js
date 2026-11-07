@@ -90,5 +90,27 @@ check('code tier: a code cannot be reused', H({ op: 'join', room, pin, name: 'Al
   const rep = H({ op: 'report', token: tok2, room: r2.room, team: 't1', score: local });
   check('server replay uses the GM starting cash', rep.flag === 'ok' && t.cashHist[0] !== undefined, 'local ' + local + ' official ' + rep.official);
 }
+/* public trial: feedback and run records */
+check('feedback needs a rating or a line', H({ op: 'feedback', gid: 'solo-x' }).error === 'fields');
+check('feedback accepted', H({ op: 'feedback', gid: 'solo-x', mode: 'solo', level: 'rintis', medal: 'bronze', total: 63.5, month: 36, fun: 4, learn: 5, good: 'the debrief', bad: '', email: 'not-an-email', lang: 'ms', version: '0.6.0-dev', ua: 'mac', width: 1440 }).ok === true);
+check('feedback stores the row without the invalid e-mail', (() => { const r = sheets.feedback.rows; const last = r[r.length - 1]; return r.length === 2 && last[1] === 'solo-x' && last[7] === 4 && last[8] === 5 && last[11] === ''; })());
+check('feedback for the same game is not stored twice', H({ op: 'feedback', gid: 'solo-x', fun: 2 }).dup === true && sheets.feedback.rows.length === 2);
+check('feedback honeypot is swallowed', H({ op: 'feedback', gid: 'solo-bot', fun: 5, hp: 'x' }).ok === true && sheets.feedback.rows.length === 2);
+check('run record needs a known status', H({ op: 'run', gid: 'solo-y', status: 'quit' }).error === 'fields');
+check('run record accepted', H({ op: 'run', gid: 'solo-y', mode: 'solo', level: 'bina', status: 'left', month: 14, why: 'time', durMin: 9, lang: 'en', version: '0.6.0-dev', width: 390 }).ok === true && sheets.runs.rows.length === 2);
+check('run record deduplicated per game and status', H({ op: 'run', gid: 'solo-y', status: 'left' }).dup === true && sheets.runs.rows.length === 2);
+check('run record: a different status for the same game is kept', H({ op: 'run', gid: 'solo-y', status: 'early', month: 20 }).ok === true && sheets.runs.rows.length === 3);
+
+/* brute-force guard on PINs: a room locks after 25 wrong PINs; the right PIN resets the count */
+(() => { let locked = false; for (let i = 0; i < 26; i++) { const e = H({ op: 'join', room, pin: '9' + String(i).padStart(3, '0'), name: 'Z', email: 'z@example.com' }); if (e.message) { locked = true; break; } }
+  check('25 wrong team PINs lock the room for a while', locked);
+  check('the right PIN is refused while locked', H({ op: 'join', room, pin, name: 'Ali', email: 'ali@example.com', code }).error === 'pin');
+  delete cacheMem['tries:join:' + room];
+  H({ op: 'sendCode', email: 'ali@example.com' }); const code2 = ctx.__mail.body.match(/\d{6}/)[0];
+  const again = H({ op: 'join', room, pin, name: 'Ali', email: 'ali@example.com', code: code2 });
+  check('after the lock expires the right PIN works again', !again.error, again.error); })();
+(() => { let locked = false; for (let i = 0; i < 26; i++) { const e = H({ op: 'gm', action: 'open', email: 'gm@example.my', gmpin: 'bad' + i, room: '' }); if (e.message) { locked = true; break; } }
+  check('25 wrong GM PINs lock that e-mail for a while', locked); delete cacheMem['tries:gm:gm@example.my']; })();
 console.log(fails ? fails + ' FAILED' : 'all checks passed');
+
 process.exit(fails ? 1 : 0);

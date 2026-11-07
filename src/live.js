@@ -135,6 +135,12 @@ const L = {
     this.attach({ room: r.room, token: '', role: 'screen' }, 'screen', null);
     return r;
   },
+  /* fire-and-forget records of the public trial (feedback, run statistics); no token needed */
+  async send(payload, beacon) {
+    if (!API) return null;
+    if (beacon && root.navigator && root.navigator.sendBeacon) { try { if (root.navigator.sendBeacon(API, JSON.stringify(payload))) return { ok: true }; } catch (e) { /* fall through */ } }
+    return call(payload);
+  },
   async report(tm, r) {
     if (!this.store || !tm.rub || this.reported[tm.id]) return; this.reported[tm.id] = true;
     const rb = tm.rub;

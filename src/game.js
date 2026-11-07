@@ -13,7 +13,7 @@ const C = PB.CFG, CARDS = PB.CARDS;
 const BRAND = {
   name: "IMPAK", tag: "Technovation Park", mark: "IMPAK™ – Technovation Park",
   get copyright() { return HOST.lang === "ms" ? "© 2026 Ahmad Razin Zainal Abidin dan Universiti Teknologi Malaysia · kod MIT · kandungan permainan CC BY-NC-ND 4.0" : "© 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia · code MIT · game content CC BY-NC-ND 4.0"; },
-  version: "0.6.0-dev",
+  version: "0.6.0-beta.1",
 };
 
 /* =============================================================== host adapter (browser or server fills this in) */
@@ -626,6 +626,7 @@ function bannerTeam(res, tm) {
   const g = res.g, ck = res.ck, t = tm.t, m = res.mCur, lv = res.lv, out = [];
   out.push(soloControls(res));
   if (g.notice && g.notice.text) out.push(`<div class="banner notice"><span class="label">Game Master</span><b>${esc(g.notice.text)}</b></div>`);
+  if (g.fast && g.status !== "ended" && store().mode === "solo") out.push(`<div class="banner down fastend"><b>${L("Ending the game: the remaining months play out without new orders.", "Menamatkan permainan: baki bulan berjalan tanpa arahan baharu.")}</b><span>${Math.max(0, Math.ceil(res.months - res.ck.T))} ${L("months left", "bulan lagi")}</span><button class="btn sm" data-act="solo-end-now">${L("End now", "Tamat sekarang")}</button></div>`);
   if (g.status === "setup" && store().mode === "live") out.push(`<div class="banner info"><b>${L("Waiting for the Game Master.", "Menunggu Game Master.")}</b><span class="muted">${L("Explore your site, the applicants and the rules. Orders open when the clock starts.", "Tinjau tapak, pemohon dan peraturan. Arahan dibuka apabila jam bermula.")}</span></div>`);
   if (t.receiver) out.push(`<div class="banner down"><b>Receivership.</b><span>${L("Your park went bankrupt twice. You can no longer act, and only half of your impact counts.", "Park anda bankrap dua kali. Anda tidak boleh bertindak lagi, dan hanya separuh impact dikira.")}</span></div>`);
   if (ck.hold && ck.hold.kind === "checkpoint") {
@@ -981,6 +982,7 @@ function dieHTML(ev, sc, big) { const st = big ? ` style="width:96px;height:96px
 function outcomeL(text, Cd) { const rest = text.slice(Cd.title.length + 2); const M = MSX(); return M ? M.mon(M.sayMS(rest)) : rest; }
 function dealTeam(res, tm) {
   const g = res.g, ck = res.ck, st = store();
+  if (g.fast && st.mode === "solo" && g.status !== "ended") return "";
   if (g.lastReveal && g.status === "paused" && APP.ui.seenReveal !== g.lastReveal) {
     const ev = res.sc.events.find(e => e.id === g.lastReveal); if (!ev) return "";
     const Cd = CARDS[ev.card], dl = tm.t.dlog.find(d => d.eid === ev.id);
@@ -1019,7 +1021,7 @@ ${st.mode === "solo" ? `<div class="row"><button class="btn primary" data-act="s
 </div></div></div>`;
 }
 function soloHoldOverlay(res, tm) {
-  const ck = res.ck; if (store().mode !== "solo" || !ck.hold) return "";
+  const ck = res.ck; if (store().mode !== "solo" || !ck.hold || res.g.fast) return "";
   const h = ck.hold, lv = res.lv;
   if (h.kind === "checkpoint" || h.kind === "downturn" || h.kind === "forecast") {
     let body = "";
@@ -1070,7 +1072,7 @@ function finalOverlay(res, tm) {
   const g = res.g; if (!res.final || !g.reveal || APP.ui.seenEnd || !tm.rub) return "";
   const r = tm.rub, so = PB.socio(tm.t), MED = { gold: L("Gold", "Emas"), silver: L("Silver", "Perak"), bronze: L("Bronze", "Gangsa"), none: L("Completed", "Tamat") };
   return `<div class="overlay"><div class="deal"><div class="deal-body"><span class="label">${L("Final result", "Keputusan akhir")} · ${esc(tm.name)} · ${esc(lvLabel(res.sc.level))}</span>
-<div class="medal ${r.medal}" style="border-width:1px"><div class="m">${MED[r.medal]}</div><div class="tot">${n1(r.total)}</div>${breakdown(r, res.lv)}${resultCharts(res, tm)}
+<div class="medal ${r.medal}" style="border-width:1px"><div class="m">${MED[r.medal]}</div><div class="tot">${n1(r.total)}</div>${g.endedEarly ? `<div class="chip warn" style="margin:4px auto 6px">${L("Ended early on ", "Ditamatkan awal pada ")}${mnameL(g.endedEarly)}${L(": the remaining months ran without new orders", ": baki bulan berjalan tanpa arahan baharu")}</div>` : ""}${breakdown(r, res.lv)}${resultCharts(res, tm)}
 <div class="muted" style="font-size:12.5px">${L("Park score", "Skor park")} ${n1(r.park.score)} · impact ${n1(r.park.ip)} · FCR12 ${r.park.fcr > 8 ? "—" : r.park.fcr.toFixed(2)} · drift ${pc(r.park.drift)}${res.lv.score.E ? " · ESG " + n1(r.esg) : ""} · dare ${r.dare} · ${L("sound", "wajar")} ${pc(r.soundShare)}${tm.hasD ? "" : L(" · defence not yet marked", " · defence belum dinilai")}</div>
 <div class="muted" style="font-size:12.5px">${L("Impact (not scored)", "Impak (tidak diberi markah)")}: ${so.jobs} ${L("jobs", "pekerjaan")} · ${so.interns} ${L("interns/yr", "intern/tahun")} · ${so.firms} ${L("firms", "syarikat")}, ${so.alumni} ${L("alumni-founded", "diasaskan alumni")} · ${pc(so.uniShare)} ${L("university-linked", "berkait universiti")} · ${L("economic impact", "impak ekonomi")} ${n1(so.econ)} Cr/${L("yr", "thn")}</div></div>
 ${HOST.finalExtra ? HOST.finalExtra(res, tm) : ""}
@@ -1338,6 +1340,10 @@ function autoTick(res, serverSide) {
   if (A.busy) return;
   const run = p => { A.busy = true; Promise.resolve(p).catch(e => toast("Could not update the game: " + (e && e.message || e), "bad")).finally(() => { A.busy = false; }); };
   if (!serverSide && isGM && st.db && g.status === "running" && Date.now() - A.lastHB > 15000) { A.lastHB = Date.now(); run(st.gmUpdate({ hb: Date.now() })); return; }
+  if (isSolo && g.fast && g.status !== "ended") {                      // ending early: every stop closes at once, deals as Leave
+    if (ck.hold && ck.hold.kind !== "end") { run(closeHold(res, ck.hold)); return; }
+    if (g.status === "paused" && !ck.hold) { run(st.gmUpdate({ status: "running", startedAt: now(), lastReveal: null })); return; }
+  }
   if (ck.hold && ck.hold.kind === "event" && g.status === "running") {
     const h = ck.hold;
     if (!(g.openAt && g.openAt[h.id]) && !A.opened[h.id]) { A.opened[h.id] = true; run(st.gmUpdate({ openAt: { [h.id]: now() } })); return; }
@@ -1354,7 +1360,7 @@ function newSolo(pace, level) {
   if (!APP.solo) APP.solo = MemStore("solo");
   APP.store = APP.solo; APP.ui.soloLevel = level || APP.ui.soloLevel || "rintis";
   const seed = newSeed();
-  return APP.solo.gmSet({ gid: "solo-" + seed, seed, level: APP.ui.soloLevel, site: HOST.site || "corridor", teams: [{ id: "you", name: L("Your park", "Park anda") }], bench: ["garden", "bold", "rocket", "caretaker"], status: "setup", startedAt: 0, accMs: 0, msPerMonth: pace || 10000, window: 60, auto: true, closed: {}, dec: {}, openAt: {}, defence: { you: 11 }, reveal: true, lastReveal: null });
+  return APP.solo.gmSet({ gid: "solo-" + seed, seed, level: APP.ui.soloLevel, site: HOST.site || "corridor", teams: [{ id: "you", name: L("Your park", "Park anda") }], bench: ["garden", "bold", "rocket", "caretaker"], status: "setup", startedAt: 0, accMs: 0, msPerMonth: pace || 10000, window: 60, auto: true, closed: {}, dec: {}, openAt: {}, defence: { you: 11 }, reveal: true, lastReveal: null, created: Date.now() });
 }
 const ACT = {
   transcript(d) { const res = currentRes(); if (!res || !window.IMPAKDebrief) return; const tm = teamOf(res, d.team || APP.teamId || (res.teams.find(x => !x.bench) || {}).id); if (tm && tm.rub) window.IMPAKDebrief.open(res, tm, HOST.transcriptMeta ? HOST.transcriptMeta(tm) : {}); },
@@ -1393,6 +1399,20 @@ const ACT = {
   "solo-close"() { const res = currentRes(); if (res && res.ck.hold && res.ck.hold.kind === "event") closeHold(res, res.ck.hold); },
   "solo-cont"() { const res = currentRes(); if (res && res.ck.hold) closeHold(res, res.ck.hold); },
   "solo-new"(d) { newSolo(game() ? game().msPerMonth : 10000, (d && d.level) || APP.ui.soloLevel); APP.ui.seenEnd = false; APP.ui.seenReveal = null; },
+  /* leaving a practice game early (v0.6): fast-forward to the end, end at once, or delete */
+  "solo-end-fast"() {
+    const res = currentRes(); if (!res || res.g.status === "ended" || res.g.status === "setup") return;
+    const left = Math.max(1, res.sc.months - res.ck.T), mpm = clamp(Math.round(30000 / left), 250, 800);
+    APP.ui.seenEnd = false; APP.ui.seenReveal = null;
+    store().gmUpdate({ fast: true, endedEarly: res.g.endedEarly || res.mCur, msPerMonth: mpm, accMs: res.ck.T * mpm, startedAt: now(), status: "running", lastReveal: null });
+  },
+  "solo-end-now"() {
+    const res = currentRes(); if (!res || res.g.status === "ended") return;
+    const closed = {}; for (const p of pausePoints(res.sc)) closed[p.id] = true;
+    APP.ui.seenEnd = false; APP.ui.seenReveal = null;
+    store().gmUpdate({ status: "ended", closed, lastReveal: null, accMs: res.sc.months * res.g.msPerMonth, endedEarly: res.g.endedEarly || (res.g.status === "setup" ? 1 : res.mCur), fast: false });
+  },
+  "solo-delete"() { if (APP.solo) APP.solo.gmSet(null); },
   "su-level"(d) { const s = APP.ui.setup; s.level = d.level; s.pace = LEVEL_TEXT[d.level].pace; s.cash = lvl(d.level).startCash; },
   "su-site"(d) { if (d.site === "corridor" || d.site === "valley") APP.ui.setup.site = d.site; },
   "su-seed"() { APP.ui.setup.seed = newSeed(); APP.ui.setupNonce = (APP.ui.setupNonce || 0) + 1; },

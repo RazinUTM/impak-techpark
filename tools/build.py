@@ -23,7 +23,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SRC, CONTENT, ASSETS, DIST = ROOT / "src", ROOT / "content", ROOT / "assets", ROOT / "dist"
 
-JS_PARTS = [SRC / "engine.js", SRC / "strategies.js", SRC / "game.js", SRC / "uikit.js", SRC / "i18n.js", CONTENT / "texts.js", CONTENT / "lessons.js", CONTENT / "glossary.js", CONTENT / "game-ms.js", SRC / "advice.js", SRC / "debrief.js", SRC / "config.js", SRC / "live.js", SRC / "app.js"]
+JS_PARTS = [SRC / "engine.js", SRC / "strategies.js", SRC / "game.js", SRC / "uikit.js", SRC / "i18n.js", CONTENT / "texts.js", CONTENT / "lessons.js", CONTENT / "glossary.js", CONTENT / "game-ms.js", SRC / "advice.js", SRC / "debrief.js", SRC / "config.js", SRC / "live.js", SRC / "feedback.js", SRC / "app.js"]
 POSES = ["idle", "point", "think", "thumbs", "note", "explain", "thanks", "ok", "wave", "cheer"]
 SITE_URL = "https://razinutm.github.io/impak-techpark/"   # the published page; the QR codes point here
 

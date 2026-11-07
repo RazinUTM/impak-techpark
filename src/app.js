@@ -33,7 +33,7 @@ HOST.remember = (k, v) => { if (k === 'tab' && ['park', 'impact', 'stand', 'news
 HOST.landing = () => '';
 HOST.footer = () => '';
 HOST.setOffset = (ms) => { OFFSET = ms; };
-HOST.finalExtra = (res, tm) => (root.IMPAKDebrief ? root.IMPAKDebrief.html(res, tm, { open: true, team: tm.id }) : '');
+HOST.finalExtra = (res, tm) => (root.IMPAKDebrief ? root.IMPAKDebrief.html(res, tm, { open: true, team: tm.id }) : '') + (root.IMPAKFeedback ? root.IMPAKFeedback.card(res, tm) : '');
 HOST.transcriptMeta = () => { const L = root.IMPAKLive, ss = L && L.store && L.store.session; return { room: L ? L.room : '', members: ss && ss.role === 'team' && ss.name ? ss.name + ', …' : '' }; };
 HOST.dealAdvice = (res, tm, ev, phase) => { const A = root.IMPAKAdvice; if (!A) return ''; return phase === 'after' ? A.after(res, tm, ev) : A.before(res, tm, ev); };
 const ACT = G.ACT;
@@ -140,6 +140,7 @@ async function switchLevel(n, force) {
   if (a.role === 'solo' && g && g.status !== 'setup' && g.status !== 'ended' && !force) { if (!(await ask(t('ui.stage.confirm')))) return; }
   S.level = n; uiStore.level = n; uiStore.save();
   ACT['role-solo']({ level: key });
+  persistSolo(); saveSolo();
   a.ui.seenEnd = false; a.ui.seenReveal = null; a.ui.zone = 'C';
   predict.hide();
   activity.start(n);
@@ -252,7 +253,7 @@ function landingHTML() {
   else live = '<div class="rcbtns"><button type="button" class="btn accent" data-a="open" data-v="live">' + escapeHtml(t('land.live')) + '</button></div>';
   const t0 = PB.newTeam('preview', 'priority', 'lestari');
   return '<div class="hero"><div><h1>' + escapeHtml(G.BRAND.name) + '<sup class="tm">™</sup><small>' + escapeHtml(G.BRAND.tag) + '</small></h1>' +
-    '<p>' + escapeHtml(t('say.landing')) + '</p>' + qrHTML() + resumeHTML() + '</div><div class="panel" style="padding:8px">' + G.planSVG(t0, 1, 0, null, 'L') + '</div></div>' +
+    '<p>' + escapeHtml(t('say.landing')) + '</p>' + (online ? '<p class="beta"><span class="betachip">' + escapeHtml(t('beta.chip')) + '</span> ' + escapeHtml(t('beta.note')) + ' <button type="button" class="linkbtn" data-a="fb">' + escapeHtml(t('beta.fb')) + '</button></p>' : '') + qrHTML() + resumeHTML() + '</div><div class="panel" style="padding:8px">' + G.planSVG(t0, 1, 0, null, 'L') + '</div></div>' +
     '<div class="rolecards' + (LAND.view === 'live' ? ' joining' : '') + '">' +
     '<div class="rolecard solo"><h3>' + escapeHtml(t('land.solo')) + '</h3><p>' + escapeHtml(t('land.solo.d')) + '</p><div class="rcbtns">' + levelBtns + '</div></div>' +
     '<div class="rolecard live"><h3>' + escapeHtml(t('land.live')) + '</h3><p>' + escapeHtml(t('land.live.d')) + '</p>' + live + '</div>' +
@@ -289,6 +290,9 @@ function resumeSolo() {
   const A = app(); if (!A.solo || !A.solo.game) return;
   A.store = A.solo; A.role = 'solo'; A.teamId = 'you'; HOST.hash('solo');
   S.level = levelIndex(A.solo.game.level); uiStore.level = S.level; uiStore.save();
+  persistSolo();
+  const r = res();
+  if (r && r.ck.hold && r.ck.hold.kind === 'event' && r.g.status !== 'running') G.store().gmUpdate({ status: 'running', startedAt: HOST.now(), accMs: r.ck.hold.t * r.g.msPerMonth, openAt: { [r.ck.hold.id]: HOST.now() } });
   activity.start(S.level); S.lastSaid = ''; stageNav.render(); render(true);
 }
 function resumeLive() {
@@ -299,12 +303,89 @@ function resumeLive() {
   else { A.role = 'team'; A.teamId = ses.team; }
   afterJoin(); S.lastSaid = ''; render(true);
 }
-function goHome() {
+async function goHome() {
   const A = app(), r = res();
-  if (A.role === 'solo' && r && r.g.status === 'running' && !r.ck.hold) G.dispatch('solo-pause');
+  if (A.role === 'solo' && r && r.g.status !== 'setup' && r.g.status !== 'ended' && !r.g.fast) {
+    const c = await exitDialog(r);
+    if (!c) return;
+    if (c.k === 'end') { runRecord(r, 'early', c.why); G.dispatch('solo-end-fast'); render(true); return; }   // stay and watch the months run out
+    if (c.k === 'delete') { runRecord(r, 'deleted', c.why); G.dispatch('solo-delete'); K.toast(t('exit.deleted')); }
+    else { if (r.g.status === 'running' && !r.ck.hold) G.dispatch('solo-pause'); runRecord(r, 'left', c.why); saveSolo(); K.toast(t('exit.saved')); }
+  } else if (A.role === 'solo' && r && r.g.status === 'running' && !r.ck.hold) G.dispatch('solo-pause');
   ACT.home();
   lastKind = ''; S.lastSaid = ''; LAND.view = 'home';
   stageNav.render(); render(true);
+}
+/* the three ways out of a practice game, with an optional reason (recorded without a name) */
+function exitDialog(r) {
+  return new Promise((resolve) => {
+    const d = doc.createElement('dialog'); d.className = 'sguide askbox exitbox';
+    const why = ['time', 'lost', 'slow', 'hard', 'bug', 'done', 'other'];
+    const opt = (k, cls) => '<button type="button" class="exopt ' + cls + '" data-k="' + k + '"><b>' + escapeHtml(t('exit.' + k)) + '</b><span>' + escapeHtml(t('exit.' + k + '.d')) + '</span></button>';
+    d.innerHTML = '<div class="sgbody"><h3 style="margin-top:0">' + escapeHtml(t('exit.title')) + '</h3><div class="exopts">' + opt('later', 'primary') + opt('end', '') + opt('delete', 'danger') + '</div>' +
+      '<div class="exwhy"><div class="adv-sub">' + escapeHtml(t('exit.why')) + '</div><div class="chips">' + why.map((w) => '<button type="button" class="chipbtn" data-why="' + w + '">' + escapeHtml(t('exit.why.' + w)) + '</button>').join('') + '</div></div></div>' +
+      '<div class="sgfoot"><button type="button" class="tb" data-a="no">' + escapeHtml(t('exit.cancel')) + '</button></div>';
+    doc.body.appendChild(d);
+    let reason = '';
+    const done = (v) => { try { d.close(); } catch (e) { /* ignore */ } d.remove(); resolve(v); };
+    d.addEventListener('click', (e) => {
+      const w = e.target.closest('[data-why]'); if (w) { reason = w.dataset.why === reason ? '' : w.dataset.why; d.querySelectorAll('[data-why]').forEach((b) => b.classList.toggle('on', b.dataset.why === reason)); return; }
+      const o = e.target.closest('.exopt'); if (o) { done({ k: o.dataset.k, why: reason }); return; }
+      if (e.target.closest('[data-a="no"]')) done(null);
+    });
+    d.addEventListener('cancel', (e) => { e.preventDefault(); done(null); });
+    if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', '');
+    const f = d.querySelector('.exopt.primary'); if (f) f.focus();
+  });
+}
+
+/* ---------------------------------------------------------------- practice games survive a reload (localStorage) and pause when the tab is hidden */
+const SOLO_KEY = 'impak.solo';
+function saveSolo() {
+  const A = app(), st = A.solo; if (!st) return;
+  try {
+    if (!st.game || st.game.status === 'ended') { localStorage.removeItem(SOLO_KEY); return; }
+    const g = JSON.parse(JSON.stringify(st.game));
+    try {
+      const sc = G.scenG(g), ck = G.clockOf(g, sc, HOST.now());
+      if (g.status === 'running') { g.status = 'paused'; g.accMs = ck.T * g.msPerMonth; }   // the clock does not run while nobody is here
+      if (ck.hold && g.openAt) delete g.openAt[ck.hold.id];                               // an open deal gets its full window back on return
+      g.fast = false;
+    } catch (e) { /* save as is */ }
+    localStorage.setItem(SOLO_KEY, JSON.stringify({ v: 1, game: g, orders: st.orders, decisions: st.decisions, level: S.level, savedAt: Date.now() }));
+  } catch (e) { /* storage unavailable */ }
+}
+function restoreSolo() {
+  let s = null; try { s = JSON.parse(localStorage.getItem(SOLO_KEY) || 'null'); } catch (e) { s = null; }
+  if (!s || !s.game || s.game.status === 'ended') return false;
+  const A = app(), st = G.MemStore('solo');
+  st.game = s.game; st.orders = s.orders || {}; st.decisions = s.decisions || {};
+  A.solo = st; A.ui.soloLevel = s.game.level; if (s.level != null) { S.level = s.level; }
+  return true;
+}
+function persistSolo() { const A = app(); if (A.solo && !A.solo._persist) { A.solo._persist = true; A.solo.on(saveSolo); } }
+doc.addEventListener('visibilitychange', () => {
+  const A = app(); if (A.role !== 'solo') return; const r = res(); if (!r) return;
+  if (doc.hidden) {
+    if (r.g.status === 'running' && !r.ck.hold && !r.g.fast) { G.dispatch('solo-pause'); S.autoPaused = true; }
+    else if (r.ck.hold && r.ck.hold.kind === 'event' && !r.g.fast) S.holdHidden = true;
+    saveSolo();
+  } else {
+    if (S.autoPaused) { S.autoPaused = false; K.toast(t('tr.autopaused')); }
+    if (S.holdHidden) { S.holdHidden = false; const r2 = res(); if (r2 && r2.ck.hold && r2.ck.hold.kind === 'event') G.store().gmUpdate({ openAt: { [r2.ck.hold.id]: HOST.now() } }); }
+    render(true);
+  }
+});
+root.addEventListener('pagehide', () => { if (app().role === 'solo') saveSolo(); });
+
+/* anonymous play statistics for the public trial: how far a practice game got and how it ended */
+const RUNS = {};
+function runRecord(r, status, why) {
+  const Lv = root.IMPAKLive; if (!Lv || !Lv.configured || !r || G.store().mode !== 'solo') return;
+  const g = r.g, k = g.gid + '|' + status; if (RUNS[k]) return; RUNS[k] = true;
+  const tm = teamNow(r), rub = tm && tm.rub;
+  Lv.send({ op: 'run', gid: g.gid, mode: 'solo', level: g.level, seed: g.seed, site: g.site || '', status, month: r.final ? r.months : r.mCur, why: why || '',
+    medal: rub ? rub.medal : '', total: rub ? Math.round(rub.total * 10) / 10 : '', durMin: g.created ? Math.round((Date.now() - g.created) / 60000) : '', lang: prefs.lang, version: G.BRAND.version, width: root.innerWidth || 0 }, true).catch(() => { /* statistics are best-effort */ });
 }
 function joinFormHTML(kind) {
   const L = root.IMPAKLive, f = L.form;
@@ -324,6 +405,7 @@ function joinFormHTML(kind) {
 function wireLanding(el) {
   el.querySelectorAll('[data-a="solo"]').forEach((b) => b.addEventListener('click', () => switchLevel(parseInt(b.dataset.level, 10), true)));
   el.querySelectorAll('[data-a="resume-solo"]').forEach((b) => b.addEventListener('click', resumeSolo));
+  el.querySelectorAll('[data-a="fb"]').forEach((b) => b.addEventListener('click', () => { if (root.IMPAKFeedback) root.IMPAKFeedback.open(); }));
   el.querySelectorAll('[data-a="resume-live"]').forEach((b) => b.addEventListener('click', resumeLive));
   el.querySelectorAll('[data-a="leave-live"]').forEach((b) => b.addEventListener('click', () => { root.IMPAKLive.leave(); render(true); }));
   el.querySelectorAll('[data-a="open"]').forEach((b) => b.addEventListener('click', () => { LAND.view = b.dataset.v; LAND.err = ''; LAND.codeSent = false; render(true); }));
@@ -501,6 +583,7 @@ function render(force) {
   const r = res(), tm = teamNow(r);
   if (!r || !tm) { clearRegions(TEAM_REGIONS); updateTransport(r); return; }
   lastKind = '';
+  if (a.role === 'solo') { persistSolo(); if (r.final && tm.rub) runRecord(r, r.g.endedEarly ? 'early' : 'ended'); }
   apply(teamRegions(r, tm));
   groupStatus(r, tm);
   renderJournal(r, tm);
@@ -618,10 +701,14 @@ function boot() {
   if (!app().role) $('#journal').innerHTML = '<p class="faint">' + escapeHtml(t('ui.reg.guide')) + '</p>';
   S.level = uiStore.level || 0;
   if (root.IMPAKLive) root.IMPAKLive.init({ onState: () => render(true), onOffset: HOST.setOffset, t, K, G });
+  if (root.IMPAKFeedback) { root.IMPAKFeedback.init({ t, lang: () => prefs.lang, toast: K.toast, send: (p) => root.IMPAKLive.send(p), version: G.BRAND.version }); const fb = $('#btn-fb'); if (fb) { fb.hidden = !root.IMPAKFeedback.configured(); fb.addEventListener('click', () => root.IMPAKFeedback.open()); } }
+  const bchip = $('#beta-chip'); if (bchip) bchip.hidden = !(root.IMPAKLive && root.IMPAKLive.configured);
   const qroom = new URLSearchParams(location.search).get('room');
   if (qroom && root.IMPAKLive && root.IMPAKLive.configured) { root.IMPAKLive.form.room = qroom.toUpperCase().slice(0, 6); LAND.view = 'live'; }
+  const kept = restoreSolo();
   const h = (location.hash || '').replace('#', '');
-  if (h === 'solo' || /^solo-/.test(h)) { const n = levelIndex(h.slice(5)); switchLevel(/^solo-/.test(h) ? n : S.level, true); }
+  if (h === 'solo' && kept) { resumeSolo(); try { const d = G.dateParts(res().ck.T, res().months); K.toast(t('exit.resumed', { date: d.day + ' ' + MON[prefs.lang === 'ms' ? 'ms' : 'en'][MON.en.indexOf(d.month)] + ', ' + t('ro.year', { y: d.year }) })); } catch (e) { /* ignore */ } }
+  else if (h === 'solo' || /^solo-/.test(h)) { const n = levelIndex(h.slice(5)); switchLevel(/^solo-/.test(h) ? n : S.level, true); }
   else if (root.IMPAKLive && root.IMPAKLive.resume()) { afterJoin(); }
   render(true);
   stageNav.render();

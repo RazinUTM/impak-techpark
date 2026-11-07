@@ -227,6 +227,7 @@ function analyse(res, tm) {
   return { r, t, lv, parts, gaps, missed, strengths, next, nextMedal: typeof nextMedal === 'undefined' ? null : nextMedal, vs, take, dl, unsound };
 }
 
+function earlyNote(res) { return res.g.endedEarly ? L('Ended early on ' + mname(res.g.endedEarly) + ': the remaining months ran without new orders, so the marks below include that autopilot period.', 'Ditamatkan awal pada ' + mname(res.g.endedEarly) + ': baki bulan berjalan tanpa arahan baharu, jadi markah di bawah merangkumi tempoh autopilot itu.') : ''; }
 /* one-line verdict */
 function summary(a) {
   const top = a.gaps.slice(0, 2).map((g) => g.part + ' (' + g.title + ', −' + n1(g.lost) + ')');
@@ -239,7 +240,7 @@ function html(res, tm, opts) {
   if (!tm || !tm.rub) return '';
   const a = analyse(res, tm), o = opts || {};
   let h = '<details class="debrief"' + (o.open ? ' open' : '') + '><summary>' + esc(L('Debrief and advice for next time', 'Ulasan dan cadangan untuk lain kali')) + '</summary>';
-  h += '<p class="db-sum">' + esc(summary(a)) + '</p>';
+  h += '<p class="db-sum">' + esc(summary(a)) + (res.g.endedEarly ? ' ' + esc(earlyNote(res)) : '') + '</p>';
   if (a.gaps.length) h += '<div class="db-sub">' + esc(L('Where the marks went', 'Di mana markah hilang')) + '</div><ol class="db-gaps">' + a.gaps.slice(0, o.all ? 99 : 4).map((g) =>
     '<li><div class="db-h"><b>' + esc(g.title) + '</b><span class="db-pts">' + esc(g.part) + ' −' + n1(g.lost) + '</span></div><div class="db-d">' + esc(g.detail) + '</div><div class="db-tip">→ ' + esc(g.tip) + '</div></li>').join('') + '</ol>';
   if (a.missed.length) h += '<div class="db-sub">' + esc(L('Opportunities missed', 'Peluang terlepas')) + '</div><ul class="db-list">' + a.missed.map((x) => '<li>' + esc(x) + '</li>').join('') + '</ul>';
@@ -294,7 +295,7 @@ function transcript(res, tm, meta) {
     '<div><span>Impact</span><b>' + n1(p.ip) + '</b></div></div></div>' +
     '<table class="meta">' + row(L('Members', 'Ahli'), '<span class="edit" data-k="members" contenteditable="true" data-ph="' + esc(L('type the names here before printing', 'taip nama ahli di sini sebelum cetak')) + '">' + esc(m.members || '') + '</span>') +
     (m.room ? row(L('Room', 'Bilik'), esc(m.room)) : '') + row(L('Game', 'Permainan'), esc(res.g.gid || '') + ' · seed ' + esc(res.g.seed)) +
-    (m.event ? row(L('Programme', 'Program'), esc(m.event)) : '') + row(L('Date', 'Tarikh'), esc(dstr)) + '</table>' +
+    (m.event ? row(L('Programme', 'Program'), esc(m.event)) : '') + row(L('Date', 'Tarikh'), esc(dstr)) + (res.g.endedEarly ? row(L('Note', 'Nota'), esc(earlyNote(res))) : '') + '</table>' +
     '<div class="c-sign"><div><span class="line"></span>' + esc(L('Facilitator', 'Fasilitator')) + '</div><div><span class="line"></span>' + esc(L('Team representative', 'Wakil pasukan')) + '</div></div>' +
     '<div class="c-note">' + esc(L('A record of a training game, not an assessment of the members\' competence. The pages that follow explain each mark and what to do next time.', 'Rekod permainan latihan, bukan penilaian kompetensi ahli. Halaman berikutnya menerangkan setiap markah dan apa yang perlu dibuat lain kali.')) + '</div>' +
     '</div></section>';

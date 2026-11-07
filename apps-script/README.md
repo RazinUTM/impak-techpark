@@ -32,8 +32,16 @@ Redeploying after a code change: Deploy → Manage deployments → edit → *New
 | codes | e-mailed sign-in codes (expire after 10 min) | e-mail |
 | users | facilitators | e-mail |
 | log | joins, GM actions | e-mail of the facilitator |
+| feedback | the public trial's feedback card: two ratings (1–5), two short answers, game context (level, medal, month), language, device family | e-mail only if the player typed one |
+| runs | anonymous practice-game statistics: level, month reached, how the game ended (ended / early / left / deleted), the reason chosen, medal, minutes played | — |
 
-Delete `players`, `codes` and `log` rows 12 months after the cohort report (the PDPA notice at join says so). `purgeCodes()` removes expired codes; attach it to a daily time trigger if you like.
+The `feedback` and `runs` tabs are created on first use (no need to rerun `setup()`); each stops at 20,000 rows. Rows carry no name or address, and the browser sends no identifier beyond the game's own id, so one player who plays twice appears twice. A honeypot field and a per-game duplicate check keep bots and double posts out.
+
+Delete `players`, `codes` and `log` rows 12 months after the cohort report, and `feedback` rows that carry an e-mail 12 months after they arrive (the notices at join and on the feedback card say so). `purgeCodes()` removes expired codes; attach it to a daily time trigger if you like.
+
+Wrong PINs: after 25 wrong team PINs for one room, or 25 wrong GM PINs for one e-mail, that key is refused for 15 minutes.
+
+Reading the feedback: open the Sheet and sort `feedback` by `at`; the `runs` tab tells you how far players get (a pivot of `status` by `level` and `month` shows where practice games are abandoned).
 
 ## Quotas to keep in mind (Workspace account)
 

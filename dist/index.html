@@ -1184,12 +1184,49 @@ body.on-landing { grid-template-rows: auto minmax(0, 1fr); }
 .debrief .db-actions { margin-top: 8px; margin-bottom: 10px; }
 .g .overlay .deal .debrief { max-height: none; }
 
+/* v0.6 — public trial: beta chip, start-page note, feedback card, exit dialog, fast-forward banner */
+.betachip { display: inline-block; font: 700 10.5px/1 var(--f-ui); letter-spacing: .08em; text-transform: uppercase; color: var(--acc-guide-ink, #fff); background: var(--acc-guide); border-radius: 999px; padding: 4px 8px; vertical-align: middle; margin-left: 6px; }
+.g .hero .beta { font-size: 13px; color: var(--ink2); margin: 6px 0 10px; }
+.g .hero .beta .betachip { margin: 0 2px 0 0; }
+.linkbtn { background: none; border: 0; padding: 0; font: inherit; color: var(--accent); text-decoration: underline; cursor: pointer; }
+.panelhead .fbbtn { margin-left: auto; font-size: 0.78em; padding: 2px 9px; }
+.fb { margin: 10px 0 4px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); text-align: left; display: grid; gap: 8px; }
+.fb-h { display: grid; gap: 2px; }
+.fb-h b { font-size: 15px; color: var(--ink); }
+.fb-h .muted { font-size: 12.5px; }
+.fb-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; font-size: 13.5px; color: var(--ink); }
+.stars { display: inline-flex; gap: 2px; }
+.star { background: none; border: 0; font-size: 26px; line-height: 1; padding: 2px 3px; color: var(--muted); cursor: pointer; border-radius: 6px; }
+.star.on { color: var(--warn); }
+.star:hover, .star:focus-visible { background: var(--accent-soft); outline: none; }
+.fb-f { display: grid; gap: 3px; font-size: 13px; color: var(--ink2); }
+.fb-f textarea, .fb-f input { font: inherit; font-size: 13.5px; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; width: 100%; resize: vertical; }
+.fb-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.fb-pdpa { font-size: 11.5px; color: var(--muted); line-height: 1.35; }
+.fb-msg { font-size: 12.5px; color: var(--bad); }
+.fb.done { color: var(--good, var(--accent)); font-weight: 600; display: block; }
+dialog.fbbox { width: min(560px, calc(100vw - 24px)); }
+dialog.fbbox .sgbody { padding: 12px 14px 8px; }
+dialog.exitbox { width: min(520px, calc(100vw - 24px)); }
+.exopts { display: grid; gap: 8px; margin: 8px 0 12px; }
+.exopt { display: grid; gap: 2px; text-align: left; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); font: inherit; cursor: pointer; }
+.exopt b { font-size: 14.5px; }
+.exopt span { font-size: 12.5px; color: var(--ink2); line-height: 1.35; }
+.exopt:hover, .exopt:focus-visible { border-color: var(--acc-guide); outline: none; }
+.exopt.primary { border-color: var(--acc-guide); background: color-mix(in srgb, var(--acc-guide) 10%, var(--card)); }
+.exopt.danger:hover { border-color: var(--bad); }
+.exwhy .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.chipbtn { font: inherit; font-size: 12.5px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); color: var(--ink2); cursor: pointer; }
+.chipbtn.on { background: var(--acc-guide); border-color: var(--acc-guide); color: var(--acc-guide-ink, #fff); }
+.g .banner.fastend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+.g .banner.fastend .btn { margin-left: auto; }
+
 </style>
 </head>
 <body>
 <!-- SPDX-License-Identifier: MIT · Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia -->
 <header class="topbar">
-  <div class="brand"><h1><span data-i18n="app.title">IMPAK</span><sup class="tmk">™</sup> <small data-i18n="app.sub">Technovation Park</small></h1><span id="mode-chip" class="modechip"></span></div>
+  <div class="brand"><h1><span data-i18n="app.title">IMPAK</span><sup class="tmk">™</sup> <small data-i18n="app.sub">Technovation Park</small></h1><span id="mode-chip" class="modechip"></span><span id="beta-chip" class="betachip" data-i18n="beta.chip" hidden>beta</span></div>
   <nav class="stages" id="stages" role="tablist" aria-label="Level"></nav>
   <button type="button" id="btn-home" class="homebtn" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5"/><path d="M6.5 10v9h11v-9"/><path d="M10 19v-5h4v5"/></svg><span data-i18n="nav.home">Home</span></button>
   <div class="prefs">
@@ -1239,7 +1276,7 @@ body.on-landing { grid-template-rows: auto minmax(0, 1fr); }
   </section>
 
   <aside class="explain" aria-label="Guide">
-    <div class="panelhead guide"><span class="pdot"></span><span data-i18n="panel.guide">Guide</span></div>
+    <div class="panelhead guide"><span class="pdot"></span><span data-i18n="panel.guide">Guide</span><button type="button" class="tb fbbtn" id="btn-fb" data-i18n="fb.open" hidden>Feedback</button></div>
     <section class="blk guide">
       <div class="avatar-row">
         <img id="avatar" alt="Tutor" width="92" height="178">
@@ -2457,7 +2494,7 @@ const C = PB.CFG, CARDS = PB.CARDS;
 const BRAND = {
   name: "IMPAK", tag: "Technovation Park", mark: "IMPAK™ – Technovation Park",
   get copyright() { return HOST.lang === "ms" ? "© 2026 Ahmad Razin Zainal Abidin dan Universiti Teknologi Malaysia · kod MIT · kandungan permainan CC BY-NC-ND 4.0" : "© 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia · code MIT · game content CC BY-NC-ND 4.0"; },
-  version: "0.6.0-dev",
+  version: "0.6.0-beta.1",
 };
 
 /* =============================================================== host adapter (browser or server fills this in) */
@@ -3070,6 +3107,7 @@ function bannerTeam(res, tm) {
   const g = res.g, ck = res.ck, t = tm.t, m = res.mCur, lv = res.lv, out = [];
   out.push(soloControls(res));
   if (g.notice && g.notice.text) out.push(`<div class="banner notice"><span class="label">Game Master</span><b>${esc(g.notice.text)}</b></div>`);
+  if (g.fast && g.status !== "ended" && store().mode === "solo") out.push(`<div class="banner down fastend"><b>${L("Ending the game: the remaining months play out without new orders.", "Menamatkan permainan: baki bulan berjalan tanpa arahan baharu.")}</b><span>${Math.max(0, Math.ceil(res.months - res.ck.T))} ${L("months left", "bulan lagi")}</span><button class="btn sm" data-act="solo-end-now">${L("End now", "Tamat sekarang")}</button></div>`);
   if (g.status === "setup" && store().mode === "live") out.push(`<div class="banner info"><b>${L("Waiting for the Game Master.", "Menunggu Game Master.")}</b><span class="muted">${L("Explore your site, the applicants and the rules. Orders open when the clock starts.", "Tinjau tapak, pemohon dan peraturan. Arahan dibuka apabila jam bermula.")}</span></div>`);
   if (t.receiver) out.push(`<div class="banner down"><b>Receivership.</b><span>${L("Your park went bankrupt twice. You can no longer act, and only half of your impact counts.", "Park anda bankrap dua kali. Anda tidak boleh bertindak lagi, dan hanya separuh impact dikira.")}</span></div>`);
   if (ck.hold && ck.hold.kind === "checkpoint") {
@@ -3425,6 +3463,7 @@ function dieHTML(ev, sc, big) { const st = big ? ` style="width:96px;height:96px
 function outcomeL(text, Cd) { const rest = text.slice(Cd.title.length + 2); const M = MSX(); return M ? M.mon(M.sayMS(rest)) : rest; }
 function dealTeam(res, tm) {
   const g = res.g, ck = res.ck, st = store();
+  if (g.fast && st.mode === "solo" && g.status !== "ended") return "";
   if (g.lastReveal && g.status === "paused" && APP.ui.seenReveal !== g.lastReveal) {
     const ev = res.sc.events.find(e => e.id === g.lastReveal); if (!ev) return "";
     const Cd = CARDS[ev.card], dl = tm.t.dlog.find(d => d.eid === ev.id);
@@ -3463,7 +3502,7 @@ ${st.mode === "solo" ? `<div class="row"><button class="btn primary" data-act="s
 </div></div></div>`;
 }
 function soloHoldOverlay(res, tm) {
-  const ck = res.ck; if (store().mode !== "solo" || !ck.hold) return "";
+  const ck = res.ck; if (store().mode !== "solo" || !ck.hold || res.g.fast) return "";
   const h = ck.hold, lv = res.lv;
   if (h.kind === "checkpoint" || h.kind === "downturn" || h.kind === "forecast") {
     let body = "";
@@ -3514,7 +3553,7 @@ function finalOverlay(res, tm) {
   const g = res.g; if (!res.final || !g.reveal || APP.ui.seenEnd || !tm.rub) return "";
   const r = tm.rub, so = PB.socio(tm.t), MED = { gold: L("Gold", "Emas"), silver: L("Silver", "Perak"), bronze: L("Bronze", "Gangsa"), none: L("Completed", "Tamat") };
   return `<div class="overlay"><div class="deal"><div class="deal-body"><span class="label">${L("Final result", "Keputusan akhir")} · ${esc(tm.name)} · ${esc(lvLabel(res.sc.level))}</span>
-<div class="medal ${r.medal}" style="border-width:1px"><div class="m">${MED[r.medal]}</div><div class="tot">${n1(r.total)}</div>${breakdown(r, res.lv)}${resultCharts(res, tm)}
+<div class="medal ${r.medal}" style="border-width:1px"><div class="m">${MED[r.medal]}</div><div class="tot">${n1(r.total)}</div>${g.endedEarly ? `<div class="chip warn" style="margin:4px auto 6px">${L("Ended early on ", "Ditamatkan awal pada ")}${mnameL(g.endedEarly)}${L(": the remaining months ran without new orders", ": baki bulan berjalan tanpa arahan baharu")}</div>` : ""}${breakdown(r, res.lv)}${resultCharts(res, tm)}
 <div class="muted" style="font-size:12.5px">${L("Park score", "Skor park")} ${n1(r.park.score)} · impact ${n1(r.park.ip)} · FCR12 ${r.park.fcr > 8 ? "—" : r.park.fcr.toFixed(2)} · drift ${pc(r.park.drift)}${res.lv.score.E ? " · ESG " + n1(r.esg) : ""} · dare ${r.dare} · ${L("sound", "wajar")} ${pc(r.soundShare)}${tm.hasD ? "" : L(" · defence not yet marked", " · defence belum dinilai")}</div>
 <div class="muted" style="font-size:12.5px">${L("Impact (not scored)", "Impak (tidak diberi markah)")}: ${so.jobs} ${L("jobs", "pekerjaan")} · ${so.interns} ${L("interns/yr", "intern/tahun")} · ${so.firms} ${L("firms", "syarikat")}, ${so.alumni} ${L("alumni-founded", "diasaskan alumni")} · ${pc(so.uniShare)} ${L("university-linked", "berkait universiti")} · ${L("economic impact", "impak ekonomi")} ${n1(so.econ)} Cr/${L("yr", "thn")}</div></div>
 ${HOST.finalExtra ? HOST.finalExtra(res, tm) : ""}
@@ -3782,6 +3821,10 @@ function autoTick(res, serverSide) {
   if (A.busy) return;
   const run = p => { A.busy = true; Promise.resolve(p).catch(e => toast("Could not update the game: " + (e && e.message || e), "bad")).finally(() => { A.busy = false; }); };
   if (!serverSide && isGM && st.db && g.status === "running" && Date.now() - A.lastHB > 15000) { A.lastHB = Date.now(); run(st.gmUpdate({ hb: Date.now() })); return; }
+  if (isSolo && g.fast && g.status !== "ended") {                      // ending early: every stop closes at once, deals as Leave
+    if (ck.hold && ck.hold.kind !== "end") { run(closeHold(res, ck.hold)); return; }
+    if (g.status === "paused" && !ck.hold) { run(st.gmUpdate({ status: "running", startedAt: now(), lastReveal: null })); return; }
+  }
   if (ck.hold && ck.hold.kind === "event" && g.status === "running") {
     const h = ck.hold;
     if (!(g.openAt && g.openAt[h.id]) && !A.opened[h.id]) { A.opened[h.id] = true; run(st.gmUpdate({ openAt: { [h.id]: now() } })); return; }
@@ -3798,7 +3841,7 @@ function newSolo(pace, level) {
   if (!APP.solo) APP.solo = MemStore("solo");
   APP.store = APP.solo; APP.ui.soloLevel = level || APP.ui.soloLevel || "rintis";
   const seed = newSeed();
-  return APP.solo.gmSet({ gid: "solo-" + seed, seed, level: APP.ui.soloLevel, site: HOST.site || "corridor", teams: [{ id: "you", name: L("Your park", "Park anda") }], bench: ["garden", "bold", "rocket", "caretaker"], status: "setup", startedAt: 0, accMs: 0, msPerMonth: pace || 10000, window: 60, auto: true, closed: {}, dec: {}, openAt: {}, defence: { you: 11 }, reveal: true, lastReveal: null });
+  return APP.solo.gmSet({ gid: "solo-" + seed, seed, level: APP.ui.soloLevel, site: HOST.site || "corridor", teams: [{ id: "you", name: L("Your park", "Park anda") }], bench: ["garden", "bold", "rocket", "caretaker"], status: "setup", startedAt: 0, accMs: 0, msPerMonth: pace || 10000, window: 60, auto: true, closed: {}, dec: {}, openAt: {}, defence: { you: 11 }, reveal: true, lastReveal: null, created: Date.now() });
 }
 const ACT = {
   transcript(d) { const res = currentRes(); if (!res || !window.IMPAKDebrief) return; const tm = teamOf(res, d.team || APP.teamId || (res.teams.find(x => !x.bench) || {}).id); if (tm && tm.rub) window.IMPAKDebrief.open(res, tm, HOST.transcriptMeta ? HOST.transcriptMeta(tm) : {}); },
@@ -3837,6 +3880,20 @@ const ACT = {
   "solo-close"() { const res = currentRes(); if (res && res.ck.hold && res.ck.hold.kind === "event") closeHold(res, res.ck.hold); },
   "solo-cont"() { const res = currentRes(); if (res && res.ck.hold) closeHold(res, res.ck.hold); },
   "solo-new"(d) { newSolo(game() ? game().msPerMonth : 10000, (d && d.level) || APP.ui.soloLevel); APP.ui.seenEnd = false; APP.ui.seenReveal = null; },
+  /* leaving a practice game early (v0.6): fast-forward to the end, end at once, or delete */
+  "solo-end-fast"() {
+    const res = currentRes(); if (!res || res.g.status === "ended" || res.g.status === "setup") return;
+    const left = Math.max(1, res.sc.months - res.ck.T), mpm = clamp(Math.round(30000 / left), 250, 800);
+    APP.ui.seenEnd = false; APP.ui.seenReveal = null;
+    store().gmUpdate({ fast: true, endedEarly: res.g.endedEarly || res.mCur, msPerMonth: mpm, accMs: res.ck.T * mpm, startedAt: now(), status: "running", lastReveal: null });
+  },
+  "solo-end-now"() {
+    const res = currentRes(); if (!res || res.g.status === "ended") return;
+    const closed = {}; for (const p of pausePoints(res.sc)) closed[p.id] = true;
+    APP.ui.seenEnd = false; APP.ui.seenReveal = null;
+    store().gmUpdate({ status: "ended", closed, lastReveal: null, accMs: res.sc.months * res.g.msPerMonth, endedEarly: res.g.endedEarly || (res.g.status === "setup" ? 1 : res.mCur), fast: false });
+  },
+  "solo-delete"() { if (APP.solo) APP.solo.gmSet(null); },
   "su-level"(d) { const s = APP.ui.setup; s.level = d.level; s.pace = LEVEL_TEXT[d.level].pace; s.cash = lvl(d.level).startCash; },
   "su-site"(d) { if (d.site === "corridor" || d.site === "valley") APP.ui.setup.site = d.site; },
   "su-seed"() { APP.ui.setup.seed = newSeed(); APP.ui.setupNonce = (APP.ui.setupNonce || 0) + 1; },
@@ -5086,7 +5143,7 @@ const I18N = {
     'tr.reset': 'New game',
     'tr.reset.tip': 'Start a new practice game at this level (the activity steps start again too)',
     'nav.home': 'Home',
-    'nav.home.tip': 'Back to the start page (your practice game is paused and kept; a live session stays joined)',
+    'nav.home.tip': 'Back to the start page (a practice game asks whether to keep it, end it or delete it; a live session stays joined)',
     'ctl.openAll': 'Open all',
     'ctl.foldAll': 'Fold all',
     'ctl.openAll.tip': 'Open every group of orders',
@@ -5240,6 +5297,49 @@ const I18N = {
     'join.err.code': 'The code is wrong or has expired.',
     'join.codeSent': 'Code sent — check your inbox (and spam).',
     'join.leave': 'Leave the session',
+    /* public beta, exit dialog, feedback */
+    'beta.chip': 'beta',
+    'beta.note': 'Public trial. The game is being tested in the open; your feedback shapes the next version. Anonymous play statistics (level, month reached, medal, how a game ended) are recorded; no name or e-mail unless you give one.',
+    'beta.fb': 'Give feedback',
+    'exit.title': 'Leaving the game?',
+    'exit.later': 'Continue later',
+    'exit.later.d': 'The game is kept in this browser, paused at this moment. Come back from the start page: "Continue practice".',
+    'exit.end': 'End the game and see the results',
+    'exit.end.d': 'The simulator fast-forwards the remaining months without new orders (about 30 seconds; deals are left). You get the final card, the debrief and the transcript, marked "ended early".',
+    'exit.delete': 'Delete this game',
+    'exit.delete.d': 'Nothing is kept and no result is shown.',
+    'exit.why': 'Help us: why are you stopping? (optional)',
+    'exit.why.time': 'Not enough time',
+    'exit.why.lost': 'Did not understand how to play',
+    'exit.why.slow': 'Too slow',
+    'exit.why.hard': 'Too hard',
+    'exit.why.bug': 'Something broke',
+    'exit.why.done': 'Learned what I wanted',
+    'exit.why.other': 'Other',
+    'exit.cancel': 'Back to the game',
+    'exit.saved': 'Game kept. Continue from the start page with "Continue practice".',
+    'exit.deleted': 'Game deleted.',
+    'exit.fast': 'Ending the game: the remaining months play out without new orders.',
+    'exit.fast.left': '{n} months left',
+    'exit.fast.now': 'End now',
+    'exit.resumed': 'Game restored, paused at {date}. Press Play to continue.',
+    'tr.autopaused': 'The clock paused while this tab was in the background.',
+    'end.early': 'Ended early on {date}: the remaining months ran without new orders.',
+    'fb.open': 'Feedback',
+    'fb.title': 'How was the game for you?',
+    'fb.sub': 'About a minute. It goes to the park team at UTM and shapes the next version.',
+    'fb.fun': 'I enjoyed it',
+    'fb.learn': 'I learned something about running a park',
+    'fb.good': 'What was most useful?',
+    'fb.bad': 'What was confusing, or did not work?',
+    'fb.email': 'E-mail (optional, if we may contact you)',
+    'fb.pdpa': 'Anonymous unless you add an e-mail. We record the level, medal and month reached with your answers. Kept for 12 months in a private UTM sheet, then deleted.',
+    'fb.send': 'Send',
+    'fb.later': 'Not now',
+    'fb.need': 'Pick a rating or write a line first.',
+    'fb.thanks': 'Thank you. Your feedback has been recorded.',
+    'fb.fail': 'Could not send the feedback. Check the connection and try again.',
+    'fb.star': '{n} of 5',
   },
   ms: {
     'app.title': 'IMPAK',
@@ -5304,7 +5404,7 @@ const I18N = {
     'tr.reset': 'Permainan baharu',
     'tr.reset.tip': 'Mulakan permainan latihan baharu pada level ini (langkah aktiviti juga bermula semula)',
     'nav.home': 'Halaman utama',
-    'nav.home.tip': 'Kembali ke halaman utama (permainan latihan dijeda dan disimpan; sesi langsung kekal disertai)',
+    'nav.home.tip': 'Kembali ke halaman utama (permainan latihan akan ditanya: simpan, tamatkan atau padam; sesi langsung kekal disertai)',
     'ctl.openAll': 'Buka semua',
     'ctl.foldAll': 'Lipat semua',
     'ctl.openAll.tip': 'Buka semua kumpulan arahan',
@@ -5452,6 +5552,49 @@ const I18N = {
     'join.err.code': 'Kod salah atau telah luput.',
     'join.codeSent': 'Kod dihantar — semak peti masuk (dan spam).',
     'join.leave': 'Tinggalkan sesi',
+    /* percubaan awam, dialog keluar, maklum balas */
+    'beta.chip': 'beta',
+    'beta.note': 'Percubaan awam. Permainan ini sedang diuji secara terbuka; maklum balas anda membentuk versi seterusnya. Statistik permainan tanpa nama (level, bulan dicapai, pingat, cara permainan tamat) direkodkan; tiada nama atau e-mel melainkan anda berikan.',
+    'beta.fb': 'Beri maklum balas',
+    'exit.title': 'Keluar dari permainan?',
+    'exit.later': 'Teruskan kemudian',
+    'exit.later.d': 'Permainan disimpan dalam pelayar ini, berjeda pada saat ini. Sambung dari halaman utama: "Sambung latihan".',
+    'exit.end': 'Tamatkan permainan dan lihat keputusan',
+    'exit.end.d': 'Simulator melaju ke hujung tanpa arahan baharu (kira-kira 30 saat; deal dibiarkan). Anda dapat kad keputusan, ulasan dan transkrip, ditanda "ditamatkan awal".',
+    'exit.delete': 'Padam permainan ini',
+    'exit.delete.d': 'Tiada apa-apa disimpan dan tiada keputusan dipaparkan.',
+    'exit.why': 'Bantu kami: kenapa anda berhenti? (tidak wajib)',
+    'exit.why.time': 'Tak cukup masa',
+    'exit.why.lost': 'Tak faham cara bermain',
+    'exit.why.slow': 'Terlalu perlahan',
+    'exit.why.hard': 'Terlalu sukar',
+    'exit.why.bug': 'Ada yang tak berfungsi',
+    'exit.why.done': 'Dah belajar apa yang saya mahu',
+    'exit.why.other': 'Lain-lain',
+    'exit.cancel': 'Kembali ke permainan',
+    'exit.saved': 'Permainan disimpan. Sambung dari halaman utama dengan "Sambung latihan".',
+    'exit.deleted': 'Permainan dipadam.',
+    'exit.fast': 'Menamatkan permainan: baki bulan berjalan tanpa arahan baharu.',
+    'exit.fast.left': '{n} bulan lagi',
+    'exit.fast.now': 'Tamat sekarang',
+    'exit.resumed': 'Permainan dipulihkan, berjeda pada {date}. Tekan Main untuk sambung.',
+    'tr.autopaused': 'Jam dijedakan ketika tab ini di latar belakang.',
+    'end.early': 'Ditamatkan awal pada {date}: baki bulan berjalan tanpa arahan baharu.',
+    'fb.open': 'Maklum balas',
+    'fb.title': 'Bagaimana permainan ini bagi anda?',
+    'fb.sub': 'Kira-kira seminit. Ia sampai kepada pasukan park di UTM dan membentuk versi seterusnya.',
+    'fb.fun': 'Saya seronok bermain',
+    'fb.learn': 'Saya belajar sesuatu tentang mengurus park',
+    'fb.good': 'Apa yang paling berguna?',
+    'fb.bad': 'Apa yang mengelirukan, atau tak berfungsi?',
+    'fb.email': 'E-mel (tidak wajib, jika kami boleh menghubungi anda)',
+    'fb.pdpa': 'Tanpa nama melainkan anda tambah e-mel. Kami merekodkan level, pingat dan bulan dicapai bersama jawapan anda. Disimpan 12 bulan dalam sheet persendirian UTM, kemudian dipadam.',
+    'fb.send': 'Hantar',
+    'fb.later': 'Nanti',
+    'fb.need': 'Pilih rating atau tulis sebaris dahulu.',
+    'fb.thanks': 'Terima kasih. Maklum balas anda telah direkodkan.',
+    'fb.fail': 'Maklum balas tidak dapat dihantar. Semak sambungan dan cuba lagi.',
+    'fb.star': '{n} daripada 5',
   },
 };
 if (typeof window !== 'undefined') window.I18N = I18N;
@@ -6405,6 +6548,7 @@ function analyse(res, tm) {
   return { r, t, lv, parts, gaps, missed, strengths, next, nextMedal: typeof nextMedal === 'undefined' ? null : nextMedal, vs, take, dl, unsound };
 }
 
+function earlyNote(res) { return res.g.endedEarly ? L('Ended early on ' + mname(res.g.endedEarly) + ': the remaining months ran without new orders, so the marks below include that autopilot period.', 'Ditamatkan awal pada ' + mname(res.g.endedEarly) + ': baki bulan berjalan tanpa arahan baharu, jadi markah di bawah merangkumi tempoh autopilot itu.') : ''; }
 /* one-line verdict */
 function summary(a) {
   const top = a.gaps.slice(0, 2).map((g) => g.part + ' (' + g.title + ', −' + n1(g.lost) + ')');
@@ -6417,7 +6561,7 @@ function html(res, tm, opts) {
   if (!tm || !tm.rub) return '';
   const a = analyse(res, tm), o = opts || {};
   let h = '<details class="debrief"' + (o.open ? ' open' : '') + '><summary>' + esc(L('Debrief and advice for next time', 'Ulasan dan cadangan untuk lain kali')) + '</summary>';
-  h += '<p class="db-sum">' + esc(summary(a)) + '</p>';
+  h += '<p class="db-sum">' + esc(summary(a)) + (res.g.endedEarly ? ' ' + esc(earlyNote(res)) : '') + '</p>';
   if (a.gaps.length) h += '<div class="db-sub">' + esc(L('Where the marks went', 'Di mana markah hilang')) + '</div><ol class="db-gaps">' + a.gaps.slice(0, o.all ? 99 : 4).map((g) =>
     '<li><div class="db-h"><b>' + esc(g.title) + '</b><span class="db-pts">' + esc(g.part) + ' −' + n1(g.lost) + '</span></div><div class="db-d">' + esc(g.detail) + '</div><div class="db-tip">→ ' + esc(g.tip) + '</div></li>').join('') + '</ol>';
   if (a.missed.length) h += '<div class="db-sub">' + esc(L('Opportunities missed', 'Peluang terlepas')) + '</div><ul class="db-list">' + a.missed.map((x) => '<li>' + esc(x) + '</li>').join('') + '</ul>';
@@ -6472,7 +6616,7 @@ function transcript(res, tm, meta) {
     '<div><span>Impact</span><b>' + n1(p.ip) + '</b></div></div></div>' +
     '<table class="meta">' + row(L('Members', 'Ahli'), '<span class="edit" data-k="members" contenteditable="true" data-ph="' + esc(L('type the names here before printing', 'taip nama ahli di sini sebelum cetak')) + '">' + esc(m.members || '') + '</span>') +
     (m.room ? row(L('Room', 'Bilik'), esc(m.room)) : '') + row(L('Game', 'Permainan'), esc(res.g.gid || '') + ' · seed ' + esc(res.g.seed)) +
-    (m.event ? row(L('Programme', 'Program'), esc(m.event)) : '') + row(L('Date', 'Tarikh'), esc(dstr)) + '</table>' +
+    (m.event ? row(L('Programme', 'Program'), esc(m.event)) : '') + row(L('Date', 'Tarikh'), esc(dstr)) + (res.g.endedEarly ? row(L('Note', 'Nota'), esc(earlyNote(res))) : '') + '</table>' +
     '<div class="c-sign"><div><span class="line"></span>' + esc(L('Facilitator', 'Fasilitator')) + '</div><div><span class="line"></span>' + esc(L('Team representative', 'Wakil pasukan')) + '</div></div>' +
     '<div class="c-note">' + esc(L('A record of a training game, not an assessment of the members\' competence. The pages that follow explain each mark and what to do next time.', 'Rekod permainan latihan, bukan penilaian kompetensi ahli. Halaman berikutnya menerangkan setiap markah dan apa yang perlu dibuat lain kali.')) + '</div>' +
     '</div></section>';
@@ -6739,6 +6883,12 @@ const L = {
     this.attach({ room: r.room, token: '', role: 'screen' }, 'screen', null);
     return r;
   },
+  /* fire-and-forget records of the public trial (feedback, run statistics); no token needed */
+  async send(payload, beacon) {
+    if (!API) return null;
+    if (beacon && root.navigator && root.navigator.sendBeacon) { try { if (root.navigator.sendBeacon(API, JSON.stringify(payload))) return { ok: true }; } catch (e) { /* fall through */ } }
+    return call(payload);
+  },
   async report(tm, r) {
     if (!this.store || !tm.rub || this.reported[tm.id]) return; this.reported[tm.id] = true;
     const rb = tm.rub;
@@ -6754,6 +6904,92 @@ const L = {
 };
 G.HOST.gmBarExtra = () => L.gmBarExtra();
 root.IMPAKLive = L;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+// SPDX-License-Identifier: MIT
+/* IMPAK v0.6 — the feedback card of the public trial: two ratings, two short answers and an optional e-mail.
+   Shown on the final card after the debrief and from the Guide's "Feedback" button; posted to the Apps Script
+   backend (sheet "feedback") when one is configured. Anonymous unless the player types an e-mail. */
+(function (root) {
+'use strict';
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+let H = { t: (k) => k, lang: () => 'en', toast: () => {}, send: null, version: '' };
+const ST = { fun: 0, learn: 0, good: '', bad: '', email: '', busy: false, msg: '', hidden: {}, sent: {} };
+let CUR = null;                                               // the game the card is about
+const t = (k, v) => H.t(k, v);
+const key = (gid) => 'impak.fb.' + (gid || 'general');
+function already(gid) { if (ST.sent[gid || 'general']) return true; try { return !!localStorage.getItem(key(gid)); } catch (e) { return false; } }
+function markDone(gid) { ST.sent[gid || 'general'] = true; try { localStorage.setItem(key(gid), String(Date.now())); } catch (e) { /* ignore */ } }
+const configured = () => !!(root.IMPAKLive && root.IMPAKLive.configured);
+
+/* what the card is about: the current game, when there is one */
+function context(res, tm) {
+  const G = root.IMPAK;
+  if (!res) { res = G && G.currentRes ? G.currentRes() : null; tm = res && G.teamOf ? G.teamOf(res, G.APP.teamId) : null; }
+  if (!res) return { gid: '', mode: '', level: '', medal: '', total: '', month: '', team: '', room: '' };
+  const rub = tm && tm.rub, L = root.IMPAKLive;
+  return { gid: res.g.gid || '', mode: G.store().mode, level: res.g.level || '', medal: rub ? rub.medal : '', total: rub ? Math.round(rub.total * 10) / 10 : '',
+    month: res.final ? res.months : res.mCur, team: tm ? tm.id : '', room: L && L.room || '' };
+}
+function stars(k) {
+  return '<div class="stars" role="radiogroup" aria-label="' + esc(t('fb.' + k)) + '">' + [1, 2, 3, 4, 5].map((n) =>
+    '<button type="button" class="star' + (ST[k] >= n ? ' on' : '') + '" data-fbstar="' + k + '" data-n="' + n + '" role="radio" aria-checked="' + (ST[k] === n) + '" aria-label="' + esc(t('fb.star', { n })) + '">' + (ST[k] >= n ? '★' : '☆') + '</button>').join('') + '</div>';
+}
+function form(c) {
+  const gid = c.gid || 'general';
+  if (already(c.gid)) return '<div class="fb done"><span>✓</span> ' + esc(t('fb.thanks')) + '</div>';
+  if (ST.hidden[gid]) return '';
+  return '<div class="fb" data-fbgid="' + esc(gid) + '"><div class="fb-h"><b>' + esc(t('fb.title')) + '</b><span class="muted">' + esc(t('fb.sub')) + '</span></div>' +
+    '<div class="fb-row"><span>' + esc(t('fb.fun')) + '</span>' + stars('fun') + '</div><div class="fb-row"><span>' + esc(t('fb.learn')) + '</span>' + stars('learn') + '</div>' +
+    '<label class="fb-f"><span>' + esc(t('fb.good')) + '</span><textarea data-fbk="good" maxlength="600" rows="2">' + esc(ST.good) + '</textarea></label>' +
+    '<label class="fb-f"><span>' + esc(t('fb.bad')) + '</span><textarea data-fbk="bad" maxlength="600" rows="2">' + esc(ST.bad) + '</textarea></label>' +
+    '<label class="fb-f"><span>' + esc(t('fb.email')) + '</span><input type="email" data-fbk="email" value="' + esc(ST.email) + '" autocomplete="email" maxlength="120"></label>' +
+    '<input type="text" data-fbk="hp" class="fb-hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
+    '<div class="fb-pdpa">' + esc(t('fb.pdpa')) + '</div>' +
+    '<div class="row"><button type="button" class="btn primary" data-fb="send"' + (ST.busy ? ' disabled' : '') + '>' + esc(t('fb.send')) + '</button><button type="button" class="btn" data-fb="later">' + esc(t('fb.later')) + '</button><span class="fb-msg">' + esc(ST.msg) + '</span></div></div>';
+}
+/* the card on the final result (after the debrief) */
+function card(res, tm) { if (!configured()) return ''; CUR = context(res, tm); return form(CUR); }
+/* the same form as a dialog, from the Guide's button or the start page */
+function open() {
+  if (!configured()) return;
+  CUR = context();
+  const d = document.createElement('dialog'); d.className = 'sguide askbox fbbox';
+  d.innerHTML = '<div class="sgbody g">' + form(CUR) + '</div><div class="sgfoot"><button type="button" class="tb" data-fb="close">' + esc(t('ui.info.close')) + '</button></div>';
+  document.body.appendChild(d);
+  const done = () => { try { d.close(); } catch (e) { /* ignore */ } d.remove(); };
+  d.addEventListener('click', (e) => { if (e.target.closest('[data-fb="close"], [data-fb="later"]')) done(); });
+  d.addEventListener('cancel', (e) => { e.preventDefault(); done(); });
+  if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', '');
+}
+function rerender(el) { const box = el.closest('.fb, .fb.done'); if (!box) return; const w = document.createElement('div'); w.innerHTML = form(CUR); const nu = w.firstElementChild; if (nu) box.replaceWith(nu); else box.remove(); }
+async function send(el) {
+  if (ST.busy) return;
+  const hp = (document.querySelector('.fb [data-fbk="hp"]') || {}).value || '';
+  if (!ST.fun && !ST.learn && !ST.good.trim() && !ST.bad.trim()) { ST.msg = t('fb.need'); rerender(el); return; }
+  const email = ST.email.trim(); if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { ST.msg = t('join.err.fields'); rerender(el); return; }
+  ST.busy = true; ST.msg = ''; rerender(el);
+  const c = CUR || context();
+  const ua = /iPad|iPhone/.test(navigator.userAgent) ? 'ios' : (/Android/.test(navigator.userAgent) ? 'android' : (/Mac/.test(navigator.userAgent) ? 'mac' : (/Windows/.test(navigator.userAgent) ? 'windows' : 'other')));
+  try {
+    await H.send({ op: 'feedback', gid: c.gid, mode: c.mode, level: c.level, medal: c.medal, total: c.total, month: c.month, team: c.team, room: c.room,
+      fun: ST.fun || '', learn: ST.learn || '', good: ST.good.trim().slice(0, 600), bad: ST.bad.trim().slice(0, 600), email, hp, lang: H.lang(), version: H.version, ua, width: root.innerWidth || 0 });
+    markDone(c.gid); ST.good = ''; ST.bad = ''; ST.fun = 0; ST.learn = 0; ST.msg = '';
+    H.toast(t('fb.thanks'));
+  } catch (e) { ST.msg = t('fb.fail'); }
+  ST.busy = false;
+  const box = document.querySelector('.fb[data-fbgid], .fb.done'); if (box) rerender(box);
+}
+document.addEventListener('click', (e) => {
+  const s = e.target.closest('[data-fbstar]'); if (s) { ST[s.dataset.fbstar] = +s.dataset.n; rerender(s); return; }
+  const b = e.target.closest('[data-fb]'); if (!b) return;
+  if (b.dataset.fb === 'send') { e.preventDefault(); send(b); }
+  else if (b.dataset.fb === 'later') { e.preventDefault(); const gid = (CUR && CUR.gid) || 'general'; ST.hidden[gid] = true; if (!b.closest('dialog')) rerender(b); }
+});
+document.addEventListener('input', (e) => { const el = e.target; if (el.dataset && el.dataset.fbk && el.dataset.fbk !== 'hp') ST[el.dataset.fbk] = el.value; });
+root.IMPAKFeedback = { init(h) { H = Object.assign(H, h); }, card, open, configured, context };
 })(typeof window !== 'undefined' ? window : globalThis);
 
 </script>
@@ -6793,7 +7029,7 @@ HOST.remember = (k, v) => { if (k === 'tab' && ['park', 'impact', 'stand', 'news
 HOST.landing = () => '';
 HOST.footer = () => '';
 HOST.setOffset = (ms) => { OFFSET = ms; };
-HOST.finalExtra = (res, tm) => (root.IMPAKDebrief ? root.IMPAKDebrief.html(res, tm, { open: true, team: tm.id }) : '');
+HOST.finalExtra = (res, tm) => (root.IMPAKDebrief ? root.IMPAKDebrief.html(res, tm, { open: true, team: tm.id }) : '') + (root.IMPAKFeedback ? root.IMPAKFeedback.card(res, tm) : '');
 HOST.transcriptMeta = () => { const L = root.IMPAKLive, ss = L && L.store && L.store.session; return { room: L ? L.room : '', members: ss && ss.role === 'team' && ss.name ? ss.name + ', …' : '' }; };
 HOST.dealAdvice = (res, tm, ev, phase) => { const A = root.IMPAKAdvice; if (!A) return ''; return phase === 'after' ? A.after(res, tm, ev) : A.before(res, tm, ev); };
 const ACT = G.ACT;
@@ -6900,6 +7136,7 @@ async function switchLevel(n, force) {
   if (a.role === 'solo' && g && g.status !== 'setup' && g.status !== 'ended' && !force) { if (!(await ask(t('ui.stage.confirm')))) return; }
   S.level = n; uiStore.level = n; uiStore.save();
   ACT['role-solo']({ level: key });
+  persistSolo(); saveSolo();
   a.ui.seenEnd = false; a.ui.seenReveal = null; a.ui.zone = 'C';
   predict.hide();
   activity.start(n);
@@ -7012,7 +7249,7 @@ function landingHTML() {
   else live = '<div class="rcbtns"><button type="button" class="btn accent" data-a="open" data-v="live">' + escapeHtml(t('land.live')) + '</button></div>';
   const t0 = PB.newTeam('preview', 'priority', 'lestari');
   return '<div class="hero"><div><h1>' + escapeHtml(G.BRAND.name) + '<sup class="tm">™</sup><small>' + escapeHtml(G.BRAND.tag) + '</small></h1>' +
-    '<p>' + escapeHtml(t('say.landing')) + '</p>' + qrHTML() + resumeHTML() + '</div><div class="panel" style="padding:8px">' + G.planSVG(t0, 1, 0, null, 'L') + '</div></div>' +
+    '<p>' + escapeHtml(t('say.landing')) + '</p>' + (online ? '<p class="beta"><span class="betachip">' + escapeHtml(t('beta.chip')) + '</span> ' + escapeHtml(t('beta.note')) + ' <button type="button" class="linkbtn" data-a="fb">' + escapeHtml(t('beta.fb')) + '</button></p>' : '') + qrHTML() + resumeHTML() + '</div><div class="panel" style="padding:8px">' + G.planSVG(t0, 1, 0, null, 'L') + '</div></div>' +
     '<div class="rolecards' + (LAND.view === 'live' ? ' joining' : '') + '">' +
     '<div class="rolecard solo"><h3>' + escapeHtml(t('land.solo')) + '</h3><p>' + escapeHtml(t('land.solo.d')) + '</p><div class="rcbtns">' + levelBtns + '</div></div>' +
     '<div class="rolecard live"><h3>' + escapeHtml(t('land.live')) + '</h3><p>' + escapeHtml(t('land.live.d')) + '</p>' + live + '</div>' +
@@ -7049,6 +7286,9 @@ function resumeSolo() {
   const A = app(); if (!A.solo || !A.solo.game) return;
   A.store = A.solo; A.role = 'solo'; A.teamId = 'you'; HOST.hash('solo');
   S.level = levelIndex(A.solo.game.level); uiStore.level = S.level; uiStore.save();
+  persistSolo();
+  const r = res();
+  if (r && r.ck.hold && r.ck.hold.kind === 'event' && r.g.status !== 'running') G.store().gmUpdate({ status: 'running', startedAt: HOST.now(), accMs: r.ck.hold.t * r.g.msPerMonth, openAt: { [r.ck.hold.id]: HOST.now() } });
   activity.start(S.level); S.lastSaid = ''; stageNav.render(); render(true);
 }
 function resumeLive() {
@@ -7059,12 +7299,89 @@ function resumeLive() {
   else { A.role = 'team'; A.teamId = ses.team; }
   afterJoin(); S.lastSaid = ''; render(true);
 }
-function goHome() {
+async function goHome() {
   const A = app(), r = res();
-  if (A.role === 'solo' && r && r.g.status === 'running' && !r.ck.hold) G.dispatch('solo-pause');
+  if (A.role === 'solo' && r && r.g.status !== 'setup' && r.g.status !== 'ended' && !r.g.fast) {
+    const c = await exitDialog(r);
+    if (!c) return;
+    if (c.k === 'end') { runRecord(r, 'early', c.why); G.dispatch('solo-end-fast'); render(true); return; }   // stay and watch the months run out
+    if (c.k === 'delete') { runRecord(r, 'deleted', c.why); G.dispatch('solo-delete'); K.toast(t('exit.deleted')); }
+    else { if (r.g.status === 'running' && !r.ck.hold) G.dispatch('solo-pause'); runRecord(r, 'left', c.why); saveSolo(); K.toast(t('exit.saved')); }
+  } else if (A.role === 'solo' && r && r.g.status === 'running' && !r.ck.hold) G.dispatch('solo-pause');
   ACT.home();
   lastKind = ''; S.lastSaid = ''; LAND.view = 'home';
   stageNav.render(); render(true);
+}
+/* the three ways out of a practice game, with an optional reason (recorded without a name) */
+function exitDialog(r) {
+  return new Promise((resolve) => {
+    const d = doc.createElement('dialog'); d.className = 'sguide askbox exitbox';
+    const why = ['time', 'lost', 'slow', 'hard', 'bug', 'done', 'other'];
+    const opt = (k, cls) => '<button type="button" class="exopt ' + cls + '" data-k="' + k + '"><b>' + escapeHtml(t('exit.' + k)) + '</b><span>' + escapeHtml(t('exit.' + k + '.d')) + '</span></button>';
+    d.innerHTML = '<div class="sgbody"><h3 style="margin-top:0">' + escapeHtml(t('exit.title')) + '</h3><div class="exopts">' + opt('later', 'primary') + opt('end', '') + opt('delete', 'danger') + '</div>' +
+      '<div class="exwhy"><div class="adv-sub">' + escapeHtml(t('exit.why')) + '</div><div class="chips">' + why.map((w) => '<button type="button" class="chipbtn" data-why="' + w + '">' + escapeHtml(t('exit.why.' + w)) + '</button>').join('') + '</div></div></div>' +
+      '<div class="sgfoot"><button type="button" class="tb" data-a="no">' + escapeHtml(t('exit.cancel')) + '</button></div>';
+    doc.body.appendChild(d);
+    let reason = '';
+    const done = (v) => { try { d.close(); } catch (e) { /* ignore */ } d.remove(); resolve(v); };
+    d.addEventListener('click', (e) => {
+      const w = e.target.closest('[data-why]'); if (w) { reason = w.dataset.why === reason ? '' : w.dataset.why; d.querySelectorAll('[data-why]').forEach((b) => b.classList.toggle('on', b.dataset.why === reason)); return; }
+      const o = e.target.closest('.exopt'); if (o) { done({ k: o.dataset.k, why: reason }); return; }
+      if (e.target.closest('[data-a="no"]')) done(null);
+    });
+    d.addEventListener('cancel', (e) => { e.preventDefault(); done(null); });
+    if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', '');
+    const f = d.querySelector('.exopt.primary'); if (f) f.focus();
+  });
+}
+
+/* ---------------------------------------------------------------- practice games survive a reload (localStorage) and pause when the tab is hidden */
+const SOLO_KEY = 'impak.solo';
+function saveSolo() {
+  const A = app(), st = A.solo; if (!st) return;
+  try {
+    if (!st.game || st.game.status === 'ended') { localStorage.removeItem(SOLO_KEY); return; }
+    const g = JSON.parse(JSON.stringify(st.game));
+    try {
+      const sc = G.scenG(g), ck = G.clockOf(g, sc, HOST.now());
+      if (g.status === 'running') { g.status = 'paused'; g.accMs = ck.T * g.msPerMonth; }   // the clock does not run while nobody is here
+      if (ck.hold && g.openAt) delete g.openAt[ck.hold.id];                               // an open deal gets its full window back on return
+      g.fast = false;
+    } catch (e) { /* save as is */ }
+    localStorage.setItem(SOLO_KEY, JSON.stringify({ v: 1, game: g, orders: st.orders, decisions: st.decisions, level: S.level, savedAt: Date.now() }));
+  } catch (e) { /* storage unavailable */ }
+}
+function restoreSolo() {
+  let s = null; try { s = JSON.parse(localStorage.getItem(SOLO_KEY) || 'null'); } catch (e) { s = null; }
+  if (!s || !s.game || s.game.status === 'ended') return false;
+  const A = app(), st = G.MemStore('solo');
+  st.game = s.game; st.orders = s.orders || {}; st.decisions = s.decisions || {};
+  A.solo = st; A.ui.soloLevel = s.game.level; if (s.level != null) { S.level = s.level; }
+  return true;
+}
+function persistSolo() { const A = app(); if (A.solo && !A.solo._persist) { A.solo._persist = true; A.solo.on(saveSolo); } }
+doc.addEventListener('visibilitychange', () => {
+  const A = app(); if (A.role !== 'solo') return; const r = res(); if (!r) return;
+  if (doc.hidden) {
+    if (r.g.status === 'running' && !r.ck.hold && !r.g.fast) { G.dispatch('solo-pause'); S.autoPaused = true; }
+    else if (r.ck.hold && r.ck.hold.kind === 'event' && !r.g.fast) S.holdHidden = true;
+    saveSolo();
+  } else {
+    if (S.autoPaused) { S.autoPaused = false; K.toast(t('tr.autopaused')); }
+    if (S.holdHidden) { S.holdHidden = false; const r2 = res(); if (r2 && r2.ck.hold && r2.ck.hold.kind === 'event') G.store().gmUpdate({ openAt: { [r2.ck.hold.id]: HOST.now() } }); }
+    render(true);
+  }
+});
+root.addEventListener('pagehide', () => { if (app().role === 'solo') saveSolo(); });
+
+/* anonymous play statistics for the public trial: how far a practice game got and how it ended */
+const RUNS = {};
+function runRecord(r, status, why) {
+  const Lv = root.IMPAKLive; if (!Lv || !Lv.configured || !r || G.store().mode !== 'solo') return;
+  const g = r.g, k = g.gid + '|' + status; if (RUNS[k]) return; RUNS[k] = true;
+  const tm = teamNow(r), rub = tm && tm.rub;
+  Lv.send({ op: 'run', gid: g.gid, mode: 'solo', level: g.level, seed: g.seed, site: g.site || '', status, month: r.final ? r.months : r.mCur, why: why || '',
+    medal: rub ? rub.medal : '', total: rub ? Math.round(rub.total * 10) / 10 : '', durMin: g.created ? Math.round((Date.now() - g.created) / 60000) : '', lang: prefs.lang, version: G.BRAND.version, width: root.innerWidth || 0 }, true).catch(() => { /* statistics are best-effort */ });
 }
 function joinFormHTML(kind) {
   const L = root.IMPAKLive, f = L.form;
@@ -7084,6 +7401,7 @@ function joinFormHTML(kind) {
 function wireLanding(el) {
   el.querySelectorAll('[data-a="solo"]').forEach((b) => b.addEventListener('click', () => switchLevel(parseInt(b.dataset.level, 10), true)));
   el.querySelectorAll('[data-a="resume-solo"]').forEach((b) => b.addEventListener('click', resumeSolo));
+  el.querySelectorAll('[data-a="fb"]').forEach((b) => b.addEventListener('click', () => { if (root.IMPAKFeedback) root.IMPAKFeedback.open(); }));
   el.querySelectorAll('[data-a="resume-live"]').forEach((b) => b.addEventListener('click', resumeLive));
   el.querySelectorAll('[data-a="leave-live"]').forEach((b) => b.addEventListener('click', () => { root.IMPAKLive.leave(); render(true); }));
   el.querySelectorAll('[data-a="open"]').forEach((b) => b.addEventListener('click', () => { LAND.view = b.dataset.v; LAND.err = ''; LAND.codeSent = false; render(true); }));
@@ -7261,6 +7579,7 @@ function render(force) {
   const r = res(), tm = teamNow(r);
   if (!r || !tm) { clearRegions(TEAM_REGIONS); updateTransport(r); return; }
   lastKind = '';
+  if (a.role === 'solo') { persistSolo(); if (r.final && tm.rub) runRecord(r, r.g.endedEarly ? 'early' : 'ended'); }
   apply(teamRegions(r, tm));
   groupStatus(r, tm);
   renderJournal(r, tm);
@@ -7378,10 +7697,14 @@ function boot() {
   if (!app().role) $('#journal').innerHTML = '<p class="faint">' + escapeHtml(t('ui.reg.guide')) + '</p>';
   S.level = uiStore.level || 0;
   if (root.IMPAKLive) root.IMPAKLive.init({ onState: () => render(true), onOffset: HOST.setOffset, t, K, G });
+  if (root.IMPAKFeedback) { root.IMPAKFeedback.init({ t, lang: () => prefs.lang, toast: K.toast, send: (p) => root.IMPAKLive.send(p), version: G.BRAND.version }); const fb = $('#btn-fb'); if (fb) { fb.hidden = !root.IMPAKFeedback.configured(); fb.addEventListener('click', () => root.IMPAKFeedback.open()); } }
+  const bchip = $('#beta-chip'); if (bchip) bchip.hidden = !(root.IMPAKLive && root.IMPAKLive.configured);
   const qroom = new URLSearchParams(location.search).get('room');
   if (qroom && root.IMPAKLive && root.IMPAKLive.configured) { root.IMPAKLive.form.room = qroom.toUpperCase().slice(0, 6); LAND.view = 'live'; }
+  const kept = restoreSolo();
   const h = (location.hash || '').replace('#', '');
-  if (h === 'solo' || /^solo-/.test(h)) { const n = levelIndex(h.slice(5)); switchLevel(/^solo-/.test(h) ? n : S.level, true); }
+  if (h === 'solo' && kept) { resumeSolo(); try { const d = G.dateParts(res().ck.T, res().months); K.toast(t('exit.resumed', { date: d.day + ' ' + MON[prefs.lang === 'ms' ? 'ms' : 'en'][MON.en.indexOf(d.month)] + ', ' + t('ro.year', { y: d.year }) })); } catch (e) { /* ignore */ } }
+  else if (h === 'solo' || /^solo-/.test(h)) { const n = levelIndex(h.slice(5)); switchLevel(/^solo-/.test(h) ? n : S.level, true); }
   else if (root.IMPAKLive && root.IMPAKLive.resume()) { afterJoin(); }
   render(true);
   stageNav.render();

@@ -2,12 +2,12 @@
 
 A browser game for training-of-trainers on science and technology park (STP) management. Teams develop the same 100-acre park month by month across three levels — Rintis (open the gates), Bina (grow the park), Lestari (survive and sustain) — take or decline Deal Room offers, survive a downturn and are scored against the level's mandate. Bahasa Melayu and English.
 
-Version 0.6 (in development): static HTML + JS on GitHub Pages, with a Google Apps Script backend for live sessions. Solo practice runs offline.
+Version 0.6 (public trial): static HTML + JS on GitHub Pages at https://razinutm.github.io/impak-techpark/, with a Google Apps Script backend for live sessions, feedback and anonymous play statistics. Solo practice needs no sign-in.
 
 ## Play
 
-- Open the published page (link to be added once deployed).
-- **Practice solo**: no sign-in, results are not recorded.
+- Open https://razinutm.github.io/impak-techpark/ (or scan the QR code on the start page).
+- **Practice solo**: no sign-in. A game is kept in the browser and can be continued later; leaving early offers to fast-forward to a result or to delete the game.
 - **Live session**: type the room code and team PIN given by the facilitator, then your name and e-mail. The facilitator's screen shows the clock, deals and medals.
 
 ## Facilitators
@@ -50,11 +50,13 @@ None bundled at runtime; a Google-hosted font is loaded by URL. See `THIRD_PARTY
 
 ## Validation status
 
-Engine: 6,300 games × 2 runs — 0 determinism mismatches, 0 replay mismatches; style-bot means within ±1 point of the v0.5 calibration (300 seeds per level). Backend: 23 handler checks under Node stand-ins and an end-to-end GM → team → front-screen run against a mock server; the real Google deployment is tested by the author. Screens: BM/EN, light/dark, desktop and 390 px phone screenshots. See `DESIGN.md` s7 and `AI_USAGE.md`.
+Engine: 6,300 games × 2 runs — 0 determinism mismatches, 0 replay mismatches; style-bot means within ±1 point of the v0.5 calibration (300 seeds per level). Backend: 40 handler checks under Node stand-ins (rooms, joins, codes, orders, replay, feedback, run records, PIN lockout) and an end-to-end GM → team → front-screen run against a mock server; the real Google deployment is tested by the author. Screens: BM/EN, light/dark, desktop and 390 px phone screenshots. See `DESIGN.md` s7 and `AI_USAGE.md`.
 
 ## Data and privacy
 
-Live sessions store display name, e-mail, team and organisation (optional) in a private Google Sheet on a UTM account, for identifying teams and reporting results; records are deleted 12 months after the cohort report. Leaderboards show team names only. Solo practice stores nothing.
+Live sessions store display name, e-mail, team and organisation (optional) in a private Google Sheet on a UTM account, for identifying teams and reporting results; records are deleted 12 months after the cohort report. Leaderboards show team names only.
+
+Public trial (from November 2026): the start page says so. The feedback card (two ratings, two short answers, an optional e-mail) and anonymous play statistics (level, month reached, how the game ended, the reason chosen, medal, minutes played) go to the same private Sheet; no name, address or device identifier is sent, and a solo game is otherwise kept only in the player's browser. Feedback rows with an e-mail are deleted after 12 months. See `apps-script/README.md`, "Data kept".
 
 ## Disclaimer
 
