@@ -123,3 +123,13 @@ The four terms reconfirmed by the author on 8 Nov were already in main from the 
 One string changed: `ui.stage.prevTo` *Sebelum: {where}* → *Sebelumnya: {where}*, following the glossary's rule for *previous (stage)*.
 The remaining WATCH items (e.g. *University-linked → berkait universiti* in 9 strings against the rule that *linked* stays English) and 8 open audit items are with the author in the review page "IMPAK BM review"; his answers will be applied in a follow-up commit.
 Agreed by: Ahmad Razin (termbase and check, 8 Nov 2026); individual WATCH items await his answers.
+
+## 2026-11-08 BM review answers
+The author answered the 24 cards of the review page "IMPAK BM review" (8 Nov 2026). Applied in this pull request:
+- Strings: `join.pdpa` *di bawah akaun UTM*; `say.running` *berbulan-bulan*; `ui.reg.viewport.d` *Keadaan park sekarang*; `stage.2` *Bertahan dan mampan*; `land.solo.d` *melawan … mengikut rentak sendiri*; `vp.fit` *Muat skrin* (and the two tips that quote the button); `tr.play.tip` *Jalankan atau jedakan jam bulanan (Space bar)* (author's wording); debrief tip *Belanjakan dana tersebut …* (author's wording); zone hint *Wetland · retention works dahulu*; label *Forest clearance*.
+- Kept as they are, with the reason recorded in `content/bm-lint-accepted.csv`: *Pekali impak* (socio-economic coefficients), the caretaker lesson's sentence, and *dana tersebut* above.
+- Termbase: *university-linked → berkait universiti* (the tenant status stays *linked*); *surcaj air* allowed for the water surcharge; notes on *Wetland* and *Forest clearance*.
+- PRPM evidence (8 Nov): *Fasa*, *bankrap*, *pratonton*, *sebelumnya* checked and kept. *bergraduat* flagged: DBP's Khidmat Nasihat says *graduat* and *graduasi* are not in Kamus Dewan Edisi Keempat or Kamus Dewan Perdana. Decision pending: keep it as a project term, or rephrase the 17 strings.
+- *Survival* stays the score-part name and *Bertahan* the phase name. The answer on that card ("Tukar" with the comment "setuju; Survival / Bertahan") was read as agreement; to be confirmed.
+- The check now uses bm-l10n v0.1.2: the length rule is off by default (author's answer Q1).
+Decided by: Ahmad Razin (review page, 8 Nov 2026).

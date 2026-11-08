@@ -11,7 +11,8 @@ Development Fund,Development Fund,2,Dana Pembangunan|Tabung Pembangunan,n/a,,til
 fund,fund,2,,n/a,,
 checkpoint,checkpoint,2,,n/a,,
 downturn,downturn,2,,n/a,,severity in Malay: ringan · teruk · krisis
-linked,linked,2,,n/a,,also an admission policy name
+linked,linked,2,,n/a,,also an admission policy name; the tenant status
+university-linked,berkait universiti,1,,n/a,,"impact panel and prose (author, review N1, 8 Nov 2026); the status stays linked"
 unlinked,unlinked,2,,n/a,,
 back-office,back-office,2,,n/a,,
 Tech SME,Tech SME,2,,n/a,,
@@ -25,7 +26,7 @@ receivership,receivership,2,,n/a,,
 mothball,mothball,2,,n/a,,
 sale and leaseback,sale and leaseback,2,,n/a,,
 road,road,2,,n/a,,one of the four services (map badges R W P F)
-water,water|air ribut,2,,n/a,,"one of the four services; storm water (air ribut) is not the service"
+water,water|air ribut|surcaj air,2,,n/a,,"one of the four services; storm water (air ribut) and the water surcharge (surcaj air, review N5) are plain Malay"
 power,power|elektrik grid,2,,n/a,,"one of the four services; grid power on the data-centre card is elektrik grid"
 fibre,fibre,2,,n/a,,one of the four services
 services,services,2,serviced,n/a,,"ada services, not serviced or perkhidmatan"
@@ -53,12 +54,12 @@ Campus Edge,Campus Edge,2,,n/a,,zone name
 Highway Frontage,Highway Frontage,2,,n/a,,zone name
 Central Plateau,Central Plateau,2,,n/a,,zone name
 Forest Ridge,Forest Ridge,2,,n/a,,zone name
-Wetland,Wetland,2,,n/a,,zone name
+Wetland,Wetland,2,,n/a,,"zone name, also in zone-panel hints (review N3)"
 University Reserve,University Reserve,2,,n/a,,zone name
 green buffer,green buffer,2,,n/a,,
 retention works,retention works,2,,n/a,,
 retention park,retention park,2,,n/a,,
-Forest clearance,Forest clearance,2,,n/a,,work order name
+Forest clearance,Forest clearance,2,,n/a,,"work order name, also as a label (review N4); prose says pembukaan hutan"
 ESG,ESG,2,,n/a,,
 SDG,SDG,2,,n/a,,
 benchmark,benchmark|pendahulu,2,penanda aras,n/a,,"park benchmark, because the leaderboard chip says benchmark (decided 6 Nov 2026); the leading benchmark = pendahulu"
@@ -80,7 +81,7 @@ Assumption ledger,Assumption ledger,2,,n/a,,
 Space,Space,2,bar ruang,n/a,,keyboard keys stay in English
 Esc,Esc,2,,n/a,,keyboard key
 Ctrl,Ctrl,2,,n/a,,keyboard key
-Phase,Fasa,1,Phase,unchecked,,Fasa 1 · 2 · 3
+Phase,Fasa,1,Phase,checked,https://prpm.dbp.gov.my/Cari1?keyword=fasa&d=175768,"Fasa 1 · 2 · 3. Kamus Dewan Edisi Keempat: peringkat atau tahap; Glosari Sains Untuk Sekolah: fasa = phase (checked 8 Nov 2026)"
 team,pasukan,1,team,n/a,,everyday word
 Gold,Emas,1,Gold,n/a,,medal
 Silver,Perak,1,Silver,n/a,,medal
@@ -90,27 +91,27 @@ Threat,Ancaman,1,,n/a,,
 Opportunity,Peluang,1,,n/a,,
 die,dadu,1,,n/a,,
 interest,faedah,1,,n/a,,on loans
-graduate,bergraduat,1,,unchecked,,a startup leaving the incubator
+graduate,bergraduat,1,,flagged,https://prpm.dbp.gov.my/Cari1?d=175768&keyword=graduat,"a startup leaving the incubator. Khidmat Nasihat (2009-2021): graduat and graduasi are not in Kamus Dewan Edisi Keempat or Kamus Dewan Perdana; a graduate (person) is siswazah. Author to decide: keep bergraduat as a project term, or rephrase (17 strings)"
 applicant,pemohon,1,,n/a,,
 tenant,penyewa,1,,n/a,,
 acres,ekar,1,,n/a,,map captions: ek
 occupancy,penghunian,1,,checked,https://prpm.dbp.gov.my/Cari1?keyword=occupancy,PRPM lookup 7 Nov 2026 (glossary-bm.md)
 target,sasaran,1,,n/a,,
-preview,pratonton,1,,unchecked,,Deal Room option effects
-fee,fi,1,,checked,https://prpm.dbp.gov.my/Cari1?keyword=fi,PRPM lookup 7 Nov 2026
-bankrupt,bankrap,1,muflis,unchecked,,not muflis
+preview,pratonton,1,,checked,https://prpm.dbp.gov.my/Cari1?d=175768&keyword=pratonton,"Deal Room option effects. Kamus Inggeris-Melayu Dewan: preview = pratonton; Khidmat Nasihat 2018: preview = pratonton or previu (checked 8 Nov 2026)"
+fee,fi|yuran,1,,checked,https://prpm.dbp.gov.my/Cari1?keyword=fi,"PRPM lookup 7 Nov 2026; fi for the bank's restructuring fee, yuran for the incubator's fee"
+bankrupt,bankrap,1,muflis,checked,https://prpm.dbp.gov.my/Cari1?keyword=bankrap&d=175768,"Kamus Dewan Edisi Keempat: bankrap (synonym muflis); MABBIM Ekonomi: bankrupt = bankrap; Khidmat Nasihat: ejaan yang betul ialah bankrap. Rejecting muflis is the project's style choice, not a DBP rule (checked 8 Nov 2026)"
 final bell,loceng akhir,1,,n/a,,
 Home,Halaman utama,1,Laman utama,n/a,,home / start page
 scroll,skrol,1,,checked,https://prpm.dbp.gov.my/Cari1?keyword=skrol,PRPM lookup 7 Nov 2026
 zoom,zum,1,zoom,checked,https://prpm.dbp.gov.my/Cari1?keyword=zum,PRPM lookup 7 Nov 2026
-pan,anjak,1,,checked,https://prpm.dbp.gov.my/Cari1?keyword=anjak,PRPM lookup 7 Nov 2026 (plain Malay; no settled computing equivalent)
+pan,anjak|menganjak,1,,checked,https://prpm.dbp.gov.my/Cari1?keyword=anjak,PRPM lookup 7 Nov 2026 (plain Malay; no settled computing equivalent)
 private,persendirian,1,,checked,https://prpm.dbp.gov.my/Cari1?keyword=persendirian,"the sheet; peribadi = personal (data peribadi stays correct)"
 optional,tidak wajib,1,(pilihan),n/a,,
-previous,sebelumnya,1,,unchecked,,stage label
-n/a,t/b,1,,unchecked,,
+previous,sebelumnya,1,,checked,https://prpm.dbp.gov.my/Cari1?d=175768&keyword=sebelumnya,"stage label. Khidmat Nasihat 2014: previous = sebelumnya or terdahulu (checked 8 Nov 2026)"
+n/a,t/b,1,,unchecked,,"no PRPM entry for the abbreviation (searched 8 Nov 2026); DBP's abbreviation rules are in Gaya Dewan, which is not online"
 Front screen,Skrin hadapan,1,,n/a,,
 Room,Bilik,1,,n/a,,"session room; ""Deal Room"" stays English"
-quarter,suku tahun,1,,n/a,,Suku 2 · Tahun 1
+quarter,suku tahun|suku,1,,n/a,,Suku 2 · Tahun 1
 net cash,tunai bersih,1,,n/a,,
 units ready,unit siap,1,,n/a,,
 Zone,Zon,1,,n/a,,Zon D

@@ -66,6 +66,16 @@ Rules for the Bahasa Melayu interface (decided 6 Nov 2026, extending the earlier
 | net cash · units ready · firms | tunai bersih · unit siap · syarikat |
 | sound · not sound (verdicts) | wajar · kurang wajar |
 | "agrees on 3–6" | "bersetuju jika dadu 3–6" |
+| university-linked (impact panel, prose) | berkait universiti (the tenant status stays *linked*) |
+| water surcharge | surcaj air |
+| Fit (viewport button) | Muat skrin (also where the tips quote it) |
+| pause (verb in a sentence) | jedakan (*jeda* on the button) |
+| play against | melawan |
+| at your own pace | mengikut rentak sendiri |
+| the park as it stands | keadaan park sekarang |
+| Survive and sustain (Lestari) | Bertahan dan mampan |
+| for months | berbulan-bulan |
+| on a UTM account | di bawah akaun UTM |
 
 ## Register
 
@@ -80,6 +90,10 @@ Rules for the Bahasa Melayu interface (decided 6 Nov 2026, extending the earlier
 - Admission policy names (*open*, *priority*, *linked*) and the special award titles (*Best Operator*, *Sound Judgement*…): they are names shown on the console and the front screen.
 - Colour names in the legends (*teal*, *amber*).
 - *trade-off*, *hover*, *banner*, *seed*, *Assumption ledger*.
+- Zone names also in zone-panel hints (*Wetland · retention works dahulu*); *Forest clearance* where it names the work order (prose keeps *pembukaan hutan*).
+- *Space bar* in the clock tip.
+
+Exceptions the author accepted on 8 Nov 2026 (listed with reasons in `content/bm-lint-accepted.csv`, so the BM lint check does not report them): *dana tersebut* in the debrief tip on spending the fund; *Pekali impak* for the socio-economic coefficients in the Assumption ledger; the caretaker lesson's sentence as written.
 
 ## Work orders on the zone panel
 
@@ -93,7 +107,7 @@ Rules for the Bahasa Melayu interface (decided 6 Nov 2026, extending the earlier
 | Fibre | Pasang fibre |
 | Forest clearance · Retention works | same |
 
-PRPM lookups (7 Nov 2026), one at a time:
+PRPM lookups (7 and 8 Nov 2026), one at a time:
 
 | Word | PRPM finding | Kept |
 |---|---|---|
@@ -102,6 +116,11 @@ PRPM lookups (7 Nov 2026), one at a time:
 | zum | Kamus Dewan Edisi Keempat: changing a lens's focal length to enlarge or shrink the image (*zum dekat*, *zum jauh*); 14 MABBIM and 41 Istilah entries. https://prpm.dbp.gov.my/Cari1?keyword=zum | yes |
 | skrol | Kamus Dewan Edisi Keempat records the spelling (older sense: a roll of written material); 21 Istilah and 2 MABBIM entries carry the computing sense. https://prpm.dbp.gov.my/Cari1?keyword=skrol | yes |
 | anjak | Kamus Dewan Edisi Keempat: *menganjak*, to move something from its place, usually by sliding it. *Pan* and *panning* have Istilah entries whose contents the page does not show, so no settled computing equivalent was confirmed; *menganjak* is kept as plain Malay for "drag to move the map". https://prpm.dbp.gov.my/Cari1?keyword=anjak | yes |
+| fasa | Kamus Dewan Edisi Keempat: peringkat atau tahap dalam rangkaian sesuatu perkembangan; Glosari Sains Untuk Sekolah: *fasa* = phase. https://prpm.dbp.gov.my/Cari1?keyword=fasa&d=175768 (8 Nov) | yes |
+| bankrap | Kamus Dewan Edisi Keempat: *bankrap*, synonym *muflis*; MABBIM (Ekonomi): bankrupt = bankrap; Khidmat Nasihat: the correct spelling is *bankrap*. Preferring *bankrap* over *muflis* is this project's choice; DBP accepts both. https://prpm.dbp.gov.my/Cari1?keyword=bankrap&d=175768 (8 Nov) | yes |
+| pratonton | Kamus Inggeris-Melayu Dewan: preview = *pratonton*; Khidmat Nasihat (2018): preview = *pratonton* or *previu*. https://prpm.dbp.gov.my/Cari1?d=175768&keyword=pratonton (8 Nov) | yes |
+| sebelumnya | Khidmat Nasihat (2014): previous = *sebelumnya* or *terdahulu*. https://prpm.dbp.gov.my/Cari1?d=175768&keyword=sebelumnya (8 Nov) | yes |
+| bergraduat | Khidmat Nasihat (2009–2021): *graduat* and *graduasi* are not in Kamus Dewan Edisi Keempat or Kamus Dewan Perdana; a graduate (person) is *siswazah*. https://prpm.dbp.gov.my/Cari1?d=175768&keyword=graduat (8 Nov) | decision pending (17 strings) |
 
 The tutor's steps quote these button names, so a change here must also change `content/texts.js` (`act.0.road`).
 
