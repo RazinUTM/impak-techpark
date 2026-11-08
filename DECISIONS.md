@@ -133,3 +133,8 @@ The author answered the 24 cards of the review page "IMPAK BM review" (8 Nov 202
 - *Survival* stays the score-part name and *Bertahan* the phase name. The answer on that card ("Tukar" with the comment "setuju; Survival / Bertahan") was read as agreement; to be confirmed.
 - The check now uses bm-l10n v0.1.2: the length rule is off by default (author's answer Q1).
 Decided by: Ahmad Razin (review page, 8 Nov 2026).
+
+## 2026-11-08 Survival and bergraduat confirmed
+*Survival* stays the score-part name (kept in English like *impact*) and *Bertahan* the phase name; no strings change.
+*bergraduat* stays in all 17 strings as a declared project term, although DBP's Khidmat Nasihat says *graduat* is not in Kamus Dewan Edisi Keempat or Kamus Dewan Perdana: the players use the word daily, and no DBP-recorded verb fits a startup leaving an incubator. The termbase keeps the PRPM finding (`status=flagged`); the decision is in `content/bm-lint-accepted.csv`.
+Decided by: Ahmad Razin (8 Nov 2026).

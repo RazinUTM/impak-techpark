@@ -91,7 +91,7 @@ Threat,Ancaman,1,,n/a,,
 Opportunity,Peluang,1,,n/a,,
 die,dadu,1,,n/a,,
 interest,faedah,1,,n/a,,on loans
-graduate,bergraduat,1,,flagged,https://prpm.dbp.gov.my/Cari1?d=175768&keyword=graduat,"a startup leaving the incubator. Khidmat Nasihat (2009-2021): graduat and graduasi are not in Kamus Dewan Edisi Keempat or Kamus Dewan Perdana; a graduate (person) is siswazah. Author to decide: keep bergraduat as a project term, or rephrase (17 strings)"
+graduate,bergraduat,1,,flagged,https://prpm.dbp.gov.my/Cari1?d=175768&keyword=graduat,"a startup leaving the incubator. Khidmat Nasihat (2009-2021): graduat and graduasi are not in Kamus Dewan Edisi Keempat or Kamus Dewan Perdana; a graduate (person) is siswazah. The author keeps bergraduat as a declared project term (8 Nov 2026); accepted in bm-lint-accepted.csv"
 applicant,pemohon,1,,n/a,,
 tenant,penyewa,1,,n/a,,
 acres,ekar,1,,n/a,,map captions: ek

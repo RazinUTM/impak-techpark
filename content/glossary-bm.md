@@ -38,7 +38,7 @@ Rules for the Bahasa Melayu interface (decided 6 Nov 2026, extending the earlier
 | Threat · Opportunity | Ancaman · Peluang |
 | die · roll | dadu · baling |
 | interest (on loans) | faedah |
-| graduate (a startup leaving the incubator) | bergraduat |
+| graduate (a startup leaving the incubator) | bergraduat (not in Kamus Dewan; kept as a project term, 8 Nov) |
 | applicant · tenant | pemohon · penyewa |
 | acres | ekar (map captions: *ek*) |
 | occupancy | penghunian (tile, tables, lessons, debrief) |
@@ -120,7 +120,7 @@ PRPM lookups (7 and 8 Nov 2026), one at a time:
 | bankrap | Kamus Dewan Edisi Keempat: *bankrap*, synonym *muflis*; MABBIM (Ekonomi): bankrupt = bankrap; Khidmat Nasihat: the correct spelling is *bankrap*. Preferring *bankrap* over *muflis* is this project's choice; DBP accepts both. https://prpm.dbp.gov.my/Cari1?keyword=bankrap&d=175768 (8 Nov) | yes |
 | pratonton | Kamus Inggeris-Melayu Dewan: preview = *pratonton*; Khidmat Nasihat (2018): preview = *pratonton* or *previu*. https://prpm.dbp.gov.my/Cari1?d=175768&keyword=pratonton (8 Nov) | yes |
 | sebelumnya | Khidmat Nasihat (2014): previous = *sebelumnya* or *terdahulu*. https://prpm.dbp.gov.my/Cari1?d=175768&keyword=sebelumnya (8 Nov) | yes |
-| bergraduat | Khidmat Nasihat (2009–2021): *graduat* and *graduasi* are not in Kamus Dewan Edisi Keempat or Kamus Dewan Perdana; a graduate (person) is *siswazah*. https://prpm.dbp.gov.my/Cari1?d=175768&keyword=graduat (8 Nov) | decision pending (17 strings) |
+| bergraduat | Khidmat Nasihat (2009–2021): *graduat* and *graduasi* are not in Kamus Dewan Edisi Keempat or Kamus Dewan Perdana; a graduate (person) is *siswazah*. https://prpm.dbp.gov.my/Cari1?d=175768&keyword=graduat (8 Nov) | yes, as a declared project term: understood by the park managers, TTO staff and academics who play, and no DBP-recorded verb fits a startup leaving an incubator (Kamus Dewan has *inkubator* only as a device for eggs or newborns) |
 
 The tutor's steps quote these button names, so a change here must also change `content/texts.js` (`act.0.road`).
 
