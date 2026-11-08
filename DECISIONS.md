@@ -116,3 +116,10 @@ Learning from the benchmarks (requested by the author: participants should see w
 - The engine and the strategies are unchanged; the impact sources use the engine's own formula, read-only. The benchmark record now also keeps the applicant type of each admission, for display only (the replay ignores it).
 Version 0.6.0-beta.2.
 Requested by: Ahmad Razin; the one-quarter lag and the GM option await his confirmation.
+
+## 2026-11-08 BM lint check on pull requests
+`content/termbase-bm.csv` is the machine-checkable copy of `content/glossary-bm.md` (115 rows: 81 kept in English, 34 translated; rejected forms such as *Phase*, *team*, *Gold/Silver/Bronze*, *penanda aras*, *muflis*, *zoom*, *Laman utama*; the PRPM evidence of 7 Nov carried over as URLs). The *BM lint* workflow runs [bm-l10n](https://github.com/RazinUTM/bm-l10n) on every pull request that touches `src/` or `content/`, over the 11 files that carry Malay text (1,578 strings, 106 of them Malay-only in `content/game-ms.js`); the length rule is off. A FIX finding fails the check; WATCH findings are notes. On main `badb3bd`: FIX 0, WATCH 20.
+The four terms reconfirmed by the author on 8 Nov were already in main from the 6 Nov pass: *Fasa*, *pasukan*, *Emas · Perak · Gangsa*; *Survival* stays the score-part name (kept in English like *impact*), *Bertahan* the phase name.
+One string changed: `ui.stage.prevTo` *Sebelum: {where}* → *Sebelumnya: {where}*, following the glossary's rule for *previous (stage)*.
+The remaining WATCH items (e.g. *University-linked → berkait universiti* in 9 strings against the rule that *linked* stays English) and 8 open audit items are with the author in the review page "IMPAK BM review"; his answers will be applied in a follow-up commit.
+Agreed by: Ahmad Razin (termbase and check, 8 Nov 2026); individual WATCH items await his answers.

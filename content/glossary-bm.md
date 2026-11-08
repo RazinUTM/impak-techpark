@@ -104,3 +104,5 @@ PRPM lookups (7 Nov 2026), one at a time:
 | anjak | Kamus Dewan Edisi Keempat: *menganjak*, to move something from its place, usually by sliding it. *Pan* and *panning* have Istilah entries whose contents the page does not show, so no settled computing equivalent was confirmed; *menganjak* is kept as plain Malay for "drag to move the map". https://prpm.dbp.gov.my/Cari1?keyword=anjak | yes |
 
 The tutor's steps quote these button names, so a change here must also change `content/texts.js` (`act.0.road`).
+
+Machine-checkable copy: `content/termbase-bm.csv` (columns `en, bm, tier, reject, status, source, note`), checked by the *BM lint* workflow on every pull request. Change the two together.

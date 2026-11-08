@@ -372,7 +372,7 @@ const I18N = {
     'ui.stage.item': 'Level {n}: {name}',
     'ui.stage.prev': 'Level sebelumnya',
     'ui.stage.next': 'Level seterusnya',
-    'ui.stage.prevTo': 'Sebelum: {where}',
+    'ui.stage.prevTo': 'Sebelumnya: {where}',
     'ui.stage.nextTo': 'Seterusnya: {where}',
     'ui.stage.inModule': '{module}, Level {n}: {name}',
     'ui.stage.start': 'Ini level pertama',

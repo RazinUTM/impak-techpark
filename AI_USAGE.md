@@ -1,9 +1,9 @@
 # AI usage disclosure
 
-Tools: Claude (Fable 5.1, claude.ai), 3 Nov 2026 onward. Earlier versions (v0.1–v0.5.4, Sep–Oct 2026) were also built with Claude in claude.ai; no per-module record was kept at the time.
+Tools: Claude (Fable 5.1, claude.ai), 3 Nov 2026 onward; Claude (Opus 5.5, claude.ai), 8 Nov 2026 (BM termbase and lint check). Earlier versions (v0.1–v0.5.4, Sep–Oct 2026) were also built with Claude in claude.ai; no per-module record was kept at the time.
 Scope: code generation, refactoring, tests, documentation, image processing scripts, BM/EN translation of UI strings.
 Human verification: all generated material was reviewed, modified where needed and validated by the author, who made the design decisions recorded in DESIGN.md and DECISIONS.md. The author designed the game (levels, mandates, deals, scoring) and its calibration targets, chose the shell layout, the access model and the licence posture.
-Last updated: 2026-11-08
+Last updated: 2026-11-08 (BM lint)
 
 | Component | Origin | Human role | Verified by |
 | --- | --- | --- | --- |
@@ -25,3 +25,4 @@ Last updated: 2026-11-08
 | content/texts.js, content/run-sheet.md | AI-drafted tutor lines, activity steps, predictions and theory from the author's rule book | Author review pending | — |
 | tools/avatar_split.py | AI-generated | Author checked the contact sheet | visual check |
 | tools/build.py, tools/calib.js, tools/shot.js, tools/gs_test.js, tools/mock_server.js, tools/live_test.js, tools/live_test2.js, tools/bench_unit.js, tools/bench_test.js, tools/live_bench_test.js | AI-generated | Reviewed | run in session |
+| content/termbase-bm.csv, .github/workflows/bm-lint.yml | AI-generated 8 Nov 2026: termbase transcribed from the author's content/glossary-bm.md; workflow runs RazinUTM/bm-l10n pinned by commit | Glossary decisions are the author's; transcription to be checked in the pull request | BM lint on main badb3bd: FIX 0, WATCH 20; workflow simulated with GitHub's environment variables |
