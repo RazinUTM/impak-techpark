@@ -31,12 +31,17 @@ vm.createContext(ctx);
 vm.runInContext(fs.readFileSync(path.join(DIR, 'engine.gs'), 'utf8'), ctx);
 vm.runInContext(fs.readFileSync(path.join(DIR, 'Code.gs'), 'utf8'), ctx);
 vm.runInContext('setup()', ctx);
+if (process.env.OLD_BACKEND) {             // behave like the backend before 8 Nov 2026: no feedback/run ops, ping without features
+  vm.runInContext("var __h = handle; handle = function (p) { if (p.op === 'feedback' || p.op === 'run') return { error: 'op' }; var r = __h(p); if (p.op === 'ping') { delete r.api; delete r.features; } return r; };", ctx);
+  console.log('(simulating the older backend)');
+}
 store.GM_PIN = '123456';
 console.log('mock Apps Script on http://localhost:' + PORT + '/exec   GM e-mail gm@example.my   GM_PIN ' + store.GM_PIN);
 http.createServer((req, res) => {
   const cors = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' };
   const u = new URL(req.url, 'http://localhost');
   const reply = (p) => { let out; try { out = vm.runInContext('handle(' + JSON.stringify(p) + ')', ctx); } catch (e) { out = { error: 'server', message: String(e) }; } res.writeHead(200, cors); res.end(JSON.stringify(out)); };
+  if (req.method === 'GET' && u.pathname === '/debug/sheet') { res.writeHead(200, cors); return res.end(JSON.stringify((sheets[u.searchParams.get('name')] || { rows: [] }).rows)); }   // tests only
   if (req.method === 'GET') { const p = {}; u.searchParams.forEach((v, k) => { p[k] = v; }); return reply(p); }
   let body = ''; req.on('data', (c) => { body += c; }); req.on('end', () => { let p = {}; try { p = JSON.parse(body); } catch (e) { /* ignore */ } reply(p); });
 }).listen(PORT);

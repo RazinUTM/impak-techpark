@@ -248,6 +248,7 @@ function html(res, tm, opts) {
   if (a.nextMedal && a.next.length) h += '<div class="db-sub">' + esc(L('For ', 'Untuk ') + MEDAL(a.nextMedal) + L(' you needed', ' anda perlukan')) + '</div><p class="db-d">' + esc(a.next.join(' · ')) + '</p>';
   if (a.vs && !a.vs.ahead && a.vs.diffs.length) h += '<div class="db-sub">' + esc(L('Compared with ', 'Berbanding ') + a.vs.name + (a.vs.bench ? L(' (benchmark)', ' (benchmark)') : '')) + '</div><p class="db-d">' +
     esc(a.vs.diffs.map((x) => x.k + ' +' + n1(x.d)).join(' · ') + (a.vs.theirFac.length ? L('. They had: ', '. Mereka ada: ') + a.vs.theirFac.join(', ') + '.' : '')) + '</p>';
+  if (root.IMPAKBench) h += root.IMPAKBench.debriefHTML(res, tm);                 // how the leading benchmark built its park (bench.js)
   h += '<div class="row db-actions"><button class="btn primary" data-act="transcript"' + (o.team ? ' data-team="' + esc(o.team) + '"' : '') + '>' + esc(L('Download transcript (PDF)', 'Muat turun transkrip (PDF)')) + '</button></div></details>';
   return h;
 }
@@ -327,6 +328,8 @@ function transcript(res, tm, meta) {
     : L(a.vs.name + (a.vs.bench ? ' (benchmark)' : '') + ' scored ' + n1(a.vs.total) + '. It earned more on ', a.vs.name + (a.vs.bench ? ' (benchmark)' : '') + ' mendapat ' + n1(a.vs.total) + '. Ia mendapat lebih pada ') + (a.vs.diffs.map((x) => x.k + ' (+' + n1(x.d) + ')').join(', ') || '—') +
       (a.vs.theirFac.length ? L('. Facilities it had and you did not: ', '. Kemudahan yang ada padanya tetapi tiada pada anda: ') + a.vs.theirFac.join(', ') : '') + '.') + '</p>');
 
+  if (root.IMPAKBench) body += root.IMPAKBench.transcriptHTML(res, tm, sec);
+
   const dl = t.dlog.filter((d) => d.eligible || d.opt === null);
   if (dl.length) body += sec(L('Decision journal', 'Jurnal keputusan'), '<table class="dj"><thead><tr><th>' + esc(L('When', 'Tarikh')) + '</th><th>' + esc(L('Deal', 'Deal')) + '</th><th>' + esc(L('Choice', 'Pilihan')) + '</th><th></th><th>' + esc(L('Principle', 'Prinsip')) + '</th></tr></thead><tbody>' + dl.map((d) => {
     const ev = res.sc.events.find((e) => e.id === d.eid), Ls = (root.LESSONS || {})[d.card];
@@ -373,7 +376,7 @@ table{border-collapse:collapse;width:100%}th,td{text-align:left;vertical-align:t
 .ch{margin:6px 0;break-inside:avoid}.ch figcaption{font-size:9pt;font-weight:600}.ch figcaption span{font-weight:400;color:#5b6478}.ch svg{width:100%;height:auto}
 .gr{stroke:#e3e6ec;stroke-width:1}.zero{stroke:#9aa3b5;stroke-width:1}.ax{font-size:8px;fill:#5b6478}.ln{stroke:#4f7cff;stroke-width:2;stroke-linejoin:round}
 .gaps td{border-bottom:1px solid #eef0f4;padding:5px 6px}.gaps .k{font-weight:700;width:12mm;text-align:center}.gaps .k span{font-weight:500;color:#b4472c;font-size:9pt}.tip{color:#1f5130;margin-top:2px}
-.dj{font-size:9pt}.dj th{color:#5b6478;font-weight:600;border-bottom:1px solid #d8dce6}.dj td{border-bottom:1px solid #eef0f4}.dj .na td{color:#8a92a5}.v{font-weight:700;text-align:center}.v.ok{color:#1f7a3a}.v.no{color:#b4472c}
+.dj{font-size:9pt}.dj th{color:#5b6478;font-weight:600;border-bottom:1px solid #d8dce6}.dj.mile caption{text-align:left;font-size:8.8pt;color:#5b6478;padding:2px 0}.dj.mile .bm{color:#5b6478}.dj td{border-bottom:1px solid #eef0f4}.dj .na td{color:#8a92a5}.v{font-weight:700;text-align:center}.v.ok{color:#1f7a3a}.v.no{color:#b4472c}
 ul,ol{margin:4px 0;padding-left:18px}li{margin:2px 0}.take li{margin:4px 0}.refl{border:1px solid #d8dce6;border-radius:6px;padding:6px 10px;margin-top:10px;break-inside:avoid}.refl p{min-height:14mm;margin:4px 0 0;display:block}
 footer{margin-top:16px;padding-top:6px;border-top:1px solid #d8dce6;font-size:8.3pt;color:#6b7387}
 @media print{.edit:empty::before{content:''}body{background:#fff}.page{margin:0;padding:0;box-shadow:none;max-width:none}.bar-top{display:none}.edit{border-bottom:0}.cert .frame{min-height:265mm}}

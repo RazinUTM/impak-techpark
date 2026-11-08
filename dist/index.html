@@ -1221,6 +1221,99 @@ dialog.exitbox { width: min(520px, calc(100vw - 24px)); }
 .g .banner.fastend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
 .g .banner.fastend .btn { margin-left: auto; }
 
+/* v0.6 — overlays taller than the screen (final card with debrief and feedback) start at the top and scroll;
+   grid place-items:center pushed the top out of reach. Auto margins centre short cards and fall back to the top. */
+.g .overlay { place-items: start center; }
+.g .overlay > * { margin-block: auto; }
+
+.fb-row .req { color: var(--bad); font-weight: 700; }
+.fb-row.need span { color: var(--bad); }
+.fb-row.need .stars { outline: 2px solid color-mix(in srgb, var(--bad) 55%, transparent); border-radius: 8px; }
+.fb-f input.bad { border-color: var(--bad); outline: 1px solid var(--bad); }
+.g .panel.oldserver { border-color: var(--warn); background: color-mix(in srgb, var(--warn) 9%, var(--card)); }
+
+/* v0.6 — learning from the benchmark parks (src/bench.js). Chart colours checked for contrast on the card surface
+   in both themes: you #2a78d6 / #3987e5, the chosen benchmark #eb6834 / #d95926; other benchmarks in muted grey. */
+:root { --ch-you: #2a78d6; --ch-bench: #eb6834; }
+:root[data-theme="dark"] { --ch-you: #3987e5; --ch-bench: #d95926; }
+.g .bn-src { flex-wrap: wrap; gap: 6px; margin: 0 0 8px; }
+.g .bn-head { margin: 2px 0; font-size: 14px; }
+.g .bn-lag { font-size: 12px; margin: 0 0 6px; }
+.g .bn-plan { font-size: 13px; }
+.g .bn-q { border-top: 1px solid var(--line-soft); padding: 8px 0 4px; }
+.g .bn-qh { display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline; font-size: 13px; }
+.g .bn-fig { margin-left: auto; font-size: 12px; color: var(--ink2); }
+.g .bn-l { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 6px; }
+.g .bn-l li { font-size: 13px; line-height: 1.4; }
+.g .bn-k { display: inline-block; min-width: 76px; font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+.g .bn-why { margin: 2px 0 0 82px; font-size: 12.5px; color: var(--ink2); }
+.g .bn-v { font-size: 12px; font-weight: 600; }
+.g .bn-l li.bn-deal.ok .bn-v { color: var(--good); }
+.g .bn-l li.bn-deal.no .bn-v { color: var(--bad); }
+.g .bn-l li.quiet { color: var(--muted); font-style: italic; }
+.g .bn-more > summary { cursor: pointer; font-size: 13px; color: var(--ink2); margin: 8px 0 4px; }
+@media (max-width: 560px) { .g .bn-why { margin-left: 0; } .g .bn-k { display: block; } }
+.g .bl { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); display: grid; gap: 10px; }
+.g .bl-h { margin: 0; font-size: 15px; }
+.g .bl-sub { margin: -4px 0 0; font-size: 13px; }
+.g .bl-prof { border: 1px solid var(--line-soft); border-radius: 8px; padding: 8px 10px; background: var(--card-head); }
+.g .bl-prof p { margin: 5px 0 0; font-size: 13px; }
+.g .bl-les { color: var(--ink); }
+.g .bl-ins { margin: 2px 0 0; font-size: 13px; }
+.g .bl-eng small { font-weight: 400; text-transform: none; letter-spacing: 0; }
+.g .bl-eng .tot td { font-weight: 700; border-top: 1px solid var(--line); }
+.g .bl-mile caption, .debrief .bl-mile caption { caption-side: top; text-align: left; font-size: 12px; color: var(--ink2); padding: 0 0 4px; }
+.g .bl-mile .bm { color: var(--ink2); }
+.bch { margin: 0; position: relative; outline: none; border-radius: 8px; }
+.bch:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+.bch-leg { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12.5px; color: var(--ink2); margin: 0 0 4px; }
+.bch-leg i { display: inline-block; width: 16px; height: 0; border-top: 2px solid var(--muted); vertical-align: middle; margin-right: 6px; }
+.bch-leg i.you { border-color: var(--ch-you); }
+.bch-leg i.bench { border-color: var(--ch-bench); }
+.bch-leg i.dot { width: 9px; height: 9px; border: 2px solid var(--card); border-radius: 50%; background: var(--ch-bench); box-shadow: 0 0 0 1px var(--ch-bench); }
+.bch-box { position: relative; }
+.bch svg { display: block; width: 100%; height: auto; touch-action: pan-y; cursor: crosshair; }
+.bch .gl { stroke: var(--grid); stroke-width: 1; }
+.bch .zl { stroke: var(--axis); stroke-width: 1; }
+.bch .ax { fill: var(--muted); font-size: 11px; font-family: var(--font); }
+.bch .ln { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.bch .ln.you { stroke: var(--ch-you); }
+.bch .ln.bench { stroke: var(--ch-bench); }
+.bch .ln.other { stroke: var(--muted); opacity: .6; }
+.bch .mk { fill: var(--ch-bench); stroke: var(--card); stroke-width: 2; }
+.bch .el { font-size: 11.5px; font-weight: 700; font-family: var(--font); }
+.bch .el.you { fill: var(--ch-you); }
+.bch .el.bench { fill: var(--ch-bench); }
+.bch .bch-x { stroke: var(--axis); stroke-width: 1; }
+.bch .bch-dot { stroke: var(--card); stroke-width: 2; fill: var(--muted); }
+.bch .bch-dot.you { fill: var(--ch-you); }
+.bch .bch-dot.bench { fill: var(--ch-bench); }
+.bch-tip { position: absolute; top: 2px; z-index: 3; max-width: min(270px, 70%); background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); padding: 7px 9px; font-size: 12.5px; line-height: 1.35; pointer-events: none; }
+.bch-tip .t-h { font-weight: 700; margin-bottom: 3px; }
+.bch-tip .t-r { display: flex; align-items: center; gap: 6px; }
+.bch-tip .t-r b { font-family: var(--f-mono, monospace); font-variant-numeric: tabular-nums; min-width: 42px; text-align: right; }
+.bch-tip .t-r.other { color: var(--ink2); }
+.bch-tip .sw { flex: none; width: 10px; height: 10px; border-radius: 2px; background: var(--muted); }
+.bch-tip .sw.you { background: var(--ch-you); }
+.bch-tip .sw.bench { background: var(--ch-bench); }
+.bch-tip .t-m { margin-top: 5px; padding-top: 4px; border-top: 1px solid var(--line-soft); }
+.bch-tip .t-m ul { margin: 2px 0 0; padding-left: 16px; }
+.bch figcaption { font-size: 12px; color: var(--ink2); margin-top: 4px; }
+.bch-tbl > summary { cursor: pointer; font-size: 12.5px; color: var(--ink2); margin-top: 4px; }
+.g .bdeal { margin: 8px 0 0; }
+.g .bdeal ul { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 5px; }
+.g .bdeal li { font-size: 13px; }
+.g .bdeal .bd-v { font-weight: 600; font-size: 12.5px; }
+.g .bdeal .bd-v.ok { color: var(--good); }
+.g .bdeal .bd-v.no { color: var(--bad); }
+.g .bdeal .bd-out { color: var(--ink2); font-size: 12.5px; }
+.g .bstudy .bs-tools { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+.g .bstudy .deal-body { gap: 12px; }
+.g .bl-prof i { color: var(--ink2); }
+.g .bl-eng th:first-child, .g .bl-eng td:first-child { white-space: normal; }
+.bch-tbl td:last-child { white-space: normal; min-width: 180px; text-align: left; }
+.g .bl-mile td { white-space: nowrap; }
+
 </style>
 </head>
 <body>
@@ -2494,7 +2587,7 @@ const C = PB.CFG, CARDS = PB.CARDS;
 const BRAND = {
   name: "IMPAK", tag: "Technovation Park", mark: "IMPAK™ – Technovation Park",
   get copyright() { return HOST.lang === "ms" ? "© 2026 Ahmad Razin Zainal Abidin dan Universiti Teknologi Malaysia · kod MIT · kandungan permainan CC BY-NC-ND 4.0" : "© 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia · code MIT · game content CC BY-NC-ND 4.0"; },
-  version: "0.6.0-beta.1",
+  version: "0.6.0-beta.2",
 };
 
 /* =============================================================== host adapter (browser or server fills this in) */
@@ -2586,7 +2679,8 @@ function clockOf(g, sc, nowMs) {
 const AIC = {};
 function aiRecord(sc, key) {
   const S = AI.S[key]; const t = PB.newTeam(S.label, S.policy, sc.lv); const log = [], dec = {}; let seq = 0;
-  const act = m => o => { const v = PB.validate(t, sc, o, m); if (!v.ok) return false; const ok = PB.applyOrder(t, sc, o, m); if (ok) log.push(Object.assign({ t: m - 1 + 0.2, seq: seq++ }, o)); return ok; };
+  /* each applied order is logged; an admission also keeps the applicant's type (ten) for the benchmark news in bench.js */
+  const act = m => o => { const v = PB.validate(t, sc, o, m); if (!v.ok) return false; const a = o.type === "admit" ? t.applicants.find(x => x.id === o.aid) : null; const ok = PB.applyOrder(t, sc, o, m); if (ok) log.push(Object.assign({ t: m - 1 + 0.2, seq: seq++ }, o, a ? { ten: a.type } : null)); return ok; };
   for (let m = 1; m <= sc.months; m++) {
     if (t.receiver) continue;
     PB.startMonth(t, sc, m); S.monthly(t, sc, m, act(m), PB);
@@ -3460,7 +3554,7 @@ function previewOpt(t, sc, ev, opt, m) {
 }
 function fmtTimer(ms) { const s = Math.max(0, Math.ceil(ms / 1000)); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); }
 function dieHTML(ev, sc, big) { const st = big ? ` style="width:96px;height:96px;font-size:62px"` : ""; return sc.lv.dice ? `<div class="die"${st} aria-label="${L("Die", "Dadu")}">${ev.deal}</div>` : `<div class="die ok"${st} aria-label="${L("Accepted", "Diterima")}">✓</div>`; }
-function outcomeL(text, Cd) { const rest = text.slice(Cd.title.length + 2); const M = MSX(); return M ? M.mon(M.sayMS(rest)) : rest; }
+function outcomeL(text, Cd) { const rest = text.slice(Cd.title.length + 2); const M = MSX(); const s = M ? M.mon(M.sayMS(rest)) : rest; return s.charAt(0).toUpperCase() + s.slice(1); }
 function dealTeam(res, tm) {
   const g = res.g, ck = res.ck, st = store();
   if (g.fast && st.mode === "solo" && g.status !== "ended") return "";
@@ -3650,10 +3744,10 @@ function goldMiss(x, lv) { const r = x.rub, t = x.t, o = []; if (r.park.score < 
 
 /* =============================================================== GM console */
 function gmSetupHTML() {
-  const s = APP.ui.setup || (APP.ui.setup = { seed: newSeed(), n: 6, names: [], bench: ["garden", "rocket", "caretaker"], pace: LEVEL_TEXT.rintis.pace, window: 90, auto: true, level: "rintis", site: HOST.site || "corridor" });
+  const s = APP.ui.setup || (APP.ui.setup = { seed: newSeed(), n: 6, names: [], bench: ["garden", "rocket", "caretaker"], pace: LEVEL_TEXT.rintis.pace, window: 90, auto: true, level: "rintis", site: HOST.site || "corridor", benchView: "lag" });
   for (let i = 0; i < s.n; i++) if (!s.names[i]) s.names[i] = "Team " + (i + 1);
   if (s.cash == null) s.cash = lvl(s.level).startCash;
-  const key = JSON.stringify([s.n, s.bench, s.pace, s.window, s.auto, s.level, s.site, s.cash, APP.ui.setupNonce || 0, !!game(), HOST.lang]);
+  const key = JSON.stringify([s.n, s.bench, s.pace, s.window, s.auto, s.level, s.site, s.cash, s.benchView, APP.ui.setupNonce || 0, !!game(), HOST.lang]);
   const LV = lvl(s.level), sc = scen("preview", s.level);
   const clockMin = Math.round(LV.months * s.pace / 60000), dealMin = Math.round(sc.events.length * (s.window + 20) / 60);
   const html = `<div class="setup panel card"><h2>${L("Set up a live game", "Sediakan permainan langsung")}</h2>
@@ -3664,6 +3758,7 @@ function gmSetupHTML() {
 <div class="row"><span class="label">${L("Teams", "Pasukan")}</span>${stepper("su-n", s.n)}<span class="label" style="margin-left:14px">${L("Starting cash (Cr)", "Tunai permulaan (Cr)")}</span>${stepper("su-cash", s.cash)}<span class="muted">${L(`default ${lvl(s.level).startCash} Cr; every team and benchmark park starts with the same amount`, `lalai ${lvl(s.level).startCash} Cr; setiap pasukan dan park benchmark bermula dengan jumlah yang sama`)}</span></div>
 <div class="teamnames">${s.names.slice(0, s.n).map((nm, i) => `<label class="field"><span class="label">${L("Team", "Pasukan")} ${i + 1}</span><input type="text" id="su-name-${i}" value="${esc(nm)}" data-in="name" data-i="${i}" maxlength="24"></label>`).join("")}</div>
 <div class="field"><span class="label">${L("Benchmark parks on the leaderboard", "Park benchmark pada papan kedudukan")}</span><div class="checks">${AI.ORDER.slice().reverse().map(k => `<label><input type="checkbox" data-act="su-bench" data-k="${k}"${s.bench.includes(k) ? " checked" : ""}> ${esc(AI.S[k].label)}</label>`).join("")}</div></div>
+<label class="row" style="flex-wrap:nowrap;align-items:flex-start"><input type="checkbox" data-act="su-benchview"${s.benchView !== "end" ? " checked" : ""} style="margin-top:3px"><span>${L("Teams can follow the benchmark parks' moves and deal choices, one quarter late. If unticked, they are revealed at the final bell.", "Pasukan boleh mengikuti langkah dan pilihan deal park benchmark, lewat satu suku tahun. Jika tidak ditanda, semuanya didedahkan pada loceng akhir.")}</span></label>
 <div class="row"><span class="label">${L("One month every", "Satu bulan setiap")}</span>${[30000, 45000, 60000, 90000].map(v => `<button class="btn sm${s.pace === v ? " primary" : ""}" data-act="su-pace" data-v="${v}">${v / 1000} s</button>`).join("")}<span class="muted">${L(`about ${clockMin} minutes of clock and ${dealMin} minutes of deals`, `kira-kira ${clockMin} minit jam dan ${dealMin} minit deal`)}</span></div>
 <div class="row"><span class="label">${L("Deal window", "Tempoh deal")}</span>${[60, 90, 120].map(v => `<button class="btn sm${s.window === v ? " primary" : ""}" data-act="su-win" data-v="${v}">${v} s</button>`).join("")}</div>
 <label class="row"><input type="checkbox" data-act="su-auto"${s.auto ? " checked" : ""}> ${L("Close each deal when its time runs out, and restart the clock 15 seconds after the reveal", "Tutup setiap deal apabila masanya tamat, dan mulakan semula jam 15 saat selepas keputusan didedahkan")}</label>
@@ -3687,7 +3782,7 @@ function viewGM(res) {
 <div class="bigdate" style="font-size:64px">${dmyL(d)}<small>${yrL(d.year)}</small></div>
 <div class="row">${ctl}<span class="label" style="margin-left:6px">${L("One month every", "Satu bulan setiap")}</span>${[30000, 45000, 60000, 90000].map(v => `<button class="btn sm${mpm === v ? " primary" : ""}" data-act="gm-pace" data-v="${v}">${v / 1000} s</button>`).join("")}</div>
 <div class="muted">${nxt || "&nbsp;"}</div>
-<div class="faint" style="font-size:12px">Seed ${esc(g.seed)} · ${g.teams.length} ${L("teams", "pasukan")} · ${L("start cash", "tunai permulaan")} ${g.startCash != null ? g.startCash : res.lv.startCash} Cr</div><div class="row" style="font-size:13px"><span class="chip ${g.auto ? "acc" : "amb"}">${g.auto ? L("Deals: automatic", "Deal: automatik") : L("Deals: manual", "Deal: manual")}</span><span class="muted">${g.auto ? L("Each deal closes when its " + (g.window || 90) + " s run out and the clock restarts 15 s after the reveal. The month clock always runs until you pause it.", "Setiap deal ditutup apabila " + (g.window || 90) + " s tamat dan jam bermula semula 15 s selepas keputusan didedahkan. Jam bulanan sentiasa berjalan sehingga anda menjedanya.") : L("Deals stay open until you press Close the deal and reveal, and the clock waits until you press Resume. The month clock still runs between deals; use Pause to stop it.", "Deal kekal dibuka sehingga anda menekan Tutup deal dan dedahkan, dan jam menunggu sehingga anda menekan Sambung. Jam bulanan masih berjalan antara deal; gunakan Jeda untuk menghentikannya.")}</span><button class="btn sm" data-act="gm-auto">${g.auto ? L("Switch to manual", "Tukar ke manual") : L("Switch to automatic", "Tukar ke automatik")}</button></div></div>`;
+<div class="faint" style="font-size:12px">Seed ${esc(g.seed)} · ${g.teams.length} ${L("teams", "pasukan")} · ${L("start cash", "tunai permulaan")} ${g.startCash != null ? g.startCash : res.lv.startCash} Cr</div><div class="row" style="font-size:13px"><span class="chip ${g.auto ? "acc" : "amb"}">${g.auto ? L("Deals: automatic", "Deal: automatik") : L("Deals: manual", "Deal: manual")}</span><span class="muted">${g.auto ? L("Each deal closes when its " + (g.window || 90) + " s run out and the clock restarts 15 s after the reveal. The month clock always runs until you pause it.", "Setiap deal ditutup apabila " + (g.window || 90) + " s tamat dan jam bermula semula 15 s selepas keputusan didedahkan. Jam bulanan sentiasa berjalan sehingga anda menjedanya.") : L("Deals stay open until you press Close the deal and reveal, and the clock waits until you press Resume. The month clock still runs between deals; use Pause to stop it.", "Deal kekal dibuka sehingga anda menekan Tutup deal dan dedahkan, dan jam menunggu sehingga anda menekan Sambung. Jam bulanan masih berjalan antara deal; gunakan Jeda untuk menghentikannya.")}</span><button class="btn sm" data-act="gm-auto">${g.auto ? L("Switch to manual", "Tukar ke manual") : L("Switch to automatic", "Tukar ke automatik")}</button></div>${(g.bench || []).length ? `<div class="row" style="font-size:13px"><span class="chip ${g.benchView === "end" ? "amb" : "acc"}">${g.benchView === "end" ? L("Benchmark moves: at the final bell", "Langkah benchmark: pada loceng akhir") : L("Benchmark moves: one quarter late", "Langkah benchmark: lewat satu suku tahun")}</span><span class="muted">${g.benchView === "end" ? L("Teams see the benchmark parks' scores but not their moves or deal choices until the game ends.", "Pasukan melihat skor park benchmark tetapi tidak langkah atau pilihan deal-nya sehingga permainan tamat.") : L("Teams can follow each benchmark park's moves and deal choices in News and Standings, one quarter late.", "Pasukan boleh mengikuti langkah dan pilihan deal setiap park benchmark dalam Berita dan Kedudukan, lewat satu suku tahun.")}</span><button class="btn sm" data-act="gm-benchview">${g.benchView === "end" ? L("Show them one quarter late", "Paparkan lewat satu suku tahun") : L("Hide until the final bell", "Sembunyikan hingga loceng akhir")}</button></div>` : ""}</div>`;
   Lh += `<div class="panel card"><h2>${L("Message to every screen", "Mesej ke semua skrin")}</h2><div class="row"><input type="text" id="gm-notice" data-in="notice" data-enter="gm-notice" maxlength="160" value="${esc(APP.ui.notice || "")}" placeholder="${L("e.g. Ten minutes to the checkpoint. Check your applicants.", "cth. Sepuluh minit lagi ke checkpoint. Semak pemohon anda.")}" style="flex:1;min-width:220px;font:inherit;padding:7px 9px;border:1px solid var(--rule);border-radius:6px;background:var(--panel);color:var(--ink)"><button class="btn primary" data-act="gm-notice">${L("Send", "Hantar")}</button>${g.notice ? `<button class="btn" data-act="gm-notice-clear">${L("Clear", "Kosongkan")}</button>` : ""}</div>${g.notice ? `<div class="muted">${L("Showing now", "Dipaparkan sekarang")}: “${esc(g.notice.text)}”</div>` : `<div class="faint" style="font-size:12px">${L("Shows as a banner on every team dashboard and on the front screen until you clear it.", "Dipaparkan sebagai banner pada papan setiap pasukan dan skrin hadapan sehingga anda mengosongkannya.")}</div>`}</div>`;
   Lh += gmHold(res);
   if (res.final) Lh += gmEnd(res);
@@ -3819,7 +3914,7 @@ function autoTick(res, serverSide) {
   else { isGM = (APP.role === "gm" || APP.role === "screen") && st.mode === "live" && APP.canEdit; isSolo = st.mode === "solo" && APP.role === "solo"; }
   if (!isGM && !isSolo) return;
   if (A.busy) return;
-  const run = p => { A.busy = true; Promise.resolve(p).catch(e => toast("Could not update the game: " + (e && e.message || e), "bad")).finally(() => { A.busy = false; }); };
+  const run = p => { A.busy = true; Promise.resolve(p).catch(e => toast(L("Could not update the game: ", "Permainan tidak dapat dikemas kini: ") + (e && e.message || e), "bad")).finally(() => { A.busy = false; }); };
   if (!serverSide && isGM && st.db && g.status === "running" && Date.now() - A.lastHB > 15000) { A.lastHB = Date.now(); run(st.gmUpdate({ hb: Date.now() })); return; }
   if (isSolo && g.fast && g.status !== "ended") {                      // ending early: every stop closes at once, deals as Leave
     if (ck.hold && ck.hold.kind !== "end") { run(closeHold(res, ck.hold)); return; }
@@ -3859,13 +3954,13 @@ const ACT = {
     const res = currentRes(); if (!res) return; const o = JSON.parse(d.o); const tm = teamOf(res, APP.teamId);
     const a = canAct(res); if (!a.ok) return toast(a.why, "bad");
     const v = PB.validate(tm.t, res.sc, o, res.mCur); if (!v.ok) return toast(whyL(v.why), "bad");
-    Promise.resolve(store().placeOrder(APP.teamId, o, res.ck.T)).catch(e => toast("The order was not saved: " + (e && e.message || e) + ". Try again.", "bad"));
+    Promise.resolve(store().placeOrder(APP.teamId, o, res.ck.T)).catch(e => toast(L("The order was not saved: ", "Arahan tidak disimpan: ") + (e && e.message || e) + L(". Try again.", ". Cuba lagi."), "bad"));
     toast(orderText(o));
   },
   decide(d) {
     const res = currentRes(); if (!res || !res.ck.hold || res.ck.hold.id !== d.eid) return;
     const val = d.zone ? { opt: d.opt, zone: d.zone } : d.opt;
-    Promise.resolve(store().decide(APP.teamId, d.eid, val)).catch(e => toast("Your choice was not saved: " + (e && e.message || e), "bad"));
+    Promise.resolve(store().decide(APP.teamId, d.eid, val)).catch(e => toast(L("Your choice was not saved: ", "Pilihan anda tidak disimpan: ") + (e && e.message || e), "bad"));
   },
   "seen-reveal"() { APP.ui.seenReveal = game().lastReveal; },
   "seen-end"() { APP.ui.seenEnd = true; },
@@ -3901,13 +3996,14 @@ const ACT = {
   "su-pace"(d) { APP.ui.setup.pace = +d.v; },
   "su-win"(d) { APP.ui.setup.window = +d.v; },
   "su-auto"(d, el) { APP.ui.setup.auto = !!(el && el.checked); },
+  "su-benchview"(d, el) { APP.ui.setup.benchView = el && el.checked ? "lag" : "end"; },
   "gm-create"() {
     const s = APP.ui.setup; const seed = (s.seed || "").trim().replace(/[^A-Za-z0-9_.~:@+-]/g, "-") || newSeed();
     const teams = []; for (let i = 0; i < s.n; i++) teams.push({ id: "t" + (i + 1), name: (s.names[i] || "Team " + (i + 1)).trim().slice(0, 24) || "Team " + (i + 1) });
-    const g = { gid: seed + "-" + rid(4), seed, startCash: s.cash != null ? s.cash : lvl(s.level || "lestari").startCash, level: s.level || "lestari", site: s.site || HOST.site || "corridor", teams, bench: s.bench.slice(), status: "setup", startedAt: 0, accMs: 0, msPerMonth: s.pace, window: s.window, auto: s.auto,
+    const g = { gid: seed + "-" + rid(4), seed, startCash: s.cash != null ? s.cash : lvl(s.level || "lestari").startCash, level: s.level || "lestari", site: s.site || HOST.site || "corridor", teams, bench: s.bench.slice(), benchView: s.benchView === "end" ? "end" : "lag", status: "setup", startedAt: 0, accMs: 0, msPerMonth: s.pace, window: s.window, auto: s.auto,
       closed: {}, dec: {}, openAt: {}, defence: {}, reveal: false, lastReveal: null, revealAt: 0, hb: Date.now(), createdAt: Date.now() };
     APP.ui.gmNew = false; APP.ui.confirmNew = false;
-    Promise.resolve(store().gmSet(g)).then(() => toast("Game created. Start the clock when the teams are ready."), e => toast("Could not create the game: " + (e && e.message || e), "bad"));
+    Promise.resolve(store().gmSet(g)).then(() => toast(L("Game created. Start the clock when the teams are ready.", "Permainan dicipta. Mulakan jam apabila pasukan sudah bersedia.")), e => toast(L("Could not create the game: ", "Permainan tidak dapat dicipta: ") + (e && e.message || e), "bad"));
   },
   "gm-cancel-new"() { APP.ui.gmNew = false; },
   "gm-start"() { store().gmUpdate({ status: "running", startedAt: now(), accMs: 0, hb: Date.now() }); },
@@ -3915,6 +4011,7 @@ const ACT = {
   "gm-resume"() { store().gmUpdate({ status: "running", startedAt: now(), lastReveal: null, hb: Date.now() }); },
   "gm-pace"(d) { const res = currentRes(), v = +d.v; store().gmUpdate({ msPerMonth: v, accMs: res.ck.T * v, startedAt: now() }); },
   "gm-auto"() { store().gmUpdate({ auto: !game().auto }); },
+  "gm-benchview"() { store().gmUpdate({ benchView: game().benchView === "end" ? "lag" : "end" }); },
   "gm-end-ask"() { APP.ui.confirmEnd = true; },
   "gm-end-no"() { APP.ui.confirmEnd = false; },
   "gm-end-yes"() { APP.ui.confirmEnd = false; const res = currentRes(); if (!res) return; const closed = {}; for (const p of pausePoints(res.sc)) closed[p.id] = true; store().gmUpdate({ status: "ended", closed, lastReveal: null, accMs: res.sc.months * res.g.msPerMonth }); },
@@ -3929,8 +4026,8 @@ const ACT = {
   "gm-new-no"() { APP.ui.confirmNew = false; },
   "gm-new-yes"() { APP.ui.confirmNew = false; APP.ui.gmNew = true; APP.ui.setup = null; },
   "gm-purge"() {
-    const st = store(); if (!st.purgeOld) return; APP.ui.purge = "Deleting…";
-    st.purgeOld(n => { APP.ui.purge = "Deleted " + n + "…"; }).then(n => { APP.ui.purge = n ? "Deleted " + n + " records from earlier games." : "Nothing to delete."; }, e => { APP.ui.purge = "Stopped: " + (e && e.message || e); });
+    const st = store(); if (!st.purgeOld) return; APP.ui.purge = L("Deleting…", "Memadam…");
+    st.purgeOld(n => { APP.ui.purge = L("Deleted ", "Dipadam ") + n + "…"; }).then(n => { APP.ui.purge = n ? L("Deleted " + n + " records from earlier games.", n + " rekod daripada permainan terdahulu dipadam.") : L("Nothing to delete.", "Tiada apa-apa untuk dipadam."); }, e => { APP.ui.purge = L("Stopped: ", "Dihentikan: ") + (e && e.message || e); });
   },
   "gm-export"() { const res = currentRes(); HOST.save("impak-" + res.g.gid + ".csv", resultsCSV(res)); },
   "gm-log"() { const res = currentRes(); const g = res.g; const out = { game: g, orders: {}, decisions: {} }; for (const t of g.teams) out.orders[t.id] = store().ordersFor(t.id); HOST.save("impak-" + g.gid + "-log.json", JSON.stringify(out, null, 1)); },
@@ -5225,7 +5322,7 @@ const I18N = {
     'ui.reg.viewport': 'Site plan',
     'ui.reg.viewport.d': 'The park as it stands: eight zones, services, buildings under construction and their tenants. Click a zone to select it; hover for details. Pin A / B keep a picture for comparison; Fit refits the view.',
     'ui.reg.results': 'Results',
-    'ui.reg.results.d': 'Key values (cash, fund, loans, score pace, ESG, action points) and tabs: Park, Impact, Standings, News, Pins and Rules. Fold either part to give the site plan more room.',
+    'ui.reg.results.d': 'Key values (cash, fund, loans, score pace, ESG, action points) and tabs: Park, Impact, Standings, News, Pins and Rules. Standings and News also let you learn from the benchmark parks: what they did, one quarter late, and why it scores. Fold either part to give the site plan more room.',
     'ui.reg.guide': 'Guide',
     'ui.reg.guide.d': 'The tutor explains what is happening. The yellow box is the current activity step: do it and the next one appears; “Go to” shows where the control is. Below: coach tips and notices, predictions, the step list, the decision journal, “Why?” (theory), the assumption ledger and the glossary of terms.',
     'ui.reg.sim': 'Clock bar',
@@ -5327,19 +5424,23 @@ const I18N = {
     'end.early': 'Ended early on {date}: the remaining months ran without new orders.',
     'fb.open': 'Feedback',
     'fb.title': 'How was the game for you?',
-    'fb.sub': 'About a minute. It goes to the park team at UTM and shapes the next version.',
+    'fb.sub': 'About a minute. The stars are required; the written answers and the e-mail are optional. It goes to the park team at UTM.',
     'fb.fun': 'I enjoyed it',
     'fb.learn': 'I learned something about running a park',
-    'fb.good': 'What was most useful?',
-    'fb.bad': 'What was confusing, or did not work?',
+    'fb.good': 'What was most useful? (optional)',
+    'fb.bad': 'What was confusing, or did not work? (optional)',
     'fb.email': 'E-mail (optional, if we may contact you)',
     'fb.pdpa': 'Anonymous unless you add an e-mail. We record the level, medal and month reached with your answers. Kept for 12 months in a private UTM sheet, then deleted.',
     'fb.send': 'Send',
     'fb.later': 'Not now',
-    'fb.need': 'Pick a rating or write a line first.',
+    'fb.need': 'Choose the stars for both questions.',
+    'fb.email.bad': 'That e-mail does not look right. Correct it or leave it empty.',
+    'fb.queued': 'Thank you. Your feedback is saved in this browser and will be sent automatically when the server is ready.',
     'fb.thanks': 'Thank you. Your feedback has been recorded.',
     'fb.fail': 'Could not send the feedback. Check the connection and try again.',
     'fb.star': '{n} of 5',
+    'gm.oldserver': 'The Apps Script backend is an older version: feedback, play statistics, the checkpoint clock fix, starting cash and the PIN lockout are not active yet. Redeploy Code.gs: in the Apps Script project paste the new Code.gs, then Deploy → Manage deployments → edit (pencil) → Version: New version → Deploy. The web-app URL stays the same.',
+    'gm.queued': '{n} feedback or statistics records are waiting in this browser and will be sent once the backend is updated.',
   },
   ms: {
     'app.title': 'IMPAK',
@@ -5482,7 +5583,7 @@ const I18N = {
     'ui.reg.viewport': 'Site plan',
     'ui.reg.viewport.d': 'Park seperti sedia ada: lapan zon, services, bangunan dalam pembinaan dan penyewanya. Klik zon untuk memilihnya; hover untuk butiran. Pin A / B menyimpan gambar untuk perbandingan; Muat mengembalikan paparan.',
     'ui.reg.results': 'Keputusan',
-    'ui.reg.results.d': 'Nilai utama (tunai, fund, pinjaman, skor park, ESG, action point) dan tab: Park, Impact, Kedudukan, Berita, Pin dan Peraturan. Lipat mana-mana bahagian supaya site plan dapat lebih ruang.',
+    'ui.reg.results.d': 'Nilai utama (tunai, fund, pinjaman, skor park, ESG, action point) dan tab: Park, Impact, Kedudukan, Berita, Pin dan Peraturan. Kedudukan dan Berita juga membolehkan anda belajar daripada park benchmark: apa yang dibuatnya, lewat satu suku tahun, dan kenapa ia memberi markah. Lipat mana-mana bahagian supaya site plan dapat lebih ruang.',
     'ui.reg.guide': 'Panduan',
     'ui.reg.guide.d': 'Tutor menerangkan apa yang berlaku. Kotak kuning ialah langkah aktiviti semasa: buat, dan langkah seterusnya muncul; “Pergi ke” menunjukkan kedudukan kawalan. Di bawah: tip coach dan notis, ramalan, senarai langkah, jurnal keputusan, “Kenapa?” (teori), assumption ledger dan glosari istilah.',
     'ui.reg.sim': 'Bar jam',
@@ -5582,19 +5683,23 @@ const I18N = {
     'end.early': 'Ditamatkan awal pada {date}: baki bulan berjalan tanpa arahan baharu.',
     'fb.open': 'Maklum balas',
     'fb.title': 'Bagaimana permainan ini bagi anda?',
-    'fb.sub': 'Kira-kira seminit. Ia sampai kepada pasukan park di UTM dan membentuk versi seterusnya.',
+    'fb.sub': 'Kira-kira seminit. Bintang wajib diisi; jawapan bertulis dan e-mel tidak wajib. Ia sampai kepada pasukan park di UTM.',
     'fb.fun': 'Saya seronok bermain',
     'fb.learn': 'Saya belajar sesuatu tentang mengurus park',
-    'fb.good': 'Apa yang paling berguna?',
-    'fb.bad': 'Apa yang mengelirukan, atau tak berfungsi?',
+    'fb.good': 'Apa yang paling berguna? (tidak wajib)',
+    'fb.bad': 'Apa yang mengelirukan, atau tidak berfungsi? (tidak wajib)',
     'fb.email': 'E-mel (tidak wajib, jika kami boleh menghubungi anda)',
     'fb.pdpa': 'Tanpa nama melainkan anda tambah e-mel. Kami merekodkan level, pingat dan bulan dicapai bersama jawapan anda. Disimpan 12 bulan dalam sheet persendirian UTM, kemudian dipadam.',
     'fb.send': 'Hantar',
     'fb.later': 'Nanti',
-    'fb.need': 'Pilih rating atau tulis sebaris dahulu.',
+    'fb.need': 'Pilih bintang untuk kedua-dua soalan.',
+    'fb.email.bad': 'E-mel ini tidak sah. Betulkan atau kosongkan.',
+    'fb.queued': 'Terima kasih. Maklum balas anda disimpan dalam pelayar ini dan akan dihantar secara automatik apabila server bersedia.',
     'fb.thanks': 'Terima kasih. Maklum balas anda telah direkodkan.',
     'fb.fail': 'Maklum balas tidak dapat dihantar. Semak sambungan dan cuba lagi.',
     'fb.star': '{n} daripada 5',
+    'gm.oldserver': 'Backend Apps Script masih versi lama: maklum balas, statistik permainan, pembetulan jam checkpoint, tunai permulaan dan kunci PIN belum aktif. Redeploy Code.gs: dalam projek Apps Script, tampal Code.gs baharu, kemudian Deploy → Manage deployments → edit (pensel) → Version: New version → Deploy. URL web app kekal sama.',
+    'gm.queued': '{n} rekod maklum balas atau statistik sedang menunggu dalam pelayar ini dan akan dihantar sebaik backend dikemas kini.',
   },
 };
 if (typeof window !== 'undefined') window.I18N = I18N;
@@ -6221,6 +6326,172 @@ root.IMPAK_MS = { CARDS, TEN, WORKS, SEV, esgWhy, sayMS, note, mon, init };
 
 </script>
 <script>
+/* IMPAK – Technovation Park — the benchmark parks: what each one does, why it scores, and the principle behind
+   each kind of move (game content).
+   Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia.
+   Licensed under CC BY-NC-ND 4.0 — see content/LICENSE. Not covered by the MIT licence of the code.
+
+   PROFILES describe the scripted strategies in src/strategies.js in plain words: the plan, why it scores, where it
+   is weak, and the lesson for a real park. Keep them in step with that file when a strategy changes.
+   PRINCIPLES give one line for each kind of move; src/bench.js shows the line beside a benchmark's move the first
+   time the benchmark makes that kind of move. Technical terms stay in English in the BM text (content/glossary-bm.md). */
+(function (root) {
+'use strict';
+const PROFILES = {
+  garden: {
+    en: { tag: 'Grows in phases',
+      plan: 'Fibre, the cheap shed retrofits and KPI & Impact Reporting in the first months; then University Lab Access, the Incubator and Shared Services. It adds a Modular block only when free space is down to one or two units, reserves a Zone H plot, asks for Conditions on most deals and never borrows more than 4 Cr. From Year 2 it puts spare cash into Innovation programmes.',
+      why: 'Every unit it adds fills quickly, so income keeps pace with upkeep. Impact is verified from the start, and facilities and programmes add impact without big capital.',
+      weak: 'Slow to add large space: when many applicants arrive at once, some are lost for lack of room.',
+      lesson: 'Start with what you already have (old buildings, the university\'s labs), prove demand, then build in phases that you can fill.' },
+    ms: { tag: 'Berkembang secara berperingkat',
+      plan: 'Fibre, retrofit shed yang murah dan KPI & Impact Reporting pada bulan-bulan awal; kemudian University Lab Access, Incubator dan Shared Services. Modular block hanya ditambah apabila ruang kosong tinggal satu atau dua unit. Ia merizabkan satu plot Zon H, memilih Conditions pada kebanyakan deal dan tidak pernah meminjam lebih daripada 4 Cr. Mulai Tahun 2, lebihan tunai dimasukkan ke dalam Innovation programmes.',
+      why: 'Setiap unit yang ditambah cepat diisi, jadi pendapatan seiring dengan upkeep. Impact disahkan sejak awal, dan kemudahan serta programme menambah impact tanpa modal besar.',
+      weak: 'Lambat menambah ruang besar: apabila banyak pemohon datang serentak, sebahagiannya terlepas kerana tiada ruang.',
+      lesson: 'Mulakan dengan apa yang sudah ada (bangunan lama, makmal universiti), buktikan permintaan, kemudian bina secara berperingkat mengikut kemampuan untuk mengisinya.' },
+  },
+  bold: {
+    en: { tag: 'Takes calculated risks',
+      plan: 'KPI & Impact Reporting early, then its own Shared Prototyping Lab and the Incubator; a New Build as soon as the demand gate is met (80% occupancy or an anchor in the park), then more space as demand grows. It borrows up to 8 Cr for capacity and takes a deal outright when the rules call that option sound.',
+      why: 'The Lab earns income and impact from every linked tenant and draws R&D anchors. Big buildings come only after demand is proven, so they fill.',
+      weak: 'More debt and upkeep than Garden: a severe downturn squeezes it harder.',
+      lesson: 'Invest in what makes the park distinctive (a shared lab, an anchor), but let evidence of demand decide when to build.' },
+    ms: { tag: 'Mengambil risiko yang dikira',
+      plan: 'KPI & Impact Reporting awal, kemudian Shared Prototyping Lab sendiri dan Incubator; New Build sebaik sahaja demand gate dipenuhi (penghunian 80% atau ada anchor dalam park), kemudian ruang tambahan mengikut pertumbuhan permintaan. Ia meminjam sehingga 8 Cr untuk kapasiti dan terus memilih Take apabila peraturan menganggap opsyen itu wajar.',
+      why: 'Lab memperoleh pendapatan dan impact daripada setiap penyewa linked serta menarik R&D anchor. Bangunan besar hanya dibina selepas permintaan terbukti, jadi ia terisi.',
+      weak: 'Hutang dan upkeep lebih tinggi daripada Garden: downturn yang teruk lebih menghimpitnya.',
+      lesson: 'Labur pada apa yang menjadikan park anda berbeza (makmal bersama, anchor), tetapi biar bukti permintaan yang menentukan bila untuk membina.' },
+  },
+  purist: {
+    en: { tag: 'Mission first',
+      plan: 'Declares Forest Ridge a green buffer in month 1 and admits linked tenants only. The Incubator, University Lab Access and the Engagement Covenant come early; retention works turn the wetland into a retention park; it reserves two Zone H plots, runs Innovation programmes and never borrows.',
+      why: 'Very low drift and a strong ESG record. Every tenant adds impact, and the green land adds impact every year at no capital cost.',
+      weak: 'Fewer applicants qualify and linked tenants pay lower rent, so income grows slowly; some space and cash stay unused.',
+      lesson: 'A clear mission protects the park\'s purpose, but the park still has to pay its way.' },
+    ms: { tag: 'Misi diutamakan',
+      plan: 'Mengisytiharkan Forest Ridge sebagai green buffer pada bulan 1 dan hanya menerima penyewa linked. Incubator, University Lab Access dan Engagement Covenant disediakan awal; retention works menjadikan Wetland sebuah retention park. Ia merizabkan dua plot Zon H, menjalankan Innovation programmes dan tidak pernah meminjam.',
+      why: 'Drift sangat rendah dan rekod ESG yang kukuh. Setiap penyewa menambah impact, dan tanah hijau menambah impact setiap tahun tanpa kos modal.',
+      weak: 'Kurang pemohon yang layak dan penyewa linked membayar sewa lebih rendah, jadi pendapatan tumbuh perlahan; sebahagian ruang dan tunai tidak digunakan.',
+      lesson: 'Misi yang jelas melindungi tujuan park, tetapi park masih perlu menampung kosnya sendiri.' },
+  },
+  rocket: {
+    en: { tag: 'Grows fast on debt',
+      plan: 'Services the Central Plateau (road, water, power, fibre) and starts a New Build there early with the Development Fund, then its own Lab, the Incubator and a second New Build. It admits anyone, borrows up to 12 Cr and takes growth deals as offered.',
+      why: 'A lot of space early and the fund fully used, so Phase 1 marks and rent can jump.',
+      weak: 'The plateau floods unless it is protected, open admission raises landlord drift, and debt costs more when rates rise in the downturn.',
+      lesson: 'Speed wins early marks, but a park that admits anyone drifts away from technology. Know which risks you are carrying.' },
+    ms: { tag: 'Berkembang pantas dengan hutang',
+      plan: 'Menyediakan services di Central Plateau (road, water, power, fibre) dan memulakan New Build di situ lebih awal dengan Development Fund, kemudian Lab sendiri, Incubator dan New Build kedua. Ia menerima semua pemohon, meminjam sehingga 12 Cr dan memilih deal pertumbuhan seperti yang ditawarkan.',
+      why: 'Banyak ruang sejak awal dan fund digunakan sepenuhnya, jadi markah Fasa 1 dan sewa boleh melonjak.',
+      weak: 'Plateau dilanda banjir jika tidak dilindungi, kemasukan terbuka menaikkan drift tuan tanah, dan kos hutang meningkat apabila kadar faedah naik semasa downturn.',
+      lesson: 'Kepantasan memberi markah awal, tetapi park yang menerima semua pemohon akan menyimpang daripada teknologi. Kenali risiko yang anda tanggung.' },
+  },
+  tower: {
+    en: { tag: 'Builds for corporates',
+      plan: 'Services the Highway Frontage and builds there for corporates, admits back-office tenants first, clears the forest for more blocks and takes most land deals as offered. It borrows up to 12 Cr.',
+      why: 'Back-office tenants pay 30% more on the frontage, so rent and FCR12 look strong.',
+      weak: 'Few linked tenants: high landlord drift, little impact, and an ESG loss from clearing the forest.',
+      lesson: 'Rent pays the bills, but a park judged on innovation needs linked tenants, not just let floors.' },
+    ms: { tag: 'Membina untuk korporat',
+      plan: 'Menyediakan services di Highway Frontage dan membina untuk korporat di situ, mengutamakan penyewa back-office, membuka hutan untuk blok tambahan dan memilih kebanyakan deal tanah seperti yang ditawarkan. Ia meminjam sehingga 12 Cr.',
+      why: 'Penyewa back-office membayar 30% lebih di frontage, jadi sewa dan FCR12 kelihatan kukuh.',
+      weak: 'Sedikit penyewa linked: drift tuan tanah tinggi, impact rendah, dan ESG terjejas kerana pembukaan hutan.',
+      lesson: 'Sewa menampung kos, tetapi park yang dinilai pada inovasi memerlukan penyewa linked, bukan sekadar ruang yang disewa.' },
+  },
+  caretaker: {
+    en: { tag: 'Spends the minimum',
+      plan: 'Fibre and one shed retrofit, nothing more. It lets the Development Fund lapse and takes only easy money in the Deal Room.',
+      why: 'It never runs out of cash.',
+      weak: 'Little impact, an unused fund and almost no linked tenants: low marks in nearly every part.',
+      lesson: 'Avoiding risk is not the same as managing it: an unused fund and empty land are impact the park never delivers.' },
+    ms: { tag: 'Berbelanja minimum',
+      plan: 'Fibre dan satu retrofit shed, tiada yang lain. Ia membiarkan Development Fund luput dan hanya mengambil wang mudah dalam Deal Room.',
+      why: 'Ia tidak pernah kehabisan tunai.',
+      weak: 'Impact rendah, fund tidak digunakan dan hampir tiada penyewa linked: markah rendah dalam hampir setiap bahagian.',
+      lesson: 'Mengelak risiko tidak sama dengan mengurus risiko: fund yang tidak digunakan dan tanah kosong ialah impact yang tidak pernah dihasilkan.' },
+  },
+  reckless: {
+    en: { tag: 'Everything at once',
+      plan: 'Services and builds on the plateau, the frontage and the cleared forest together, launches most facilities, admits anyone and takes almost every deal as offered, on up to 15 Cr of debt.',
+      why: 'A great deal of space very early.',
+      weak: 'Overruns, empty buildings and interest; in the downturn it usually needs a bailout or ends in receivership.',
+      lesson: 'Capacity you cannot fill is a cost, not an asset.' },
+    ms: { tag: 'Semuanya serentak',
+      plan: 'Menyediakan services dan membina di plateau, frontage dan hutan yang dibuka secara serentak, melancarkan kebanyakan kemudahan, menerima semua pemohon dan memilih hampir setiap deal seperti yang ditawarkan, dengan hutang sehingga 15 Cr.',
+      why: 'Ruang yang sangat banyak sejak awal.',
+      weak: 'Lebihan kos, bangunan kosong dan faedah; semasa downturn ia biasanya memerlukan bailout atau berakhir dengan receivership.',
+      lesson: 'Kapasiti yang tidak dapat diisi ialah kos, bukan aset.' },
+  },
+};
+
+const PRINCIPLES = {
+  fibre: { en: 'Tech tenants need fibre: 0.5 Cr and two months open the zone to Tech SMEs, spin-offs and anchors.',
+    ms: 'Penyewa teknologi memerlukan fibre: 0.5 Cr dan dua bulan membuka zon itu kepada Tech SME, spin-off dan anchor.' },
+  svc: { en: 'Services before buildings: a block in a zone without road, water and power stands empty. Power costs half when a neighbouring zone already has it.',
+    ms: 'Services sebelum bangunan: blok dalam zon tanpa road, water dan power akan kosong. Power separuh harga apabila zon jiran sudah ada power.' },
+  clear: { en: 'Clearing the forest costs 2 Cr, six months or more and ESG; it pays only if the land will be filled.',
+    ms: 'Membuka hutan memerlukan 2 Cr, enam bulan atau lebih dan menjejaskan ESG; ia hanya berbaloi jika tanah itu akan diisi.' },
+  retention: { en: 'Retention works protect the low ground (Zones E and G) from floods and earn ESG.',
+    ms: 'Retention works melindungi tanah rendah (Zon E dan G) daripada banjir dan menambah ESG.' },
+  retrofit: { en: 'Retrofit first: an old shed becomes 3 units for 3 Cr in six months, the cheapest space in the park, and the Development Fund can pay for it.',
+    ms: 'Retrofit dahulu: shed lama menjadi 3 unit dengan 3 Cr dalam enam bulan, ruang paling murah dalam park, dan Development Fund boleh membiayainya.' },
+  modular: { en: 'A Modular block (4 units, six months) added only when free space is nearly gone fills almost at once.',
+    ms: 'Modular block (4 unit, enam bulan) yang ditambah hanya apabila ruang kosong hampir habis akan terisi hampir serta-merta.' },
+  newbuild: { en: 'A New Build gives 6 units but takes 12 months and 2 Cr a year of upkeep; started with the demand gate met, it avoids the overrun risk of a speculative build.',
+    ms: 'New Build memberi 6 unit tetapi mengambil 12 bulan dan upkeep 2 Cr setahun; jika dimulakan selepas demand gate dipenuhi, ia mengelakkan risiko lebihan kos binaan spekulatif.' },
+  moth: { en: 'Mothballing an empty building saves its upkeep until demand returns.',
+    ms: 'Mothball bangunan kosong menjimatkan upkeep sehingga permintaan kembali.' },
+  f_kpi: { en: 'KPI & Impact Reporting first: until it runs, every impact point counts only half.',
+    ms: 'KPI & Impact Reporting dahulu: selagi ia belum berjalan, setiap mata impact hanya dikira separuh.' },
+  f_incubator: { en: 'The Incubator turns startups into impact (+1 a year each); graduates move in as Tech SMEs (+3).',
+    ms: 'Incubator menukar startup menjadi impact (+1 setahun setiap satu); yang bergraduat masuk sebagai Tech SME (+3).' },
+  f_labaccess: { en: 'University Lab Access (0.5 Cr) is the cheap way to qualify for R&D anchors, and it adds impact once two linked tenants are in.',
+    ms: 'University Lab Access (0.5 Cr) ialah cara murah untuk layak menerima R&D anchor, dan ia menambah impact apabila ada dua penyewa linked.' },
+  f_lab: { en: 'An own Shared Prototyping Lab (3 Cr) earns income from linked tenants, adds up to +2 impact a year and helps startups graduate.',
+    ms: 'Shared Prototyping Lab sendiri (3 Cr) memperoleh pendapatan daripada penyewa linked, menambah sehingga +2 impact setahun dan membantu startup bergraduat.' },
+  f_liaison: { en: 'The Industry Liaison Office brings one extra applicant every quarter: more linked tenants to choose from.',
+    ms: 'Industry Liaison Office membawa satu pemohon tambahan setiap suku tahun: lebih banyak penyewa linked untuk dipilih.' },
+  f_covenant: { en: 'The Engagement Covenant turns one back-office tenant into a linked Tech SME every June and adds impact for linked tenants.',
+    ms: 'Engagement Covenant menukar seorang penyewa back-office menjadi Tech SME yang linked setiap Jun dan menambah impact bagi penyewa linked.' },
+  f_services: { en: 'Shared Services earn a little from every tenant and keep half of the Tech SMEs that would close in a downturn.',
+    ms: 'Shared Services memperoleh sedikit daripada setiap penyewa dan mengekalkan separuh daripada Tech SME yang sepatutnya tutup semasa downturn.' },
+  f_mgmt: { en: 'A Park Management Team gives one more action point every quarter.',
+    ms: 'Park Management Team memberi satu action point tambahan setiap suku tahun.' },
+  cancel: { en: 'Closing a facility saves its upkeep but loses what it gave.',
+    ms: 'Menutup kemudahan menjimatkan upkeep tetapi manfaatnya turut hilang.' },
+  anchor: { en: 'An R&D anchor takes 3 units, pays the most rent, adds 3 impact a year and brings one more applicant every quarter.',
+    ms: 'R&D anchor mengambil 3 unit, membayar sewa tertinggi, menambah 3 impact setahun dan membawa satu pemohon tambahan setiap suku tahun.' },
+  linked: { en: 'Linked tenants (Tech SMEs, spin-offs) add impact every year and keep landlord drift low; in Zone C each adds +1 more.',
+    ms: 'Penyewa linked (Tech SME, spin-off) menambah impact setiap tahun dan mengekalkan drift tuan tanah rendah; di Zon C setiap satu menambah +1 lagi.' },
+  startup: { en: 'Startups pay little but add impact every year and may graduate into Tech SMEs.',
+    ms: 'Startup membayar sedikit tetapi menambah impact setiap tahun dan mungkin bergraduat menjadi Tech SME.' },
+  unlinked: { en: 'Back-office tenants pay good rent but add no impact and raise drift; the priority policy keeps them to half of the let units.',
+    ms: 'Penyewa back-office membayar sewa yang baik tetapi tidak menambah impact dan menaikkan drift; polisi priority mengehadkan mereka kepada separuh daripada unit yang disewa.' },
+  loan: { en: 'It borrows only to pay for a planned step, and only up to its own limit.',
+    ms: 'Ia meminjam hanya untuk membiayai langkah yang dirancang, dan hanya sehingga had yang ditetapkannya sendiri.' },
+  repay: { en: 'Repaying when cash is spare cuts interest and the debt penalty in the park score.',
+    ms: 'Membayar balik apabila ada lebihan tunai mengurangkan faedah dan penalti hutang dalam skor park.' },
+  programme: { en: 'Spare cash earns no marks: Innovation programmes turn it into impact (+1.2 a year for every 1 Cr).',
+    ms: 'Lebihan tunai tidak memberi markah: Innovation programmes menukarnya menjadi impact (+1.2 setahun bagi setiap 1 Cr).' },
+  reserve: { en: 'Reserving a Zone H plot for a named future user earns Part B2 marks without capital spending.',
+    ms: 'Merizabkan plot Zon H untuk pengguna masa depan yang dinamakan memberi markah Bahagian B2 tanpa belanja modal.' },
+  buffer: { en: 'A green buffer on Forest Ridge adds +1 impact a year and ESG at no capital cost.',
+    ms: 'Green buffer di Forest Ridge menambah +1 impact setahun dan ESG tanpa kos modal.' },
+  park: { en: 'A retention park on the Wetland adds +1 impact a year and ESG.',
+    ms: 'Retention park di Wetland menambah +1 impact setahun dan ESG.' },
+  reneg: { en: 'In a downturn, renegotiated back-office rents halve the closures and exits.',
+    ms: 'Semasa downturn, sewa back-office yang dirunding semula mengurangkan separuh penutupan dan penyewa yang keluar.' },
+  leaseback: { en: 'Sale and leaseback raises cash in a crisis at the cost of future income.',
+    ms: 'Sale and leaseback mengumpul tunai semasa krisis dengan mengorbankan pendapatan masa depan.' },
+  policy: { en: 'Changing the admission policy costs 2 impact: choose one and keep it.',
+    ms: 'Menukar polisi kemasukan memerlukan 2 impact: pilih satu dan kekalkan.' },
+};
+
+root.IMPAK_MOVES = { PROFILES, PRINCIPLES };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
 /* SPDX-License-Identifier: MIT
    Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia */
 /* IMPAK v0.6 — decision advice in the Deal Room and the decision journal.
@@ -6569,6 +6840,7 @@ function html(res, tm, opts) {
   if (a.nextMedal && a.next.length) h += '<div class="db-sub">' + esc(L('For ', 'Untuk ') + MEDAL(a.nextMedal) + L(' you needed', ' anda perlukan')) + '</div><p class="db-d">' + esc(a.next.join(' · ')) + '</p>';
   if (a.vs && !a.vs.ahead && a.vs.diffs.length) h += '<div class="db-sub">' + esc(L('Compared with ', 'Berbanding ') + a.vs.name + (a.vs.bench ? L(' (benchmark)', ' (benchmark)') : '')) + '</div><p class="db-d">' +
     esc(a.vs.diffs.map((x) => x.k + ' +' + n1(x.d)).join(' · ') + (a.vs.theirFac.length ? L('. They had: ', '. Mereka ada: ') + a.vs.theirFac.join(', ') + '.' : '')) + '</p>';
+  if (root.IMPAKBench) h += root.IMPAKBench.debriefHTML(res, tm);                 // how the leading benchmark built its park (bench.js)
   h += '<div class="row db-actions"><button class="btn primary" data-act="transcript"' + (o.team ? ' data-team="' + esc(o.team) + '"' : '') + '>' + esc(L('Download transcript (PDF)', 'Muat turun transkrip (PDF)')) + '</button></div></details>';
   return h;
 }
@@ -6648,6 +6920,8 @@ function transcript(res, tm, meta) {
     : L(a.vs.name + (a.vs.bench ? ' (benchmark)' : '') + ' scored ' + n1(a.vs.total) + '. It earned more on ', a.vs.name + (a.vs.bench ? ' (benchmark)' : '') + ' mendapat ' + n1(a.vs.total) + '. Ia mendapat lebih pada ') + (a.vs.diffs.map((x) => x.k + ' (+' + n1(x.d) + ')').join(', ') || '—') +
       (a.vs.theirFac.length ? L('. Facilities it had and you did not: ', '. Kemudahan yang ada padanya tetapi tiada pada anda: ') + a.vs.theirFac.join(', ') : '') + '.') + '</p>');
 
+  if (root.IMPAKBench) body += root.IMPAKBench.transcriptHTML(res, tm, sec);
+
   const dl = t.dlog.filter((d) => d.eligible || d.opt === null);
   if (dl.length) body += sec(L('Decision journal', 'Jurnal keputusan'), '<table class="dj"><thead><tr><th>' + esc(L('When', 'Tarikh')) + '</th><th>' + esc(L('Deal', 'Deal')) + '</th><th>' + esc(L('Choice', 'Pilihan')) + '</th><th></th><th>' + esc(L('Principle', 'Prinsip')) + '</th></tr></thead><tbody>' + dl.map((d) => {
     const ev = res.sc.events.find((e) => e.id === d.eid), Ls = (root.LESSONS || {})[d.card];
@@ -6694,7 +6968,7 @@ table{border-collapse:collapse;width:100%}th,td{text-align:left;vertical-align:t
 .ch{margin:6px 0;break-inside:avoid}.ch figcaption{font-size:9pt;font-weight:600}.ch figcaption span{font-weight:400;color:#5b6478}.ch svg{width:100%;height:auto}
 .gr{stroke:#e3e6ec;stroke-width:1}.zero{stroke:#9aa3b5;stroke-width:1}.ax{font-size:8px;fill:#5b6478}.ln{stroke:#4f7cff;stroke-width:2;stroke-linejoin:round}
 .gaps td{border-bottom:1px solid #eef0f4;padding:5px 6px}.gaps .k{font-weight:700;width:12mm;text-align:center}.gaps .k span{font-weight:500;color:#b4472c;font-size:9pt}.tip{color:#1f5130;margin-top:2px}
-.dj{font-size:9pt}.dj th{color:#5b6478;font-weight:600;border-bottom:1px solid #d8dce6}.dj td{border-bottom:1px solid #eef0f4}.dj .na td{color:#8a92a5}.v{font-weight:700;text-align:center}.v.ok{color:#1f7a3a}.v.no{color:#b4472c}
+.dj{font-size:9pt}.dj th{color:#5b6478;font-weight:600;border-bottom:1px solid #d8dce6}.dj.mile caption{text-align:left;font-size:8.8pt;color:#5b6478;padding:2px 0}.dj.mile .bm{color:#5b6478}.dj td{border-bottom:1px solid #eef0f4}.dj .na td{color:#8a92a5}.v{font-weight:700;text-align:center}.v.ok{color:#1f7a3a}.v.no{color:#b4472c}
 ul,ol{margin:4px 0;padding-left:18px}li{margin:2px 0}.take li{margin:4px 0}.refl{border:1px solid #d8dce6;border-radius:6px;padding:6px 10px;margin-top:10px;break-inside:avoid}.refl p{min-height:14mm;margin:4px 0 0;display:block}
 footer{margin-top:16px;padding-top:6px;border-top:1px solid #d8dce6;font-size:8.3pt;color:#6b7387}
 @media print{.edit:empty::before{content:''}body{background:#fff}.page{margin:0;padding:0;box-shadow:none;max-width:none}.bar-top{display:none}.edit{border-bottom:0}.cert .frame{min-height:265mm}}
@@ -6733,6 +7007,482 @@ function open(res, tm, meta) {
 }
 
 root.IMPAKDebrief = { analyse, summary, html, transcript, bilingual, open, partInfo };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+// SPDX-License-Identifier: MIT
+/* IMPAK v0.6 — learning from the benchmark parks.
+   Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia.
+
+   The benchmark parks are scripted strategies (src/strategies.js) playing the same seed as the teams. This module
+   shows what they did and why it scores; it reads their recorded orders (game.js aiRec) and replayed states and
+   never changes the engine.
+   - News tab: follow a benchmark. Its moves by quarter, one quarter late, with the principle behind each kind of
+     move (content/moves.js) the first time it makes one, and its Deal Room choices with the verdict.
+   - Standings tab, "Learn from the benchmarks": impact over time (you against one benchmark, its key moves marked),
+     where each park's impact comes from now, the benchmark's plan, and year-end milestones.
+   - After each deal: the benchmarks' choices. After the game: how the leading benchmark built its park (also in
+     the transcript).
+   In a live game the Game Master may keep the benchmarks' moves hidden until the final bell (g.benchView = 'end'). */
+(function (root) {
+'use strict';
+const PB = root.PB, C = PB.CFG;
+const G = () => root.IMPAK;
+const lang = () => (G() && G().HOST.lang === 'ms' ? 'ms' : 'en');
+const L = (en, ms) => (lang() === 'ms' ? ms : en);
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const r1 = (v) => Math.round((+v || 0) * 10) / 10;
+const n1 = (v) => r1(v).toFixed(1).replace(/^-(?=\d*[1-9])/, '−').replace(/^-/, '');
+const sg1 = (v) => (r1(v) > 0 ? '+' : '') + n1(v);
+const MV = () => root.IMPAK_MOVES || { PROFILES: {}, PRINCIPLES: {} };
+const OPT = { T: 'Take', C: 'Conditions', L: 'Leave' };
+const mname = (m) => G().mnameL(m);
+const keyOf = (x) => String(x.id).replace(/^ai-/, '');
+const profile = (key) => { const P = MV().PROFILES[key]; return P ? P[lang()] : null; };
+const principle = (k) => { const P = MV().PRINCIPLES[k]; return P ? P[lang()] : ''; };
+const zoneW = (z) => L('Zone ', 'Zon ') + z;
+const youName = (tm) => (tm.id === 'you' ? L('Your park', 'Park anda') : tm.name);
+
+/* ------------------------------------------------------------------ what may be shown, and when */
+/* 'all' after the final bell; 'end' in a live game whose Game Master hides the benchmarks until then; otherwise 'lag' */
+function view(res) {
+  if (res.final) return 'all';
+  const st = G().store();
+  return st && st.mode === 'live' && res.g.benchView === 'end' ? 'end' : 'lag';
+}
+/* the last month whose moves may be shown: the end of the quarter before the current one */
+function cutoff(res) { const v = view(res); return v === 'all' ? res.months : (v === 'end' ? 0 : 3 * Math.floor((res.mCur - 1) / 3)); }
+function lagLine(res, upTo) {
+  if (view(res) === 'all') return L('The game is over: every move is shown.', 'Permainan sudah tamat: semua langkah dipaparkan.');
+  if (upTo < 3) return L('Benchmark news arrives one quarter late. The first report comes in ' + mname(4) + '.', 'Berita benchmark tiba lewat satu suku tahun. Laporan pertama tiba pada ' + mname(4) + '.');
+  return L('Benchmark news arrives one quarter late: shown up to the end of ' + mname(upTo) + '.', 'Berita benchmark tiba lewat satu suku tahun: dipaparkan sehingga hujung ' + mname(upTo) + '.');
+}
+const HIDDEN = () => L('The Game Master will reveal the benchmark parks\' moves and deal choices at the final bell. Until then, learn from your own news and the Deal Room lessons.',
+  'Game Master akan mendedahkan langkah dan pilihan deal park benchmark pada loceng akhir. Sementara itu, belajar daripada berita park anda sendiri dan pelajaran dalam Deal Room.');
+
+/* ------------------------------------------------------------------ the benchmarks' records */
+function benches(res) { return res.teams.filter((x) => x.bench); }
+function chosen(res) {
+  const B = benches(res); if (!B.length) return null;
+  const want = G().APP.ui.benchSel;
+  return B.find((x) => x.id === want) || B.slice().sort((a, b) => (a.rub && b.rub ? b.rub.total - a.rub.total : b.ps.score - a.ps.score))[0];
+}
+const rec = (res, key) => G().aiRec(res.g.seed, res.g.level || 'lestari', key, res.sc);
+/* a benchmark's state at the end of month upTo (cached per scenario; the final state comes from compute()) */
+const AT = new WeakMap();
+function stateAt(res, key, upTo) {
+  if (res.final && upTo >= res.months) { const x = res.teams.find((y) => y.id === 'ai-' + key); if (x) return x.t; }
+  let c = AT.get(res.sc); if (!c) { c = new Map(); AT.set(res.sc, c); }
+  const k = key + '|' + upTo; if (c.has(k)) return c.get(k);
+  const r = rec(res, key), t = PB.replay(res.sc, r.label, r.policy, r.log, r.dec, null, upTo);
+  c.set(k, t); return t;
+}
+/* its orders as applied, month by month, up to month upTo */
+function movesOf(res, key, upTo) {
+  const out = [];
+  for (const o of rec(res, key).log) { const m = Math.floor(o.t) + 1; if (m > upTo) break; out.push(Object.assign({ m }, o)); }
+  return out;
+}
+const TEN_KEY = (ten) => (ten === 'anchor' || ten === 'bigAnchor' ? 'anchor' : (ten === 'startup' ? 'startup' : (C.TEN[ten] && !C.TEN[ten].linked ? 'unlinked' : 'linked')));
+/* what an order was: category, principle key, words, and whether it is a key move (marked on the chart) */
+function info(o) {
+  const I = G();
+  switch (o.type) {
+    case 'work': return { cat: 'build', key: o.kind === 'fibre' ? 'fibre' : (/^(road|roadHalf|water|power|powerShared)$/.test(o.kind) ? 'svc' : o.kind), text: I.workL(o.kind) + ' · ' + zoneW(o.zone), big: true };
+    case 'build': return o.kind === 'retrofit' ? { cat: 'build', key: 'retrofit', text: 'Retrofit ' + o.bid, big: true }
+      : { cat: 'build', key: o.kind, text: (C.BUILD[o.kind] ? C.BUILD[o.kind].label : o.kind) + ' · ' + zoneW(o.zone), big: true };
+    case 'facility': return { cat: 'fac', key: 'f_' + o.kind, text: C.FAC[o.kind].label, big: true };
+    case 'cancel': return { cat: 'fac', key: 'cancel', text: C.FAC[o.kind].label + L(' closed', ' ditutup'), big: true };
+    case 'admit': return { cat: 'ten', key: TEN_KEY(o.ten) };
+    case 'loan': return { cat: 'money', key: 'loan' };
+    case 'repay': return { cat: 'money', key: 'repay' };
+    case 'programme': return { cat: 'money', key: 'programme', text: L('Innovation programmes set to ' + o.level + ' Cr a year', 'Innovation programmes ditetapkan pada ' + o.level + ' Cr setahun') };
+    case 'reserve': return { cat: 'land', key: 'reserve', text: L('A Zone H plot reserved for a named future user', 'Satu plot Zon H dirizabkan untuk pengguna masa depan yang dinamakan'), big: true };
+    case 'declare': return o.zone === 'F' ? { cat: 'land', key: 'buffer', text: L('Forest Ridge declared a green buffer', 'Forest Ridge diisytiharkan green buffer'), big: true }
+      : { cat: 'land', key: 'park', text: L('The Wetland made a retention park', 'Wetland dijadikan retention park'), big: true };
+    case 'reneg': return { cat: 'money', key: 'reneg', text: L('Back-office rents renegotiated to 70% for 12 months', 'Sewa back-office dirunding semula kepada 70% selama 12 bulan') };
+    case 'leaseback': return { cat: 'money', key: 'leaseback', text: o.bid + L(' sold and leased back', ' dijual dan disewa semula'), big: true };
+    case 'policy': return { cat: 'money', key: 'policy', text: L('Admission policy changed to ', 'Polisi kemasukan ditukar kepada ') + o.policy };
+    case 'moth': return { cat: 'build', key: 'moth', text: L(o.bid + ' mothballed', o.bid + ' di-mothball') };
+    case 'unmoth': return { cat: 'build', key: 'moth', text: L(o.bid + ' reopened', o.bid + ' dibuka semula') };
+  }
+  return { cat: 'money', key: o.type, text: o.type };
+}
+const CAT = () => ({ build: L('Build', 'Bina'), fac: L('Facility', 'Kemudahan'), ten: L('Tenants', 'Penyewa'), money: L('Money', 'Kewangan'), land: L('Land', 'Tanah'), deal: 'Deal' });
+/* its Deal Room decisions up to month upTo, from the replayed state */
+function dealsOf(res, st, upTo) {
+  const out = [];
+  for (const d of st.dlog) { if (!d.eligible) continue; const ev = res.sc.events.find((e) => e.id === d.eid); if (ev && ev.month <= upTo) out.push(Object.assign({ m: ev.month }, d)); }
+  return out;
+}
+const vMark = (d) => (d.sound ? (d.credit < 1 ? '½' : '✓') : '✗');
+const vWord = (d) => (d.sound ? (d.credit < 1 ? L('sound, but an opportunity was left', 'wajar, tetapi peluang dilepaskan') : L('sound', 'wajar')) : L('not sound', 'kurang wajar'));
+const lessonOf = (card) => { const Ls = (root.LESSONS || {})[card]; return Ls ? Ls[lang()].principle : ''; };
+const titleOf = (card) => G().cardL(card, 'title');
+
+/* ------------------------------------------------------------------ where impact comes from (the engine's own sum, read-only) */
+function engine(t) {
+  const lin = PB.linkedCount(t); let ten = 0, zc = 0;
+  for (const x of t.tenants) {
+    const T = C.TEN[x.type]; if (!T) continue; ten += T.ip;
+    const b = t.buildings.find((y) => y.id === x.bid); if (T.linked && b && b.zone === 'C') zc += C.ZONES.C.linkedBonus || 0;
+  }
+  const lease = t.leases.reduce((a, l) => a + (l.ip || 0), 0), su = C.STARTUP.ip * t.startups.length;
+  let fac = 0;
+  if (t.fac.lab) fac += lin >= 3 ? 2 : (lin >= 1 ? 1 : 0);
+  if (t.fac.labaccess && lin >= 2) fac += 1;
+  if (t.fac.liaison && lin >= 2) fac += 1;
+  if (t.fac.covenant) fac += Math.floor(0.5 * lin);
+  if (t.flags.donor && lin >= 2) fac += 1;
+  const land = (t.zones.F && t.zones.F.mode === 'buffer' ? 1 : 0) + (t.zones.G && t.zones.G.mode === 'park' ? 1 : 0);
+  const prog = C.PROG.ipPerCr * (t.prog || 0);
+  const rows = { ten, zc, lease, su, fac, land, prog };
+  const gross = t.receiver ? 0 : ten + zc + lease + su + fac + land + prog;
+  return { rows, gross, kpi: !!t.fac.kpi, counted: t.fac.kpi ? gross : gross / 2, receiver: !!t.receiver };
+}
+const SRC = () => [['ten', L('Tenants', 'Penyewa')], ['zc', L('Linked tenants in Zone C (+1 each)', 'Penyewa linked di Zon C (+1 setiap satu)')], ['lease', 'Ground lease'], ['su', 'Startup'],
+  ['fac', L('Facilities', 'Kemudahan')], ['land', L('Green buffer and retention park', 'Green buffer dan retention park')], ['prog', 'Innovation programmes']];
+function diffLine(a, b) {
+  const d = SRC().map(([k, lab]) => ({ lab, d: b.rows[k] - a.rows[k] })).filter((z) => z.d > 0.05).sort((p, q) => q.d - p.d).slice(0, 2);
+  const out = [];
+  if (d.length) out.push(L('The biggest differences: ', 'Beza terbesar: ') + d.map((z) => z.lab + ' (' + sg1(z.d) + L(' a year', ' setahun') + ')').join(L(' and ', ' dan ')) + '.');
+  if (b.kpi && !a.kpi && !a.receiver) out.push(L('Your impact counts half until KPI & Impact Reporting runs.', 'Impact anda hanya dikira separuh selagi KPI & Impact Reporting belum berjalan.'));
+  return out.join(' ');
+}
+function insight(a, b, name) {
+  if (b.counted > a.counted + 0.05) return L(name + ' adds ' + n1(b.counted - a.counted) + ' more impact a year than you. ', name + ' menambah ' + n1(b.counted - a.counted) + ' impact setahun lebih banyak daripada anda. ') + diffLine(a, b);
+  return L('Your park adds at least as much impact a year as ' + name + '. Keep it growing.', 'Park anda menambah impact setahun sekurang-kurangnya sama banyak dengan ' + name + '. Teruskan.');
+}
+function engineHTML(res, tm, x, upTo) {
+  const a = engine(tm.t), b = engine(stateAt(res, keyOf(x), upTo));
+  const rows = SRC().filter(([k]) => a.rows[k] > 0.001 || b.rows[k] > 0.001);
+  const cnt = (e) => (e.receiver ? 'receivership' : (e.kpi ? '× 1' : '× ½')) + ' = ' + n1(e.counted);
+  const when = view(res) === 'lag' ? '<br><small>' + esc(L('end of ', 'hujung ') + mname(upTo)) + '</small>' : '';
+  let h = '<div class="scroll-x"><table class="tbl bl-eng"><thead><tr><th>' + esc(L('Impact a year, by source', 'Impact setahun, mengikut sumber')) + '</th><th class="r">' + esc(youName(tm)) + '<br><small>' + esc(L('now', 'sekarang')) + '</small></th><th class="r">' + esc(x.name) + when + '</th></tr></thead><tbody>';
+  for (const [k, lab] of rows) h += '<tr><td>' + esc(lab) + '</td><td class="r mono">' + n1(a.rows[k]) + '</td><td class="r mono">' + n1(b.rows[k]) + '</td></tr>';
+  h += '<tr class="tot"><td>' + esc(L('Total a year', 'Jumlah setahun')) + '</td><td class="r mono">' + n1(a.gross) + '</td><td class="r mono">' + n1(b.gross) + '</td></tr>';
+  h += '<tr><td>' + esc(L('Counted: in full with KPI & Impact Reporting, half without it', 'Dikira: penuh dengan KPI & Impact Reporting, separuh tanpanya')) + '</td><td class="r mono">' + cnt(a) + '</td><td class="r mono">' + cnt(b) + '</td></tr></tbody></table></div>';
+  return h + '<p class="bl-ins">' + esc(insight(a, b, x.name)) + '</p>';
+}
+
+/* ------------------------------------------------------------------ year-end milestones */
+function unitsAt(t, m) { let u = 0; for (const b of t.buildings) if (b.status !== 'shed' && b.units && b.readyAt <= m) u += b.units; return u; }
+function firmsAt(res, t, m) { const s = (t.socioLog || []).find((z) => z.m === m); if (s) return s.firms; return res.final && m === res.months ? PB.socio(t).firms : null; }
+function mileRows(res, t) {
+  const Y = Math.round(res.months / 12), have = t.ipHist.length, out = [];
+  for (let y = 1; y <= Y; y++) { const m = 12 * y; out.push(m > have ? null : { ip: t.ipHist[m - 1], units: unitsAt(t, m), firms: firmsAt(res, t, m), cash: t.cashHist[m - 1] }); }
+  return out;
+}
+function mileTable(a, b, nameA, nameB, cls) {
+  const Y = a.length, dash = '—';
+  const R = [[L('Impact counted', 'Impact dikira'), (r) => n1(r.ip)], [L('Units ready', 'Unit siap'), (r) => String(r.units)], [L('Firms', 'Syarikat'), (r) => (r.firms == null ? dash : String(r.firms))], [L('Net cash, Cr', 'Tunai bersih, Cr'), (r) => n1(r.cash)]];
+  let h = '<div class="scroll-x"><table class="' + (cls || 'tbl bl-mile') + '"><caption>' + esc(L('At the end of each year: ', 'Pada hujung setiap tahun: ') + nameA + ' / ' + nameB) + '</caption><thead><tr><th></th>';
+  for (let y = 1; y <= Y; y++) h += '<th class="r">' + esc(L('Year ', 'Tahun ') + y) + '</th>';
+  h += '</tr></thead><tbody>';
+  for (const [lab, f] of R) {
+    h += '<tr><td>' + esc(lab) + '</td>';
+    for (let y = 0; y < Y; y++) h += '<td class="r mono">' + (a[y] ? f(a[y]) : dash) + ' <span class="bm">/ ' + (b[y] ? f(b[y]) : dash) + '</span></td>';
+    h += '</tr>';
+  }
+  return h + '</tbody></table></div>';
+}
+
+/* ------------------------------------------------------------------ News tab: follow a benchmark */
+function digest(res, key, upTo) {
+  const st = stateAt(res, key, upTo), seen = new Set(), by = new Map();
+  const Qof = (m) => { const q = Math.floor((m - 1) / 3); if (!by.has(q)) by.set(q, { q, items: [], ten: {}, tenNew: [], loan: 0, repay: 0, loanNew: false, repayNew: false }); return by.get(q); };
+  for (let q = 0; 3 * q + 3 <= upTo; q++) Qof(3 * q + 1);           // every quarter appears, quiet ones too
+  for (const o of movesOf(res, key, upTo)) {
+    const I = info(o), Q = Qof(o.m), first = !seen.has(I.key); seen.add(I.key);
+    if (I.cat === 'ten') { const k = o.ten || 'sme'; Q.ten[k] = (Q.ten[k] || 0) + 1; if (first) Q.tenNew.push(I.key); }
+    else if (I.key === 'loan') { Q.loan += o.amount; Q.loanNew = Q.loanNew || first; }
+    else if (I.key === 'repay') { Q.repay += o.amount; Q.repayNew = Q.repayNew || first; }
+    else Q.items.push({ m: o.m, cat: I.cat, text: I.text, why: first ? principle(I.key) : '' });
+  }
+  for (const d of dealsOf(res, st, upTo)) Qof(d.m).items.push({ m: d.m, cat: 'deal', deal: d });
+  const out = Array.from(by.values()).sort((a, b) => b.q - a.q);
+  for (const Q of out) { const i = 3 * Q.q + 2; Q.ip = st.ipHist[i]; Q.cash = st.cashHist[i]; Q.items.sort((a, b) => a.m - b.m); }
+  return out;
+}
+const whyLine = (txt, lab) => (txt ? '<div class="bn-why"><b>' + esc(lab || L('Why', 'Kenapa')) + ':</b> ' + esc(txt) + '</div>' : '');
+function quarterHTML(Q) {
+  let li = '';
+  for (const it of Q.items) {
+    if (it.cat === 'deal') {
+      const d = it.deal;
+      li += '<li class="bn-deal ' + (d.sound ? 'ok' : 'no') + '"><span class="bn-k">Deal</span>' + esc(titleOf(d.card)) + ' → <b>' + OPT[d.opt] + '</b>' + (d.site ? ' · ' + esc(zoneW(d.site)) : '') +
+        ' <span class="bn-v">' + vMark(d) + ' ' + esc(vWord(d)) + '</span>' + whyLine(lessonOf(d.card), L('Principle', 'Prinsip')) + '</li>';
+      continue;
+    }
+    li += '<li><span class="bn-k">' + esc(CAT()[it.cat]) + '</span>' + esc(it.text) + whyLine(it.why) + '</li>';
+  }
+  const tk = Object.keys(Q.ten);
+  if (tk.length) li += '<li><span class="bn-k">' + esc(CAT().ten) + '</span>' + esc(L('Admitted ', 'Diterima ') + tk.map((k) => Q.ten[k] + ' ' + G().tenL(k) + (Q.ten[k] > 1 ? L('s', '') : '')).join(', ')) + Q.tenNew.map((k) => whyLine(principle(k))).join('') + '</li>';
+  if (Q.loan || Q.repay) li += '<li><span class="bn-k">' + esc(CAT().money) + '</span>' + esc([Q.loan ? L('Borrowed ' + Q.loan + ' Cr', 'Meminjam ' + Q.loan + ' Cr') : '', Q.repay ? L('Repaid ' + Q.repay + ' Cr', 'Membayar balik ' + Q.repay + ' Cr') : ''].filter(Boolean).join(' · ')) +
+    (Q.loanNew ? whyLine(principle('loan')) : '') + (Q.repayNew ? whyLine(principle('repay')) : '') + '</li>';
+  if (!li) li = '<li class="quiet">' + esc(L('No new moves: what it had built kept working.', 'Tiada langkah baharu: apa yang telah dibina terus berfungsi.')) + '</li>';
+  const y = Math.floor(Q.q / 4) + 1, k = Q.q % 4 + 1;
+  return '<section class="bn-q"><div class="bn-qh"><b>' + esc(L('Quarter ' + k + ', Year ' + y, 'Suku ' + k + ', Tahun ' + y)) + '</b><span class="muted">' + esc(mname(3 * Q.q + 1).split(' ')[0] + '–' + mname(3 * Q.q + 3)) + '</span>' +
+    '<span class="bn-fig mono">impact ' + n1(Q.ip) + ' · ' + esc(L('net cash ', 'tunai bersih ')) + n1(Q.cash) + ' Cr</span></div><ul class="bn-l">' + li + '</ul></section>';
+}
+function digestHTML(res, x) {
+  const P = profile(keyOf(x));
+  let h = '<div class="bn-head"><b>' + esc(x.name) + '</b>' + (P ? ' · ' + esc(P.tag) : '') + '</div>';
+  if (view(res) === 'end') return h + '<div class="note">' + esc(HIDDEN()) + '</div>';
+  const upTo = cutoff(res);
+  h += '<div class="faint bn-lag">' + esc(lagLine(res, upTo)) + '</div>';
+  if (upTo < 3) return h + (P ? '<p class="muted bn-plan">' + esc(P.plan) + '</p>' : '');
+  const Q = digest(res, keyOf(x), upTo);
+  h += Q.slice(0, 4).map(quarterHTML).join('');
+  if (Q.length > 4) h += '<details class="bn-more"><summary>' + esc(L('Earlier quarters', 'Suku tahun terdahulu')) + ' (' + (Q.length - 4) + ')</summary>' + Q.slice(4).map(quarterHTML).join('') + '</details>';
+  return h;
+}
+function newsTab(res, tm) {
+  const B = benches(res), own = G().tabNews(res, tm);
+  if (!B.length) return own;
+  const x = B.find((y) => y.id === G().APP.ui.newsSrc) || null;
+  const chip = (k, lab, on) => '<button class="btn sm' + (on ? ' primary' : '') + '" data-act="news-src" data-k="' + esc(k) + '" aria-pressed="' + (on ? 'true' : 'false') + '">' + esc(lab) + '</button>';
+  return '<div class="row bn-src" role="group" aria-label="' + esc(L('Whose news', 'Berita siapa')) + '">' + chip('you', youName(tm), !x) + B.map((y) => chip(y.id, y.name, x === y)).join('') + '</div>' + (x ? digestHTML(res, x) : own);
+}
+
+/* ------------------------------------------------------------------ impact over time: you against one benchmark */
+function niceMax(v) { if (!(v > 0)) return 1; const p = Math.pow(10, Math.floor(Math.log10(v))), f = v / p; return (f <= 1 ? 1 : (f <= 2 ? 2 : (f <= 2.5 ? 2.5 : (f <= 5 ? 5 : 10)))) * p; }
+const HOV = { k: '', i: 0, focus: false };
+function chartData(res, tm, x, upTo) {
+  const M = res.months, key = keyOf(x), sb = stateAt(res, key, upTo);
+  const s = [{ n: youName(tm), c: 'you', v: [0].concat(tm.t.ipHist.slice(0, M)) }, { n: x.name, c: 'bench', v: [0].concat(sb.ipHist.slice(0, upTo)) }];
+  for (const y of benches(res)) if (y !== x) s.push({ n: y.name, c: 'other', v: [0].concat(stateAt(res, keyOf(y), upTo).ipHist.slice(0, upTo)) });
+  const mv = {};
+  for (const o of movesOf(res, key, upTo)) { const I = info(o); if (I.big) (mv[o.m] = mv[o.m] || []).push(I.text); }
+  for (const d of dealsOf(res, sb, upTo)) (mv[d.m] = mv[d.m] || []).push('Deal · ' + titleOf(d.card) + ' → ' + OPT[d.opt] + ' ' + vMark(d));
+  const ml = [L('Start', 'Mula')]; for (let m = 1; m <= M; m++) ml.push(mname(m));
+  for (const S of s) S.v = S.v.map(r1);
+  return { M, s, mv, ml, mvh: L('Moves by ', 'Langkah ') + x.name };
+}
+function chartHTML(res, tm, x, upTo) {
+  const d = chartData(res, tm, x, upTo);
+  /* the x axis runs to the end of the year after the data (at least Year 1), so early months are not squeezed to one side */
+  const lastData = Math.max(...d.s.map((S) => S.v.length - 1)), M = Math.min(d.M, Math.max(12, Math.ceil((lastData + 1) / 12) * 12));
+  d.M = M;
+  const narrow = typeof root.innerWidth === 'number' && root.innerWidth < 640;          // a phone: fewer units across, so the text stays legible
+  const W = narrow ? 380 : 640, H = narrow ? 230 : 236, pl = 34, pr = narrow ? 8 : 14, pt = 12, pb = 26;
+  const all = [].concat(...d.s.map((S) => S.v));
+  const lo = Math.min(0, ...all), top = niceMax(Math.max(5, ...all));
+  Object.assign(d, { W, H, pl, pr, pt, pb, lo, top });
+  const X = (i) => pl + (i / M) * (W - pl - pr), Y = (v) => pt + (1 - (v - lo) / (top - lo)) * (H - pt - pb);
+  const f1 = (v) => v.toFixed(1);
+  let g = '';
+  const ticks = (top / 4) % 1 === 0 ? [0, top / 4, top / 2, 3 * top / 4, top] : [0, top / 2, top];
+  if (lo < 0) ticks.unshift(lo);
+  for (const v of ticks) g += '<line class="' + (v === 0 ? 'zl' : 'gl') + '" x1="' + pl + '" x2="' + (W - pr) + '" y1="' + f1(Y(v)) + '" y2="' + f1(Y(v)) + '"/><text class="ax" x="' + (pl - 6) + '" y="' + f1(Y(v) + 4) + '" text-anchor="end">' + esc(n1(v).replace(/\.0$/, '')) + '</text>';
+  for (let y = 1; 12 * y <= M; y++) {
+    if (12 * y < M) g += '<line class="gl" x1="' + f1(X(12 * y)) + '" x2="' + f1(X(12 * y)) + '" y1="' + pt + '" y2="' + (H - pb) + '"/>';
+    g += '<text class="ax" x="' + f1(X(12 * y - 6)) + '" y="' + (H - 8) + '" text-anchor="middle">' + esc(narrow && M > 36 ? L('Y', 'T') + y : L('Year ', 'Tahun ') + y) + '</text>';
+  }
+  const path = (v) => v.map((val, i) => (i ? 'L' : 'M') + f1(X(i)) + ' ' + f1(Y(val))).join('');
+  for (const S of d.s.slice(2)) if (S.v.length > 1) g += '<path class="ln other" d="' + path(S.v) + '"/>';
+  const B = d.s[1], Yo = d.s[0];
+  if (B.v.length > 1) g += '<path class="ln bench" d="' + path(B.v) + '"/>';
+  if (Yo.v.length > 1) g += '<path class="ln you" d="' + path(Yo.v) + '"/>';
+  for (const m in d.mv) if (+m < B.v.length) g += '<circle class="mk" cx="' + f1(X(+m)) + '" cy="' + f1(Y(B.v[+m])) + '" r="4.5"/>';
+  /* direct labels at the line ends, only when they do not collide */
+  const ends = [Yo, B].filter((S) => S.v.length > 1).map((S) => ({ S, x: X(S.v.length - 1), y: Y(S.v[S.v.length - 1]) }));
+  const clash = ends.length === 2 && Math.abs(ends[0].y - ends[1].y) < 15 && Math.abs(ends[0].x - ends[1].x) < 110;
+  if (!clash) for (const e of ends) { const right = e.x + 8 + 7 * e.S.n.length < W; g += '<text class="el ' + e.S.c + '" x="' + f1(right ? e.x + 7 : e.x - 6) + '" y="' + f1(right ? e.y + 4 : e.y - 9) + '" text-anchor="' + (right ? 'start' : 'end') + '">' + esc(e.S.n) + '</text>'; }
+  g += '<line class="bch-x" x1="0" x2="0" y1="' + pt + '" y2="' + (H - pb) + '" visibility="hidden"/><g class="bch-dots"></g>';
+  const ck = res.g.gid + '|' + keyOf(x);
+  const leg = '<div class="bch-leg"><span><i class="you"></i>' + esc(Yo.n) + '</span><span><i class="bench"></i>' + esc(B.n) + '</span><span><i class="dot"></i>' + esc(L('key move or deal', 'langkah penting atau deal')) + '</span>' + (d.s.length > 2 ? '<span><i class="other"></i>' + esc(L('Other benchmarks', 'Benchmark lain')) + '</span>' : '') + '</div>';
+  const aria = L('Impact counted over time, ' + Yo.n + ' against ' + B.n + '. Use the left and right arrow keys to step through the months.', 'Impact dikira mengikut masa, ' + Yo.n + ' berbanding ' + B.n + '. Gunakan kekunci anak panah kiri dan kanan untuk melangkah bulan demi bulan.');
+  /* the same figures as a table, one row a quarter */
+  const last = Math.max(Yo.v.length, B.v.length) - 1; let rows = '';
+  for (let i = 3; i <= last; i += 3) {
+    const mv = []; for (let m = i - 2; m <= i; m++) if (d.mv[m]) mv.push(...d.mv[m]);
+    rows += '<tr><td>' + esc(d.ml[i]) + '</td><td class="r mono">' + (i < Yo.v.length ? n1(Yo.v[i]) : '—') + '</td><td class="r mono">' + (i < B.v.length ? n1(B.v[i]) : '—') + '</td><td>' + esc(mv.join('; ')) + '</td></tr>';
+  }
+  const tbl = rows ? '<details class="bch-tbl"><summary>' + esc(L('Table of the figures', 'Jadual angka')) + '</summary><div class="scroll-x"><table class="tbl"><thead><tr><th>' + esc(L('End of', 'Hujung')) + '</th><th class="r">' + esc(Yo.n) + '</th><th class="r">' + esc(B.n) + '</th><th>' + esc(d.mvh) + '</th></tr></thead><tbody>' + rows + '</tbody></table></div></details>' : '';
+  if (HOV.k === ck) setTimeout(() => restore(ck), 0);
+  return '<figure class="bch" data-k="' + esc(ck) + '" tabindex="0" role="group" aria-label="' + esc(aria) + '" data-d="' + esc(JSON.stringify(d)) + '">' + leg +
+    '<div class="bch-box"><svg viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true">' + g + '</svg><div class="bch-tip" hidden aria-live="polite"></div></div>' +
+    '<figcaption>' + esc(L('Impact counted, cumulative: the main driver of the park score. Point at the chart, or focus it and use the arrow keys, to read each month.', 'Impact dikira, kumulatif: pemacu utama skor park. Halakan penunjuk pada graf, atau fokus padanya dan guna kekunci anak panah, untuk membaca setiap bulan.')) + '</figcaption>' + tbl + '</figure>';
+}
+/* crosshair and tooltip: one tooltip for every series, values first; text set with textContent */
+function dataOf(fig) { if (!fig._d) fig._d = JSON.parse(fig.getAttribute('data-d')); return fig._d; }
+function lastIdx(d) { return Math.max(...d.s.map((S) => S.v.length - 1)); }
+function show(fig, i) {
+  const d = dataOf(fig); i = Math.max(0, Math.min(lastIdx(d), i)); fig._i = i;
+  HOV.k = fig.getAttribute('data-k'); HOV.i = i;
+  const X = (k) => d.pl + (k / d.M) * (d.W - d.pl - d.pr), Y = (v) => d.pt + (1 - (v - d.lo) / (d.top - d.lo)) * (d.H - d.pt - d.pb);
+  const svg = fig.querySelector('svg'), ln = svg.querySelector('.bch-x'), dots = svg.querySelector('.bch-dots'), tip = fig.querySelector('.bch-tip');
+  ln.setAttribute('x1', X(i)); ln.setAttribute('x2', X(i)); ln.removeAttribute('visibility');
+  while (dots.firstChild) dots.removeChild(dots.firstChild);
+  while (tip.firstChild) tip.removeChild(tip.firstChild);
+  const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+  tip.appendChild(el('div', 't-h', d.ml[i]));
+  for (const S of d.s) {
+    if (i >= S.v.length) continue;
+    const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    c.setAttribute('cx', X(i)); c.setAttribute('cy', Y(S.v[i])); c.setAttribute('r', 4); c.setAttribute('class', 'bch-dot ' + S.c); dots.appendChild(c);
+    const r = el('div', 't-r ' + S.c); r.appendChild(el('i', 'sw ' + S.c)); r.appendChild(el('b', null, n1(S.v[i]))); r.appendChild(el('span', null, S.n)); tip.appendChild(r);
+  }
+  const mv = d.mv[i];
+  if (mv && mv.length) { const box = el('div', 't-m'); box.appendChild(el('b', null, d.mvh)); const ul = el('ul'); for (const tx of mv) ul.appendChild(el('li', null, tx)); box.appendChild(ul); tip.appendChild(box); }
+  tip.hidden = false;
+  const bw = fig.querySelector('.bch-box').clientWidth || d.W, px = X(i) / d.W * bw;
+  tip.style.left = ''; tip.style.right = '';
+  if (px > bw * 0.55) tip.style.right = Math.max(0, bw - px + 12) + 'px'; else tip.style.left = (px + 12) + 'px';
+}
+function hide(fig) {
+  const svg = fig.querySelector('svg'); if (!svg) return;
+  svg.querySelector('.bch-x').setAttribute('visibility', 'hidden');
+  const dots = svg.querySelector('.bch-dots'); while (dots.firstChild) dots.removeChild(dots.firstChild);
+  fig.querySelector('.bch-tip').hidden = true;
+}
+function restore(ck) {
+  if (typeof document === 'undefined') return;
+  const fig = Array.from(document.querySelectorAll('.bch')).find((f) => f.getAttribute('data-k') === ck); if (!fig) return;
+  if (HOV.focus && document.activeElement !== fig) { try { fig.focus({ preventScroll: true }); } catch (e) { /* ignore */ } }
+  show(fig, HOV.i);
+}
+function idxAt(fig, e) { const d = dataOf(fig), r = fig.querySelector('svg').getBoundingClientRect(); if (!r.width) return 0; const vx = (e.clientX - r.left) * d.W / r.width; return Math.round((vx - d.pl) / ((d.W - d.pl - d.pr) / d.M)); }
+if (typeof document !== 'undefined') {
+  const onPoint = (e) => { const s = e.target.closest && e.target.closest('.bch svg'); if (!s) return; const fig = s.closest('.bch'); show(fig, idxAt(fig, e)); };
+  document.addEventListener('pointermove', onPoint);
+  document.addEventListener('pointerdown', onPoint);
+  document.addEventListener('pointerout', (e) => {
+    const s = e.target.closest && e.target.closest('.bch svg'); if (!s || (e.relatedTarget && s.contains(e.relatedTarget))) return;
+    const fig = s.closest('.bch'); if (document.activeElement === fig) return;
+    hide(fig); HOV.k = '';
+  });
+  document.addEventListener('keydown', (e) => {
+    const fig = e.target, onChart = !!(fig.classList && fig.classList.contains('bch'));
+    if (e.key === 'Escape') {
+      const tip = onChart && fig.querySelector('.bch-tip');
+      if (tip && !tip.hidden) { hide(fig); fig._i = null; return; }                 // first Escape hides the tooltip
+      const c = G() && G().APP.ui.benchOpen && document.querySelector('.bstudy [data-act="bench-close"]'); if (c) c.click();   // then closes the study
+      return;
+    }
+    if (!onChart) return;
+    const d = dataOf(fig), cur = fig._i == null ? lastIdx(d) : fig._i;
+    const to = { ArrowLeft: cur - 1, ArrowRight: cur + 1, Home: 0, End: lastIdx(d), PageUp: cur - 12, PageDown: cur + 12 }[e.key];
+    if (to == null) return;
+    e.preventDefault(); show(fig, to);
+  });
+  document.addEventListener('focusin', (e) => { const fig = e.target; if (!fig.classList || !fig.classList.contains('bch')) return; HOV.focus = true; show(fig, HOV.k === fig.getAttribute('data-k') ? HOV.i : lastIdx(dataOf(fig))); });
+  document.addEventListener('focusout', (e) => { const fig = e.target; if (!fig.classList || !fig.classList.contains('bch') || !fig.isConnected) return; HOV.focus = false; HOV.k = ''; hide(fig); });
+}
+
+/* ------------------------------------------------------------------ Standings tab: learn from the benchmarks */
+/* the profiles describe the full site; a smaller level has fewer zones, and the scripts skip what cannot be built */
+function zoneNote(res) { const z = res.lv.zones || []; return z.length >= 8 ? '' : L('This level has Zones ' + z.join(', ') + ' only, so the benchmark skips the steps it plans for other zones.', 'Level ini hanya ada Zon ' + z.join(', ') + ', jadi benchmark melangkau langkah yang dirancang untuk zon lain.'); }
+function profileHTML(res, x) {
+  const P = profile(keyOf(x)); if (!P) return '';
+  const zn = zoneNote(res);
+  return '<div class="bl-prof"><div><b>' + esc(x.name) + '</b> · ' + esc(P.tag) + '</div><p>' + esc(P.plan) + (zn ? ' <i>' + esc(zn) + '</i>' : '') + '</p><p><b>' + esc(L('Why it scores', 'Kenapa ia berkesan')) + ':</b> ' + esc(P.why) + '</p>' +
+    '<p><b>' + esc(L('Where it is weak', 'Kelemahannya')) + ':</b> ' + esc(P.weak) + '</p><p class="bl-les"><b>' + esc(L('For a real park', 'Untuk park sebenar')) + ':</b> ' + esc(P.lesson) + '</p></div>';
+}
+const pickRow = (B, x) => '<div class="row bn-src" role="group" aria-label="' + esc(L('Benchmark to study', 'Benchmark untuk dikaji')) + '">' + B.map((y) => '<button class="btn sm' + (y === x ? ' primary' : '') + '" data-act="bench-pick" data-k="' + esc(y.id) + '" aria-pressed="' + (y === x ? 'true' : 'false') + '">' + esc(y.name) + '</button>').join('') + '</div>';
+/* the Standings tab is a short panel: a summary and the way into the full study */
+function learnHTML(res, tm) {
+  const B = benches(res); if (!B.length) return '';
+  let h = '<section class="bl"><h3 class="bl-h">' + esc(L('Learn from the benchmarks', 'Belajar daripada benchmark')) + '</h3>';
+  if (view(res) === 'end') return h + '<div class="note">' + esc(HIDDEN()) + '</div></section>';
+  const x = chosen(res), upTo = cutoff(res), P = profile(keyOf(x));
+  h += pickRow(B, x) + '<div class="faint bn-lag">' + esc(lagLine(res, upTo)) + '</div>';
+  if (P) h += '<p class="bl-sub"><b>' + esc(x.name) + '</b> · ' + esc(P.tag) + '. ' + esc(P.why) + '</p>';
+  h += '<p class="bl-ins">' + esc(insight(engine(tm.t), engine(stateAt(res, keyOf(x), upTo)), x.name)) + '</p>';
+  return h + '<div class="row"><button class="btn primary sm" data-act="bench-open">' + esc(L('Open the full study: chart, impact sources, plan', 'Buka kajian penuh: graf, sumber impact, rancangan')) + '</button></div></section>';
+}
+/* the full study, in a dialog over the dashboard */
+function studyHTML(res, tm) {
+  const ui = G().APP.ui; if (!ui.benchOpen) return '';
+  const B = benches(res); if (!B.length) return '';
+  const x = chosen(res), upTo = cutoff(res), st = G().store();
+  const pause = st && st.mode === 'solo' && res.g.status === 'running' ? '<button class="btn sm" data-act="solo-pause">' + esc(L('Pause the clock', 'Jeda jam')) + '</button>' : '';
+  let h = '<div class="overlay" role="dialog" aria-modal="true" aria-label="' + esc(L('Learn from the benchmarks', 'Belajar daripada benchmark')) + '"><div class="deal bstudy"><div class="deal-top"><span class="label">' + esc(L('Learn from the benchmarks', 'Belajar daripada benchmark')) + '</span><span class="bs-tools">' + pause +
+    '<button class="btn sm" data-act="bench-close">' + esc(L('Close', 'Tutup')) + '</button></span></div><div class="deal-body">';
+  if (view(res) === 'end') return h + '<div class="note">' + esc(HIDDEN()) + '</div></div></div></div>';
+  h += pickRow(B, x) + '<div class="faint bn-lag">' + esc(lagLine(res, upTo)) + '</div>';
+  h += chartHTML(res, tm, x, upTo);
+  h += engineHTML(res, tm, x, upTo);
+  h += profileHTML(res, x);
+  h += mileTable(mileRows(res, tm.t), mileRows(res, stateAt(res, keyOf(x), upTo)), youName(tm), x.name);
+  h += '<div class="row"><button class="btn sm" data-act="bench-news" data-k="' + esc(x.id) + '">' + esc(L('Read ' + x.name + '\'s news quarter by quarter', 'Baca berita ' + x.name + ' suku demi suku')) + '</button><button class="btn sm" data-act="bench-close">' + esc(L('Close', 'Tutup')) + '</button></div>';
+  return h + '</div></div></div>';
+}
+
+/* ------------------------------------------------------------------ after a deal closes: the benchmarks' choices */
+function dealHTML(res, tm, ev) {
+  if (view(res) === 'end') return '';
+  const B = benches(res); if (!B.length) return '';
+  const Cd = PB.CARDS[ev.card], M = lang() === 'ms' ? root.IMPAK_MS : null;
+  const rows = B.map((x) => {
+    const d = x.t.dlog.find((y) => y.eid === ev.id); if (!d) return '';
+    if (!d.eligible) return '<li class="na"><b>' + esc(x.name) + '</b> <span class="muted">' + esc(L('did not apply', 'tidak terpakai')) + '</span></li>';
+    const out = x.t.log.filter((l) => l.kind === 'event' && l.text.indexOf(Cd.title + ': ') === 0).slice(-1)[0];
+    let rest = out ? out.text.slice(Cd.title.length + 2) : '';
+    if (rest) { rest = M ? M.mon(M.sayMS(rest)) : rest; rest = rest.charAt(0).toUpperCase() + rest.slice(1); }
+    return '<li><b>' + esc(x.name) + '</b> <span class="bd-o">' + OPT[d.opt] + (d.site ? ' · ' + esc(zoneW(d.site)) : '') + '</span> <span class="bd-v ' + (d.sound ? 'ok' : 'no') + '">' + vMark(d) + ' ' + esc(vWord(d)) + '</span>' +
+      (rest ? '<div class="bd-out">' + esc(rest) + '</div>' : '') + '</li>';
+  }).join('');
+  return rows ? '<div class="bdeal"><div class="label">' + esc(L('What the benchmark parks chose', 'Pilihan park benchmark')) + '</div><ul>' + rows + '</ul></div>' : '';
+}
+
+/* ------------------------------------------------------------------ after the game: how the leading benchmark built its park */
+function topBench(res) { return benches(res).filter((x) => x.rub).sort((a, b) => b.rub.total - a.rub.total)[0] || null; }
+function leader(res, tm) {
+  const x = topBench(res); if (!x || !tm.rub) return null;
+  const key = keyOf(x), mv = movesOf(res, key, res.months), first = {};
+  for (const o of mv) if (o.type === 'facility' && !first[o.kind]) first[o.kind] = o.m;
+  const facs = Object.keys(C.FAC).filter((k) => first[k] || tm.t.fac[k]).map((k) => ({ label: C.FAC[k].label, them: first[k] || null, you: tm.t.fac[k] ? tm.t.fac[k].since : null }));
+  const y1 = mv.filter((o) => o.m <= 12).map((o) => ({ m: o.m, I: info(o) })).filter((z) => z.I.big);
+  return { x, P: profile(key), zn: zoneNote(res), facs, y1, a: engine(tm.t), b: engine(x.t), mile: [mileRows(res, tm.t), mileRows(res, x.t)], ahead: tm.rub.total >= x.rub.total };
+}
+function leaderText(R, tm) {
+  const { x, P, a, b } = R, you = tm.id === 'you' ? L('your park', 'park anda') : tm.name;
+  return {
+    lead: (R.ahead ? L('You finished ahead of every benchmark. The best of them was ', 'Anda mendahului semua benchmark. Yang terbaik antaranya ialah ') : '') + x.name + ' (' + n1(x.rub.total) + L(' marks', ' markah') + ')' + (P ? ': ' + P.tag.toLowerCase() + '. ' + P.plan : '.') + (R.zn ? ' ' + R.zn : ''),
+    eng: L('At the final bell ' + x.name + ' was adding ' + n1(b.counted) + ' impact a year against ' + n1(a.counted) + ' for ' + you + '.', 'Pada loceng akhir ' + x.name + ' menambah ' + n1(b.counted) + ' impact setahun berbanding ' + n1(a.counted) + ' bagi ' + you + '.') + (b.counted > a.counted + 0.05 ? ' ' + diffLine(a, b) : ''),
+    facs: R.facs.map((f) => f.label + ' (' + x.name + ' ' + (f.them ? mname(f.them) : '—') + ' · ' + L('you ', 'anda ') + (f.you ? mname(f.you) : '—') + ')').join('; '),
+    y1: R.y1.map((z) => z.I.text + ' (' + mname(z.m) + ')').join('; '),
+  };
+}
+function debriefHTML(res, tm) {
+  const R = leader(res, tm); if (!R) return '';
+  const T = leaderText(R, tm), x = R.x;
+  let h = '<div class="db-lead"><div class="db-sub">' + esc(L('How the leading benchmark built its park', 'Cara pendahulu membina park')) + '</div><p class="db-d">' + esc(T.lead) + '</p><p class="db-d">' + esc(T.eng) + '</p>';
+  h += mileTable(R.mile[0], R.mile[1], youName(tm), x.name);
+  if (T.facs) h += '<p class="db-d"><b>' + esc(L('Facilities, month launched', 'Kemudahan, bulan dilancarkan')) + ':</b> ' + esc(T.facs) + '.</p>';
+  if (T.y1) h += '<p class="db-d"><b>' + esc(L('Its first year', 'Tahun pertamanya')) + ':</b> ' + esc(T.y1) + '.</p>';
+  if (R.P) h += '<p class="db-d"><b>' + esc(L('For a real park', 'Untuk park sebenar')) + ':</b> ' + esc(R.P.lesson) + '</p>';
+  return h + '<p class="faint" style="font-size:12px;margin:4px 0 0">' + esc(L('Every move by quarter: the News tab, choose ' + x.name + '. Impact over time: the Standings tab.', 'Setiap langkah mengikut suku tahun: tab Berita, pilih ' + x.name + '. Impact mengikut masa: tab Kedudukan.')) + '</p></div>';
+}
+/* the printable version: a two-line chart with fixed print colours, the milestones and the first year */
+function printChart(a, b, na, nb) {
+  const w = 680, h = 150, pl = 36, pr = 8, pt = 8, pb = 22, n = Math.max(a.length, b.length);
+  if (n < 2) return '';
+  const all = a.concat(b), lo = Math.min(0, ...all), hi = niceMax(Math.max(1, ...all));
+  const sx = (i) => pl + (i / (n - 1)) * (w - pl - pr), sy = (v) => pt + (1 - (v - lo) / (hi - lo)) * (h - pt - pb);
+  let s = '<svg viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="' + esc(na + ' / ' + nb) + '">';
+  for (const v of [0, hi / 2, hi]) s += '<line x1="' + pl + '" x2="' + (w - pr) + '" y1="' + sy(v).toFixed(1) + '" y2="' + sy(v).toFixed(1) + '" class="gr"/><text x="' + (pl - 4) + '" y="' + (sy(v) + 3).toFixed(1) + '" class="ax" text-anchor="end">' + Math.round(v) + '</text>';
+  for (let y = 1; 12 * y <= n; y++) s += '<text x="' + sx(Math.min(n - 1, 12 * y - 6)).toFixed(1) + '" y="' + (h - 6) + '" class="ax" text-anchor="middle">' + esc(L('Y', 'T') + y) + '</text>';
+  const pts = (v) => v.map((val, i) => sx(i).toFixed(1) + ',' + sy(val).toFixed(1)).join(' ');
+  s += '<polyline fill="none" stroke="#eb6834" stroke-width="2" stroke-linejoin="round" points="' + pts(b) + '"/><polyline fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round" points="' + pts(a) + '"/></svg>';
+  const sw = (c) => '<span style="display:inline-block;width:14px;border-top:2px solid ' + c + ';vertical-align:middle;margin:0 5px 0 10px"></span>';
+  return '<figure class="ch"><figcaption>' + esc(L('Impact counted over time', 'Impact dikira mengikut masa')) + sw('#2a78d6') + esc(na) + sw('#eb6834') + esc(nb) + '</figcaption>' + s + '</figure>';
+}
+function transcriptHTML(res, tm, sec) {
+  const R = leader(res, tm); if (!R) return '';
+  const T = leaderText(R, tm), x = R.x;
+  let b = '<p>' + esc(T.lead) + '</p><p>' + esc(T.eng) + '</p>' + printChart([0].concat(tm.t.ipHist), [0].concat(x.t.ipHist), youName(tm), x.name);
+  b += mileTable(R.mile[0], R.mile[1], youName(tm), x.name, 'dj mile');
+  if (T.facs) b += '<p><b>' + esc(L('Facilities, month launched', 'Kemudahan, bulan dilancarkan')) + ':</b> ' + esc(T.facs) + '.</p>';
+  if (T.y1) b += '<p><b>' + esc(L('Its first year', 'Tahun pertamanya')) + ':</b> ' + esc(T.y1) + '.</p>';
+  if (R.P) b += '<p><b>' + esc(L('For a real park', 'Untuk park sebenar')) + ':</b> ' + esc(R.P.lesson) + '</p>';
+  return sec(L('How the leading benchmark built its park', 'Cara pendahulu membina park'), b);
+}
+
+root.IMPAKBench = { view, cutoff, newsTab, learnHTML, studyHTML, dealHTML, debriefHTML, transcriptHTML, engine, digest, movesOf, stateAt, mileRows, chosen };
 })(typeof window !== 'undefined' ? window : globalThis);
 
 </script>
@@ -6779,6 +7529,15 @@ async function call(payload) {
   if (j && j.error) throw new ApiError({ room: 'join.err.room', pin: 'join.err.pin', code: 'join.err.code', fields: 'join.err.fields' }[j.error] || 'join.err.net', j.message || j.error);
   return j;
 }
+
+/* ------------------------------------------------------------------ public-trial records: what the server can take, and an outbox
+   Feedback and run records that the server cannot take yet (an older Code.gs, or no connection) wait in localStorage
+   and go out after the next successful check; they are dropped after 30 days or 10 tries. */
+const OUTBOX = 'impak.outbox';
+let server = null;                                         // { api, features } after check(); null until known
+function outbox() { try { return JSON.parse(localStorage.getItem(OUTBOX) || '[]'); } catch (e) { return []; } }
+function setOutbox(a) { try { if (a.length) localStorage.setItem(OUTBOX, JSON.stringify(a.slice(-20))); else localStorage.removeItem(OUTBOX); } catch (e) { /* ignore */ } }
+function queue(p) { const a = outbox(); a.push({ p, at: Date.now(), n: 0 }); setOutbox(a); }
 
 /* ------------------------------------------------------------------ store */
 function deepMerge(a, b) { return G.deepMerge(JSON.parse(JSON.stringify(a || {})), b); }
@@ -6883,11 +7642,36 @@ const L = {
     this.attach({ room: r.room, token: '', role: 'screen' }, 'screen', null);
     return r;
   },
-  /* fire-and-forget records of the public trial (feedback, run statistics); no token needed */
-  async send(payload, beacon) {
+  /* records of the public trial (feedback, run statistics); no token needed. Resolves { ok } when stored,
+     { queued } when kept for later (older server, no connection); rejects only when the server refuses the content. */
+  get server() { return server; },
+  supports(f) { return server ? server.features.indexOf(f) >= 0 : null; },
+  async check() {
     if (!API) return null;
-    if (beacon && root.navigator && root.navigator.sendBeacon) { try { if (root.navigator.sendBeacon(API, JSON.stringify(payload))) return { ok: true }; } catch (e) { /* fall through */ } }
-    return call(payload);
+    try { const j = await call({ op: 'ping' }); server = { api: j.api || 1, features: j.features || [] }; }
+    catch (e) { return null; }
+    if (this.supports('feedback')) this.flush();
+    return server;
+  },
+  async flush() {
+    const a = outbox(); if (!a.length) return 0;
+    const keep = []; let sent = 0;
+    for (const x of a) {
+      if (Date.now() - x.at > 30 * 864e5 || x.n >= 10) continue;
+      try { await call(x.p); sent++; } catch (e) { if (e.key !== 'join.err.fields') { x.n++; keep.push(x); } }
+    }
+    setOutbox(keep); return sent;
+  },
+  pending() { return outbox().length; },
+  async send(payload) {
+    if (!API) return null;
+    if (server && server.features.indexOf(payload.op) < 0) { queue(payload); return { queued: true }; }
+    try { return await call(payload); }
+    catch (e) {
+      if (e.key === 'join.err.fields') throw e;               // the server read it and refused it: do not retry
+      if (e.message === 'full') return { full: true };          // the trial sheet is full: drop quietly
+      queue(payload); return { queued: true };
+    }
   },
   async report(tm, r) {
     if (!this.store || !tm.rub || this.reported[tm.id]) return; this.reported[tm.id] = true;
@@ -6916,7 +7700,7 @@ root.IMPAKLive = L;
 'use strict';
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 let H = { t: (k) => k, lang: () => 'en', toast: () => {}, send: null, version: '' };
-const ST = { fun: 0, learn: 0, good: '', bad: '', email: '', busy: false, msg: '', hidden: {}, sent: {} };
+const ST = { fun: 0, learn: 0, good: '', bad: '', email: '', busy: false, msg: '', miss: [], badEmail: false, hidden: {}, sent: {} };
 let CUR = null;                                               // the game the card is about
 const t = (k, v) => H.t(k, v);
 const key = (gid) => 'impak.fb.' + (gid || 'general');
@@ -6942,10 +7726,10 @@ function form(c) {
   if (already(c.gid)) return '<div class="fb done"><span>✓</span> ' + esc(t('fb.thanks')) + '</div>';
   if (ST.hidden[gid]) return '';
   return '<div class="fb" data-fbgid="' + esc(gid) + '"><div class="fb-h"><b>' + esc(t('fb.title')) + '</b><span class="muted">' + esc(t('fb.sub')) + '</span></div>' +
-    '<div class="fb-row"><span>' + esc(t('fb.fun')) + '</span>' + stars('fun') + '</div><div class="fb-row"><span>' + esc(t('fb.learn')) + '</span>' + stars('learn') + '</div>' +
+    '<div class="fb-row' + (ST.miss.indexOf('fun') >= 0 ? ' need' : '') + '"><span>' + esc(t('fb.fun')) + ' <b class="req" aria-hidden="true">*</b></span>' + stars('fun') + '</div><div class="fb-row' + (ST.miss.indexOf('learn') >= 0 ? ' need' : '') + '"><span>' + esc(t('fb.learn')) + ' <b class="req" aria-hidden="true">*</b></span>' + stars('learn') + '</div>' +
     '<label class="fb-f"><span>' + esc(t('fb.good')) + '</span><textarea data-fbk="good" maxlength="600" rows="2">' + esc(ST.good) + '</textarea></label>' +
     '<label class="fb-f"><span>' + esc(t('fb.bad')) + '</span><textarea data-fbk="bad" maxlength="600" rows="2">' + esc(ST.bad) + '</textarea></label>' +
-    '<label class="fb-f"><span>' + esc(t('fb.email')) + '</span><input type="email" data-fbk="email" value="' + esc(ST.email) + '" autocomplete="email" maxlength="120"></label>' +
+    '<label class="fb-f"><span>' + esc(t('fb.email')) + '</span><input type="email" data-fbk="email" value="' + esc(ST.email) + '" autocomplete="email" maxlength="120"' + (ST.badEmail ? ' class="bad" aria-invalid="true"' : '') + '></label>' +
     '<input type="text" data-fbk="hp" class="fb-hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
     '<div class="fb-pdpa">' + esc(t('fb.pdpa')) + '</div>' +
     '<div class="row"><button type="button" class="btn primary" data-fb="send"' + (ST.busy ? ' disabled' : '') + '>' + esc(t('fb.send')) + '</button><button type="button" class="btn" data-fb="later">' + esc(t('fb.later')) + '</button><span class="fb-msg">' + esc(ST.msg) + '</span></div></div>';
@@ -6968,27 +7752,29 @@ function rerender(el) { const box = el.closest('.fb, .fb.done'); if (!box) retur
 async function send(el) {
   if (ST.busy) return;
   const hp = (document.querySelector('.fb [data-fbk="hp"]') || {}).value || '';
-  if (!ST.fun && !ST.learn && !ST.good.trim() && !ST.bad.trim()) { ST.msg = t('fb.need'); rerender(el); return; }
-  const email = ST.email.trim(); if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { ST.msg = t('join.err.fields'); rerender(el); return; }
+  ST.miss = ['fun', 'learn'].filter((k) => !ST[k]);
+  if (ST.miss.length) { ST.msg = t('fb.need'); rerender(el); return; }                       // the stars are required; the text is not
+  const email = ST.email.trim(); ST.badEmail = !!email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+  if (ST.badEmail) { ST.msg = t('fb.email.bad'); rerender(el); return; }
   ST.busy = true; ST.msg = ''; rerender(el);
   const c = CUR || context();
   const ua = /iPad|iPhone/.test(navigator.userAgent) ? 'ios' : (/Android/.test(navigator.userAgent) ? 'android' : (/Mac/.test(navigator.userAgent) ? 'mac' : (/Windows/.test(navigator.userAgent) ? 'windows' : 'other')));
   try {
-    await H.send({ op: 'feedback', gid: c.gid, mode: c.mode, level: c.level, medal: c.medal, total: c.total, month: c.month, team: c.team, room: c.room,
+    const r = await H.send({ op: 'feedback', gid: c.gid, mode: c.mode, level: c.level, medal: c.medal, total: c.total, month: c.month, team: c.team, room: c.room,
       fun: ST.fun || '', learn: ST.learn || '', good: ST.good.trim().slice(0, 600), bad: ST.bad.trim().slice(0, 600), email, hp, lang: H.lang(), version: H.version, ua, width: root.innerWidth || 0 });
-    markDone(c.gid); ST.good = ''; ST.bad = ''; ST.fun = 0; ST.learn = 0; ST.msg = '';
-    H.toast(t('fb.thanks'));
+    markDone(c.gid); ST.good = ''; ST.bad = ''; ST.fun = 0; ST.learn = 0; ST.msg = ''; ST.email = '';
+    H.toast(t(r && r.queued ? 'fb.queued' : 'fb.thanks'));
   } catch (e) { ST.msg = t('fb.fail'); }
   ST.busy = false;
   const box = document.querySelector('.fb[data-fbgid], .fb.done'); if (box) rerender(box);
 }
 document.addEventListener('click', (e) => {
-  const s = e.target.closest('[data-fbstar]'); if (s) { ST[s.dataset.fbstar] = +s.dataset.n; rerender(s); return; }
+  const s = e.target.closest('[data-fbstar]'); if (s) { ST[s.dataset.fbstar] = +s.dataset.n; ST.miss = ST.miss.filter((k) => k !== s.dataset.fbstar); if (!ST.miss.length && ST.msg === t('fb.need')) ST.msg = ''; rerender(s); return; }
   const b = e.target.closest('[data-fb]'); if (!b) return;
   if (b.dataset.fb === 'send') { e.preventDefault(); send(b); }
   else if (b.dataset.fb === 'later') { e.preventDefault(); const gid = (CUR && CUR.gid) || 'general'; ST.hidden[gid] = true; if (!b.closest('dialog')) rerender(b); }
 });
-document.addEventListener('input', (e) => { const el = e.target; if (el.dataset && el.dataset.fbk && el.dataset.fbk !== 'hp') ST[el.dataset.fbk] = el.value; });
+document.addEventListener('input', (e) => { const el = e.target; if (el.dataset && el.dataset.fbk && el.dataset.fbk !== 'hp') { ST[el.dataset.fbk] = el.value; if (el.dataset.fbk === 'email' && ST.badEmail) { ST.badEmail = false; el.classList.remove('bad'); el.removeAttribute('aria-invalid'); } } });
 root.IMPAKFeedback = { init(h) { H = Object.assign(H, h); }, card, open, configured, context };
 })(typeof window !== 'undefined' ? window : globalThis);
 
@@ -7029,9 +7815,19 @@ HOST.remember = (k, v) => { if (k === 'tab' && ['park', 'impact', 'stand', 'news
 HOST.landing = () => '';
 HOST.footer = () => '';
 HOST.setOffset = (ms) => { OFFSET = ms; };
+/* the facilitator is told when the backend is older than this page (records then wait in the browser) */
+HOST.gmExtra = () => {
+  const Lv = root.IMPAKLive; if (!Lv || !Lv.configured || !Lv.server || Lv.supports('feedback')) return '';
+  const n = Lv.pending();
+  return '<div class="panel card oldserver"><span class="label">Apps Script</span><p style="margin:4px 0 0">' + escapeHtml(t('gm.oldserver')) + '</p>' + (n ? '<p class="muted" style="margin:6px 0 0">' + escapeHtml(t('gm.queued', { n })) + '</p>' : '') + '</div>';
+};
 HOST.finalExtra = (res, tm) => (root.IMPAKDebrief ? root.IMPAKDebrief.html(res, tm, { open: true, team: tm.id }) : '') + (root.IMPAKFeedback ? root.IMPAKFeedback.card(res, tm) : '');
 HOST.transcriptMeta = () => { const L = root.IMPAKLive, ss = L && L.store && L.store.session; return { room: L ? L.room : '', members: ss && ss.role === 'team' && ss.name ? ss.name + ', …' : '' }; };
-HOST.dealAdvice = (res, tm, ev, phase) => { const A = root.IMPAKAdvice; if (!A) return ''; return phase === 'after' ? A.after(res, tm, ev) : A.before(res, tm, ev); };
+HOST.dealAdvice = (res, tm, ev, phase) => {
+  const A = root.IMPAKAdvice, B = root.IMPAKBench;
+  if (phase !== 'after') return A ? A.before(res, tm, ev) : '';
+  return (A ? A.after(res, tm, ev) : '') + (B ? B.dealHTML(res, tm, ev) : '');   // after a deal: the lesson, then the benchmark parks' choices
+};
 const ACT = G.ACT;
 HOST.act = {
   'pin'(d) { pinNow(d.pin); },
@@ -7039,6 +7835,11 @@ HOST.act = {
   'open-join'(d) { LAND.view = d.v || 'live'; },
   'tab'(d) { openPart(d.k); },
   'home'() { goHome(); },
+  'news-src'(d) { app().ui.newsSrc = d.k; },                                     // News tab: your park or one benchmark (bench.js)
+  'bench-pick'(d) { app().ui.benchSel = d.k; },                                  // Standings tab: the benchmark to learn from
+  'bench-open'() { app().ui.benchOpen = true; S.benchFocus = true; },              // the full study opens over the dashboard
+  'bench-close'() { app().ui.benchOpen = false; const b = $('#r-tab [data-act="bench-open"]'); if (b) setTimeout(() => b.focus(), 0); },
+  'bench-news'(d) { app().ui.newsSrc = d.k; app().ui.benchOpen = false; setTab('news'); },
 };
 const GROUP_OF = { apps: 'apps', money: 'money', fac: 'fac', zone: 'zone' };
 function openPart(k) {
@@ -7189,8 +7990,8 @@ function tilesHTML(r, tm) {
 function tabHTML(r, tm) {
   switch (uiStore.tab) {
     case 'impact': return G.tabImpact(r, tm);
-    case 'stand': return G.tabStand(r, tm);
-    case 'news': return G.tabNews(r, tm);
+    case 'stand': return G.tabStand(r, tm) + (root.IMPAKBench ? root.IMPAKBench.learnHTML(r, tm) : '');
+    case 'news': return root.IMPAKBench ? root.IMPAKBench.newsTab(r, tm) : G.tabNews(r, tm);
     case 'pins': return pinsHTML();
     case 'rules': return G.RULES_HTML(r.sc);
     default: return G.tabPark(r, tm);
@@ -7446,7 +8247,7 @@ function teamRegions(r, tm) {
   const a = app(), ca = prefs.lang + JSON.stringify(G.canAct(r));
   const MS = 20, mapT = tm.t.buildings.some((b) => b.status === 'building') ? Math.floor(r.T * MS) / MS : '';
   const hold = r.ck.hold;
-  const overKey = [prefs.lang, r.key, hold && hold.id, r.g.status, r.g.lastReveal, r.g.reveal, a.ui.seenReveal, a.ui.seenEnd, hold && hold.kind === 'event' ? JSON.stringify(G.store().decisionOf(hold.id, tm.id)) : ''].join('|');
+  const overKey = [prefs.lang, r.key, hold && hold.id, r.g.status, r.g.lastReveal, r.g.reveal, a.ui.seenReveal, a.ui.seenEnd, r.g.benchView || '', a.ui.benchOpen ? 'B' + (a.ui.benchSel || '') : '', hold && hold.kind === 'event' ? JSON.stringify(G.store().decisionOf(hold.id, tm.id)) : ''].join('|');
   return [
     { id: 'r-tiles', key: r.key + '|' + Math.floor(r.T * 4) + '|' + prefs.lang, fn: () => tilesHTML(r, tm) },
     { id: 'r-banner', html: G.bannerTeam(r, tm) },
@@ -7456,8 +8257,9 @@ function teamRegions(r, tm) {
     { id: 'r-apps', key: r.key + '|' + ca, fn: () => G.tabApps(r, tm) },
     { id: 'r-money', key: r.key + '|' + a.ui.loan + '|' + a.ui.repay + '|' + ca, fn: () => G.tabMoney(r, tm) },
     { id: 'r-fac', key: r.key + '|' + ca, fn: () => G.tabFac(r, tm) },
-    { id: 'r-tab', key: prefs.lang + '|' + r.key + '|' + uiStore.tab + '|' + (uiStore.tab === 'stand' ? Math.floor(r.T * 4) : '') + '|' + (S.pins.A ? 'A' : '') + (S.pins.B ? 'B' : ''), fn: () => tabHTML(r, tm) },
-    { id: 'r-over', key: overKey, fn: () => G.dealTeam(r, tm) || G.soloHoldOverlay(r, tm) || G.finalOverlay(r, tm) },
+    { id: 'r-tab', key: prefs.lang + '|' + r.key + '|' + uiStore.tab + '|' + (a.ui.newsSrc || '') + '|' + (a.ui.benchSel || '') + '|' + (r.g.benchView || '') + '|' + (S.pins.A ? 'A' : '') + (S.pins.B ? 'B' : ''), fn: () => tabHTML(r, tm) },
+    { id: 'r-over', key: overKey, fn: () => G.dealTeam(r, tm) || G.soloHoldOverlay(r, tm) || G.finalOverlay(r, tm) || (root.IMPAKBench ? root.IMPAKBench.studyHTML(r, tm) : ''),
+      after: (el) => { if (S.benchFocus) { S.benchFocus = false; const c = el.querySelector('.bstudy [data-act="bench-close"]'); if (c) c.focus(); } } },
   ];
 }
 function groupStatus(r, tm) {
@@ -7699,6 +8501,7 @@ function boot() {
   if (root.IMPAKLive) root.IMPAKLive.init({ onState: () => render(true), onOffset: HOST.setOffset, t, K, G });
   if (root.IMPAKFeedback) { root.IMPAKFeedback.init({ t, lang: () => prefs.lang, toast: K.toast, send: (p) => root.IMPAKLive.send(p), version: G.BRAND.version }); const fb = $('#btn-fb'); if (fb) { fb.hidden = !root.IMPAKFeedback.configured(); fb.addEventListener('click', () => root.IMPAKFeedback.open()); } }
   const bchip = $('#beta-chip'); if (bchip) bchip.hidden = !(root.IMPAKLive && root.IMPAKLive.configured);
+  if (root.IMPAKLive && root.IMPAKLive.configured) root.IMPAKLive.check().then(() => render(true));      // what the backend can take; sends waiting records
   const qroom = new URLSearchParams(location.search).get('room');
   if (qroom && root.IMPAKLive && root.IMPAKLive.configured) { root.IMPAKLive.form.room = qroom.toUpperCase().slice(0, 6); LAND.view = 'live'; }
   const kept = restoreSolo();

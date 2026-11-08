@@ -105,3 +105,14 @@ Feedback: an in-game card at the end (two 1–5 ratings, enjoyment and learning;
 Leaving a practice game: Home opens a dialog — continue later (the game is kept in the browser, paused), end and see the results (the remaining months run in about 30 seconds with deals left; the card and transcript say "ended early"), or delete. The clock also pauses by itself when the tab is hidden. Practice games now survive a reload.
 Backend: 25 wrong PINs lock a room (or a GM e-mail) for 15 minutes. Version 0.6.0-beta.1.
 Decided by: Ahmad Razin
+
+## 2026-11-08 Final card, feedback form, learning from the benchmark parks
+Found by the author: the final result card was cut off at the top on a short screen (fixed: long cards start at the top and scroll), and the feedback form would not send ("Fill in every field"). Rule from the author: the two star ratings are required, the written answers are optional. The e-mail field now has its own message. The server checks the stars too (Code.gs API 2); while the deployed script is older, feedback and run records wait in the player's browser and are sent after the redeploy, and the GM console says so.
+Learning from the benchmarks (requested by the author: participants should see what the benchmark parks did to score so well, learn a little in each game and become expert over many games). Design proposed in the session:
+- During play a benchmark's moves are shown one quarter late (up to the end of the quarter before the current one), so participants learn a step behind rather than copy in real time; everything is shown after the final bell. In a live room the Game Master may keep the moves hidden until the final bell (set-up box, or the console toggle).
+- News: follow one benchmark, quarter by quarter, with the principle behind each kind of move the first time it makes one, and its deal choices with the verdict and the deal's principle.
+- Standings: a short summary (why its impact grows faster than yours) and a full study in a dialog: impact over time with its key moves marked, where each park's impact comes from now, its plan, strengths, weaknesses and the lesson for a real park, and year-end milestones.
+- After each deal: what the benchmarks chose (the decision is already closed). After the game: how the leading benchmark built its park, also in the transcript.
+- The engine and the strategies are unchanged; the impact sources use the engine's own formula, read-only. The benchmark record now also keeps the applicant type of each admission, for display only (the replay ignores it).
+Version 0.6.0-beta.2.
+Requested by: Ahmad Razin; the one-quarter lag and the GM option await his confirmation.

@@ -315,3 +315,96 @@ dialog.exitbox { width: min(520px, calc(100vw - 24px)); }
 .chipbtn.on { background: var(--acc-guide); border-color: var(--acc-guide); color: var(--acc-guide-ink, #fff); }
 .g .banner.fastend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
 .g .banner.fastend .btn { margin-left: auto; }
+
+/* v0.6 — overlays taller than the screen (final card with debrief and feedback) start at the top and scroll;
+   grid place-items:center pushed the top out of reach. Auto margins centre short cards and fall back to the top. */
+.g .overlay { place-items: start center; }
+.g .overlay > * { margin-block: auto; }
+
+.fb-row .req { color: var(--bad); font-weight: 700; }
+.fb-row.need span { color: var(--bad); }
+.fb-row.need .stars { outline: 2px solid color-mix(in srgb, var(--bad) 55%, transparent); border-radius: 8px; }
+.fb-f input.bad { border-color: var(--bad); outline: 1px solid var(--bad); }
+.g .panel.oldserver { border-color: var(--warn); background: color-mix(in srgb, var(--warn) 9%, var(--card)); }
+
+/* v0.6 — learning from the benchmark parks (src/bench.js). Chart colours checked for contrast on the card surface
+   in both themes: you #2a78d6 / #3987e5, the chosen benchmark #eb6834 / #d95926; other benchmarks in muted grey. */
+:root { --ch-you: #2a78d6; --ch-bench: #eb6834; }
+:root[data-theme="dark"] { --ch-you: #3987e5; --ch-bench: #d95926; }
+.g .bn-src { flex-wrap: wrap; gap: 6px; margin: 0 0 8px; }
+.g .bn-head { margin: 2px 0; font-size: 14px; }
+.g .bn-lag { font-size: 12px; margin: 0 0 6px; }
+.g .bn-plan { font-size: 13px; }
+.g .bn-q { border-top: 1px solid var(--line-soft); padding: 8px 0 4px; }
+.g .bn-qh { display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline; font-size: 13px; }
+.g .bn-fig { margin-left: auto; font-size: 12px; color: var(--ink2); }
+.g .bn-l { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 6px; }
+.g .bn-l li { font-size: 13px; line-height: 1.4; }
+.g .bn-k { display: inline-block; min-width: 76px; font-size: 10.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+.g .bn-why { margin: 2px 0 0 82px; font-size: 12.5px; color: var(--ink2); }
+.g .bn-v { font-size: 12px; font-weight: 600; }
+.g .bn-l li.bn-deal.ok .bn-v { color: var(--good); }
+.g .bn-l li.bn-deal.no .bn-v { color: var(--bad); }
+.g .bn-l li.quiet { color: var(--muted); font-style: italic; }
+.g .bn-more > summary { cursor: pointer; font-size: 13px; color: var(--ink2); margin: 8px 0 4px; }
+@media (max-width: 560px) { .g .bn-why { margin-left: 0; } .g .bn-k { display: block; } }
+.g .bl { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); display: grid; gap: 10px; }
+.g .bl-h { margin: 0; font-size: 15px; }
+.g .bl-sub { margin: -4px 0 0; font-size: 13px; }
+.g .bl-prof { border: 1px solid var(--line-soft); border-radius: 8px; padding: 8px 10px; background: var(--card-head); }
+.g .bl-prof p { margin: 5px 0 0; font-size: 13px; }
+.g .bl-les { color: var(--ink); }
+.g .bl-ins { margin: 2px 0 0; font-size: 13px; }
+.g .bl-eng small { font-weight: 400; text-transform: none; letter-spacing: 0; }
+.g .bl-eng .tot td { font-weight: 700; border-top: 1px solid var(--line); }
+.g .bl-mile caption, .debrief .bl-mile caption { caption-side: top; text-align: left; font-size: 12px; color: var(--ink2); padding: 0 0 4px; }
+.g .bl-mile .bm { color: var(--ink2); }
+.bch { margin: 0; position: relative; outline: none; border-radius: 8px; }
+.bch:focus-visible { box-shadow: 0 0 0 2px var(--accent); }
+.bch-leg { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12.5px; color: var(--ink2); margin: 0 0 4px; }
+.bch-leg i { display: inline-block; width: 16px; height: 0; border-top: 2px solid var(--muted); vertical-align: middle; margin-right: 6px; }
+.bch-leg i.you { border-color: var(--ch-you); }
+.bch-leg i.bench { border-color: var(--ch-bench); }
+.bch-leg i.dot { width: 9px; height: 9px; border: 2px solid var(--card); border-radius: 50%; background: var(--ch-bench); box-shadow: 0 0 0 1px var(--ch-bench); }
+.bch-box { position: relative; }
+.bch svg { display: block; width: 100%; height: auto; touch-action: pan-y; cursor: crosshair; }
+.bch .gl { stroke: var(--grid); stroke-width: 1; }
+.bch .zl { stroke: var(--axis); stroke-width: 1; }
+.bch .ax { fill: var(--muted); font-size: 11px; font-family: var(--font); }
+.bch .ln { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.bch .ln.you { stroke: var(--ch-you); }
+.bch .ln.bench { stroke: var(--ch-bench); }
+.bch .ln.other { stroke: var(--muted); opacity: .6; }
+.bch .mk { fill: var(--ch-bench); stroke: var(--card); stroke-width: 2; }
+.bch .el { font-size: 11.5px; font-weight: 700; font-family: var(--font); }
+.bch .el.you { fill: var(--ch-you); }
+.bch .el.bench { fill: var(--ch-bench); }
+.bch .bch-x { stroke: var(--axis); stroke-width: 1; }
+.bch .bch-dot { stroke: var(--card); stroke-width: 2; fill: var(--muted); }
+.bch .bch-dot.you { fill: var(--ch-you); }
+.bch .bch-dot.bench { fill: var(--ch-bench); }
+.bch-tip { position: absolute; top: 2px; z-index: 3; max-width: min(270px, 70%); background: var(--card); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); padding: 7px 9px; font-size: 12.5px; line-height: 1.35; pointer-events: none; }
+.bch-tip .t-h { font-weight: 700; margin-bottom: 3px; }
+.bch-tip .t-r { display: flex; align-items: center; gap: 6px; }
+.bch-tip .t-r b { font-family: var(--f-mono, monospace); font-variant-numeric: tabular-nums; min-width: 42px; text-align: right; }
+.bch-tip .t-r.other { color: var(--ink2); }
+.bch-tip .sw { flex: none; width: 10px; height: 10px; border-radius: 2px; background: var(--muted); }
+.bch-tip .sw.you { background: var(--ch-you); }
+.bch-tip .sw.bench { background: var(--ch-bench); }
+.bch-tip .t-m { margin-top: 5px; padding-top: 4px; border-top: 1px solid var(--line-soft); }
+.bch-tip .t-m ul { margin: 2px 0 0; padding-left: 16px; }
+.bch figcaption { font-size: 12px; color: var(--ink2); margin-top: 4px; }
+.bch-tbl > summary { cursor: pointer; font-size: 12.5px; color: var(--ink2); margin-top: 4px; }
+.g .bdeal { margin: 8px 0 0; }
+.g .bdeal ul { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 5px; }
+.g .bdeal li { font-size: 13px; }
+.g .bdeal .bd-v { font-weight: 600; font-size: 12.5px; }
+.g .bdeal .bd-v.ok { color: var(--good); }
+.g .bdeal .bd-v.no { color: var(--bad); }
+.g .bdeal .bd-out { color: var(--ink2); font-size: 12.5px; }
+.g .bstudy .bs-tools { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+.g .bstudy .deal-body { gap: 12px; }
+.g .bl-prof i { color: var(--ink2); }
+.g .bl-eng th:first-child, .g .bl-eng td:first-child { white-space: normal; }
+.bch-tbl td:last-child { white-space: normal; min-width: 180px; text-align: left; }
+.g .bl-mile td { white-space: nowrap; }

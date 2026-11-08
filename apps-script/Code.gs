@@ -25,7 +25,9 @@ var TABS = {
   feedback: ['at', 'gid', 'mode', 'level', 'medal', 'total', 'month', 'fun', 'learn', 'good', 'bad', 'email', 'team', 'room', 'lang', 'version', 'ua', 'width'],
   runs: ['at', 'gid', 'mode', 'level', 'seed', 'site', 'status', 'month', 'why', 'medal', 'total', 'durMin', 'lang', 'version', 'width'],
 };
-var TRIAL_MAX_ROWS = 20000, TXT_MAX = 600;   // the public trial's sheets stop accepting rows past this (spam ceiling)
+var TRIAL_MAX_ROWS = 20000, TXT_MAX = 600;
+/* what this version of the backend can do; the browser asks with ?op=ping and warns the facilitator when it is older */
+var API_VERSION = 2, FEATURES = ['feedback', 'run', 'lockout', 'pausepoints', 'startcash'];   // the public trial's sheets stop accepting rows past this (spam ceiling)
 var CODE_TTL_MS = 10 * 60 * 1000, CODE_MAX_PER_HOUR = 5, ORDER_TOLERANCE = 0.5;   // months
 
 /* ------------------------------------------------------------------ setup (run once from the editor) */
@@ -54,7 +56,7 @@ function out(obj) { return ContentService.createTextOutput(JSON.stringify(obj)).
 function handle(p) {
   try {
     switch (p.op) {
-      case 'ping': return { ok: true, serverTime: Date.now() };
+      case 'ping': return { ok: true, serverTime: Date.now(), api: API_VERSION, features: FEATURES };
       case 'room': return roomInfo(p);
       case 'state': return state(p);
       case 'join': return join(p);
@@ -296,7 +298,7 @@ function feedback(p) {
   if (p.hp) return { ok: true };                                    // honeypot field filled in: a bot; pretend to accept
   var sh = sheet('feedback'); if (sh.getLastRow() > TRIAL_MAX_ROWS) return { error: 'full' };
   var fun = num(p.fun, 1, 5), learn = num(p.learn, 1, 5), good = clip(p.good, TXT_MAX).trim(), bad = clip(p.bad, TXT_MAX).trim();
-  if (fun === '' && learn === '' && !good && !bad) return { error: 'fields' };
+  if (fun === '' || learn === '') return { error: 'fields' };   // both star ratings are required; the written answers are not
   var email = clip(p.email, 120).trim().toLowerCase(); if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) email = '';
   var k = 'fb:' + clip(p.gid, 40) + ':' + clip(p.team, 40); if (p.gid && cache().get(k)) return { ok: true, dup: true };
   append('feedback', { at: new Date(), gid: clip(p.gid, 40), mode: clip(p.mode, 10), level: clip(p.level, 10), medal: clip(p.medal, 10), total: num(p.total, 0, 100), month: num(p.month, 0, 120),

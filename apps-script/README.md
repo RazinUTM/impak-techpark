@@ -16,6 +16,8 @@ One private Google Sheet + one Apps Script web app on the facilitator's UTM Work
 
 Redeploying after a code change: Deploy → Manage deployments → edit → *New version*. The URL stays the same.
 
+Version check: `ping` answers with `api` and `features` (API 2 from 8 Nov 2026: the feedback card needs both star ratings; the written answers stay optional). The page asks on start; while the deployed script is older, feedback and run records wait in the player's browser (up to 20, for 30 days) and are sent after the redeploy, and the GM console shows a notice.
+
 ## Session tiers
 
 - **open** (default): a team PIN is enough; the name and e-mail typed at join are recorded as given.

@@ -6,7 +6,7 @@
 'use strict';
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 let H = { t: (k) => k, lang: () => 'en', toast: () => {}, send: null, version: '' };
-const ST = { fun: 0, learn: 0, good: '', bad: '', email: '', busy: false, msg: '', hidden: {}, sent: {} };
+const ST = { fun: 0, learn: 0, good: '', bad: '', email: '', busy: false, msg: '', miss: [], badEmail: false, hidden: {}, sent: {} };
 let CUR = null;                                               // the game the card is about
 const t = (k, v) => H.t(k, v);
 const key = (gid) => 'impak.fb.' + (gid || 'general');
@@ -32,10 +32,10 @@ function form(c) {
   if (already(c.gid)) return '<div class="fb done"><span>✓</span> ' + esc(t('fb.thanks')) + '</div>';
   if (ST.hidden[gid]) return '';
   return '<div class="fb" data-fbgid="' + esc(gid) + '"><div class="fb-h"><b>' + esc(t('fb.title')) + '</b><span class="muted">' + esc(t('fb.sub')) + '</span></div>' +
-    '<div class="fb-row"><span>' + esc(t('fb.fun')) + '</span>' + stars('fun') + '</div><div class="fb-row"><span>' + esc(t('fb.learn')) + '</span>' + stars('learn') + '</div>' +
+    '<div class="fb-row' + (ST.miss.indexOf('fun') >= 0 ? ' need' : '') + '"><span>' + esc(t('fb.fun')) + ' <b class="req" aria-hidden="true">*</b></span>' + stars('fun') + '</div><div class="fb-row' + (ST.miss.indexOf('learn') >= 0 ? ' need' : '') + '"><span>' + esc(t('fb.learn')) + ' <b class="req" aria-hidden="true">*</b></span>' + stars('learn') + '</div>' +
     '<label class="fb-f"><span>' + esc(t('fb.good')) + '</span><textarea data-fbk="good" maxlength="600" rows="2">' + esc(ST.good) + '</textarea></label>' +
     '<label class="fb-f"><span>' + esc(t('fb.bad')) + '</span><textarea data-fbk="bad" maxlength="600" rows="2">' + esc(ST.bad) + '</textarea></label>' +
-    '<label class="fb-f"><span>' + esc(t('fb.email')) + '</span><input type="email" data-fbk="email" value="' + esc(ST.email) + '" autocomplete="email" maxlength="120"></label>' +
+    '<label class="fb-f"><span>' + esc(t('fb.email')) + '</span><input type="email" data-fbk="email" value="' + esc(ST.email) + '" autocomplete="email" maxlength="120"' + (ST.badEmail ? ' class="bad" aria-invalid="true"' : '') + '></label>' +
     '<input type="text" data-fbk="hp" class="fb-hp" tabindex="-1" autocomplete="off" aria-hidden="true">' +
     '<div class="fb-pdpa">' + esc(t('fb.pdpa')) + '</div>' +
     '<div class="row"><button type="button" class="btn primary" data-fb="send"' + (ST.busy ? ' disabled' : '') + '>' + esc(t('fb.send')) + '</button><button type="button" class="btn" data-fb="later">' + esc(t('fb.later')) + '</button><span class="fb-msg">' + esc(ST.msg) + '</span></div></div>';
@@ -58,26 +58,28 @@ function rerender(el) { const box = el.closest('.fb, .fb.done'); if (!box) retur
 async function send(el) {
   if (ST.busy) return;
   const hp = (document.querySelector('.fb [data-fbk="hp"]') || {}).value || '';
-  if (!ST.fun && !ST.learn && !ST.good.trim() && !ST.bad.trim()) { ST.msg = t('fb.need'); rerender(el); return; }
-  const email = ST.email.trim(); if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { ST.msg = t('join.err.fields'); rerender(el); return; }
+  ST.miss = ['fun', 'learn'].filter((k) => !ST[k]);
+  if (ST.miss.length) { ST.msg = t('fb.need'); rerender(el); return; }                       // the stars are required; the text is not
+  const email = ST.email.trim(); ST.badEmail = !!email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+  if (ST.badEmail) { ST.msg = t('fb.email.bad'); rerender(el); return; }
   ST.busy = true; ST.msg = ''; rerender(el);
   const c = CUR || context();
   const ua = /iPad|iPhone/.test(navigator.userAgent) ? 'ios' : (/Android/.test(navigator.userAgent) ? 'android' : (/Mac/.test(navigator.userAgent) ? 'mac' : (/Windows/.test(navigator.userAgent) ? 'windows' : 'other')));
   try {
-    await H.send({ op: 'feedback', gid: c.gid, mode: c.mode, level: c.level, medal: c.medal, total: c.total, month: c.month, team: c.team, room: c.room,
+    const r = await H.send({ op: 'feedback', gid: c.gid, mode: c.mode, level: c.level, medal: c.medal, total: c.total, month: c.month, team: c.team, room: c.room,
       fun: ST.fun || '', learn: ST.learn || '', good: ST.good.trim().slice(0, 600), bad: ST.bad.trim().slice(0, 600), email, hp, lang: H.lang(), version: H.version, ua, width: root.innerWidth || 0 });
-    markDone(c.gid); ST.good = ''; ST.bad = ''; ST.fun = 0; ST.learn = 0; ST.msg = '';
-    H.toast(t('fb.thanks'));
+    markDone(c.gid); ST.good = ''; ST.bad = ''; ST.fun = 0; ST.learn = 0; ST.msg = ''; ST.email = '';
+    H.toast(t(r && r.queued ? 'fb.queued' : 'fb.thanks'));
   } catch (e) { ST.msg = t('fb.fail'); }
   ST.busy = false;
   const box = document.querySelector('.fb[data-fbgid], .fb.done'); if (box) rerender(box);
 }
 document.addEventListener('click', (e) => {
-  const s = e.target.closest('[data-fbstar]'); if (s) { ST[s.dataset.fbstar] = +s.dataset.n; rerender(s); return; }
+  const s = e.target.closest('[data-fbstar]'); if (s) { ST[s.dataset.fbstar] = +s.dataset.n; ST.miss = ST.miss.filter((k) => k !== s.dataset.fbstar); if (!ST.miss.length && ST.msg === t('fb.need')) ST.msg = ''; rerender(s); return; }
   const b = e.target.closest('[data-fb]'); if (!b) return;
   if (b.dataset.fb === 'send') { e.preventDefault(); send(b); }
   else if (b.dataset.fb === 'later') { e.preventDefault(); const gid = (CUR && CUR.gid) || 'general'; ST.hidden[gid] = true; if (!b.closest('dialog')) rerender(b); }
 });
-document.addEventListener('input', (e) => { const el = e.target; if (el.dataset && el.dataset.fbk && el.dataset.fbk !== 'hp') ST[el.dataset.fbk] = el.value; });
+document.addEventListener('input', (e) => { const el = e.target; if (el.dataset && el.dataset.fbk && el.dataset.fbk !== 'hp') { ST[el.dataset.fbk] = el.value; if (el.dataset.fbk === 'email' && ST.badEmail) { ST.badEmail = false; el.classList.remove('bad'); el.removeAttribute('aria-invalid'); } } });
 root.IMPAKFeedback = { init(h) { H = Object.assign(H, h); }, card, open, configured, context };
 })(typeof window !== 'undefined' ? window : globalThis);

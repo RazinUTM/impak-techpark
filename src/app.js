@@ -33,9 +33,19 @@ HOST.remember = (k, v) => { if (k === 'tab' && ['park', 'impact', 'stand', 'news
 HOST.landing = () => '';
 HOST.footer = () => '';
 HOST.setOffset = (ms) => { OFFSET = ms; };
+/* the facilitator is told when the backend is older than this page (records then wait in the browser) */
+HOST.gmExtra = () => {
+  const Lv = root.IMPAKLive; if (!Lv || !Lv.configured || !Lv.server || Lv.supports('feedback')) return '';
+  const n = Lv.pending();
+  return '<div class="panel card oldserver"><span class="label">Apps Script</span><p style="margin:4px 0 0">' + escapeHtml(t('gm.oldserver')) + '</p>' + (n ? '<p class="muted" style="margin:6px 0 0">' + escapeHtml(t('gm.queued', { n })) + '</p>' : '') + '</div>';
+};
 HOST.finalExtra = (res, tm) => (root.IMPAKDebrief ? root.IMPAKDebrief.html(res, tm, { open: true, team: tm.id }) : '') + (root.IMPAKFeedback ? root.IMPAKFeedback.card(res, tm) : '');
 HOST.transcriptMeta = () => { const L = root.IMPAKLive, ss = L && L.store && L.store.session; return { room: L ? L.room : '', members: ss && ss.role === 'team' && ss.name ? ss.name + ', …' : '' }; };
-HOST.dealAdvice = (res, tm, ev, phase) => { const A = root.IMPAKAdvice; if (!A) return ''; return phase === 'after' ? A.after(res, tm, ev) : A.before(res, tm, ev); };
+HOST.dealAdvice = (res, tm, ev, phase) => {
+  const A = root.IMPAKAdvice, B = root.IMPAKBench;
+  if (phase !== 'after') return A ? A.before(res, tm, ev) : '';
+  return (A ? A.after(res, tm, ev) : '') + (B ? B.dealHTML(res, tm, ev) : '');   // after a deal: the lesson, then the benchmark parks' choices
+};
 const ACT = G.ACT;
 HOST.act = {
   'pin'(d) { pinNow(d.pin); },
@@ -43,6 +53,11 @@ HOST.act = {
   'open-join'(d) { LAND.view = d.v || 'live'; },
   'tab'(d) { openPart(d.k); },
   'home'() { goHome(); },
+  'news-src'(d) { app().ui.newsSrc = d.k; },                                     // News tab: your park or one benchmark (bench.js)
+  'bench-pick'(d) { app().ui.benchSel = d.k; },                                  // Standings tab: the benchmark to learn from
+  'bench-open'() { app().ui.benchOpen = true; S.benchFocus = true; },              // the full study opens over the dashboard
+  'bench-close'() { app().ui.benchOpen = false; const b = $('#r-tab [data-act="bench-open"]'); if (b) setTimeout(() => b.focus(), 0); },
+  'bench-news'(d) { app().ui.newsSrc = d.k; app().ui.benchOpen = false; setTab('news'); },
 };
 const GROUP_OF = { apps: 'apps', money: 'money', fac: 'fac', zone: 'zone' };
 function openPart(k) {
@@ -193,8 +208,8 @@ function tilesHTML(r, tm) {
 function tabHTML(r, tm) {
   switch (uiStore.tab) {
     case 'impact': return G.tabImpact(r, tm);
-    case 'stand': return G.tabStand(r, tm);
-    case 'news': return G.tabNews(r, tm);
+    case 'stand': return G.tabStand(r, tm) + (root.IMPAKBench ? root.IMPAKBench.learnHTML(r, tm) : '');
+    case 'news': return root.IMPAKBench ? root.IMPAKBench.newsTab(r, tm) : G.tabNews(r, tm);
     case 'pins': return pinsHTML();
     case 'rules': return G.RULES_HTML(r.sc);
     default: return G.tabPark(r, tm);
@@ -450,7 +465,7 @@ function teamRegions(r, tm) {
   const a = app(), ca = prefs.lang + JSON.stringify(G.canAct(r));
   const MS = 20, mapT = tm.t.buildings.some((b) => b.status === 'building') ? Math.floor(r.T * MS) / MS : '';
   const hold = r.ck.hold;
-  const overKey = [prefs.lang, r.key, hold && hold.id, r.g.status, r.g.lastReveal, r.g.reveal, a.ui.seenReveal, a.ui.seenEnd, hold && hold.kind === 'event' ? JSON.stringify(G.store().decisionOf(hold.id, tm.id)) : ''].join('|');
+  const overKey = [prefs.lang, r.key, hold && hold.id, r.g.status, r.g.lastReveal, r.g.reveal, a.ui.seenReveal, a.ui.seenEnd, r.g.benchView || '', a.ui.benchOpen ? 'B' + (a.ui.benchSel || '') : '', hold && hold.kind === 'event' ? JSON.stringify(G.store().decisionOf(hold.id, tm.id)) : ''].join('|');
   return [
     { id: 'r-tiles', key: r.key + '|' + Math.floor(r.T * 4) + '|' + prefs.lang, fn: () => tilesHTML(r, tm) },
     { id: 'r-banner', html: G.bannerTeam(r, tm) },
@@ -460,8 +475,9 @@ function teamRegions(r, tm) {
     { id: 'r-apps', key: r.key + '|' + ca, fn: () => G.tabApps(r, tm) },
     { id: 'r-money', key: r.key + '|' + a.ui.loan + '|' + a.ui.repay + '|' + ca, fn: () => G.tabMoney(r, tm) },
     { id: 'r-fac', key: r.key + '|' + ca, fn: () => G.tabFac(r, tm) },
-    { id: 'r-tab', key: prefs.lang + '|' + r.key + '|' + uiStore.tab + '|' + (uiStore.tab === 'stand' ? Math.floor(r.T * 4) : '') + '|' + (S.pins.A ? 'A' : '') + (S.pins.B ? 'B' : ''), fn: () => tabHTML(r, tm) },
-    { id: 'r-over', key: overKey, fn: () => G.dealTeam(r, tm) || G.soloHoldOverlay(r, tm) || G.finalOverlay(r, tm) },
+    { id: 'r-tab', key: prefs.lang + '|' + r.key + '|' + uiStore.tab + '|' + (a.ui.newsSrc || '') + '|' + (a.ui.benchSel || '') + '|' + (r.g.benchView || '') + '|' + (S.pins.A ? 'A' : '') + (S.pins.B ? 'B' : ''), fn: () => tabHTML(r, tm) },
+    { id: 'r-over', key: overKey, fn: () => G.dealTeam(r, tm) || G.soloHoldOverlay(r, tm) || G.finalOverlay(r, tm) || (root.IMPAKBench ? root.IMPAKBench.studyHTML(r, tm) : ''),
+      after: (el) => { if (S.benchFocus) { S.benchFocus = false; const c = el.querySelector('.bstudy [data-act="bench-close"]'); if (c) c.focus(); } } },
   ];
 }
 function groupStatus(r, tm) {
@@ -703,6 +719,7 @@ function boot() {
   if (root.IMPAKLive) root.IMPAKLive.init({ onState: () => render(true), onOffset: HOST.setOffset, t, K, G });
   if (root.IMPAKFeedback) { root.IMPAKFeedback.init({ t, lang: () => prefs.lang, toast: K.toast, send: (p) => root.IMPAKLive.send(p), version: G.BRAND.version }); const fb = $('#btn-fb'); if (fb) { fb.hidden = !root.IMPAKFeedback.configured(); fb.addEventListener('click', () => root.IMPAKFeedback.open()); } }
   const bchip = $('#beta-chip'); if (bchip) bchip.hidden = !(root.IMPAKLive && root.IMPAKLive.configured);
+  if (root.IMPAKLive && root.IMPAKLive.configured) root.IMPAKLive.check().then(() => render(true));      // what the backend can take; sends waiting records
   const qroom = new URLSearchParams(location.search).get('room');
   if (qroom && root.IMPAKLive && root.IMPAKLive.configured) { root.IMPAKLive.form.room = qroom.toUpperCase().slice(0, 6); LAND.view = 'live'; }
   const kept = restoreSolo();

@@ -32,6 +32,15 @@ async function call(payload) {
   return j;
 }
 
+/* ------------------------------------------------------------------ public-trial records: what the server can take, and an outbox
+   Feedback and run records that the server cannot take yet (an older Code.gs, or no connection) wait in localStorage
+   and go out after the next successful check; they are dropped after 30 days or 10 tries. */
+const OUTBOX = 'impak.outbox';
+let server = null;                                         // { api, features } after check(); null until known
+function outbox() { try { return JSON.parse(localStorage.getItem(OUTBOX) || '[]'); } catch (e) { return []; } }
+function setOutbox(a) { try { if (a.length) localStorage.setItem(OUTBOX, JSON.stringify(a.slice(-20))); else localStorage.removeItem(OUTBOX); } catch (e) { /* ignore */ } }
+function queue(p) { const a = outbox(); a.push({ p, at: Date.now(), n: 0 }); setOutbox(a); }
+
 /* ------------------------------------------------------------------ store */
 function deepMerge(a, b) { return G.deepMerge(JSON.parse(JSON.stringify(a || {})), b); }
 function ApiStore(session) {
@@ -135,11 +144,36 @@ const L = {
     this.attach({ room: r.room, token: '', role: 'screen' }, 'screen', null);
     return r;
   },
-  /* fire-and-forget records of the public trial (feedback, run statistics); no token needed */
-  async send(payload, beacon) {
+  /* records of the public trial (feedback, run statistics); no token needed. Resolves { ok } when stored,
+     { queued } when kept for later (older server, no connection); rejects only when the server refuses the content. */
+  get server() { return server; },
+  supports(f) { return server ? server.features.indexOf(f) >= 0 : null; },
+  async check() {
     if (!API) return null;
-    if (beacon && root.navigator && root.navigator.sendBeacon) { try { if (root.navigator.sendBeacon(API, JSON.stringify(payload))) return { ok: true }; } catch (e) { /* fall through */ } }
-    return call(payload);
+    try { const j = await call({ op: 'ping' }); server = { api: j.api || 1, features: j.features || [] }; }
+    catch (e) { return null; }
+    if (this.supports('feedback')) this.flush();
+    return server;
+  },
+  async flush() {
+    const a = outbox(); if (!a.length) return 0;
+    const keep = []; let sent = 0;
+    for (const x of a) {
+      if (Date.now() - x.at > 30 * 864e5 || x.n >= 10) continue;
+      try { await call(x.p); sent++; } catch (e) { if (e.key !== 'join.err.fields') { x.n++; keep.push(x); } }
+    }
+    setOutbox(keep); return sent;
+  },
+  pending() { return outbox().length; },
+  async send(payload) {
+    if (!API) return null;
+    if (server && server.features.indexOf(payload.op) < 0) { queue(payload); return { queued: true }; }
+    try { return await call(payload); }
+    catch (e) {
+      if (e.key === 'join.err.fields') throw e;               // the server read it and refused it: do not retry
+      if (e.message === 'full') return { full: true };          // the trial sheet is full: drop quietly
+      queue(payload); return { queued: true };
+    }
   },
   async report(tm, r) {
     if (!this.store || !tm.rub || this.reported[tm.id]) return; this.reported[tm.id] = true;

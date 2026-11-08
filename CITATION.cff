@@ -5,7 +5,7 @@ authors:
   - family-names: "Zainal Abidin"
     given-names: "Ahmad Razin"
     affiliation: "Universiti Teknologi Malaysia"
-version: 0.6.0-beta.1
+version: 0.6.0-beta.2
 date-released: 2026-11-08
 license: MIT
 repository-code: "https://github.com/RazinUTM/impak-techpark"

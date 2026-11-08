@@ -10,7 +10,9 @@ Order of assembly (see DESIGN.md s6):
   src/body.html            the seven-area skeleton
   <script> __AVATARS       assets/tutor/*.webp inlined as data URIs (author's mark; see its LICENSE)
   <script id="engine-src"> src/engine.js   (also copied verbatim to apps-script/engine.gs)
-  <script>                 src/strategies.js, src/game.js, src/uikit.js, src/i18n.js, content/texts.js, src/config.js, src/live.js, src/app.js
+  <script>                 src/strategies.js, src/game.js, src/uikit.js, src/i18n.js, content/texts.js, content/lessons.js,
+                           content/glossary.js, content/game-ms.js, content/moves.js, src/advice.js, src/debrief.js, src/bench.js,
+                           src/config.js, src/live.js, src/feedback.js, src/app.js
 
 --check runs `node --check` on every JS part before assembling.
 """
@@ -23,7 +25,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SRC, CONTENT, ASSETS, DIST = ROOT / "src", ROOT / "content", ROOT / "assets", ROOT / "dist"
 
-JS_PARTS = [SRC / "engine.js", SRC / "strategies.js", SRC / "game.js", SRC / "uikit.js", SRC / "i18n.js", CONTENT / "texts.js", CONTENT / "lessons.js", CONTENT / "glossary.js", CONTENT / "game-ms.js", SRC / "advice.js", SRC / "debrief.js", SRC / "config.js", SRC / "live.js", SRC / "feedback.js", SRC / "app.js"]
+JS_PARTS = [SRC / "engine.js", SRC / "strategies.js", SRC / "game.js", SRC / "uikit.js", SRC / "i18n.js", CONTENT / "texts.js", CONTENT / "lessons.js", CONTENT / "glossary.js", CONTENT / "game-ms.js", CONTENT / "moves.js", SRC / "advice.js", SRC / "debrief.js", SRC / "bench.js", SRC / "config.js", SRC / "live.js", SRC / "feedback.js", SRC / "app.js"]
 POSES = ["idle", "point", "think", "thumbs", "note", "explain", "thanks", "ok", "wave", "cheer"]
 SITE_URL = "https://razinutm.github.io/impak-techpark/"   # the published page; the QR codes point here
 

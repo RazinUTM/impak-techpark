@@ -13,7 +13,7 @@ const C = PB.CFG, CARDS = PB.CARDS;
 const BRAND = {
   name: "IMPAK", tag: "Technovation Park", mark: "IMPAK™ – Technovation Park",
   get copyright() { return HOST.lang === "ms" ? "© 2026 Ahmad Razin Zainal Abidin dan Universiti Teknologi Malaysia · kod MIT · kandungan permainan CC BY-NC-ND 4.0" : "© 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia · code MIT · game content CC BY-NC-ND 4.0"; },
-  version: "0.6.0-beta.1",
+  version: "0.6.0-beta.2",
 };
 
 /* =============================================================== host adapter (browser or server fills this in) */
@@ -105,7 +105,8 @@ function clockOf(g, sc, nowMs) {
 const AIC = {};
 function aiRecord(sc, key) {
   const S = AI.S[key]; const t = PB.newTeam(S.label, S.policy, sc.lv); const log = [], dec = {}; let seq = 0;
-  const act = m => o => { const v = PB.validate(t, sc, o, m); if (!v.ok) return false; const ok = PB.applyOrder(t, sc, o, m); if (ok) log.push(Object.assign({ t: m - 1 + 0.2, seq: seq++ }, o)); return ok; };
+  /* each applied order is logged; an admission also keeps the applicant's type (ten) for the benchmark news in bench.js */
+  const act = m => o => { const v = PB.validate(t, sc, o, m); if (!v.ok) return false; const a = o.type === "admit" ? t.applicants.find(x => x.id === o.aid) : null; const ok = PB.applyOrder(t, sc, o, m); if (ok) log.push(Object.assign({ t: m - 1 + 0.2, seq: seq++ }, o, a ? { ten: a.type } : null)); return ok; };
   for (let m = 1; m <= sc.months; m++) {
     if (t.receiver) continue;
     PB.startMonth(t, sc, m); S.monthly(t, sc, m, act(m), PB);
@@ -979,7 +980,7 @@ function previewOpt(t, sc, ev, opt, m) {
 }
 function fmtTimer(ms) { const s = Math.max(0, Math.ceil(ms / 1000)); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); }
 function dieHTML(ev, sc, big) { const st = big ? ` style="width:96px;height:96px;font-size:62px"` : ""; return sc.lv.dice ? `<div class="die"${st} aria-label="${L("Die", "Dadu")}">${ev.deal}</div>` : `<div class="die ok"${st} aria-label="${L("Accepted", "Diterima")}">✓</div>`; }
-function outcomeL(text, Cd) { const rest = text.slice(Cd.title.length + 2); const M = MSX(); return M ? M.mon(M.sayMS(rest)) : rest; }
+function outcomeL(text, Cd) { const rest = text.slice(Cd.title.length + 2); const M = MSX(); const s = M ? M.mon(M.sayMS(rest)) : rest; return s.charAt(0).toUpperCase() + s.slice(1); }
 function dealTeam(res, tm) {
   const g = res.g, ck = res.ck, st = store();
   if (g.fast && st.mode === "solo" && g.status !== "ended") return "";
@@ -1169,10 +1170,10 @@ function goldMiss(x, lv) { const r = x.rub, t = x.t, o = []; if (r.park.score < 
 
 /* =============================================================== GM console */
 function gmSetupHTML() {
-  const s = APP.ui.setup || (APP.ui.setup = { seed: newSeed(), n: 6, names: [], bench: ["garden", "rocket", "caretaker"], pace: LEVEL_TEXT.rintis.pace, window: 90, auto: true, level: "rintis", site: HOST.site || "corridor" });
+  const s = APP.ui.setup || (APP.ui.setup = { seed: newSeed(), n: 6, names: [], bench: ["garden", "rocket", "caretaker"], pace: LEVEL_TEXT.rintis.pace, window: 90, auto: true, level: "rintis", site: HOST.site || "corridor", benchView: "lag" });
   for (let i = 0; i < s.n; i++) if (!s.names[i]) s.names[i] = "Team " + (i + 1);
   if (s.cash == null) s.cash = lvl(s.level).startCash;
-  const key = JSON.stringify([s.n, s.bench, s.pace, s.window, s.auto, s.level, s.site, s.cash, APP.ui.setupNonce || 0, !!game(), HOST.lang]);
+  const key = JSON.stringify([s.n, s.bench, s.pace, s.window, s.auto, s.level, s.site, s.cash, s.benchView, APP.ui.setupNonce || 0, !!game(), HOST.lang]);
   const LV = lvl(s.level), sc = scen("preview", s.level);
   const clockMin = Math.round(LV.months * s.pace / 60000), dealMin = Math.round(sc.events.length * (s.window + 20) / 60);
   const html = `<div class="setup panel card"><h2>${L("Set up a live game", "Sediakan permainan langsung")}</h2>
@@ -1183,6 +1184,7 @@ function gmSetupHTML() {
 <div class="row"><span class="label">${L("Teams", "Pasukan")}</span>${stepper("su-n", s.n)}<span class="label" style="margin-left:14px">${L("Starting cash (Cr)", "Tunai permulaan (Cr)")}</span>${stepper("su-cash", s.cash)}<span class="muted">${L(`default ${lvl(s.level).startCash} Cr; every team and benchmark park starts with the same amount`, `lalai ${lvl(s.level).startCash} Cr; setiap pasukan dan park benchmark bermula dengan jumlah yang sama`)}</span></div>
 <div class="teamnames">${s.names.slice(0, s.n).map((nm, i) => `<label class="field"><span class="label">${L("Team", "Pasukan")} ${i + 1}</span><input type="text" id="su-name-${i}" value="${esc(nm)}" data-in="name" data-i="${i}" maxlength="24"></label>`).join("")}</div>
 <div class="field"><span class="label">${L("Benchmark parks on the leaderboard", "Park benchmark pada papan kedudukan")}</span><div class="checks">${AI.ORDER.slice().reverse().map(k => `<label><input type="checkbox" data-act="su-bench" data-k="${k}"${s.bench.includes(k) ? " checked" : ""}> ${esc(AI.S[k].label)}</label>`).join("")}</div></div>
+<label class="row" style="flex-wrap:nowrap;align-items:flex-start"><input type="checkbox" data-act="su-benchview"${s.benchView !== "end" ? " checked" : ""} style="margin-top:3px"><span>${L("Teams can follow the benchmark parks' moves and deal choices, one quarter late. If unticked, they are revealed at the final bell.", "Pasukan boleh mengikuti langkah dan pilihan deal park benchmark, lewat satu suku tahun. Jika tidak ditanda, semuanya didedahkan pada loceng akhir.")}</span></label>
 <div class="row"><span class="label">${L("One month every", "Satu bulan setiap")}</span>${[30000, 45000, 60000, 90000].map(v => `<button class="btn sm${s.pace === v ? " primary" : ""}" data-act="su-pace" data-v="${v}">${v / 1000} s</button>`).join("")}<span class="muted">${L(`about ${clockMin} minutes of clock and ${dealMin} minutes of deals`, `kira-kira ${clockMin} minit jam dan ${dealMin} minit deal`)}</span></div>
 <div class="row"><span class="label">${L("Deal window", "Tempoh deal")}</span>${[60, 90, 120].map(v => `<button class="btn sm${s.window === v ? " primary" : ""}" data-act="su-win" data-v="${v}">${v} s</button>`).join("")}</div>
 <label class="row"><input type="checkbox" data-act="su-auto"${s.auto ? " checked" : ""}> ${L("Close each deal when its time runs out, and restart the clock 15 seconds after the reveal", "Tutup setiap deal apabila masanya tamat, dan mulakan semula jam 15 saat selepas keputusan didedahkan")}</label>
@@ -1206,7 +1208,7 @@ function viewGM(res) {
 <div class="bigdate" style="font-size:64px">${dmyL(d)}<small>${yrL(d.year)}</small></div>
 <div class="row">${ctl}<span class="label" style="margin-left:6px">${L("One month every", "Satu bulan setiap")}</span>${[30000, 45000, 60000, 90000].map(v => `<button class="btn sm${mpm === v ? " primary" : ""}" data-act="gm-pace" data-v="${v}">${v / 1000} s</button>`).join("")}</div>
 <div class="muted">${nxt || "&nbsp;"}</div>
-<div class="faint" style="font-size:12px">Seed ${esc(g.seed)} · ${g.teams.length} ${L("teams", "pasukan")} · ${L("start cash", "tunai permulaan")} ${g.startCash != null ? g.startCash : res.lv.startCash} Cr</div><div class="row" style="font-size:13px"><span class="chip ${g.auto ? "acc" : "amb"}">${g.auto ? L("Deals: automatic", "Deal: automatik") : L("Deals: manual", "Deal: manual")}</span><span class="muted">${g.auto ? L("Each deal closes when its " + (g.window || 90) + " s run out and the clock restarts 15 s after the reveal. The month clock always runs until you pause it.", "Setiap deal ditutup apabila " + (g.window || 90) + " s tamat dan jam bermula semula 15 s selepas keputusan didedahkan. Jam bulanan sentiasa berjalan sehingga anda menjedanya.") : L("Deals stay open until you press Close the deal and reveal, and the clock waits until you press Resume. The month clock still runs between deals; use Pause to stop it.", "Deal kekal dibuka sehingga anda menekan Tutup deal dan dedahkan, dan jam menunggu sehingga anda menekan Sambung. Jam bulanan masih berjalan antara deal; gunakan Jeda untuk menghentikannya.")}</span><button class="btn sm" data-act="gm-auto">${g.auto ? L("Switch to manual", "Tukar ke manual") : L("Switch to automatic", "Tukar ke automatik")}</button></div></div>`;
+<div class="faint" style="font-size:12px">Seed ${esc(g.seed)} · ${g.teams.length} ${L("teams", "pasukan")} · ${L("start cash", "tunai permulaan")} ${g.startCash != null ? g.startCash : res.lv.startCash} Cr</div><div class="row" style="font-size:13px"><span class="chip ${g.auto ? "acc" : "amb"}">${g.auto ? L("Deals: automatic", "Deal: automatik") : L("Deals: manual", "Deal: manual")}</span><span class="muted">${g.auto ? L("Each deal closes when its " + (g.window || 90) + " s run out and the clock restarts 15 s after the reveal. The month clock always runs until you pause it.", "Setiap deal ditutup apabila " + (g.window || 90) + " s tamat dan jam bermula semula 15 s selepas keputusan didedahkan. Jam bulanan sentiasa berjalan sehingga anda menjedanya.") : L("Deals stay open until you press Close the deal and reveal, and the clock waits until you press Resume. The month clock still runs between deals; use Pause to stop it.", "Deal kekal dibuka sehingga anda menekan Tutup deal dan dedahkan, dan jam menunggu sehingga anda menekan Sambung. Jam bulanan masih berjalan antara deal; gunakan Jeda untuk menghentikannya.")}</span><button class="btn sm" data-act="gm-auto">${g.auto ? L("Switch to manual", "Tukar ke manual") : L("Switch to automatic", "Tukar ke automatik")}</button></div>${(g.bench || []).length ? `<div class="row" style="font-size:13px"><span class="chip ${g.benchView === "end" ? "amb" : "acc"}">${g.benchView === "end" ? L("Benchmark moves: at the final bell", "Langkah benchmark: pada loceng akhir") : L("Benchmark moves: one quarter late", "Langkah benchmark: lewat satu suku tahun")}</span><span class="muted">${g.benchView === "end" ? L("Teams see the benchmark parks' scores but not their moves or deal choices until the game ends.", "Pasukan melihat skor park benchmark tetapi tidak langkah atau pilihan deal-nya sehingga permainan tamat.") : L("Teams can follow each benchmark park's moves and deal choices in News and Standings, one quarter late.", "Pasukan boleh mengikuti langkah dan pilihan deal setiap park benchmark dalam Berita dan Kedudukan, lewat satu suku tahun.")}</span><button class="btn sm" data-act="gm-benchview">${g.benchView === "end" ? L("Show them one quarter late", "Paparkan lewat satu suku tahun") : L("Hide until the final bell", "Sembunyikan hingga loceng akhir")}</button></div>` : ""}</div>`;
   Lh += `<div class="panel card"><h2>${L("Message to every screen", "Mesej ke semua skrin")}</h2><div class="row"><input type="text" id="gm-notice" data-in="notice" data-enter="gm-notice" maxlength="160" value="${esc(APP.ui.notice || "")}" placeholder="${L("e.g. Ten minutes to the checkpoint. Check your applicants.", "cth. Sepuluh minit lagi ke checkpoint. Semak pemohon anda.")}" style="flex:1;min-width:220px;font:inherit;padding:7px 9px;border:1px solid var(--rule);border-radius:6px;background:var(--panel);color:var(--ink)"><button class="btn primary" data-act="gm-notice">${L("Send", "Hantar")}</button>${g.notice ? `<button class="btn" data-act="gm-notice-clear">${L("Clear", "Kosongkan")}</button>` : ""}</div>${g.notice ? `<div class="muted">${L("Showing now", "Dipaparkan sekarang")}: “${esc(g.notice.text)}”</div>` : `<div class="faint" style="font-size:12px">${L("Shows as a banner on every team dashboard and on the front screen until you clear it.", "Dipaparkan sebagai banner pada papan setiap pasukan dan skrin hadapan sehingga anda mengosongkannya.")}</div>`}</div>`;
   Lh += gmHold(res);
   if (res.final) Lh += gmEnd(res);
@@ -1338,7 +1340,7 @@ function autoTick(res, serverSide) {
   else { isGM = (APP.role === "gm" || APP.role === "screen") && st.mode === "live" && APP.canEdit; isSolo = st.mode === "solo" && APP.role === "solo"; }
   if (!isGM && !isSolo) return;
   if (A.busy) return;
-  const run = p => { A.busy = true; Promise.resolve(p).catch(e => toast("Could not update the game: " + (e && e.message || e), "bad")).finally(() => { A.busy = false; }); };
+  const run = p => { A.busy = true; Promise.resolve(p).catch(e => toast(L("Could not update the game: ", "Permainan tidak dapat dikemas kini: ") + (e && e.message || e), "bad")).finally(() => { A.busy = false; }); };
   if (!serverSide && isGM && st.db && g.status === "running" && Date.now() - A.lastHB > 15000) { A.lastHB = Date.now(); run(st.gmUpdate({ hb: Date.now() })); return; }
   if (isSolo && g.fast && g.status !== "ended") {                      // ending early: every stop closes at once, deals as Leave
     if (ck.hold && ck.hold.kind !== "end") { run(closeHold(res, ck.hold)); return; }
@@ -1378,13 +1380,13 @@ const ACT = {
     const res = currentRes(); if (!res) return; const o = JSON.parse(d.o); const tm = teamOf(res, APP.teamId);
     const a = canAct(res); if (!a.ok) return toast(a.why, "bad");
     const v = PB.validate(tm.t, res.sc, o, res.mCur); if (!v.ok) return toast(whyL(v.why), "bad");
-    Promise.resolve(store().placeOrder(APP.teamId, o, res.ck.T)).catch(e => toast("The order was not saved: " + (e && e.message || e) + ". Try again.", "bad"));
+    Promise.resolve(store().placeOrder(APP.teamId, o, res.ck.T)).catch(e => toast(L("The order was not saved: ", "Arahan tidak disimpan: ") + (e && e.message || e) + L(". Try again.", ". Cuba lagi."), "bad"));
     toast(orderText(o));
   },
   decide(d) {
     const res = currentRes(); if (!res || !res.ck.hold || res.ck.hold.id !== d.eid) return;
     const val = d.zone ? { opt: d.opt, zone: d.zone } : d.opt;
-    Promise.resolve(store().decide(APP.teamId, d.eid, val)).catch(e => toast("Your choice was not saved: " + (e && e.message || e), "bad"));
+    Promise.resolve(store().decide(APP.teamId, d.eid, val)).catch(e => toast(L("Your choice was not saved: ", "Pilihan anda tidak disimpan: ") + (e && e.message || e), "bad"));
   },
   "seen-reveal"() { APP.ui.seenReveal = game().lastReveal; },
   "seen-end"() { APP.ui.seenEnd = true; },
@@ -1420,13 +1422,14 @@ const ACT = {
   "su-pace"(d) { APP.ui.setup.pace = +d.v; },
   "su-win"(d) { APP.ui.setup.window = +d.v; },
   "su-auto"(d, el) { APP.ui.setup.auto = !!(el && el.checked); },
+  "su-benchview"(d, el) { APP.ui.setup.benchView = el && el.checked ? "lag" : "end"; },
   "gm-create"() {
     const s = APP.ui.setup; const seed = (s.seed || "").trim().replace(/[^A-Za-z0-9_.~:@+-]/g, "-") || newSeed();
     const teams = []; for (let i = 0; i < s.n; i++) teams.push({ id: "t" + (i + 1), name: (s.names[i] || "Team " + (i + 1)).trim().slice(0, 24) || "Team " + (i + 1) });
-    const g = { gid: seed + "-" + rid(4), seed, startCash: s.cash != null ? s.cash : lvl(s.level || "lestari").startCash, level: s.level || "lestari", site: s.site || HOST.site || "corridor", teams, bench: s.bench.slice(), status: "setup", startedAt: 0, accMs: 0, msPerMonth: s.pace, window: s.window, auto: s.auto,
+    const g = { gid: seed + "-" + rid(4), seed, startCash: s.cash != null ? s.cash : lvl(s.level || "lestari").startCash, level: s.level || "lestari", site: s.site || HOST.site || "corridor", teams, bench: s.bench.slice(), benchView: s.benchView === "end" ? "end" : "lag", status: "setup", startedAt: 0, accMs: 0, msPerMonth: s.pace, window: s.window, auto: s.auto,
       closed: {}, dec: {}, openAt: {}, defence: {}, reveal: false, lastReveal: null, revealAt: 0, hb: Date.now(), createdAt: Date.now() };
     APP.ui.gmNew = false; APP.ui.confirmNew = false;
-    Promise.resolve(store().gmSet(g)).then(() => toast("Game created. Start the clock when the teams are ready."), e => toast("Could not create the game: " + (e && e.message || e), "bad"));
+    Promise.resolve(store().gmSet(g)).then(() => toast(L("Game created. Start the clock when the teams are ready.", "Permainan dicipta. Mulakan jam apabila pasukan sudah bersedia.")), e => toast(L("Could not create the game: ", "Permainan tidak dapat dicipta: ") + (e && e.message || e), "bad"));
   },
   "gm-cancel-new"() { APP.ui.gmNew = false; },
   "gm-start"() { store().gmUpdate({ status: "running", startedAt: now(), accMs: 0, hb: Date.now() }); },
@@ -1434,6 +1437,7 @@ const ACT = {
   "gm-resume"() { store().gmUpdate({ status: "running", startedAt: now(), lastReveal: null, hb: Date.now() }); },
   "gm-pace"(d) { const res = currentRes(), v = +d.v; store().gmUpdate({ msPerMonth: v, accMs: res.ck.T * v, startedAt: now() }); },
   "gm-auto"() { store().gmUpdate({ auto: !game().auto }); },
+  "gm-benchview"() { store().gmUpdate({ benchView: game().benchView === "end" ? "lag" : "end" }); },
   "gm-end-ask"() { APP.ui.confirmEnd = true; },
   "gm-end-no"() { APP.ui.confirmEnd = false; },
   "gm-end-yes"() { APP.ui.confirmEnd = false; const res = currentRes(); if (!res) return; const closed = {}; for (const p of pausePoints(res.sc)) closed[p.id] = true; store().gmUpdate({ status: "ended", closed, lastReveal: null, accMs: res.sc.months * res.g.msPerMonth }); },
@@ -1448,8 +1452,8 @@ const ACT = {
   "gm-new-no"() { APP.ui.confirmNew = false; },
   "gm-new-yes"() { APP.ui.confirmNew = false; APP.ui.gmNew = true; APP.ui.setup = null; },
   "gm-purge"() {
-    const st = store(); if (!st.purgeOld) return; APP.ui.purge = "Deleting…";
-    st.purgeOld(n => { APP.ui.purge = "Deleted " + n + "…"; }).then(n => { APP.ui.purge = n ? "Deleted " + n + " records from earlier games." : "Nothing to delete."; }, e => { APP.ui.purge = "Stopped: " + (e && e.message || e); });
+    const st = store(); if (!st.purgeOld) return; APP.ui.purge = L("Deleting…", "Memadam…");
+    st.purgeOld(n => { APP.ui.purge = L("Deleted ", "Dipadam ") + n + "…"; }).then(n => { APP.ui.purge = n ? L("Deleted " + n + " records from earlier games.", n + " rekod daripada permainan terdahulu dipadam.") : L("Nothing to delete.", "Tiada apa-apa untuk dipadam."); }, e => { APP.ui.purge = L("Stopped: ", "Dihentikan: ") + (e && e.message || e); });
   },
   "gm-export"() { const res = currentRes(); HOST.save("impak-" + res.g.gid + ".csv", resultsCSV(res)); },
   "gm-log"() { const res = currentRes(); const g = res.g; const out = { game: g, orders: {}, decisions: {} }; for (const t of g.teams) out.orders[t.id] = store().ordersFor(t.id); HOST.save("impak-" + g.gid + "-log.json", JSON.stringify(out, null, 1)); },

@@ -91,11 +91,13 @@ check('code tier: a code cannot be reused', H({ op: 'join', room, pin, name: 'Al
   check('server replay uses the GM starting cash', rep.flag === 'ok' && t.cashHist[0] !== undefined, 'local ' + local + ' official ' + rep.official);
 }
 /* public trial: feedback and run records */
-check('feedback needs a rating or a line', H({ op: 'feedback', gid: 'solo-x' }).error === 'fields');
+check('feedback needs both star ratings', H({ op: 'feedback', gid: 'solo-x', fun: 4, good: 'text only is not enough' }).error === 'fields');
+check('ping says what the backend can do', (() => { const p = vm.runInContext('handle({op:"ping"})', ctx); return p.api === 2 && p.features.indexOf('feedback') >= 0; })());
 check('feedback accepted', H({ op: 'feedback', gid: 'solo-x', mode: 'solo', level: 'rintis', medal: 'bronze', total: 63.5, month: 36, fun: 4, learn: 5, good: 'the debrief', bad: '', email: 'not-an-email', lang: 'ms', version: '0.6.0-dev', ua: 'mac', width: 1440 }).ok === true);
 check('feedback stores the row without the invalid e-mail', (() => { const r = sheets.feedback.rows; const last = r[r.length - 1]; return r.length === 2 && last[1] === 'solo-x' && last[7] === 4 && last[8] === 5 && last[11] === ''; })());
-check('feedback for the same game is not stored twice', H({ op: 'feedback', gid: 'solo-x', fun: 2 }).dup === true && sheets.feedback.rows.length === 2);
-check('feedback honeypot is swallowed', H({ op: 'feedback', gid: 'solo-bot', fun: 5, hp: 'x' }).ok === true && sheets.feedback.rows.length === 2);
+check('feedback for the same game is not stored twice', H({ op: 'feedback', gid: 'solo-x', fun: 2, learn: 3 }).dup === true && sheets.feedback.rows.length === 2);
+check('feedback honeypot is swallowed', H({ op: 'feedback', gid: 'solo-bot', fun: 5, learn: 5, hp: 'x' }).ok === true && sheets.feedback.rows.length === 2);
+check('feedback with stars only (no text, no e-mail) is accepted', H({ op: 'feedback', gid: 'solo-z', team: 'you', fun: 3, learn: 4 }).ok === true && sheets.feedback.rows.length === 3);
 check('run record needs a known status', H({ op: 'run', gid: 'solo-y', status: 'quit' }).error === 'fields');
 check('run record accepted', H({ op: 'run', gid: 'solo-y', mode: 'solo', level: 'bina', status: 'left', month: 14, why: 'time', durMin: 9, lang: 'en', version: '0.6.0-dev', width: 390 }).ok === true && sheets.runs.rows.length === 2);
 check('run record deduplicated per game and status', H({ op: 'run', gid: 'solo-y', status: 'left' }).dup === true && sheets.runs.rows.length === 2);

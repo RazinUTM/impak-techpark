@@ -58,6 +58,13 @@ Rules for the Bahasa Melayu interface (decided 6 Nov 2026, extending the earlier
 | solid (box) | penuh |
 | n/a | t/b |
 | Front screen · Room | Skrin hadapan · Bilik |
+| quarter (of a year) | suku tahun (*Suku 2, Tahun 1*) |
+| a benchmark's move · key move | langkah · langkah penting |
+| one quarter late | lewat satu suku tahun |
+| the leading benchmark (debrief heading) | pendahulu (*Cara pendahulu membina park*) |
+| the full study (benchmark dialog) | kajian penuh |
+| net cash · units ready · firms | tunai bersih · unit siap · syarikat |
+| sound · not sound (verdicts) | wajar · kurang wajar |
 | "agrees on 3–6" | "bersetuju jika dadu 3–6" |
 
 ## Register
