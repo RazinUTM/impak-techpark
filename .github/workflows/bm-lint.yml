@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: RazinUTM/bm-l10n@f039eb512752a3e308af1e308f66c38f590a4c06   # v0.1.2
+      - uses: RazinUTM/bm-l10n@142efdc25c441ca4c11102c94d33973847d06bbe   # v0.1.3
         with:
           files: >-
             src/i18n.js content/texts.js content/glossary.js content/lessons.js content/moves.js

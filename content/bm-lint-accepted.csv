@@ -5,3 +5,4 @@ R10,content/moves.js,an unused fund and empty land,"author keeps the sentence as
 R11,*,Take,"the strings that translate Take use it as a verb (Ambil pinjaman, Ikut lawatan); the Deal Room option stays Take (checked 8 Nov 2026)"
 R11,*,Leave,"the strings that translate Leave use it as a verb (Tinggalkan sesi); the Deal Room option stays Leave (checked 8 Nov 2026)"
 R13,termbase,bergraduat,"not in Kamus Dewan (PRPM, 8 Nov 2026); the author keeps it as a declared project term for a startup leaving the incubator (8 Nov 2026)"
+R10,src/debrief.js,fund lapsed at month 24,"author keeps dana in this end-of-game line, as in N2 and N7 (Lab S2 review D3, 9 Nov 2026)"
