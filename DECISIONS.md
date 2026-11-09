@@ -139,7 +139,7 @@ Decided by: Ahmad Razin (review page, 8 Nov 2026).
 *bergraduat* stays in all 17 strings as a declared project term, although DBP's Khidmat Nasihat says *graduat* is not in Kamus Dewan Edisi Keempat or Kamus Dewan Perdana: the players use the word daily, and no DBP-recorded verb fits a startup leaving an incubator. The termbase keeps the PRPM finding (`status=flagged`); the decision is in `content/bm-lint-accepted.csv`.
 Decided by: Ahmad Razin (8 Nov 2026).
 
-## 2026-11-09 BM lint moves to bm-l10n v0.1.3; one more accepted line
-Decision: the BM lint workflow pins bm-l10n v0.1.3 (`142efdc`). v0.1.3 also reads strings built with `+`, which adds 65 strings and one finding: the end-of-game line "… fund lapsed at month 24" says *dana … luput*. The author keeps *dana* there, as in review items N2 and N7, so it goes into `content/bm-lint-accepted.csv`.
+## 2026-11-09 BM lint moves to bm-l10n v0.1.4; one more accepted line
+Decision: the BM lint workflow pins bm-l10n v0.1.4 (`db0eb91`). Since v0.1.3 it also reads strings built with `+`, which adds 65 strings and one finding: the end-of-game line "… fund lapsed at month 24" says *dana … luput*. The author keeps *dana* there, as in review items N2 and N7, so it goes into `content/bm-lint-accepted.csv`.
 Decided by: Ahmad Razin (Lab S2 BM review, card D3, 9 Nov 2026).
 
