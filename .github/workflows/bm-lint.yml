@@ -1,0 +1,30 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Ahmad Razin Zainal Abidin and Universiti Teknologi Malaysia
+# Checks the Bahasa Melayu strings against content/termbase-bm.csv (the machine-checkable copy of
+# content/glossary-bm.md) on every pull request that touches src/ or content/. The report is on the run's
+# Summary page. A FIX finding fails the check; WATCH findings are notes for the author. Findings the author has
+# decided to keep are listed, with the reason, in content/bm-lint-accepted.csv.
+# Tool: https://github.com/RazinUTM/bm-l10n, pinned by commit so it changes only through a pull request here.
+name: BM lint
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'content/**'
+      - '.github/workflows/bm-lint.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: RazinUTM/bm-l10n@db0eb91ac24e1cb1b2edd0a3d741e24528927ebe   # v0.1.4
+        with:
+          files: >-
+            src/i18n.js content/texts.js content/glossary.js content/lessons.js content/moves.js
+            content/game-ms.js src/advice.js src/app.js src/bench.js src/debrief.js src/game.js
+          termbase: content/termbase-bm.csv
+          accepted: content/bm-lint-accepted.csv
+          call: L,LL

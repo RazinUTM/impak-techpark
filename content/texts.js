@@ -98,7 +98,7 @@ const CONTENT = {
     'say.welcome.1': 'Bina: empat tahun untuk berkembang. Pinjaman, fund lebih besar, Zon H pada Tahun 3 dan downturn yang diramal. Jaga drift anda.',
     'say.welcome.2': 'Lestari: lima tahun, lapan zon, ESG dikira dan downturn datang tanpa amaran. Bina park yang bertahan.',
     'say.setup': 'Jam belum bergerak. Tinjau site plan dahulu, kemudian tekan Mulakan jam.',
-    'say.running': 'Jam bergerak bulan demi bulan. Arahan berkuat kuasa serta-merta; kerja dan bangunan ambil masa berbulan untuk siap.',
+    'say.running': 'Jam bergerak bulan demi bulan. Arahan berkuat kuasa serta-merta; kerja dan bangunan ambil masa berbulan-bulan untuk siap.',
     'say.hold.event': 'Kad Deal Room terbuka. Baca tawaran, semak pratonton setiap pilihan, kemudian putuskan — tiada keputusan dikira sebagai Leave.',
     'say.hold.checkpoint': 'Checkpoint. Baca banner: ia menunjukkan markah fasa ini dan apa yang fasa seterusnya minta.',
     'say.hold.forecast': 'Pakar ekonomi dah bersuara. Anda ada enam bulan: bina rizab tunai, perlahankan komitmen baharu, kekalkan drift rendah.',

@@ -113,7 +113,7 @@ function analyse(res, tm) {
     const lost1 = 0.4 * W.B1 * (1 - Math.min(1, fu / f0));
     add('B1', lost1, L('Development Fund left unused', 'Development Fund tidak digunakan sepenuhnya'),
       L(n1(f0 - fu) + ' Cr of the ' + n1(f0) + ' Cr fund lapsed at month 24.', n1(f0 - fu) + ' Cr daripada dana ' + n1(f0) + ' Cr luput pada bulan 24.'),
-      L('Spend the fund on capital works before month 24: buildings, services and facilities. Whatever is left lapses and earns nothing.', 'Belanjakan dana untuk kerja modal sebelum bulan 24: bangunan, services dan kemudahan. Baki yang tinggal akan luput tanpa sebarang pulangan.'));
+      L('Spend the fund on capital works before month 24: buildings, services and facilities. Whatever is left lapses and earns nothing.', 'Belanjakan dana tersebut untuk kerja modal sebelum bulan 24: bangunan, services dan kemudahan. Baki yang tinggal akan luput tanpa sebarang pulangan.'));
     const grow = (t.snap.ci24 != null ? t.snap.ci24 : PB.committedIncome(t)) - t.snap.ci0;
     const lost2 = 0.6 * W.B1 * (1 - cl(grow / W.fundIncomeTarget));
     add('B1', lost2, L('Income grew slowly in Phase 1', 'Pendapatan lambat meningkat dalam Fasa 1'),
